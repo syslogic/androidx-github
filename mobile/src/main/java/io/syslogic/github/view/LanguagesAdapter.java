@@ -52,14 +52,12 @@ public class LanguagesAdapter extends BaseAdapter {
     }
 
     /** Setters */
-    public void setContext(Context context) {
-        mContext = context;
+    private void setContext(Context context) {
+        this.mContext = context;
     }
     private void setItems() {
-
         if (this.mItems != null) {this.mItems.clear();}
         else {this.mItems = new ArrayList<>();}
-
         String[] names = this.mContext.getResources().getStringArray(R.array.languages);
         String[] queries = this.mContext.getResources().getStringArray(R.array.queries);
         for(int i = 0; i < queries.length; i++) {

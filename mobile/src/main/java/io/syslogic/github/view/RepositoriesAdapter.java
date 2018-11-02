@@ -46,10 +46,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter {
     private static final String LOG_TAG = RepositoriesAdapter.class.getSimpleName();
 
     /** Debug Output */
-    protected static final boolean mDebug = BuildConfig.DEBUG;
-
-    /** the {@link CardView} layout to inflate */
-    private int resId = R.layout.cardview_repository;
+    private static final boolean mDebug = BuildConfig.DEBUG;
 
     private ArrayList<Repository> mItems = new ArrayList<>();
 
@@ -67,7 +64,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter {
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        RepositoryViewHolderBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), resId, parent, false);
+        RepositoryViewHolderBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.cardview_repository, parent, false);
         View layout = binding.getRoot();
         layout.setLayoutParams(new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         return new ViewHolder(binding);
@@ -91,16 +88,16 @@ public class RepositoriesAdapter extends RecyclerView.Adapter {
         return this.mItems.size();
     }
 
-    public GithubService getGithubService() {
+    private GithubService getGithubService() {
         Retrofit client = GithubClient.init();
         return client.create(GithubService.class);
     }
 
-    public void addAll(ArrayList<Repository> items) {
+    private void addAll(ArrayList<Repository> items) {
         this.mItems.addAll(items);
     }
 
-    public void fetchPage(int pageNumber) {
+    void fetchPage(int pageNumber) {
 
         Date date = new Date();
         Calendar calendar = Calendar.getInstance();
@@ -145,6 +142,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter {
                             } catch (IOException e) {
                                 if(mDebug) {Log.e(LOG_TAG, e.getMessage());}
                             }
+                            /* TODO: a listener would be required. */
                         }
                         break;
                     }
@@ -158,6 +156,13 @@ public class RepositoriesAdapter extends RecyclerView.Adapter {
         });
     }
 
+    void clearItems() {
+        this.mItems.clear();
+        fetchPage(1);
+        notifyItemRangeChanged(0, getItemCount());
+    }
+
+    /** Setters */
     private void setTotalItemCount(long value) {
         this.totalItemCount = value;
     }
@@ -165,16 +170,10 @@ public class RepositoriesAdapter extends RecyclerView.Adapter {
         this.query = value;
     }
 
-    public void clearItems() {
-        this.mItems.clear();
-        fetchPage(1);
-        notifyItemRangeChanged(0, getItemCount());
-    }
-
     /** {@link RecyclerView.ViewHolder} for {@link CardView} of type {@link Repository}. */
     private static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        private RepositoryViewHolderBinding mDataBinding = null;
+        private RepositoryViewHolderBinding mDataBinding;
         private RepositoriesLinearView mRecyclerView;
         private CardView cardView;
         private long itemId;
@@ -214,7 +213,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter {
         void setCardView(CardView view) {
             this.cardView = view;
         }
-        public void setTag(Repository item) {
+        void setTag(Repository item) {
             this.cardView.setTag(item);
         }
 
@@ -222,11 +221,8 @@ public class RepositoriesAdapter extends RecyclerView.Adapter {
         public long getId() {
             return this.itemId;
         }
-        public RepositoryViewHolderBinding getDataBinding() {
+        RepositoryViewHolderBinding getDataBinding() {
             return this.mDataBinding;
-        }
-        public CardView getCardView() {
-            return this.cardView;
         }
     }
 }

@@ -17,20 +17,20 @@ public class MainActivity extends AppCompatActivity {
 
     private RepositoriesLinearView mRecyclerView;
 
-    private AppCompatSpinner mSpinnerLanguage;
-
-    private int currentPage = 1;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_main);
 
-        this.mSpinnerLanguage = findViewById(R.id.spinner_language);
-        this.mSpinnerLanguage.setAdapter(new LanguagesAdapter(this));
-        this.mSpinnerLanguage.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-
+        this.mRecyclerView = findViewById(R.id.recyclerview_repositories);
+        if(this.mRecyclerView.getAdapter() == null) {
+            this.mRecyclerView.setAdapter(new RepositoriesAdapter(this, 1));
+        }
+        
+        AppCompatSpinner spinner = findViewById(R.id.spinner_language);
+        spinner.setAdapter(new LanguagesAdapter(this));
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             int count = 0;
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -42,14 +42,10 @@ public class MainActivity extends AppCompatActivity {
                 }
                 count++;
             }
-
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {}
-        });
+            public void onNothingSelected(AdapterView<?> parent) {
 
-        this.mRecyclerView = findViewById(R.id.recyclerview_repositories);
-        if(this.mRecyclerView.getAdapter() == null) {
-            this.mRecyclerView.setAdapter(new RepositoriesAdapter(this, this.currentPage));
-        }
+            }
+        });
     }
 }

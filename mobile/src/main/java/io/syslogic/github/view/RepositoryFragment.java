@@ -35,7 +35,7 @@ public class RepositoryFragment extends Fragment {
     private static final String LOG_TAG = RepositoryFragment.class.getSimpleName();
 
     /** Debug Output */
-    protected static final boolean mDebug = BuildConfig.DEBUG;
+    private static final boolean mDebug = BuildConfig.DEBUG;
 
     private RepositoryFragmentBinding mDataBinding;
 
@@ -74,7 +74,7 @@ public class RepositoryFragment extends Fragment {
         return layout;
     }
 
-    public GithubService getGithubService() {
+    private GithubService getGithubService() {
         Retrofit client = GithubClient.init();
         return client.create(GithubService.class);
     }
@@ -94,11 +94,9 @@ public class RepositoryFragment extends Fragment {
                     switch(response.code()) {
                         case 200: {
                             if (response.body() != null) {
-
                                 Repository item = response.body();
                                 getDataBinding().setRepository(item);
                                 getDataBinding().notifyChange();
-
                                 if (getActivity() != null) {
                                     getActivity().setTitle(item.getFullName());
                                     getWebView().loadUrl(item.getHtmlUrl());
@@ -119,6 +117,7 @@ public class RepositoryFragment extends Fragment {
                                 } catch (IOException e) {
                                     if(mDebug) {Log.e(LOG_TAG, e.getMessage());}
                                 }
+                                /* TODO: a listener would be required. */
                             }
                             break;
                         }
@@ -141,11 +140,11 @@ public class RepositoryFragment extends Fragment {
         return this.itemId;
     }
 
-    public RepositoryFragmentBinding getDataBinding() {
+    private RepositoryFragmentBinding getDataBinding() {
         return this.mDataBinding;
     }
 
-    public WebView getWebView() {
+    private WebView getWebView() {
         return this.mWebView;
     }
 }

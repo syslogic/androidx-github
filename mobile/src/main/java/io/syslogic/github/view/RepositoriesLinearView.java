@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class RepositoriesLinearView extends RecyclerView {
 
-    private boolean isLoading = false;
+    private boolean isLoading = true;
 
     LinearLayoutManager mLinearLayoutManager;
 
@@ -41,11 +41,6 @@ public class RepositoriesLinearView extends RecyclerView {
                     return true;
                 }
                 return false;
-            }
-
-            @Override
-            public boolean isLoading() {
-                return isLoading;
             }
         };
 

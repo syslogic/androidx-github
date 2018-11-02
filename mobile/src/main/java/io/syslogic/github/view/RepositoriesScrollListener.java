@@ -14,9 +14,9 @@ public abstract class RepositoriesScrollListener extends RecyclerView.OnScrollLi
 
     private int currentPage = 1;
 
-    private boolean loading = true;
+    private boolean isLoading = true;
 
-    public RepositoriesScrollListener(LinearLayoutManager layoutManager) {
+    RepositoriesScrollListener(LinearLayoutManager layoutManager) {
         this.layoutManager = layoutManager;
     }
 
@@ -36,21 +36,19 @@ public abstract class RepositoriesScrollListener extends RecyclerView.OnScrollLi
 
         if (totalItemCount < previousTotalItemCount) {
             this.previousTotalItemCount = totalItemCount;
-            if (totalItemCount == 0) {this.loading = true;}
+            if (totalItemCount == 0) {this.isLoading = true;}
         }
 
-		if (loading && (totalItemCount > previousTotalItemCount)) {
-            loading = false;
+		if (isLoading && (totalItemCount > previousTotalItemCount)) {
+            isLoading = false;
             previousTotalItemCount = totalItemCount;
             currentPage ++;
         }
 
-		if (!loading && (firstVisibleItem + visibleItemCount + visibleThreshold) >= totalItemCount ) {
-            loading = onLoadPage(currentPage, totalItemCount);
+		if (!isLoading && (firstVisibleItem + visibleItemCount + visibleThreshold) >= totalItemCount ) {
+            isLoading = onLoadPage(currentPage, totalItemCount);
         }
     }
 
     public abstract boolean onLoadPage(int pageNumber, int totalCount);
-
-    public abstract boolean isLoading();
 }
