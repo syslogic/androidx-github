@@ -13,7 +13,12 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -98,8 +103,16 @@ public class RepositoriesAdapter extends RecyclerView.Adapter {
 
     public void fetchPage(int pageNumber) {
 
+        Date date = new Date();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.add(Calendar.DAY_OF_YEAR, -7);
+        date = calendar.getTime();
+
+        String dateQuery = "created:>"+new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(date);
+
         GithubService service = this.getGithubService();
-        Call<Repositories> api = service.getRepositories(query,"stars","desc", pageNumber);
+        Call<Repositories> api = service.getRepositories(query, dateQuery,"stars","desc", pageNumber);
         if(mDebug) {Log.w(LOG_TAG, api.request().url() + "");}
 
         api.enqueue(new Callback<Repositories>() {
