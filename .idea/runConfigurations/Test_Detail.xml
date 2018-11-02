@@ -1,13 +1,12 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="detail" type="AndroidRunConfigurationType" factoryName="Android App" activateToolWindowBeforeRun="false">
+  <configuration default="false" name="Test Detail" type="AndroidTestRunConfigurationType" factoryName="Android Instrumented Tests">
     <module name="mobile" />
-    <option name="DEPLOY" value="true" />
-    <option name="DEPLOY_APK_FROM_BUNDLE" value="false" />
-    <option name="ARTIFACT_NAME" value="" />
-    <option name="PM_INSTALL_OPTIONS" value="" />
-    <option name="DYNAMIC_FEATURES_DISABLED_LIST" value="" />
-    <option name="ACTIVITY_EXTRA_FLAGS" value="--el &quot;itemId&quot; 86554331" />
-    <option name="MODE" value="specific_activity" />
+    <option name="TESTING_TYPE" value="2" />
+    <option name="INSTRUMENTATION_RUNNER_CLASS" value="" />
+    <option name="METHOD_NAME" value="" />
+    <option name="CLASS_NAME" value="io.syslogic.github.TestDetailActivity" />
+    <option name="PACKAGE_NAME" value="" />
+    <option name="EXTRA_OPTIONS" value="" />
     <option name="CLEAR_LOGCAT" value="false" />
     <option name="SHOW_LOGCAT_AUTOMATICALLY" value="false" />
     <option name="SKIP_NOOP_APK_INSTALLATIONS" value="true" />
@@ -15,8 +14,8 @@
     <option name="TARGET_SELECTION_MODE" value="SHOW_DIALOG" />
     <option name="USE_LAST_SELECTED_DEVICE" value="false" />
     <option name="PREFERRED_AVD" value="" />
-    <option name="SELECTED_CLOUD_MATRIX_CONFIGURATION_ID" value="-1" />
-    <option name="SELECTED_CLOUD_MATRIX_PROJECT_ID" value="" />
+    <option name="SELECTED_CLOUD_MATRIX_CONFIGURATION_ID" value="2147483645" />
+    <option name="SELECTED_CLOUD_MATRIX_PROJECT_ID" value="api-6565312227085587375-256155" />
     <option name="DEBUGGER_TYPE" value="Auto" />
     <Auto>
       <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
@@ -45,8 +44,6 @@
       <option name="STARTUP_CPU_PROFILING_ENABLED" value="false" />
       <option name="STARTUP_CPU_PROFILING_CONFIGURATION_NAME" value="Sampled (Java)" />
     </Profilers>
-    <option name="DEEP_LINK" value="" />
-    <option name="ACTIVITY_CLASS" value="io.syslogic.github.activity.DetailActivity" />
     <method />
   </configuration>
 </component>
