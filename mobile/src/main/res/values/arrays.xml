@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="queries" translatable="false">
+        <item name="android">language\:android</item>
+    </string-array>
+
+    <string-array name="sortBy" translatable="false">
+        <item name="forks">forks_count</item>
+        <item name="stargazers">stargazers_count</item>
+        <item name="watchers">watchers_count</item>
+        <item name="subscribers">subscribers_count</item>
+        <item name="network">network_count</item>
+    </string-array>
+
+</resources>

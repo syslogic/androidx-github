@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!--suppress AndroidUnknownAttribute -->
+    <data class=".databinding.RepositoryViewHolderBinding">
+        <variable name="repository" type="io.syslogic.githubtrends.model.Repository"/>
+    </data>
+
+    <androidx.cardview.widget.CardView
+        card_view:cardBackgroundColor="@color/cardview_light_background"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:id="@+id/cardview"
+        android:clickable="true"
+        android:focusable="true">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:orientation="horizontal"
+            android:padding="4dp">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/fullName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.9"
+                android:color="?android:colorControlHighlight"
+                android:fontFamily="sans-serif-medium"
+                android:gravity="center_vertical|start"
+                android:padding="8dp"
+                android:text="@{repository.fullName}"
+                android:textColor="#143D55"
+                android:textSize="14sp"/>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="0.05"
+                android:gravity="center_vertical"
+                android:orientation="vertical">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/forkCount"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-medium"
+                    android:gravity="start"
+                    android:text='@{""+repository.forkCount}'
+                    android:textAlignment="center"
+                    android:textColor="#143D55"
+                    android:textSize="12sp"
+                    tools:text="151"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-medium"
+                    android:gravity="start"
+                    android:labelFor="@id/forkCount"
+                    android:text="@string/text_forks"
+                    android:textAlignment="center"
+                    android:textColor="#143D55"
+                    android:textSize="10sp"/>
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="0.05"
+                android:gravity="center_vertical"
+                android:orientation="vertical">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/watcherCount"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-medium"
+                    android:gravity="start"
+                    android:text='@{""+repository.watcherCount}'
+                    android:textAlignment="center"
+                    android:textColor="#143D55"
+                    android:textSize="12sp"
+                    tools:text="4855"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-medium"
+                    android:gravity="start"
+                    android:labelFor="@id/watcherCount"
+                    android:text="@string/text_watchers"
+                    android:textAlignment="center"
+                    android:textColor="#143D55"
+                    android:textSize="10sp"/>
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </androidx.cardview.widget.CardView>
+
+</layout>
