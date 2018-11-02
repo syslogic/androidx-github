@@ -1,0 +1,96 @@
+// :mobile build.gradle
+apply plugin: "com.android.application"
+
+def androidxVersion = "1.0.0"
+
+android {
+
+    defaultConfig {
+        applicationId "io.syslogic.github"
+        minSdkVersion 22
+        targetSdkVersion 28
+        compileSdkVersion 28
+        versionCode 1
+        versionName "1.0.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testBuildType "debug"
+    }
+
+    lintOptions {
+        lintConfig rootProject.file('gradle/lint.xml')
+        checkAllWarnings true
+        warningsAsErrors true
+        abortOnError false
+        showAll false
+    }
+
+    dexOptions {
+        javaMaxHeapSize '4572M'
+        dexInProcess = true
+    }
+
+    dataBinding {
+        enabled = true
+    }
+
+    signingConfigs {
+        debug {
+            storeFile new File("${System.properties['user.home']}${File.separator}.android${File.separator}debug.keystore")
+            // storePassword rootProject.ext.get('debugKeystorePass')
+            // keyAlias rootProject.ext.get('debugKeyAlias')
+            // keyPassword rootProject.ext.get('debugKeyPass')
+        }
+        release {
+            storeFile new File("${System.properties['user.home']}${File.separator}.android${File.separator}release.keystore")
+            // storePassword rootProject.ext.get('releaseKeystorePass')
+            // keyAlias rootProject.ext.get('releaseKeyAlias')
+            // keyPassword rootProject.ext.get('releaseKeyPass')
+        }
+    }
+
+    buildTypes {
+        debug {
+            applicationIdSuffix ".debug"
+            signingConfig signingConfigs.debug
+            testCoverageEnabled false
+            minifyEnabled false
+            debuggable true
+            jniDebuggable true
+            zipAlignEnabled true
+            renderscriptDebuggable true
+            pseudoLocalesEnabled false
+            shrinkResources false
+        }
+        release {
+            signingConfig signingConfigs.release
+            proguardFile "${project.rootDir}/proguard/mobile.pro"
+            proguardFile "${project.rootDir}/proguard/retrofit.pro"
+            testCoverageEnabled false
+            minifyEnabled true
+            zipAlignEnabled true
+            shrinkResources true
+            pseudoLocalesEnabled false
+            renderscriptDebuggable false
+            jniDebuggable false
+            debuggable false
+        }
+    }
+}
+
+dependencies {
+
+    // https://developer.android.com/jetpack/androidx/
+    api "androidx.appcompat:appcompat:${androidxVersion}"
+    api "androidx.annotation:annotation:${androidxVersion}"
+    api "androidx.recyclerview:recyclerview:${androidxVersion}"
+    api "androidx.cardview:cardview:${androidxVersion}"
+
+    // https://mvnrepository.com/artifact/com.squareup.retrofit2
+    api "com.squareup.retrofit2:retrofit:2.4.0"
+    api "com.squareup.retrofit2:converter-gson:2.4.0"
+
+    testImplementation "junit:junit:4.12"
+    androidTestImplementation "com.android.support.test:runner:1.0.2"
+    androidTestImplementation "com.android.support.test:rules:1.0.2"
+    androidTestImplementation "com.android.support.test.espresso:espresso-core:3.0.2"
+}
