@@ -4,7 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-public abstract class RepositoriesOnScrollListener extends RecyclerView.OnScrollListener {
+public abstract class RepositoriesScrollListener extends RecyclerView.OnScrollListener {
 
     private LinearLayoutManager layoutManager;
 
@@ -16,11 +16,11 @@ public abstract class RepositoriesOnScrollListener extends RecyclerView.OnScroll
 
     private boolean loading = true;
 
-    public RepositoriesOnScrollListener(LinearLayoutManager layoutManager) {
+    public RepositoriesScrollListener(LinearLayoutManager layoutManager) {
         this.layoutManager = layoutManager;
     }
 
-    public RepositoriesOnScrollListener(LinearLayoutManager layoutManager, int threshold) {
+    public RepositoriesScrollListener(LinearLayoutManager layoutManager, int threshold) {
         this.layoutManager = layoutManager;
         this.visibleThreshold = threshold;
     }
