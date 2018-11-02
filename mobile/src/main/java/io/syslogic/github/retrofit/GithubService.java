@@ -17,7 +17,6 @@ public interface GithubService {
     @GET("search/repositories")
     Call<Repositories> getRepositories(
         @Query("q")     String query,
-        @Query("q")     String date,
         @Query("sort")  String sort,
         @Query("order") String order,
         @Query("page")  int pageNumber

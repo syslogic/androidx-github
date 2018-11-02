@@ -12,6 +12,7 @@ import io.syslogic.github.model.SpinnerItem;
 import io.syslogic.github.view.LanguagesAdapter;
 import io.syslogic.github.view.RepositoriesAdapter;
 import io.syslogic.github.view.RepositoriesLinearView;
+import io.syslogic.github.view.RepositoriesScrollListener;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -36,9 +37,9 @@ public class MainActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if(count > 0) {
                     SpinnerItem item = (SpinnerItem) view.getTag();
+                    RepositoriesScrollListener.currentPage = 1;
                     mRecyclerView.setQuery(item.getValue());
                     mRecyclerView.clearAdapter();
-
                 }
                 count++;
             }

@@ -99,16 +99,14 @@ public class RepositoriesAdapter extends RecyclerView.Adapter {
 
     void fetchPage(int pageNumber) {
 
-        Date date = new Date();
         Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
-        calendar.add(Calendar.DAY_OF_YEAR, -7);
-        date = calendar.getTime();
-
-        String dateQuery = "created:>" + new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(date);
+        calendar.setTime(new Date());
+        calendar.add(Calendar.DAY_OF_YEAR, -90);
+        String isodate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(calendar.getTime());
+        String dateQuery = query + "+pushed:>" + isodate;
 
         GithubService service = this.getGithubService();
-        Call<Repositories> api = service.getRepositories(query, dateQuery,"stars","desc", pageNumber);
+        Call<Repositories> api = service.getRepositories(dateQuery,"stars","desc", pageNumber);
         if(mDebug) {Log.w(LOG_TAG, api.request().url() + "");}
 
         api.enqueue(new Callback<Repositories>() {

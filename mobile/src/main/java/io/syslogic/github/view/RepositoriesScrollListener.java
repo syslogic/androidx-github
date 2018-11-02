@@ -12,7 +12,7 @@ public abstract class RepositoriesScrollListener extends RecyclerView.OnScrollLi
 
     private int previousTotalItemCount = 0;
 
-    private int currentPage = 1;
+    public static int currentPage = 1;
 
     private boolean isLoading = true;
 
