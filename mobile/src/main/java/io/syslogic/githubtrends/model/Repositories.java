@@ -6,6 +6,10 @@ import java.util.ArrayList;
 
 public class Repositories {
 
+    private int pageSize = 30;
+
+    private long pages = 0;
+
     @SerializedName("total_count")
     private long count;
 
@@ -14,6 +18,10 @@ public class Repositories {
 
     public long getCount() {
         return this.count;
+    }
+
+    public long getPages() {
+        return this.pages;
     }
 
     public ArrayList<Repository> getRepositories() {
@@ -26,5 +34,9 @@ public class Repositories {
 
     public void setCount(long value) {
         this.count = value;
+        setPages(Math.round(this.count / pageSize));
+    }
+    public void setPages(long value) {
+        this.pages = value;
     }
 }
