@@ -1,11 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <!-- Base application theme is the default theme. -->
+    <style name="BaseTheme" parent="Theme.AppCompat.Light.NoActionBar">
+
+    </style>
+
+    <!-- The Default AppTheme -->
+    <style name="AppTheme" parent="BaseTheme">
+
+        <!-- Theme Colors -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+
+        <!-- Status Bar Color -->
+        <item name="android:statusBarColor">@color/colorPrimaryDark</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+
     </style>
 
 </resources>
