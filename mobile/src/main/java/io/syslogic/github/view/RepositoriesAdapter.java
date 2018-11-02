@@ -140,7 +140,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter {
                             } catch (IOException e) {
                                 if(mDebug) {Log.e(LOG_TAG, e.getMessage());}
                             }
-                            /* TODO: a listener would be required. */
+                            /* TODO: reset the scrollListener. */
                         }
                         break;
                     }

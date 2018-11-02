@@ -117,7 +117,7 @@ public class RepositoryFragment extends Fragment {
                                 } catch (IOException e) {
                                     if(mDebug) {Log.e(LOG_TAG, e.getMessage());}
                                 }
-                                /* TODO: a listener would be required. */
+                                /* TODO: try to setRepository() in a second. */
                             }
                             break;
                         }
