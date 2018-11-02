@@ -6,7 +6,7 @@
 
     <!--suppress AndroidUnknownAttribute -->
     <data class=".databinding.RepositoryFragmentBinding">
-        <variable name="repository" type="io.syslogic.githubtrends.model.Repository"/>
+        <variable name="repository" type="io.syslogic.github.model.Repository"/>
     </data>
 
     <androidx.appcompat.widget.LinearLayoutCompat

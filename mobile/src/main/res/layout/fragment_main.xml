@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     tools:context=".activity.MainActivity">
 
-    <io.syslogic.githubtrends.view.RepositoriesLinearView
+    <io.syslogic.github.view.RepositoriesLinearView
         android:id="@+id/recyclerview_repositories"
         tools:listitem="@layout/cardview_repository"
         android:layout_width="match_parent"
