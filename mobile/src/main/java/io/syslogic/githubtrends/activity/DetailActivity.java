@@ -53,10 +53,9 @@ public class DetailActivity extends AppCompatActivity {
 
         if (savedInstanceState == null) {
 
-            this.currentFragment = RepositoryFragment.newInstance(this.getItemId());
-
             Bundle args = new Bundle();
             args.putLong(Constants.ARGUMENT_ITEM_ID, this.getItemId());
+            this.currentFragment = RepositoryFragment.newInstance(this.getItemId());
             this.currentFragment.setArguments(args);
 
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
