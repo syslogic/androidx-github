@@ -1,4 +1,4 @@
-package io.syslogic.githubtrends.model;
+package io.syslogic.github.model;
 
 import com.google.gson.annotations.SerializedName;
 

@@ -1,7 +1,7 @@
-package io.syslogic.githubtrends.retrofit;
+package io.syslogic.github.retrofit;
 
-import io.syslogic.githubtrends.model.Repositories;
-import io.syslogic.githubtrends.model.Repository;
+import io.syslogic.github.model.Repositories;
+import io.syslogic.github.model.Repository;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

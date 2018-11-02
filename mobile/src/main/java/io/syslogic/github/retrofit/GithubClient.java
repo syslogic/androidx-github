@@ -1,9 +1,9 @@
-package io.syslogic.githubtrends.retrofit;
+package io.syslogic.github.retrofit;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-import io.syslogic.githubtrends.constants.Constants;
+import io.syslogic.github.constants.Constants;
 
 public class GithubClient {
 

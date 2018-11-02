@@ -1,4 +1,4 @@
-package io.syslogic.githubtrends.view;
+package io.syslogic.github.view;
 
 import android.content.Context;
 import android.content.Intent;
@@ -9,11 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-
-import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -24,17 +21,16 @@ import androidx.cardview.widget.CardView;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
-import io.syslogic.githubtrends.BuildConfig;
-import io.syslogic.githubtrends.R;
-import io.syslogic.githubtrends.activity.DetailActivity;
-import io.syslogic.githubtrends.constants.Constants;
-import io.syslogic.githubtrends.databinding.RepositoryViewHolderBinding;
-import io.syslogic.githubtrends.model.Repositories;
-import io.syslogic.githubtrends.model.Repository;
-import io.syslogic.githubtrends.retrofit.GithubClient;
-import io.syslogic.githubtrends.retrofit.GithubService;
+import io.syslogic.github.BuildConfig;
+import io.syslogic.github.R;
+import io.syslogic.github.activity.DetailActivity;
+import io.syslogic.github.constants.Constants;
+import io.syslogic.github.databinding.RepositoryViewHolderBinding;
+import io.syslogic.github.model.Repositories;
+import io.syslogic.github.model.Repository;
+import io.syslogic.github.retrofit.GithubClient;
+import io.syslogic.github.retrofit.GithubService;
 
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -113,7 +109,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter {
                     case 200: {
                         if (response.body() != null) {
                             Repositories items = response.body();
-                            if (mDebug) {Log.d(LOG_TAG, "items " + getItemCount() + " / " + items.getCount());}
+                            if (mDebug) {Log.d(LOG_TAG, "loaded " + getItemCount() + " / " + items.getCount());}
                             setTotalItemCount(items.getCount());
                             int positionStart = getItemCount();
                             addAll(items.getRepositories());

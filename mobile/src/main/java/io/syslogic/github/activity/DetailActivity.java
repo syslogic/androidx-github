@@ -1,4 +1,4 @@
-package io.syslogic.githubtrends.activity;
+package io.syslogic.github.activity;
 
 import android.os.Bundle;
 import android.widget.FrameLayout;
@@ -7,9 +7,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import io.syslogic.githubtrends.R;
-import io.syslogic.githubtrends.view.RepositoryFragment;
-import io.syslogic.githubtrends.constants.Constants;
+import io.syslogic.github.R;
+import io.syslogic.github.view.RepositoryFragment;
+import io.syslogic.github.constants.Constants;
 
 public class DetailActivity extends AppCompatActivity {
 

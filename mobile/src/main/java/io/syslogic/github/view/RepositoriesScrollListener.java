@@ -1,4 +1,4 @@
-package io.syslogic.githubtrends.view;
+package io.syslogic.github.view;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;

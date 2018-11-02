@@ -1,12 +1,12 @@
-package io.syslogic.githubtrends.activity;
+package io.syslogic.github.activity;
 
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
-import io.syslogic.githubtrends.R;
-import io.syslogic.githubtrends.view.RepositoriesAdapter;
+import io.syslogic.github.R;
+import io.syslogic.github.view.RepositoriesAdapter;
 
 public class MainActivity extends AppCompatActivity {
 

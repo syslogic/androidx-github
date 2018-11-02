@@ -1,4 +1,4 @@
-package io.syslogic.githubtrends.view;
+package io.syslogic.github.view;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -11,13 +11,13 @@ import android.webkit.WebView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import io.syslogic.githubtrends.BuildConfig;
-import io.syslogic.githubtrends.R;
-import io.syslogic.githubtrends.constants.Constants;
-import io.syslogic.githubtrends.databinding.RepositoryFragmentBinding;
-import io.syslogic.githubtrends.model.Repository;
-import io.syslogic.githubtrends.retrofit.GithubClient;
-import io.syslogic.githubtrends.retrofit.GithubService;
+import io.syslogic.github.BuildConfig;
+import io.syslogic.github.R;
+import io.syslogic.github.constants.Constants;
+import io.syslogic.github.databinding.RepositoryFragmentBinding;
+import io.syslogic.github.model.Repository;
+import io.syslogic.github.retrofit.GithubClient;
+import io.syslogic.github.retrofit.GithubService;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

@@ -1,4 +1,4 @@
-package io.syslogic.githubtrends.view;
+package io.syslogic.github.view;
 
 import android.content.Context;
 import android.util.AttributeSet;

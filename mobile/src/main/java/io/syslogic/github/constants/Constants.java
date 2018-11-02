@@ -1,4 +1,4 @@
-package io.syslogic.githubtrends.constants;
+package io.syslogic.github.constants;
 
 public final class Constants {
 
