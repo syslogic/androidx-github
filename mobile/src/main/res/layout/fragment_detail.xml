@@ -132,7 +132,7 @@
         </androidx.appcompat.widget.LinearLayoutCompat>
 
         <WebView
-            android:id="@+id/webviewReadme"
+            android:id="@+id/webview_preview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 

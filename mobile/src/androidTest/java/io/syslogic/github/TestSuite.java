@@ -85,7 +85,7 @@ public class TestSuite {
 
             Bundle extras = new Bundle();
             if(className.equals("DetailActivity")) {
-                extras.putInt(Constants.ARGUMENT_ITEM_ID, 86554331);
+                extras.putLong(Constants.ARGUMENT_ITEM_ID, 86554331);
                 intent.putExtras(extras);
             }
             context.startActivity(intent);

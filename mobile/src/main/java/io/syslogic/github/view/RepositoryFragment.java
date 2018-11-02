@@ -62,7 +62,7 @@ public class RepositoryFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         this.mDataBinding = RepositoryFragmentBinding.inflate(inflater, container, false);
         View layout = this.mDataBinding.getRoot();
-        this.mWebView = layout.findViewById(R.id.webviewReadme);
+        this.mWebView = layout.findViewById(R.id.webview_preview);
         this.mWebView.getSettings().setJavaScriptEnabled(true);
         this.setRepository();
         return layout;
@@ -75,34 +75,41 @@ public class RepositoryFragment extends Fragment {
 
     private void setRepository() {
 
-        GithubService service = this.getGithubService();
-        Call<Repository> api = service.getRepository(this.itemId);
-        if(mDebug) {Log.w(LOG_TAG, api.request().url() + "");}
+        if(this.itemId != 0) {
 
-        api.enqueue(new Callback<Repository>() {
+            GithubService service = this.getGithubService();
+            Call<Repository> api = service.getRepository(this.itemId);
+            if (mDebug) {
+                Log.w(LOG_TAG, api.request().url() + "");
+            }
 
-            @Override
-            public void onResponse(@NonNull Call<Repository> call, @NonNull Response<Repository> response) {
-                if (response.code() == 200) {
-                    if (response.body() != null) {
+            api.enqueue(new Callback<Repository>() {
 
-                        Repository item = response.body();
-                        getDataBinding().setRepository(item);
-                        getDataBinding().notifyChange();
+                @Override
+                public void onResponse(@NonNull Call<Repository> call, @NonNull Response<Repository> response) {
+                    if (response.code() == 200) {
+                        if (response.body() != null) {
 
-                        if(getActivity() != null) {
-                            getActivity().setTitle(item.getFullName());
-                            getWebView().loadUrl(item.getHtmlUrl());
+                            Repository item = response.body();
+                            getDataBinding().setRepository(item);
+                            getDataBinding().notifyChange();
+
+                            if (getActivity() != null) {
+                                getActivity().setTitle(item.getFullName());
+                                getWebView().loadUrl(item.getHtmlUrl());
+                            }
                         }
                     }
                 }
-            }
 
-            @Override
-            public void onFailure(@NonNull Call<Repository> call, @NonNull Throwable t) {
-                if(mDebug) {Log.e(LOG_TAG, t.getMessage());}
-            }
-        });
+                @Override
+                public void onFailure(@NonNull Call<Repository> call, @NonNull Throwable t) {
+                    if (mDebug) {
+                        Log.e(LOG_TAG, t.getMessage());
+                    }
+                }
+            });
+        }
     }
 
     private void setItemId(long value) {

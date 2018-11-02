@@ -36,8 +36,8 @@ public class TestDetailActivity extends TestSuite {
     }
 
     @Test
-    public void WebView() throws InterruptedException {
-        UiObject2 layout = this.mDevice.findObject(By.res(this.packageName, "webviewReadme"));
+    public void WebView() {
+        UiObject2 layout = this.mDevice.findObject(By.res(this.packageName, "webview_preview"));
         assertThat(true, is(equalTo(true)));
     }
 }
