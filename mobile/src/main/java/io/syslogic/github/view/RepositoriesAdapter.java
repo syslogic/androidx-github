@@ -146,6 +146,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter {
                                 if(mDebug) {Log.e(LOG_TAG, e.getMessage());}
                             }
                         }
+                        break;
                     }
                 }
             }

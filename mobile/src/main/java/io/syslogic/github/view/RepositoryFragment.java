@@ -7,6 +7,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
+import android.widget.Toast;
+
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
+import java.io.IOException;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -79,34 +85,49 @@ public class RepositoryFragment extends Fragment {
 
             GithubService service = this.getGithubService();
             Call<Repository> api = service.getRepository(this.itemId);
-            if (mDebug) {
-                Log.w(LOG_TAG, api.request().url() + "");
-            }
+            if (mDebug) {Log.w(LOG_TAG, api.request().url() + "");}
 
             api.enqueue(new Callback<Repository>() {
 
                 @Override
                 public void onResponse(@NonNull Call<Repository> call, @NonNull Response<Repository> response) {
-                    if (response.code() == 200) {
-                        if (response.body() != null) {
+                    switch(response.code()) {
+                        case 200: {
+                            if (response.body() != null) {
 
-                            Repository item = response.body();
-                            getDataBinding().setRepository(item);
-                            getDataBinding().notifyChange();
+                                Repository item = response.body();
+                                getDataBinding().setRepository(item);
+                                getDataBinding().notifyChange();
 
-                            if (getActivity() != null) {
-                                getActivity().setTitle(item.getFullName());
-                                getWebView().loadUrl(item.getHtmlUrl());
+                                if (getActivity() != null) {
+                                    getActivity().setTitle(item.getFullName());
+                                    getWebView().loadUrl(item.getHtmlUrl());
+                                }
                             }
+                            break;
+                        }
+                        case 403: {
+                            if (response.errorBody() != null) {
+                                try {
+                                    String errors = response.errorBody().string();
+                                    JsonObject jsonObject = (new JsonParser()).parse(errors).getAsJsonObject();
+                                    String message = jsonObject.get("message").toString();
+                                    if(mDebug) {
+                                        Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
+                                        Log.e(LOG_TAG, message);
+                                    }
+                                } catch (IOException e) {
+                                    if(mDebug) {Log.e(LOG_TAG, e.getMessage());}
+                                }
+                            }
+                            break;
                         }
                     }
                 }
 
                 @Override
                 public void onFailure(@NonNull Call<Repository> call, @NonNull Throwable t) {
-                    if (mDebug) {
-                        Log.e(LOG_TAG, t.getMessage());
-                    }
+                    if (mDebug) {Log.e(LOG_TAG, t.getMessage());}
                 }
             });
         }
