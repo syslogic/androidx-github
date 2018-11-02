@@ -49,7 +49,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter {
 
     private ArrayList<Repository> mItems = new ArrayList<>();
 
-    private String query = "language\\:android";
+    private String query = "language\\:java-android";
 
     private long totalItemCount = 0;
 
