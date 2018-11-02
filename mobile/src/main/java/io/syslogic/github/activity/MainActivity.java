@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
         if(this.mRecyclerView.getAdapter() == null) {
             this.mRecyclerView.setAdapter(new RepositoriesAdapter(this, 1));
         }
-        
+
         AppCompatSpinner spinner = findViewById(R.id.spinner_language);
         spinner.setAdapter(new LanguagesAdapter(this));
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {

@@ -2,12 +2,12 @@
 <resources>
 
     <string-array name="languages" translatable="false">
-        <item name="java">Android Java</item>
-        <item name="kotlin">Android Kotlin</item>
+        <item name="android">Android</item>
+        <item name="kotlin">Kotlin</item>
     </string-array>
 
     <string-array name="queries" translatable="false">
-        <item name="java">language\\:java-android</item>
+        <item name="android">language\\:android</item>
         <item name="kotlin">language\\:kotlin-android</item>
     </string-array>
 

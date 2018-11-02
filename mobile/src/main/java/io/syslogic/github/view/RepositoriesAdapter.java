@@ -50,7 +50,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter {
 
     private ArrayList<Repository> mItems = new ArrayList<>();
 
-    private String query = "language\\:java-android";
+    private String query = "language\\:android";
 
     private long totalItemCount = 0;
 
@@ -105,7 +105,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter {
         calendar.add(Calendar.DAY_OF_YEAR, -7);
         date = calendar.getTime();
 
-        String dateQuery = "created:>"+new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(date);
+        String dateQuery = "created:>" + new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(date);
 
         GithubService service = this.getGithubService();
         Call<Repositories> api = service.getRepositories(query, dateQuery,"stars","desc", pageNumber);
