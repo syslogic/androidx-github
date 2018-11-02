@@ -10,11 +10,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class RepositoriesLinearView extends RecyclerView {
 
+    private boolean isLoading = false;
+
     LinearLayoutManager mLinearLayoutManager;
 
     RepositoriesScrollListener scrollListener;
-
-    private boolean isLoading = false;
 
     /** Constructor */
     public RepositoriesLinearView(@NonNull Context context) {
@@ -50,5 +50,18 @@ public class RepositoriesLinearView extends RecyclerView {
         };
 
         this.addOnScrollListener(scrollListener);
+    }
+
+    public void clearAdapter() {
+        RepositoriesAdapter adapter = ((RepositoriesAdapter) getAdapter());
+        if (adapter != null) {
+            adapter.clearItems();
+            adapter.notifyDataSetChanged();
+        }
+    }
+
+    public void setQuery(String value) {
+        RepositoriesAdapter adapter = ((RepositoriesAdapter) getAdapter());
+        if (adapter != null) {adapter.setQuery(value);}
     }
 }

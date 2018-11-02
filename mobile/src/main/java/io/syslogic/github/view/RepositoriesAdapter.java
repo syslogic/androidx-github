@@ -49,6 +49,8 @@ public class RepositoriesAdapter extends RecyclerView.Adapter {
 
     private ArrayList<Repository> mItems = new ArrayList<>();
 
+    private String query = "language\\:android";
+
     private long totalItemCount = 0;
 
     private Context mContext;
@@ -97,7 +99,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter {
     public void fetchPage(int pageNumber) {
 
         GithubService service = this.getGithubService();
-        Call<Repositories> api = service.getRepositories("language\\:android","stars","desc", pageNumber);
+        Call<Repositories> api = service.getRepositories(query,"stars","desc", pageNumber);
         if(mDebug) {Log.w(LOG_TAG, api.request().url() + "");}
 
         api.enqueue(new Callback<Repositories>() {
@@ -145,6 +147,15 @@ public class RepositoriesAdapter extends RecyclerView.Adapter {
 
     private void setTotalItemCount(long value) {
         this.totalItemCount = value;
+    }
+    void setQuery(String value) {
+        this.query = value;
+    }
+
+    public void clearItems() {
+        this.mItems.clear();
+        fetchPage(1);
+        notifyItemRangeChanged(0, getItemCount());
     }
 
     /** {@link RecyclerView.ViewHolder} for {@link CardView} of type {@link Repository}. */
