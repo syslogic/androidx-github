@@ -1,7 +1,6 @@
 package io.syslogic.githubtrends.activity;
 
 import android.os.Bundle;
-import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
@@ -10,9 +9,6 @@ import io.syslogic.githubtrends.R;
 import io.syslogic.githubtrends.view.RepositoriesAdapter;
 
 public class MainActivity extends AppCompatActivity {
-
-    /** {@link Log} Tag */
-    private static final String LOG_TAG = MainActivity.class.getSimpleName();
 
     private RecyclerView mRecyclerView;
 

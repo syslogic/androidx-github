@@ -1,25 +1,17 @@
 package io.syslogic.githubtrends.activity;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.FrameLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import io.syslogic.githubtrends.BuildConfig;
 import io.syslogic.githubtrends.R;
 import io.syslogic.githubtrends.view.RepositoryFragment;
 import io.syslogic.githubtrends.constants.Constants;
 
 public class DetailActivity extends AppCompatActivity {
-
-    /** {@link Log} Tag */
-    private static final String LOG_TAG = DetailActivity.class.getSimpleName();
-
-    /** Debug Output */
-    protected static final boolean mDebug = BuildConfig.DEBUG;
 
     /** layout res id */
     private final int resId = R.id.layout_repository;
