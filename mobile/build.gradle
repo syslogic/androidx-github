@@ -1,17 +1,18 @@
 // :mobile build.gradle
 apply plugin: "com.android.application"
 
-def androidxVersion = "1.0.0"
+def androidxVersion = rootProject.ext.get('androidxVersion')
+def retrofitVersion = rootProject.ext.get('retrofitVersion')
 
 android {
 
     defaultConfig {
-        applicationId "io.syslogic.github"
-        minSdkVersion 22
-        targetSdkVersion 28
-        compileSdkVersion 28
-        versionCode 1
-        versionName "1.0.0"
+        applicationId rootProject.ext.get('applicationId')
+        versionName rootProject.ext.get('versionName')
+        versionCode rootProject.ext.get('versionCode')
+        compileSdkVersion rootProject.ext.get('compileSdkVersion')
+        targetSdkVersion rootProject.ext.get('targetSdkVersion')
+        minSdkVersion rootProject.ext.get('minSdkVersion')
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         testBuildType "debug"
     }
@@ -35,16 +36,10 @@ android {
 
     signingConfigs {
         debug {
-            storeFile new File("${System.properties['user.home']}${File.separator}.android${File.separator}debug.keystore")
-            // storePassword rootProject.ext.get('debugKeystorePass')
-            // keyAlias rootProject.ext.get('debugKeyAlias')
-            // keyPassword rootProject.ext.get('debugKeyPass')
+
         }
         release {
-            storeFile new File("${System.properties['user.home']}${File.separator}.android${File.separator}release.keystore")
-            // storePassword rootProject.ext.get('releaseKeystorePass')
-            // keyAlias rootProject.ext.get('releaseKeyAlias')
-            // keyPassword rootProject.ext.get('releaseKeyPass')
+
         }
     }
 
@@ -86,8 +81,8 @@ dependencies {
     api "androidx.cardview:cardview:${androidxVersion}"
 
     // https://mvnrepository.com/artifact/com.squareup.retrofit2
-    api "com.squareup.retrofit2:retrofit:2.4.0"
-    api "com.squareup.retrofit2:converter-gson:2.4.0"
+    api "com.squareup.retrofit2:retrofit:${retrofitVersion}"
+    api "com.squareup.retrofit2:converter-gson:${retrofitVersion}"
 
     testImplementation "junit:junit:4.12"
     androidTestImplementation "com.android.support.test:runner:1.0.2"
