@@ -4,25 +4,25 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-public abstract class PaginationScrollListener extends RecyclerView.OnScrollListener {
+public abstract class RepositoriesOnScrollListener extends RecyclerView.OnScrollListener {
 
     private LinearLayoutManager layoutManager;
 
     private int visibleThreshold = 4;
 
-    private int currentPage = 0;
-
     private int previousTotalItemCount = 0;
+
+    private int currentPage = 0;
 
     private boolean loading = true;
 
-    public PaginationScrollListener(LinearLayoutManager layoutManager) {
+    public RepositoriesOnScrollListener(LinearLayoutManager layoutManager) {
         this.layoutManager = layoutManager;
     }
 
-    public PaginationScrollListener(LinearLayoutManager layoutManager, int visibleThreshold) {
+    public RepositoriesOnScrollListener(LinearLayoutManager layoutManager, int threshold) {
         this.layoutManager = layoutManager;
-        this.visibleThreshold = visibleThreshold;
+        this.visibleThreshold = threshold;
     }
 
     @Override
@@ -45,7 +45,7 @@ public abstract class PaginationScrollListener extends RecyclerView.OnScrollList
 		if (loading && (totalItemCount > previousTotalItemCount)) {
             loading = false;
             previousTotalItemCount = totalItemCount;
-            currentPage++;
+            currentPage ++;
         }
 
 		if (!loading && (firstVisibleItem + visibleItemCount + visibleThreshold) >= totalItemCount ) {

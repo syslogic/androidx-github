@@ -65,7 +65,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
         Repository item = getItem(position);
-        if(mDebug) {Log.d(LOG_TAG, item.getFullName() + ": " + item.getUrl());}
+        // if(mDebug) {Log.d(LOG_TAG, item.getFullName() + ": " + item.getUrl());}
         ((ViewHolder) viewHolder).getDataBinding().setRepository(item);
         ((ViewHolder) viewHolder).setId(item.getId());
         ((ViewHolder) viewHolder).setTag(item);
@@ -103,6 +103,9 @@ public class RepositoriesAdapter extends RecyclerView.Adapter {
                     if (response.body() != null) {
                         Repositories items = response.body();
                         setTotalItemCount(items.getCount());
+                        if(mDebug) {
+                            Log.d(LOG_TAG, "items " + getItemCount() + " / " + items.getCount());
+                        }
                         int positionStart = getItemCount();
                         addAll(items.getRepositories());
                         notifyItemRangeChanged(positionStart, getItemCount());
@@ -133,7 +136,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter {
          * ViewHolder Constructor
          * @param binding the item's data-binding
         **/
-        public ViewHolder(RepositoryViewHolderBinding binding) {
+        ViewHolder(RepositoryViewHolderBinding binding) {
 
             super(binding.getRoot());
             this.mDataBinding = binding;
