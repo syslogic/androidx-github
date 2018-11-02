@@ -7,7 +7,15 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.ArrayList;
 
 import androidx.annotation.NonNull;
@@ -26,6 +34,7 @@ import io.syslogic.githubtrends.model.Repository;
 import io.syslogic.githubtrends.retrofit.GithubClient;
 import io.syslogic.githubtrends.retrofit.GithubService;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -99,16 +108,34 @@ public class RepositoriesAdapter extends RecyclerView.Adapter {
 
             @Override
             public void onResponse(@NonNull Call<Repositories> call, @NonNull Response<Repositories> response) {
-                if (response.code() == 200) {
-                    if (response.body() != null) {
-                        Repositories items = response.body();
-                        setTotalItemCount(items.getCount());
-                        if(mDebug) {
-                            Log.d(LOG_TAG, "items " + getItemCount() + " / " + items.getCount());
+                switch(response.code()) {
+
+                    case 200: {
+                        if (response.body() != null) {
+                            Repositories items = response.body();
+                            if (mDebug) {Log.d(LOG_TAG, "items " + getItemCount() + " / " + items.getCount());}
+                            setTotalItemCount(items.getCount());
+                            int positionStart = getItemCount();
+                            addAll(items.getRepositories());
+                            notifyItemRangeChanged(positionStart, getItemCount());
                         }
-                        int positionStart = getItemCount();
-                        addAll(items.getRepositories());
-                        notifyItemRangeChanged(positionStart, getItemCount());
+                        break;
+                    }
+
+                    case 403: {
+                        if (response.errorBody() != null) {
+                            try {
+                                String errors = response.errorBody().string();
+                                JsonObject jsonObject = (new JsonParser()).parse(errors).getAsJsonObject();
+                                String message = jsonObject.get("message").toString();
+                                if(mDebug) {
+                                    Toast.makeText(mContext, message, Toast.LENGTH_LONG).show();
+                                    Log.e(LOG_TAG, message);
+                                }
+                            } catch (IOException e) {
+                                if(mDebug) {Log.e(LOG_TAG, e.getMessage());}
+                            }
+                        }
                     }
                 }
             }
