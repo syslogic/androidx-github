@@ -1,4 +1,4 @@
-package io.syslogic.github.view;
+package io.syslogic.github.recyclerview;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -8,7 +8,7 @@ public abstract class RepositoriesScrollListener extends RecyclerView.OnScrollLi
 
     private LinearLayoutManager layoutManager;
 
-    private int visibleThreshold = 0;
+    private int visibleThreshold = 10;
 
     private int previousTotalItemCount = 0;
 

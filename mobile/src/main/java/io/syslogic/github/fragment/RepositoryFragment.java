@@ -1,4 +1,4 @@
-package io.syslogic.github.view;
+package io.syslogic.github.fragment;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -27,7 +27,6 @@ import io.syslogic.github.retrofit.GithubService;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
 
 public class RepositoryFragment extends Fragment {
 
@@ -74,16 +73,11 @@ public class RepositoryFragment extends Fragment {
         return layout;
     }
 
-    private GithubService getGithubService() {
-        Retrofit client = GithubClient.init();
-        return client.create(GithubService.class);
-    }
-
     private void setRepository() {
 
         if(this.itemId != 0) {
 
-            GithubService service = this.getGithubService();
+            GithubService service = GithubClient.getService();
             Call<Repository> api = service.getRepository(this.itemId);
             if (mDebug) {Log.w(LOG_TAG, api.request().url() + "");}
 

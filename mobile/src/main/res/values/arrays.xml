@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string-array name="languages" translatable="false">
+    <string-array name="topics" translatable="false">
         <item name="android">Android</item>
         <item name="kotlin">Kotlin</item>
     </string-array>
 
-    <string-array name="queries" translatable="false">
+    <string-array name="queryStrings" translatable="false">
         <item name="android">language\\:android</item>
-        <item name="kotlin">language\\:kotlin-android</item>
+        <item name="kotlin">language\\:kotlin</item>
     </string-array>
 
     <string-array name="sortBy" translatable="false">

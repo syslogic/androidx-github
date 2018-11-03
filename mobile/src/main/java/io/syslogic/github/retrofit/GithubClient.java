@@ -18,4 +18,9 @@ public class GithubClient {
         }
         return retrofit;
     }
+
+    public static GithubService getService() {
+        Retrofit client = init();
+        return client.create(GithubService.class);
+    }
 }

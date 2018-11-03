@@ -1,4 +1,4 @@
-package io.syslogic.github.view;
+package io.syslogic.github.spinner;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -12,13 +12,13 @@ import androidx.appcompat.widget.AppCompatTextView;
 import io.syslogic.github.R;
 import io.syslogic.github.model.SpinnerItem;
 
-public class LanguagesAdapter extends BaseAdapter {
+public class TopicsAdapter extends BaseAdapter {
 
     private Context mContext;
     private ArrayList<SpinnerItem> mItems;
     private LayoutInflater layoutInflater;
 
-    public LanguagesAdapter(Context context) {
+    public TopicsAdapter(Context context) {
         this.layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.setContext(context);
         this.setItems();
@@ -58,10 +58,10 @@ public class LanguagesAdapter extends BaseAdapter {
     private void setItems() {
         if (this.mItems != null) {this.mItems.clear();}
         else {this.mItems = new ArrayList<>();}
-        String[] names = this.mContext.getResources().getStringArray(R.array.languages);
-        String[] queries = this.mContext.getResources().getStringArray(R.array.queries);
-        for(int i = 0; i < queries.length; i++) {
-            this.mItems.add(i, new SpinnerItem(i + 1, names[i], queries[i]));
+        String[] topics = this.mContext.getResources().getStringArray(R.array.topics);
+        String[] queryStrings = this.mContext.getResources().getStringArray(R.array.queryStrings);
+        for(int i = 0; i < topics.length; i++) {
+            this.mItems.add(i, new SpinnerItem(i + 1, topics[i], queryStrings[i]));
         }
     }
 }

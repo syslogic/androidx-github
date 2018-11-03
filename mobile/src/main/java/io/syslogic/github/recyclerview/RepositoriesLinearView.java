@@ -1,4 +1,4 @@
-package io.syslogic.github.view;
+package io.syslogic.github.recyclerview;
 
 import android.content.Context;
 import android.util.AttributeSet;

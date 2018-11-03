@@ -1,52 +1,41 @@
 package io.syslogic.github.activity;
 
 import android.os.Bundle;
-import android.view.View;
-import android.widget.AdapterView;
+import android.widget.FrameLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatSpinner;
+
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import io.syslogic.github.R;
-import io.syslogic.github.model.SpinnerItem;
-import io.syslogic.github.view.LanguagesAdapter;
-import io.syslogic.github.view.RepositoriesAdapter;
-import io.syslogic.github.view.RepositoriesLinearView;
-import io.syslogic.github.view.RepositoriesScrollListener;
+import io.syslogic.github.fragment.RepositoriesFragment;
 
 public class MainActivity extends AppCompatActivity {
 
-    private RepositoriesLinearView mRecyclerView;
+    /** layout res id */
+    private final int resId = R.id.layout_repositories;
+
+    /** current {@link Fragment} */
+    protected RepositoriesFragment currentFragment = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_main);
 
-        this.mRecyclerView = findViewById(R.id.recyclerview_repositories);
-        if(this.mRecyclerView.getAdapter() == null) {
-            this.mRecyclerView.setAdapter(new RepositoriesAdapter(this, 1));
+        FrameLayout frame = new FrameLayout(this);
+        frame.setId(this.resId);
+        setContentView(frame, new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT));
+
+        if (savedInstanceState == null) {
+            this.currentFragment = RepositoriesFragment.newInstance();
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.add(this.resId, this.currentFragment, "repositories").commit();
+        } else {
+
+            /* onOrientationChange() */
+            this.currentFragment = (RepositoriesFragment) getSupportFragmentManager().findFragmentByTag("repositories");
         }
-
-        AppCompatSpinner spinner = findViewById(R.id.spinner_language);
-        spinner.setAdapter(new LanguagesAdapter(this));
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            int count = 0;
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if(count > 0) {
-                    SpinnerItem item = (SpinnerItem) view.getTag();
-                    RepositoriesScrollListener.currentPage = 1;
-                    mRecyclerView.setQuery(item.getValue());
-                    mRecyclerView.clearAdapter();
-                }
-                count++;
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
     }
 }

@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import io.syslogic.github.R;
-import io.syslogic.github.view.RepositoryFragment;
+import io.syslogic.github.fragment.RepositoryFragment;
 import io.syslogic.github.constants.Constants;
 
 public class DetailActivity extends AppCompatActivity {

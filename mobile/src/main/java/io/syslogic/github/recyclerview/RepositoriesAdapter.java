@@ -1,4 +1,4 @@
-package io.syslogic.github.view;
+package io.syslogic.github.recyclerview;
 
 import android.content.Context;
 import android.content.Intent;
@@ -38,7 +38,6 @@ import io.syslogic.github.retrofit.GithubService;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
 
 public class RepositoriesAdapter extends RecyclerView.Adapter {
 
@@ -88,25 +87,23 @@ public class RepositoriesAdapter extends RecyclerView.Adapter {
         return this.mItems.size();
     }
 
-    private GithubService getGithubService() {
-        Retrofit client = GithubClient.init();
-        return client.create(GithubService.class);
-    }
 
     private void addAll(ArrayList<Repository> items) {
         this.mItems.addAll(items);
     }
 
-    void fetchPage(int pageNumber) {
-
+    private String getQueryString() {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(new Date());
         calendar.add(Calendar.DAY_OF_YEAR, -90);
         String isodate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(calendar.getTime());
-        String dateQuery = query + "+pushed:>" + isodate;
+        return query + "+pushed:>" + isodate;
+    }
 
-        GithubService service = this.getGithubService();
-        Call<Repositories> api = service.getRepositories(dateQuery,"stars","desc", pageNumber);
+    void fetchPage(int pageNumber) {
+
+        GithubService service = GithubClient.getService();
+        Call<Repositories> api = service.getRepositories(getQueryString(),"stars","desc", pageNumber);
         if(mDebug) {Log.w(LOG_TAG, api.request().url() + "");}
 
         api.enqueue(new Callback<Repositories>() {
