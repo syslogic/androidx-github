@@ -90,9 +90,19 @@ dependencies {
     api "androidx.recyclerview:recyclerview:${androidxVersion}"
     api "androidx.cardview:cardview:${androidxVersion}"
 
+    // https://mvnrepository.com/artifact/com.google.code.gson/gson
+    api "com.google.code.gson:gson:2.8.5"
+
+    // https://mvnrepository.com/artifact/com.squareup.okhttp3/okhttp
+    api "com.squareup.okhttp3:okhttp:3.11.0"
+
     // https://mvnrepository.com/artifact/com.squareup.retrofit2
-    api "com.squareup.retrofit2:retrofit:${retrofitVersion}"
-    api "com.squareup.retrofit2:converter-gson:${retrofitVersion}"
+    api ("com.squareup.retrofit2:retrofit:${retrofitVersion}") {
+        exclude group: "com.squareup.okhttp3"
+    }
+    api ("com.squareup.retrofit2:converter-gson:${retrofitVersion}") {
+        exclude group: "com.google.code.gson"
+    }
 
     androidTestImplementation "com.android.support.test.uiautomator:uiautomator-v18:2.1.3"
     // androidTestImplementation "androidx.test.espresso:espresso-core:3.1.0"
