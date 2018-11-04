@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatSpinner;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
+
 import io.syslogic.github.BuildConfig;
 import io.syslogic.github.R;
 import io.syslogic.github.databinding.RepositoriesFragmentBinding;
@@ -81,5 +82,4 @@ public class RepositoriesFragment extends Fragment {
     private RepositoriesFragmentBinding getDataBinding() {
         return this.mDataBinding;
     }
-
 }

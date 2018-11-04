@@ -9,18 +9,13 @@ public class GithubClient {
 
     private static Retrofit retrofit;
 
-    public static Retrofit init() {
+    public static GithubService getService() {
         if (retrofit == null) {
             retrofit = new retrofit2.Retrofit.Builder()
-            .baseUrl(Constants.GITHUB_API_BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build();
+                .baseUrl(Constants.GITHUB_API_BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
         }
-        return retrofit;
-    }
-
-    public static GithubService getService() {
-        Retrofit client = init();
-        return client.create(GithubService.class);
+        return retrofit.create(GithubService.class);
     }
 }

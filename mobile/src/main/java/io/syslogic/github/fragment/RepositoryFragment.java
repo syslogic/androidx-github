@@ -134,11 +134,11 @@ public class RepositoryFragment extends Fragment {
         return this.itemId;
     }
 
-    private RepositoryFragmentBinding getDataBinding() {
-        return this.mDataBinding;
-    }
-
     private WebView getWebView() {
         return this.mWebView;
+    }
+
+    private RepositoryFragmentBinding getDataBinding() {
+        return this.mDataBinding;
     }
 }
