@@ -1,20 +1,18 @@
 package io.syslogic.github.activity;
 
 import android.os.Bundle;
-import android.widget.FrameLayout;
+import android.util.Log;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
 import io.syslogic.github.R;
 import io.syslogic.github.fragment.RepositoryFragment;
 import io.syslogic.github.constants.Constants;
 
-public class DetailActivity extends AppCompatActivity {
+public class DetailActivity extends BaseActivity {
 
-    /** layout res id */
-    private final int resId = R.id.layout_repository;
+    /** {@link Log} Tag */
+    private static final String LOG_TAG = DetailActivity.class.getSimpleName();
 
     /** current {@link Fragment} */
     protected RepositoryFragment currentFragment = null;
@@ -31,33 +29,16 @@ public class DetailActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
 
-        /* obtain the itemId from arguments */
+        /* obtain the itemId from intent extras */
         if(this.getIntent() != null) {
             Bundle extras = this.getIntent().getExtras();
             if(extras != null) {
                 this.setItemId(extras.getLong(Constants.ARGUMENT_ITEM_ID));
+            } else if (mDebug) {
+                Log.e(LOG_TAG, "intent extras had no itemId");
             }
         }
-
-        FrameLayout frame = new FrameLayout(this);
-        frame.setId(this.resId);
-        setContentView(frame, new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT));
-
-        if (savedInstanceState == null) {
-
-            Bundle args = new Bundle();
-            args.putLong(Constants.ARGUMENT_ITEM_ID, this.getItemId());
-            this.currentFragment = RepositoryFragment.newInstance(this.getItemId());
-            this.currentFragment.setArguments(args);
-
-            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.add(this.resId, this.currentFragment, "repository").commit();
-
-        } else {
-
-            /* onOrientationChange() */
-            this.currentFragment = (RepositoryFragment) getSupportFragmentManager().findFragmentByTag("repository");
-        }
+        this.currentFragment = (RepositoryFragment) addFragment(savedInstanceState, R.id.layout_repository, RepositoryFragment.newInstance(getItemId()), "repository");
     }
 
     protected void setItemId(long value) {
