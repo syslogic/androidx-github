@@ -7,9 +7,9 @@ public class SpinnerItem {
     private String value;
 
     public SpinnerItem(int id, String name, String value) {
-        setId(id);
-        setName(name);
-        setValue(value);
+        this.setId(id);
+        this.setName(name);
+        this.setValue(value);
     }
 
     /* Setters */
