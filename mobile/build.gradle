@@ -67,8 +67,9 @@ android {
         }
         release {
             signingConfig signingConfigs.release
-            proguardFile "${project.rootDir}/proguard/mobile.pro"
+            proguardFile "${project.rootDir}/proguard/androidx.pro"
             proguardFile "${project.rootDir}/proguard/retrofit.pro"
+            proguardFile "${project.rootDir}/proguard/mobile.pro"
             testCoverageEnabled false
             minifyEnabled true
             zipAlignEnabled true
@@ -93,9 +94,9 @@ dependencies {
     api "com.squareup.retrofit2:retrofit:${retrofitVersion}"
     api "com.squareup.retrofit2:converter-gson:${retrofitVersion}"
 
-    androidTestImplementation "androidx.test.ext:junit:${androidxVersion}"
     androidTestImplementation "com.android.support.test.uiautomator:uiautomator-v18:2.1.3"
     // androidTestImplementation "androidx.test.espresso:espresso-core:3.1.0"
+    androidTestImplementation "androidx.test.ext:junit:${androidxVersion}"
     androidTestImplementation "androidx.test:runner:1.1.0"
     androidTestImplementation "androidx.test:rules:1.1.0"
 }
