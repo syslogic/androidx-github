@@ -13,7 +13,6 @@ project.ext.set('androidxVersion',   version['androidxVersion'])
 project.ext.set('retrofitVersion',   version['retrofitVersion'])
 
 buildscript {
-    
     repositories {
         google()
         jcenter()
@@ -36,6 +35,19 @@ allprojects {
     }
 }
 
+// rootProject > clean
 task clean(type: Delete) {
+
+    // delete build directories
     delete rootProject.buildDir
+    delete project.buildDir
+
+    // when task clean has finished
+    doLast {
+
+        // then recreate APK output directories
+        mkdir("${project.buildDir}/outputs/apk")
+        mkdir("${project.buildDir}/outputs/apk/debug")
+        mkdir("${project.buildDir}/outputs/apk/release")
+    }
 }
