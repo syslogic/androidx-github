@@ -1,5 +1,10 @@
-# Retrofit does reflection on generic parameters.
+# ProGuard Configuration Rules
+# @see http://developer.android.com/guide/developing/tools/proguard.html
+# @see http://proguard.sourceforge.net/manual/troubleshooting.html
 
+-printconfiguration ../results/proguard.txt
+
+# Retrofit does reflection on generic parameters.
 #InnerClasses is required to use Signature and EnclosingMethod is required to use InnerClasses.
 -keepattributes Signature, InnerClasses, EnclosingMethod
 
@@ -20,10 +25,21 @@
 # Top-level functions that can only be used by Kotlin.
 #-dontwarn retrofit2.-KotlinExtensions
 
--keep,includedescriptorclasses class okhttp3.internal.platform.AndroidPlatform
--keep class android.webkit.WebIconDatabase { void open(java.lang.String); }
-
 -dontwarn okhttp3.internal.platform.*
+-dontnote okhttp3.internal.platform.*
+-dontnote android.databinding.DataBinderMapper
+
+-keep,includedescriptorclasses class okhttp3.internal.platform.AndroidPlatform
+
+-keep class android.webkit.WebIconDatabase {
+    void open(java.lang.String);
+}
+
+-dontnote com.google.gson.internal.UnsafeAllocator
+-keep,includedescriptorclasses class com.google.gson.internal.UnsafeAllocator { *; }
+
+-dontnote com.google.gson.internal.reflect.UnsafeReflectionAccessor
+-keep class com.google.gson.internal.reflect.UnsafeReflectionAccessor { java.lang.Object theUnsafe; }
 
 -keep,includedescriptorclasses class com.sun.javadoc.**  { *; }
 -keep,includedescriptorclasses class sun.security.ssl.** { *; }
