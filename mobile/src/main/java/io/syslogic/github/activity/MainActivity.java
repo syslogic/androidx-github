@@ -13,7 +13,7 @@ public class MainActivity extends BaseActivity {
     /** {@link Log} Tag */
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
 
-    /** current {@link Fragment} */
+    /** the current {@link Fragment} */
     protected RepositoriesFragment currentFragment = null;
 
     @Override

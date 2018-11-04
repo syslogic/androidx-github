@@ -23,9 +23,9 @@ abstract public class BaseActivity extends AppCompatActivity {
         FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
         frameLayout.setId(resId);
 
-        setContentView(frameLayout, params);
+        this.setContentView(frameLayout, params);
 
-        if (savedInstanceState == null) {
+        if(savedInstanceState == null) {
 
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.add(resId, fragment, viewTag).commit();

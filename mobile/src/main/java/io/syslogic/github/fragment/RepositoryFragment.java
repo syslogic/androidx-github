@@ -38,7 +38,7 @@ public class RepositoryFragment extends Fragment {
 
     private RepositoryFragmentBinding mDataBinding;
 
-    /** readme.md {@link WebView} */
+    /** {@link WebView} */
     private WebView mWebView;
 
     private long itemId = 0;
@@ -62,18 +62,19 @@ public class RepositoryFragment extends Fragment {
         }
     }
 
-    @SuppressLint("SetJavaScriptEnabled")
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         this.mDataBinding = RepositoryFragmentBinding.inflate(inflater, container, false);
         View layout = this.mDataBinding.getRoot();
-        this.mWebView = layout.findViewById(R.id.webview_preview);
-        this.mWebView.getSettings().setJavaScriptEnabled(true);
-        this.setRepository();
+        this.setRepository(layout);
         return layout;
     }
 
-    private void setRepository() {
+    @SuppressLint("SetJavaScriptEnabled")
+    private void setRepository(View view) {
+
+        this.mWebView = view.findViewById(R.id.webview_preview);
+        this.mWebView.getSettings().setJavaScriptEnabled(true);
 
         if(this.itemId != 0) {
 
@@ -86,6 +87,7 @@ public class RepositoryFragment extends Fragment {
                 @Override
                 public void onResponse(@NonNull Call<Repository> call, @NonNull Response<Repository> response) {
                     switch(response.code()) {
+
                         case 200: {
                             if (response.body() != null) {
                                 Repository item = response.body();
@@ -98,6 +100,7 @@ public class RepositoryFragment extends Fragment {
                             }
                             break;
                         }
+
                         case 403: {
                             if (response.errorBody() != null) {
                                 try {

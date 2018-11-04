@@ -165,6 +165,11 @@ public class RepositoriesAdapter extends RecyclerView.Adapter {
         this.query = value;
     }
 
+    /** Getters */
+    private long getTotalItemCount() {
+        return this.totalItemCount;
+    }
+
     /** {@link RecyclerView.ViewHolder} for {@link CardView} of type {@link Repository}. */
     private static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 

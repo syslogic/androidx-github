@@ -9,6 +9,7 @@ import android.widget.BaseAdapter;
 import java.util.ArrayList;
 
 import androidx.appcompat.widget.AppCompatTextView;
+
 import io.syslogic.github.R;
 import io.syslogic.github.model.SpinnerItem;
 

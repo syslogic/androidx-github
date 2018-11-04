@@ -45,7 +45,7 @@ public abstract class RepositoriesScrollListener extends RecyclerView.OnScrollLi
             currentPage ++;
         }
 
-		if (!isLoading && (firstVisibleItem + visibleItemCount + visibleThreshold) >= totalItemCount ) {
+		if (! isLoading && (firstVisibleItem + visibleItemCount + visibleThreshold) >= totalItemCount ) {
             isLoading = onLoadPage(currentPage, totalItemCount);
         }
     }

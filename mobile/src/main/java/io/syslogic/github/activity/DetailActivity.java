@@ -14,15 +14,10 @@ public class DetailActivity extends BaseActivity {
     /** {@link Log} Tag */
     private static final String LOG_TAG = DetailActivity.class.getSimpleName();
 
-    /** current {@link Fragment} */
+    /** the current {@link Fragment} */
     protected RepositoryFragment currentFragment = null;
 
     protected long itemId = -1;
-
-    /* Constructor */
-    public DetailActivity() {
-
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
