@@ -40,7 +40,7 @@ public class TestMainActivity extends TestSuite {
     @Test
     public void RecyclerView() {
         UiObject2 view = this.mDevice.findObject(By.res(this.packageName, "recyclerview_repositories"));
-        int pages = Math.round(1554/30);
+        int pages = 50;
         for(int page = 0; page < pages; page++) {
             scollDown(view, 300, 2000);
         }

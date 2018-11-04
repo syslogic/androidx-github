@@ -19,11 +19,10 @@ import androidx.test.uiautomator.Until;
 
 import io.syslogic.github.constants.Constants;
 
-import static androidx.test.InstrumentationRegistry.getContext;
-import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
+import androidx.test.platform.app.InstrumentationRegistry;
 
 /**
- * Graphical User Interface Test TestSuite.
+ * Graphical User Interface Test TestSuite
  * @author Martin Zeitler
  * @version 1.0.0
 **/
@@ -51,7 +50,8 @@ public class TestSuite {
         intent.addCategory(Intent.CATEGORY_HOME);
 
         /* use PackageManager to get the launcher package name */
-        PackageManager pm = getContext().getPackageManager();
+        Context context = InstrumentationRegistry.getInstrumentation().getTargetContext();
+        PackageManager pm = context.getPackageManager();
         ResolveInfo resolveInfo = pm.resolveActivity(intent, PackageManager.MATCH_DEFAULT_ONLY);
 
         return resolveInfo.activityInfo.name;
@@ -61,7 +61,7 @@ public class TestSuite {
     protected void startTestActivity(Context context, String className){
 
         /* initialize UiDevice */
-        this.mDevice = UiDevice.getInstance(getInstrumentation());
+        this.mDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
         Assert.assertThat(this.mDevice, CoreMatchers.notNullValue());
 
         /* start from the home screen */
