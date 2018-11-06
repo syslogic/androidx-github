@@ -26,6 +26,7 @@ import androidx.test.platform.app.InstrumentationRegistry;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 
@@ -108,6 +109,7 @@ public class TestSuite {
     }
 
     protected void flingUp(UiObject2 view, int speed, int pause) {
+        assertThat(view, not(equalTo(null)));
         try {
             view.fling(Direction.DOWN, speed);
         } catch (StaleObjectException e) {
