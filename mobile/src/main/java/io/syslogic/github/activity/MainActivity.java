@@ -14,6 +14,6 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.currentFragment = (RepositoriesFragment) addFragment(savedInstanceState, R.id.layout_repositories, RepositoriesFragment.newInstance(), "repositories");
+        this.currentFragment = (RepositoriesFragment) addFragment(savedInstanceState, R.id.layout_repositories, RepositoriesFragment.newInstance());
     }
 }

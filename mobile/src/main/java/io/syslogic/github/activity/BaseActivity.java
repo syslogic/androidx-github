@@ -21,7 +21,7 @@ abstract public class BaseActivity extends AppCompatActivity {
     /** the current {@link Fragment} */
     protected BaseFragment currentFragment = null;
 
-    protected Fragment addFragment(@Nullable Bundle savedInstanceState, @IdRes int resId, @NonNull Fragment fragment, @NonNull String viewTag) {
+    protected Fragment addFragment(@Nullable Bundle savedInstanceState, @IdRes int resId, @NonNull Fragment fragment) {
 
         FrameLayout frameLayout = new FrameLayout(this);
         FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
@@ -29,16 +29,14 @@ abstract public class BaseActivity extends AppCompatActivity {
 
         this.setContentView(frameLayout, params);
 
-        if(savedInstanceState == null) {
-
-            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.add(resId, fragment, viewTag).commit();
-
+        /* onOrientationChange() */
+        if(savedInstanceState != null) {
+            fragment = getSupportFragmentManager().getFragments().get(0);
         } else {
-
-            /* onOrientationChange() */
-            fragment = getSupportFragmentManager().findFragmentByTag(viewTag);
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.add(resId, fragment).commit();
         }
+
         return fragment;
     }
 }

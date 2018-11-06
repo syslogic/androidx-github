@@ -26,7 +26,7 @@ public class DetailActivity extends BaseActivity {
                 this.setItemId(extras.getLong(Constants.ARGUMENT_ITEM_ID));
             }
         }
-        this.currentFragment = (RepositoryFragment) addFragment(savedInstanceState, R.id.layout_repository, RepositoryFragment.newInstance(getItemId()), "repository");
+        this.currentFragment = (RepositoryFragment) addFragment(savedInstanceState, R.id.layout_repository, RepositoryFragment.newInstance(getItemId()));
     }
 
     protected void setItemId(long value) {
