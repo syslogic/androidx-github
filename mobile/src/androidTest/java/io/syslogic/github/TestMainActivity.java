@@ -44,17 +44,8 @@ public class TestMainActivity extends TestSuite {
 
     @Test
     public void SpinnerTopic() {
-
-        UiObject2 view = this.mDevice.findObject(By.res(this.packageName, "spinner_topic"));
-        view.click();
-        sleep(2000);
-
-        List<UiObject2> items = this.mDevice.findObjects(By.res("android:id/text1"));
-        assertThat(items.size() > 0, is(equalTo(true)));
-
-        items.get(1).click(500);
-        sleep(2000);
-
-        assertThat(true, is(equalTo(true)));
+        clickSpinnerItem("spinner_topic", 1);
+        clickSpinnerItem("spinner_topic", 2);
+        clickSpinnerItem("spinner_topic", 0);
     }
 }

@@ -11,6 +11,8 @@ import org.hamcrest.CoreMatchers;
 import org.junit.Assert;
 import org.junit.runner.RunWith;
 
+import java.util.List;
+
 import androidx.test.uiautomator.By;
 import androidx.test.uiautomator.Direction;
 import androidx.test.uiautomator.UiDevice;
@@ -20,6 +22,10 @@ import androidx.test.uiautomator.Until;
 import io.syslogic.github.constants.Constants;
 
 import androidx.test.platform.app.InstrumentationRegistry;
+
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
 
 /**
  * Graphical User Interface Test TestSuite
@@ -102,6 +108,19 @@ public class TestSuite {
     protected void flingUp(UiObject2 view, int speed, int pause) {
         view.fling(Direction.DOWN, speed);
         sleep(pause);
+    }
+
+    public void clickSpinnerItem(String spinnerName, int itemIndex) {
+
+        UiObject2 view = this.mDevice.findObject(By.res(this.packageName, spinnerName));
+        view.click();
+        sleep(2000);
+
+        List<UiObject2> items = this.mDevice.findObjects(By.res("android:id/text1"));
+        assertThat(items.size() > 0, is(equalTo(true)));
+
+        items.get(itemIndex).click(500);
+        sleep(2000);
     }
 
     protected void sleep(int ms){
