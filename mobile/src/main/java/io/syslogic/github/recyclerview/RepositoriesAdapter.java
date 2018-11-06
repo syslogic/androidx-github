@@ -49,15 +49,19 @@ public class RepositoriesAdapter extends RecyclerView.Adapter {
 
     private ArrayList<Repository> mItems = new ArrayList<>();
 
-    private String query = "language\\:android";
-
     private long totalItemCount = 0;
 
     private Context mContext;
 
+    private String queryString;
+
     public RepositoriesAdapter(Context context, int pageNumber) {
+
         this.mContext = context;
         this.fetchPage(pageNumber);
+
+        String defaultQuery = context.getResources().getStringArray(R.array.queryStrings)[0];
+        this.setQueryString(defaultQuery);
     }
 
     @NonNull
@@ -97,10 +101,10 @@ public class RepositoriesAdapter extends RecyclerView.Adapter {
         calendar.setTime(new Date());
         calendar.add(Calendar.DAY_OF_YEAR, -90);
         String isodate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(calendar.getTime());
-        return query + "+pushed:>" + isodate;
+        return queryString + "+pushed:>" + isodate;
     }
 
-    void fetchPage(int pageNumber) {
+    public void fetchPage(int pageNumber) {
 
         GithubService service = GithubClient.getService();
         Call<Repositories> api = service.getRepositories(getQueryString(),"stars","desc", pageNumber);
@@ -151,9 +155,8 @@ public class RepositoriesAdapter extends RecyclerView.Adapter {
         });
     }
 
-    void clearItems() {
+    public void clearItems() {
         this.mItems.clear();
-        fetchPage(1);
         notifyItemRangeChanged(0, getItemCount());
     }
 
@@ -161,8 +164,8 @@ public class RepositoriesAdapter extends RecyclerView.Adapter {
     private void setTotalItemCount(long value) {
         this.totalItemCount = value;
     }
-    void setQuery(String value) {
-        this.query = value;
+    void setQueryString(String value) {
+        this.queryString = value;
     }
 
     /** Getters */
