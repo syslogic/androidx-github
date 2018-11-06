@@ -25,6 +25,10 @@ public abstract class RepositoriesScrollListener extends RecyclerView.OnScrollLi
         this.visibleThreshold = threshold;
     }
 
+    public static void setPageNumber(int value) {
+        currentPage = value;
+    }
+
     @Override
     public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
 
