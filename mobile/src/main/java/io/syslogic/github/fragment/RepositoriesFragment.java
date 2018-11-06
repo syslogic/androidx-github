@@ -109,7 +109,7 @@ public class RepositoriesFragment extends BaseFragment  implements IConnectivity
                 public void run() {
                     mViewFlipper.showPrevious();
                     RepositoriesAdapter adapter = ((RepositoriesAdapter) mRecyclerView.getAdapter());
-                    if(adapter != null) {
+                    if(adapter != null && adapter.getItemCount() == 0) {
                         adapter.fetchPage(1);
                     }
                 }

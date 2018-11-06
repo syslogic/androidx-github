@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Toast;
 
 import com.google.gson.JsonObject;
@@ -40,6 +41,8 @@ public class RepositoryFragment extends BaseFragment implements IConnectivityLis
 
     /** {@link WebView} */
     private WebView mWebView;
+
+    private boolean contentLoaded = false;
 
     private long itemId = 0;
 
@@ -82,6 +85,12 @@ public class RepositoryFragment extends BaseFragment implements IConnectivityLis
             } else {
                 this.mWebView = layout.findViewById(R.id.webview_preview);
                 this.mWebView.getSettings().setJavaScriptEnabled(true);
+                this.mWebView.setWebViewClient(new WebViewClient() {
+                    @Override
+                    public void onPageCommitVisible (WebView view, String url) {
+                        contentLoaded = true;
+                    }
+                });
                 this.setRepository();
             }
         }
@@ -166,7 +175,7 @@ public class RepositoryFragment extends BaseFragment implements IConnectivityLis
                 @Override
                 public void run() {
                     mViewFlipper.showPrevious();
-                    setRepository();
+                    if(! contentLoaded) {setRepository();}
                 }
             });
         }
