@@ -11,11 +11,15 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import io.syslogic.github.BuildConfig;
+import io.syslogic.github.fragment.BaseFragment;
 
 abstract public class BaseActivity extends AppCompatActivity {
 
     /** Debug Output */
     protected static final boolean mDebug = BuildConfig.DEBUG;
+
+    /** the current {@link Fragment} */
+    protected BaseFragment currentFragment = null;
 
     protected Fragment addFragment(@Nullable Bundle savedInstanceState, @IdRes int resId, @NonNull Fragment fragment, @NonNull String viewTag) {
 
