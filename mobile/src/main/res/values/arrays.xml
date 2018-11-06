@@ -4,11 +4,13 @@
     <string-array name="topics" translatable="false">
         <item name="android">Android</item>
         <item name="kotlin">Kotlin</item>
+        <item name="kotlin">Groovy</item>
     </string-array>
 
     <string-array name="queryStrings" translatable="false">
         <item name="android">language\\:android</item>
         <item name="kotlin">language\\:kotlin</item>
+        <item name="kotlin">language\\:groovy</item>
     </string-array>
 
     <string-array name="sortBy" translatable="false">
