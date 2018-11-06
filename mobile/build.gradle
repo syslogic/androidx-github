@@ -109,6 +109,7 @@ dependencies {
     // https://mvnrepository.com/artifact/androidx.test.ext
     androidTestImplementation "androidx.test.ext:junit:${androidxVersion}"
     // androidTestImplementation "androidx.test.ext:truth:${androidxVersion}"
+    // androidTestImplementation "com.google.truth:truth:0.42"
 
     // https://mvnrepository.com/artifact/androidx.test.uiautomator/uiautomator
     androidTestImplementation "androidx.test.uiautomator:uiautomator:2.2.0"
