@@ -1,6 +1,6 @@
 package io.syslogic.github.fragment;
 
-import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,16 +13,16 @@ import androidx.appcompat.widget.AppCompatSpinner;
 import androidx.databinding.ViewDataBinding;
 import androidx.recyclerview.widget.RecyclerView;
 
-import io.syslogic.github.BuildConfig;
 import io.syslogic.github.R;
 import io.syslogic.github.databinding.RepositoriesFragmentBinding;
 import io.syslogic.github.model.SpinnerItem;
+import io.syslogic.github.network.IConnectivityListener;
 import io.syslogic.github.spinner.TopicsAdapter;
 import io.syslogic.github.recyclerview.RepositoriesAdapter;
 import io.syslogic.github.recyclerview.RepositoriesLinearView;
 import io.syslogic.github.recyclerview.RepositoriesScrollListener;
 
-public class RepositoriesFragment extends BaseFragment {
+public class RepositoriesFragment extends BaseFragment  implements IConnectivityListener {
 
     /** {@link Log} Tag */
     private static final String LOG_TAG = RepositoriesFragment.class.getSimpleName();
@@ -45,26 +45,33 @@ public class RepositoriesFragment extends BaseFragment {
     }
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+
+        super.onCreate(savedInstanceState);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            this.registerNetworkCallback(this.getContext(), this);
+        } else {
+            this.registerBroadcastReceiver(this.getContext());
+        }
+    }
+
+    @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         this.mDataBinding = RepositoriesFragmentBinding.inflate(inflater, container, false);
         View layout = this.mDataBinding.getRoot();
 
         if(this.getContext() != null) {
-
+            this.mViewFlipper = layout.findViewById(R.id.viewflipper_offline);
             this.mRecyclerView = layout.findViewById(R.id.recyclerview_repositories);
             if (this.mRecyclerView.getAdapter() == null) {
-
-                // E/RepositoriesAdapter: Unable to resolve host "api.github.com": No address associated with hostname
-                if(isNetworkAvailable(getContext())) {
+                if(isNetworkAvailable(this.getContext())) {
                     this.mRecyclerView.setAdapter(new RepositoriesAdapter(this.getContext(), 1));
                 } else {
-                    // E/RecyclerView: No adapter attached; skipping layout
-                    this.mRecyclerView.setAdapter(new RepositoriesAdapter(this.getContext(), 0));
-                    if(mDebug) {Log.e(LOG_TAG, "isNetworkAvailable() == FALSE");}
+                    this.onNetworkLost();
                 }
             }
-
 
             this.mSpinnerTopic = layout.findViewById(R.id.spinner_topic);
             this.mSpinnerTopic.setAdapter(new TopicsAdapter(this.getContext()));
@@ -75,8 +82,11 @@ public class RepositoriesFragment extends BaseFragment {
                     if (count > 0) {
                         SpinnerItem item = (SpinnerItem) view.getTag();
                         RepositoriesScrollListener.setPageNumber(1);
-                        mRecyclerView.setQuery(item.getValue());
-                        mRecyclerView.clearAdapter();
+                        mRecyclerView.setQueryString(item.getValue());
+                        if (mRecyclerView.getAdapter() != null) {
+                            mRecyclerView.clearAdapter();
+                            ((RepositoriesAdapter) mRecyclerView.getAdapter()).fetchPage(1);
+                        }
                     }
                     count++;
                 }
@@ -89,5 +99,33 @@ public class RepositoriesFragment extends BaseFragment {
 
     private RepositoriesFragmentBinding getDataBinding() {
         return this.mDataBinding;
+    }
+
+    @Override
+    public void onNetworkAvailable() {
+        if (this.getActivity() != null && this.mViewFlipper != null && this.mViewFlipper.getDisplayedChild() == 1) {
+            this.getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    mViewFlipper.showPrevious();
+                    RepositoriesAdapter adapter = ((RepositoriesAdapter) mRecyclerView.getAdapter());
+                    if(adapter != null) {
+                        adapter.fetchPage(1);
+                    }
+                }
+            });
+        }
+    }
+
+    @Override
+    public void onNetworkLost() {
+        if (this.getActivity() != null && this.mViewFlipper != null && this.mViewFlipper.getDisplayedChild() == 0) {
+            this.getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    mViewFlipper.showNext();
+                }
+            });
+        }
     }
 }

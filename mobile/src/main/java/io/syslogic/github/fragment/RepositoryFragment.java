@@ -1,6 +1,7 @@
 package io.syslogic.github.fragment;
 
 import android.annotation.SuppressLint;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,12 +16,13 @@ import com.google.gson.JsonParser;
 import java.io.IOException;
 
 import androidx.annotation.NonNull;
-
 import androidx.databinding.ViewDataBinding;
+
 import io.syslogic.github.R;
 import io.syslogic.github.constants.Constants;
 import io.syslogic.github.databinding.RepositoryFragmentBinding;
 import io.syslogic.github.model.Repository;
+import io.syslogic.github.network.IConnectivityListener;
 import io.syslogic.github.retrofit.GithubClient;
 import io.syslogic.github.retrofit.GithubService;
 
@@ -28,7 +30,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class RepositoryFragment extends BaseFragment {
+public class RepositoryFragment extends BaseFragment implements IConnectivityListener {
 
     /** {@link Log} Tag */
     private static final String LOG_TAG = RepositoryFragment.class.getSimpleName();
@@ -53,26 +55,40 @@ public class RepositoryFragment extends BaseFragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
+
         Bundle args = this.getArguments();
         if(itemId == 0 && args != null) {
             this.setItemId(args.getLong(Constants.ARGUMENT_ITEM_ID));
         }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            this.registerNetworkCallback(this.getContext(), this);
+        } else {
+            this.registerBroadcastReceiver(this.getContext());
+        }
     }
 
+    @SuppressLint("SetJavaScriptEnabled")
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         this.mDataBinding = RepositoryFragmentBinding.inflate(inflater, container, false);
         View layout = this.mDataBinding.getRoot();
-        this.setRepository(layout);
+        if(this.getContext() != null) {
+            this.mViewFlipper = layout.findViewById(R.id.viewflipper_offline);
+            if(! isNetworkAvailable(this.getContext())) {
+                this.onNetworkLost();
+            } else {
+                this.mWebView = layout.findViewById(R.id.webview_preview);
+                this.mWebView.getSettings().setJavaScriptEnabled(true);
+                this.setRepository();
+            }
+        }
         return layout;
     }
 
-    @SuppressLint("SetJavaScriptEnabled")
-    private void setRepository(View view) {
-
-        this.mWebView = view.findViewById(R.id.webview_preview);
-        this.mWebView.getSettings().setJavaScriptEnabled(true);
+    private void setRepository() {
 
         if(this.itemId != 0) {
 
@@ -141,5 +157,30 @@ public class RepositoryFragment extends BaseFragment {
 
     private RepositoryFragmentBinding getDataBinding() {
         return this.mDataBinding;
+    }
+
+    @Override
+    public void onNetworkAvailable() {
+        if (this.getActivity() != null && this.mViewFlipper != null && this.mViewFlipper.getDisplayedChild() == 1) {
+            this.getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    mViewFlipper.showPrevious();
+                    setRepository();
+                }
+            });
+        }
+    }
+
+    @Override
+    public void onNetworkLost() {
+        if (this.getActivity() != null && this.mViewFlipper != null && this.mViewFlipper.getDisplayedChild() == 0) {
+            this.getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    mViewFlipper.showNext();
+                }
+            });
+        }
     }
 }
