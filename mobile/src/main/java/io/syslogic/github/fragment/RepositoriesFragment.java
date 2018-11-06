@@ -1,5 +1,6 @@
 package io.syslogic.github.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -9,7 +10,7 @@ import android.widget.AdapterView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatSpinner;
-import androidx.fragment.app.Fragment;
+import androidx.databinding.ViewDataBinding;
 import androidx.recyclerview.widget.RecyclerView;
 
 import io.syslogic.github.BuildConfig;
@@ -21,14 +22,12 @@ import io.syslogic.github.recyclerview.RepositoriesAdapter;
 import io.syslogic.github.recyclerview.RepositoriesLinearView;
 import io.syslogic.github.recyclerview.RepositoriesScrollListener;
 
-public class RepositoriesFragment extends Fragment {
+public class RepositoriesFragment extends BaseFragment {
 
     /** {@link Log} Tag */
     private static final String LOG_TAG = RepositoriesFragment.class.getSimpleName();
 
-    /** Debug Output */
-    private static final boolean mDebug = BuildConfig.DEBUG;
-
+    /** the {@link ViewDataBinding} */
     private RepositoriesFragmentBinding mDataBinding;
 
     /** the {@link AppCompatSpinner} */
@@ -55,8 +54,17 @@ public class RepositoriesFragment extends Fragment {
 
             this.mRecyclerView = layout.findViewById(R.id.recyclerview_repositories);
             if (this.mRecyclerView.getAdapter() == null) {
-                this.mRecyclerView.setAdapter(new RepositoriesAdapter(this.getContext(), 1));
+
+                // E/RepositoriesAdapter: Unable to resolve host "api.github.com": No address associated with hostname
+                if(isNetworkAvailable(getContext())) {
+                    this.mRecyclerView.setAdapter(new RepositoriesAdapter(this.getContext(), 1));
+                } else {
+                    // E/RecyclerView: No adapter attached; skipping layout
+                    this.mRecyclerView.setAdapter(new RepositoriesAdapter(this.getContext(), 0));
+                    if(mDebug) {Log.e(LOG_TAG, "isNetworkAvailable() == FALSE");}
+                }
             }
+
 
             this.mSpinnerTopic = layout.findViewById(R.id.spinner_topic);
             this.mSpinnerTopic.setAdapter(new TopicsAdapter(this.getContext()));
@@ -66,7 +74,7 @@ public class RepositoriesFragment extends Fragment {
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                     if (count > 0) {
                         SpinnerItem item = (SpinnerItem) view.getTag();
-                        RepositoriesScrollListener.currentPage = 1;
+                        RepositoriesScrollListener.setPageNumber(1);
                         mRecyclerView.setQuery(item.getValue());
                         mRecyclerView.clearAdapter();
                     }

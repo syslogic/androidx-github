@@ -2,7 +2,7 @@ package io.syslogic.github.model;
 
 import androidx.databinding.Observable;
 
-public class BaseModel implements Observable {
+abstract public class BaseModel implements Observable {
 
     @Override
     public void addOnPropertyChangedCallback(OnPropertyChangedCallback callback) {
