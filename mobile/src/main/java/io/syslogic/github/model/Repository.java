@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 import androidx.databinding.Bindable;
 import androidx.databinding.Observable;
 
-public class Repository implements Observable {
+public class Repository extends BaseModel {
 
     @SerializedName("id")
     private long id;
@@ -133,15 +133,5 @@ public class Repository implements Observable {
     @Bindable
     public long getNetworkCount() {
         return this.networkCount;
-    }
-
-    @Override
-    public void addOnPropertyChangedCallback(OnPropertyChangedCallback callback) {
-
-    }
-
-    @Override
-    public void removeOnPropertyChangedCallback(OnPropertyChangedCallback callback) {
-
     }
 }

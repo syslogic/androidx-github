@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import androidx.databinding.Bindable;
 import androidx.databinding.Observable;
 
-public class Repositories implements Observable {
+public class Repositories extends BaseModel {
 
     @SerializedName("items")
     private ArrayList<Repository> mItems;
@@ -32,13 +32,4 @@ public class Repositories implements Observable {
         return this.count;
     }
 
-    @Override
-    public void addOnPropertyChangedCallback(OnPropertyChangedCallback callback) {
-
-    }
-
-    @Override
-    public void removeOnPropertyChangedCallback(OnPropertyChangedCallback callback) {
-
-    }
 }
