@@ -4,11 +4,11 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-public abstract class RepositoriesScrollListener extends RecyclerView.OnScrollListener {
+public abstract class ScrollListener extends RecyclerView.OnScrollListener {
 
     private LinearLayoutManager layoutManager;
 
-    private int visibleThreshold = 10;
+    private int visibleThreshold = 6;
 
     private int previousTotalItemCount = 0;
 
@@ -16,11 +16,11 @@ public abstract class RepositoriesScrollListener extends RecyclerView.OnScrollLi
 
     private boolean isLoading = true;
 
-    RepositoriesScrollListener(LinearLayoutManager layoutManager) {
+    ScrollListener(LinearLayoutManager layoutManager) {
         this.layoutManager = layoutManager;
     }
 
-    public RepositoriesScrollListener(LinearLayoutManager layoutManager, int threshold) {
+    public ScrollListener(LinearLayoutManager layoutManager, int threshold) {
         this.layoutManager = layoutManager;
         this.visibleThreshold = threshold;
     }

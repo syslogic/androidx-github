@@ -20,7 +20,7 @@ import io.syslogic.github.network.IConnectivityListener;
 import io.syslogic.github.spinner.TopicsAdapter;
 import io.syslogic.github.recyclerview.RepositoriesAdapter;
 import io.syslogic.github.recyclerview.RepositoriesLinearView;
-import io.syslogic.github.recyclerview.RepositoriesScrollListener;
+import io.syslogic.github.recyclerview.ScrollListener;
 
 public class RepositoriesFragment extends BaseFragment  implements IConnectivityListener {
 
@@ -81,7 +81,7 @@ public class RepositoriesFragment extends BaseFragment  implements IConnectivity
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                     if (count > 0) {
                         SpinnerItem item = (SpinnerItem) view.getTag();
-                        RepositoriesScrollListener.setPageNumber(1);
+                        ScrollListener.setPageNumber(1);
                         mRecyclerView.setQueryString(item.getValue());
                         if (mRecyclerView.getAdapter() != null) {
                             mRecyclerView.clearAdapter();

@@ -37,7 +37,7 @@ public class TestMainActivity extends TestSuite {
         UiObject2 recyclerview = this.mDevice.findObject(By.res(this.packageName, "recyclerview_repositories"));
         int pages = 16;
         for(int page = 0; page < pages; page++) {
-            flingUp(recyclerview, 2000, 2000);
+            flingUp(recyclerview, 4000, 200);
         }
         assertThat(recyclerview.getChildCount() > 0, is(equalTo(true)));
     }

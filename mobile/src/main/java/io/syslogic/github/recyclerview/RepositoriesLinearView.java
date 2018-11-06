@@ -12,7 +12,7 @@ public class RepositoriesLinearView extends RecyclerView {
 
     LinearLayoutManager mLinearLayoutManager;
 
-    RepositoriesScrollListener scrollListener;
+    ScrollListener scrollListener;
 
     /** Constructor */
     public RepositoriesLinearView(@NonNull Context context) {
@@ -29,7 +29,7 @@ public class RepositoriesLinearView extends RecyclerView {
 
         this.addItemDecoration(new DividerItemDecoration(context, DividerItemDecoration.VERTICAL));
 
-        this.scrollListener = new RepositoriesScrollListener(this.mLinearLayoutManager) {
+        this.scrollListener = new ScrollListener(this.mLinearLayoutManager) {
             @Override
             public boolean onLoadPage(int pageNumber, int totalItemsCount) {
                 RepositoriesAdapter adapter = ((RepositoriesAdapter) getAdapter());
