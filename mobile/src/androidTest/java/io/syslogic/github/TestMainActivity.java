@@ -1,5 +1,6 @@
 package io.syslogic.github;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,8 +13,6 @@ import androidx.test.uiautomator.UiObject2;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
-
-import static org.junit.Assert.assertThat;
 
 /**
  * Main Activity UiAutomator TestCase
@@ -38,7 +37,7 @@ public class TestMainActivity extends TestSuite {
         for(int page = 0; page < pages; page++) {
             flingUp(recyclerview, 4000, 200);
         }
-        assertThat(recyclerview.getChildCount() > 0, is(equalTo(true)));
+        Assert.assertThat(recyclerview.getChildCount() > 0, is(equalTo(true)));
     }
 
     @Test

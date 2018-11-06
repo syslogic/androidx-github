@@ -1,5 +1,6 @@
 package io.syslogic.github;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,8 +12,6 @@ import androidx.test.uiautomator.UiObject2;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
-
-import static org.junit.Assert.assertThat;
 
 /**
  * Detail Activity UiAutomator TestCase
@@ -33,6 +32,6 @@ public class TestDetailActivity extends TestSuite {
     @Test
     public void WebView() {
         UiObject2 layout = this.mDevice.findObject(By.res(this.packageName, "webview_preview"));
-        assertThat(true, is(equalTo(true)));
+        Assert.assertThat(true, is(equalTo(true)));
     }
 }

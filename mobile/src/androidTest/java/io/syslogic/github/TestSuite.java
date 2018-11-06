@@ -7,12 +7,12 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.os.Bundle;
 
-import org.hamcrest.CoreMatchers;
 import org.junit.Assert;
 import org.junit.runner.RunWith;
 
 import java.util.List;
 
+import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.uiautomator.By;
 import androidx.test.uiautomator.Direction;
 import androidx.test.uiautomator.StaleObjectException;
@@ -22,14 +22,10 @@ import androidx.test.uiautomator.Until;
 
 import io.syslogic.github.constants.Constants;
 
-import androidx.test.platform.app.InstrumentationRegistry;
-
+import static org.hamcrest.core.IsNull.notNullValue;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
-
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.fail;
 
 /**
  * Graphical User Interface Test TestSuite
@@ -72,14 +68,14 @@ public class TestSuite {
 
         /* initialize UiDevice */
         this.mDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
-        Assert.assertThat(this.mDevice, CoreMatchers.notNullValue());
+        Assert.assertThat(this.mDevice, notNullValue());
 
         /* start from the home screen */
         this.mDevice.pressHome();
 
         /* obtain the launcher package */
         String launcherPackage = getLauncherPackageName();
-        Assert.assertThat(launcherPackage, CoreMatchers.notNullValue());
+        Assert.assertThat(launcherPackage, notNullValue());
 
         /* wait for launcher */
         this.mDevice.wait(Until.hasObject(By.pkg(launcherPackage).depth(0)), LAUNCH_TIMEOUT);
@@ -110,11 +106,11 @@ public class TestSuite {
     }
 
     protected void flingUp(UiObject2 view, int speed, int pause) {
-        assertThat(view, not(equalTo(null)));
+        Assert.assertThat(view, not(equalTo(null)));
         try {
             view.fling(Direction.DOWN, speed);
         } catch (StaleObjectException e) {
-            fail();
+            Assert.fail();
         }
         sleep(pause);
     }
@@ -122,15 +118,15 @@ public class TestSuite {
     public void clickSpinnerItem(String spinnerName, int itemIndex) {
 
         UiObject2 spinner = this.mDevice.findObject(By.res(this.packageName, spinnerName));
-        assertThat(spinner.isClickable(), is(equalTo(true)));
+        Assert.assertThat(spinner.isClickable(), is(equalTo(true)));
         spinner.click();
         sleep(2000);
 
         List<UiObject2> items = this.mDevice.findObjects(By.res("android:id/text1"));
-        assertThat(items.size() > itemIndex, is(equalTo(true)));
+        Assert.assertThat(items.size() > itemIndex, is(equalTo(true)));
 
         UiObject2 item = items.get(itemIndex);
-        assertThat(item.isClickable(), is(equalTo(true)));
+        Assert.assertThat(item.isClickable(), is(equalTo(true)));
         item.click(500);
         sleep(2000);
     }
