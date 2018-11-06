@@ -15,6 +15,7 @@ import java.util.List;
 
 import androidx.test.uiautomator.By;
 import androidx.test.uiautomator.Direction;
+import androidx.test.uiautomator.StaleObjectException;
 import androidx.test.uiautomator.UiDevice;
 import androidx.test.uiautomator.UiObject2;
 import androidx.test.uiautomator.Until;
@@ -26,6 +27,7 @@ import androidx.test.platform.app.InstrumentationRegistry;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.fail;
 
 /**
  * Graphical User Interface Test TestSuite
@@ -106,20 +108,27 @@ public class TestSuite {
     }
 
     protected void flingUp(UiObject2 view, int speed, int pause) {
-        view.fling(Direction.DOWN, speed);
+        try {
+            view.fling(Direction.DOWN, speed);
+        } catch (StaleObjectException e) {
+            fail();
+        }
         sleep(pause);
     }
 
     public void clickSpinnerItem(String spinnerName, int itemIndex) {
 
-        UiObject2 view = this.mDevice.findObject(By.res(this.packageName, spinnerName));
-        view.click();
+        UiObject2 spinner = this.mDevice.findObject(By.res(this.packageName, spinnerName));
+        assertThat(spinner.isClickable(), is(equalTo(true)));
+        spinner.click();
         sleep(2000);
 
         List<UiObject2> items = this.mDevice.findObjects(By.res("android:id/text1"));
         assertThat(items.size() > itemIndex, is(equalTo(true)));
 
-        items.get(itemIndex).click(500);
+        UiObject2 item = items.get(itemIndex);
+        assertThat(item.isClickable(), is(equalTo(true)));
+        item.click(500);
         sleep(2000);
     }
 
