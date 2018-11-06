@@ -30,6 +30,8 @@ import io.syslogic.github.R;
 import io.syslogic.github.activity.DetailActivity;
 import io.syslogic.github.constants.Constants;
 import io.syslogic.github.databinding.RepositoryViewHolderBinding;
+import io.syslogic.github.model.RateLimit;
+import io.syslogic.github.model.RateLimits;
 import io.syslogic.github.model.Repositories;
 import io.syslogic.github.model.Repository;
 import io.syslogic.github.retrofit.GithubClient;
@@ -134,13 +136,17 @@ public class RepositoriesAdapter extends RecyclerView.Adapter {
                                 JsonObject jsonObject = (new JsonParser()).parse(errors).getAsJsonObject();
                                 String message = jsonObject.get("message").toString();
                                 if(mDebug) {
-                                    Toast.makeText(mContext, message, Toast.LENGTH_LONG).show();
+                                    // Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show();
                                     Log.e(LOG_TAG, message);
                                 }
+
+                                getSearchQuota();
+
+
                             } catch (IOException e) {
                                 if(mDebug) {Log.e(LOG_TAG, e.getMessage());}
                             }
-                            /* TODO: reset the scrollListener. */
+                            /* TODO: reset the scroll listener. */
                         }
                         break;
                     }
@@ -150,6 +156,40 @@ public class RepositoriesAdapter extends RecyclerView.Adapter {
             @Override
             public void onFailure(@NonNull Call<Repositories> call, @NonNull Throwable t) {
                 if(mDebug) {Log.e(LOG_TAG, t.getMessage());}
+            }
+        });
+    }
+
+    protected void getSearchQuota() {
+
+        GithubService service = GithubClient.getService();
+        Call<RateLimits> api = service.getRateLimits();
+        if (mDebug) {Log.w(LOG_TAG, api.request().url() + "");}
+
+        api.enqueue(new Callback<RateLimits>() {
+
+            @Override
+            public void onResponse(@NonNull Call<RateLimits> call, @NonNull Response<RateLimits> response) {
+                switch(response.code()) {
+                    case 200: {
+                        if (response.body() != null) {
+                            RateLimits items = response.body();
+                            RateLimit search = items.getResources().getSearch();
+                            if(mDebug) {
+                                long seconds = Math.round((new Date(search.getReset() * 1000).getTime() - new Date().getTime()) / 1000);
+                                String quota = String.format(Locale.getDefault(), "search quota: %d / %d. reset in %d seconds.", search.getRemaining(), search.getLimit(), seconds);
+                                Toast.makeText(mContext, quota, Toast.LENGTH_SHORT).show();
+                                Log.d(LOG_TAG, quota);
+                            }
+                        }
+                        break;
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<RateLimits> call, @NonNull Throwable t) {
+                if (mDebug) {Log.e(LOG_TAG, t.getMessage());}
             }
         });
     }
