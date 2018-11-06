@@ -53,7 +53,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter {
 
     private Context mContext;
 
-    private String queryString;
+    private String queryString = "language\\:android";
 
     public RepositoriesAdapter(Context context, int pageNumber) {
 
