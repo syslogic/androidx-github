@@ -91,7 +91,6 @@ public class RepositoriesAdapter extends RecyclerView.Adapter {
         return this.mItems.size();
     }
 
-
     private void addAll(ArrayList<Repository> items) {
         this.mItems.addAll(items);
     }

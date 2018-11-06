@@ -1,5 +1,6 @@
 package io.syslogic.github.retrofit;
 
+import io.syslogic.github.model.RateLimits;
 import io.syslogic.github.model.Repositories;
 import io.syslogic.github.model.Repository;
 
@@ -10,9 +11,13 @@ import retrofit2.http.Query;
 
 /**
  * @see <a href="https://developer.github.com/v3/">api v3</>
+ * @see <a href="https://developer.github.com/v3/rate_limit/">rate limit</>
  * @see <a href="https://developer.github.com/v3/search/#search-repositories">search</>
 **/
 public interface GithubService {
+
+    @GET("rate_limit")
+    Call<RateLimits> getRateLimits();
 
     @GET("search/repositories")
     Call<Repositories> getRepositories(

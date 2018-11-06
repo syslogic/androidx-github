@@ -67,6 +67,7 @@ public class RepositoriesFragment extends BaseFragment  implements IConnectivity
             this.mRecyclerView = layout.findViewById(R.id.recyclerview_repositories);
             if (this.mRecyclerView.getAdapter() == null) {
                 if(isNetworkAvailable(this.getContext())) {
+                    this.getSearchQuota();
                     this.mRecyclerView.setAdapter(new RepositoriesAdapter(this.getContext(), 1));
                 } else {
                     this.onNetworkLost();
