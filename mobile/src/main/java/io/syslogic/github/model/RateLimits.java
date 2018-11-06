@@ -4,7 +4,6 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 
-
 public class RateLimits {
 
     @SerializedName("resources")
@@ -20,7 +19,6 @@ public class RateLimits {
     public Resources getResources() {
         return this.resources;
     }
-
 
     public void setRate(RateLimit item) {
         this.rates = item;
