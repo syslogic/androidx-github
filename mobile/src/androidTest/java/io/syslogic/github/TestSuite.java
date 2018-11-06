@@ -30,7 +30,7 @@ import androidx.test.platform.app.InstrumentationRegistry;
 @org.junit.runners.Suite.SuiteClasses({TestMainActivity.class, TestDetailActivity.class})
 public class TestSuite {
 
-    private static final int LAUNCH_TIMEOUT = 5000;
+    protected static final int LAUNCH_TIMEOUT = 5000;
 
     protected String packageName;
 
@@ -99,8 +99,8 @@ public class TestSuite {
         return this.mDevice.findObject(By.res(this.packageName, resourceId));
     }
 
-    protected void scollDown(UiObject2 view, int percent, int pause) {
-        view.scroll(Direction.DOWN, percent);
+    protected void flingUp(UiObject2 view, int speed, int pause) {
+        view.fling(Direction.DOWN, speed);
         sleep(pause);
     }
 
