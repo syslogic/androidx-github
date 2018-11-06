@@ -56,6 +56,7 @@ public class TopicsAdapter extends BaseAdapter {
     private void setContext(Context context) {
         this.mContext = context;
     }
+
     private void setItems() {
         if (this.mItems != null) {this.mItems.clear();}
         else {this.mItems = new ArrayList<>();}

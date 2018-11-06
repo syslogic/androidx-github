@@ -52,8 +52,8 @@ public class RepositoriesLinearView extends RecyclerView {
         }
     }
 
-    public void setQuery(String value) {
+    public void setQueryString(String value) {
         RepositoriesAdapter adapter = ((RepositoriesAdapter) getAdapter());
-        if (adapter != null) {adapter.setQuery(value);}
+        if (adapter != null) {adapter.setQueryString(value);}
     }
 }
