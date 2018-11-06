@@ -117,7 +117,7 @@ public class TestSuite {
         sleep(2000);
 
         List<UiObject2> items = this.mDevice.findObjects(By.res("android:id/text1"));
-        assertThat(items.size() > 0, is(equalTo(true)));
+        assertThat(items.size() > itemIndex, is(equalTo(true)));
 
         items.get(itemIndex).click(500);
         sleep(2000);
