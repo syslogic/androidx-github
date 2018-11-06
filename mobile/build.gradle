@@ -113,5 +113,6 @@ dependencies {
     // https://mvnrepository.com/artifact/androidx.test.uiautomator/uiautomator
     androidTestImplementation "androidx.test.uiautomator:uiautomator:2.2.0"
 
+    // https://mvnrepository.com/artifact/androidx.test.espresso
     // androidTestImplementation "androidx.test.espresso:espresso-core:3.1.0"
 }
