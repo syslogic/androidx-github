@@ -11,6 +11,7 @@ import androidx.test.uiautomator.UiObject2;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
+
 import static org.junit.Assert.assertThat;
 
 /**
