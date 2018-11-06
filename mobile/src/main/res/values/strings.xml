@@ -3,35 +3,12 @@
 
     <string name="app_name">Trending on Github</string>
 
+    <string name="text_device_offline">the device appears to be offline</string>
+
     <string name="text_forks">forks</string>
     <string name="text_stargazers">stargazers</string>
     <string name="text_watchers">watchers</string>
     <string name="text_subscribers">subscribers</string>
     <string name="text_networks">networks</string>
-
-    <plurals name="forks">
-        <item quantity="one">fork</item>
-        <item quantity="other">forks</item>
-    </plurals>
-
-    <plurals name="stargazers">
-        <item quantity="one">stargazer</item>
-        <item quantity="other">stargazers</item>
-    </plurals>
-
-    <plurals name="watchers">
-        <item quantity="one">watcher</item>
-        <item quantity="other">watchers</item>
-    </plurals>
-
-    <plurals name="subscribers">
-        <item quantity="one">subscriber</item>
-        <item quantity="other">subscribers</item>
-    </plurals>
-
-    <plurals name="networks">
-        <item quantity="one">network</item>
-        <item quantity="other">networks</item>
-    </plurals>
 
 </resources>

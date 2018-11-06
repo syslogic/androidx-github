@@ -34,7 +34,7 @@
                 android:gravity="center_vertical|start"
                 android:padding="8dp"
                 android:text="@{repository.fullName}"
-                android:textColor="#143D55"
+                android:textColor="@color/colorText"
                 android:textSize="14sp"/>
 
             <androidx.appcompat.widget.LinearLayoutCompat
@@ -52,7 +52,7 @@
                     android:gravity="start"
                     android:text='@{""+repository.forkCount}'
                     android:textAlignment="center"
-                    android:textColor="#143D55"
+                    android:textColor="@color/colorText"
                     android:textSize="12sp"
                     tools:text="151"/>
 
@@ -64,7 +64,7 @@
                     android:labelFor="@id/forkCount"
                     android:text="@string/text_forks"
                     android:textAlignment="center"
-                    android:textColor="#143D55"
+                    android:textColor="@color/colorText"
                     android:textSize="10sp"/>
             </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -83,7 +83,7 @@
                     android:gravity="start"
                     android:text='@{""+repository.watcherCount}'
                     android:textAlignment="center"
-                    android:textColor="#143D55"
+                    android:textColor="@color/colorText"
                     android:textSize="12sp"
                     tools:text="4855"/>
 
@@ -95,7 +95,7 @@
                     android:labelFor="@id/watcherCount"
                     android:text="@string/text_watchers"
                     android:textAlignment="center"
-                    android:textColor="#143D55"
+                    android:textColor="@color/colorText"
                     android:textSize="10sp"/>
             </androidx.appcompat.widget.LinearLayoutCompat>
 

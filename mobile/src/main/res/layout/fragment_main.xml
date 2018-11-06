@@ -9,25 +9,39 @@
         <variable name="repository" type="io.syslogic.github.model.Repositories"/>
     </data>
 
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:id="@+id/layout_repositories"
+    <ViewFlipper
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:id="@+id/viewflipper_offline">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/layout_repositories"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <include
+                android:id="@+id/toolbar_query"
+                layout="@layout/toolbar_query"
+                android:layout_width="match_parent"
+                android:layout_height="?android:attr/actionBarSize"
+                android:layout_margin="0dp"/>
+
+            <io.syslogic.github.recyclerview.RepositoriesLinearView
+                android:id="@+id/recyclerview_repositories"
+                tools:listitem="@layout/cardview_repository"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
         <include
-            android:id="@+id/toolbar_query"
-            layout="@layout/toolbar_query"
+            android:id="@+id/layout_offline"
+            layout="@layout/fragment_offline"
             android:layout_width="match_parent"
-            android:layout_height="?android:attr/actionBarSize"
+            android:layout_height="match_parent"
             android:layout_margin="0dp"/>
 
-        <io.syslogic.github.recyclerview.RepositoriesLinearView
-            android:id="@+id/recyclerview_repositories"
-            tools:listitem="@layout/cardview_repository"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-
-    </androidx.appcompat.widget.LinearLayoutCompat>
+    </ViewFlipper>
 
 </layout>
