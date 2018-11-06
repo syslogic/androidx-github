@@ -55,7 +55,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter {
 
     private Context mContext;
 
-    private String queryString = "language\\:android";
+    private String queryString = "topic:android";
 
     public RepositoriesAdapter(Context context, int pageNumber) {
 

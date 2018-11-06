@@ -21,10 +21,10 @@ public interface GithubService {
 
     @GET("search/repositories")
     Call<Repositories> getRepositories(
-        @Query("q")     String query,
-        @Query("sort")  String sort,
-        @Query("order") String order,
-        @Query("page")  int pageNumber
+        @Query(value = "q", encoded = true) String query,
+        @Query(value = "sort") String sort,
+        @Query(value = "order") String order,
+        @Query(value = "page") int pageNumber
     );
 
     @GET("repositories/{id}")
