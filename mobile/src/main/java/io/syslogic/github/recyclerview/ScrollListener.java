@@ -12,7 +12,7 @@ public abstract class ScrollListener extends RecyclerView.OnScrollListener {
 
     private int previousTotalItemCount = 0;
 
-    public static int currentPage = 1;
+    private static int currentPage = 1;
 
     private boolean isLoading = true;
 
@@ -20,15 +20,17 @@ public abstract class ScrollListener extends RecyclerView.OnScrollListener {
         this.layoutManager = layoutManager;
     }
 
-    public ScrollListener(LinearLayoutManager layoutManager, int threshold) {
-        this.layoutManager = layoutManager;
-        this.visibleThreshold = threshold;
-    }
-
-    public static void setPageNumber(int value) {
-        currentPage = value;
-    }
-
+    /**
+     * Callback method to be invoked when the RecyclerView has been scrolled.
+     * This will be called after the scroll has completed.
+     *
+     * This callback will also be called if visible item range changes
+     * after a layout calculation. In that case, dx and dy will be 0.
+     *
+     * @param recyclerView The RecyclerView which scrolled.
+     * @param dx The amount of horizontal scroll.
+     * @param dy The amount of vertical scroll.
+    **/
     @Override
     public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
 
@@ -43,16 +45,20 @@ public abstract class ScrollListener extends RecyclerView.OnScrollListener {
             if (totalItemCount == 0) {this.isLoading = true;}
         }
 
-		if (isLoading && (totalItemCount > previousTotalItemCount)) {
+        if (isLoading && (totalItemCount > previousTotalItemCount)) {
             isLoading = false;
             previousTotalItemCount = totalItemCount;
             currentPage ++;
         }
 
-		if (! isLoading && (firstVisibleItem + visibleItemCount + visibleThreshold) >= totalItemCount ) {
+        if (! isLoading && (firstVisibleItem + visibleItemCount + visibleThreshold) >= totalItemCount ) {
             isLoading = onLoadPage(currentPage, totalItemCount);
         }
     }
+    public static void setPageNumber(int value) {
+        currentPage = value;
+    }
+
 
     public abstract boolean onLoadPage(int pageNumber, int totalCount);
 }
