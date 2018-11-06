@@ -17,9 +17,6 @@ android {
 
         testBuildType "debug"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        // useLibrary 'android.test.runner'
-        // useLibrary 'android.test.base'
-        // useLibrary 'android.test.mock'
     }
 
     testOptions {
@@ -104,10 +101,17 @@ dependencies {
         exclude group: "com.google.code.gson"
     }
 
+    // https://mvnrepository.com/artifact/androidx.test
     androidTestImplementation "androidx.test:core:${androidxVersion}"
-    androidTestImplementation "androidx.test.ext:junit:${androidxVersion}"
     androidTestImplementation "androidx.test:runner:1.1.0"
     androidTestImplementation "androidx.test:rules:1.1.0"
+
+    // https://mvnrepository.com/artifact/androidx.test.ext
+    androidTestImplementation "androidx.test.ext:junit:${androidxVersion}"
+    // androidTestImplementation "androidx.test.ext:truth:${androidxVersion}"
+
+    // https://mvnrepository.com/artifact/androidx.test.uiautomator/uiautomator
+    androidTestImplementation "androidx.test.uiautomator:uiautomator:2.2.0"
+
     // androidTestImplementation "androidx.test.espresso:espresso-core:3.1.0"
-    androidTestImplementation "com.android.support.test.uiautomator:uiautomator-v18:2.1.3"
 }
