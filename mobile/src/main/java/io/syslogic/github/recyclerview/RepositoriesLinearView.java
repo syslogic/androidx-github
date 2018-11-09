@@ -56,4 +56,8 @@ public class RepositoriesLinearView extends RecyclerView {
         RepositoriesAdapter adapter = ((RepositoriesAdapter) getAdapter());
         if (adapter != null) {adapter.setQueryString(value);}
     }
+
+    public ScrollListener getOnScrollListener() {
+        return this.scrollListener;
+    }
 }

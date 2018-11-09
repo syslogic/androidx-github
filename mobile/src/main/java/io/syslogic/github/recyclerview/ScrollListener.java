@@ -36,13 +36,13 @@ public abstract class ScrollListener extends RecyclerView.OnScrollListener {
 
         super.onScrolled(recyclerView, dx, dy);
 
-        int visibleItemCount = layoutManager.getChildCount();
         int totalItemCount   = layoutManager.getItemCount();
+        int visibleItemCount = layoutManager.getChildCount();
         int firstVisibleItem = layoutManager.findFirstVisibleItemPosition();
 
         if (totalItemCount < previousTotalItemCount) {
             this.previousTotalItemCount = totalItemCount;
-            if (totalItemCount == 0) {this.isLoading = true;}
+            if (totalItemCount == 0) {isLoading = true;}
         }
 
         if (isLoading && (totalItemCount > previousTotalItemCount)) {
@@ -55,10 +55,14 @@ public abstract class ScrollListener extends RecyclerView.OnScrollListener {
             isLoading = onLoadPage(currentPage, totalItemCount);
         }
     }
+
     public static void setPageNumber(int value) {
         currentPage = value;
     }
 
+    public void setIsLoading(boolean value) {
+        isLoading = value;
+    }
 
     public abstract boolean onLoadPage(int pageNumber, int totalCount);
 }

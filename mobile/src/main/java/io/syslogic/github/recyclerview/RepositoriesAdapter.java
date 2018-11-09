@@ -51,6 +51,8 @@ public class RepositoriesAdapter extends RecyclerView.Adapter {
 
     private ArrayList<Repository> mItems = new ArrayList<>();
 
+    private RecyclerView mRecyclerView;
+
     private long totalItemCount = 0;
 
     private Context mContext;
@@ -58,12 +60,16 @@ public class RepositoriesAdapter extends RecyclerView.Adapter {
     private String queryString = "topic:android";
 
     public RepositoriesAdapter(Context context, int pageNumber) {
-
         this.mContext = context;
-        this.fetchPage(pageNumber);
-
         String defaultQuery = context.getResources().getStringArray(R.array.queryStrings)[0];
         this.setQueryString(defaultQuery);
+        this.fetchPage(pageNumber);
+    }
+
+    @Override
+    public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
+        this.mRecyclerView = recyclerView;
     }
 
     @NonNull
@@ -142,11 +148,11 @@ public class RepositoriesAdapter extends RecyclerView.Adapter {
 
                                 getSearchQuota();
 
-
                             } catch (IOException e) {
                                 if(mDebug) {Log.e(LOG_TAG, e.getMessage());}
                             }
-                            /* TODO: reset the scroll listener. */
+
+                            resetOnScollListener();
                         }
                         break;
                     }
@@ -160,7 +166,15 @@ public class RepositoriesAdapter extends RecyclerView.Adapter {
         });
     }
 
-    protected void getSearchQuota() {
+    /** reset the scroll listener. */
+    private void resetOnScollListener() {
+        if(mRecyclerView.getAdapter() != null) {
+            ScrollListener listener = ((RepositoriesLinearView) mRecyclerView).getOnScrollListener();
+            listener.setIsLoading(false);
+        }
+    }
+
+    private void getSearchQuota() {
 
         GithubService service = GithubClient.getService();
         Call<RateLimits> api = service.getRateLimits();
@@ -181,6 +195,11 @@ public class RepositoriesAdapter extends RecyclerView.Adapter {
                                 Toast.makeText(mContext, quota, Toast.LENGTH_SHORT).show();
                                 Log.d(LOG_TAG, quota);
                             }
+
+                            /* possible border-case: */
+                            if(search.getRemaining() > 0) {
+                                if(mDebug) {Log.d(LOG_TAG, "the quota was reset already");}
+                            }
                         }
                         break;
                     }
@@ -194,7 +213,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter {
         });
     }
 
-    public void clearItems() {
+    void clearItems() {
         this.mItems.clear();
         notifyItemRangeChanged(0, getItemCount());
     }
