@@ -11,6 +11,7 @@ project.ext.set('targetSdkVersion',  new Integer(version['targetSdkVersion']))
 project.ext.set('minSdkVersion',     new Integer(version['minSdkVersion']))
 project.ext.set('androidxVersion',   version['androidxVersion'])
 project.ext.set('retrofitVersion',   version['retrofitVersion'])
+project.ext.set('navVersion',        version['navVersion'])
 
 buildscript {
     repositories {
@@ -19,6 +20,7 @@ buildscript {
     }
     dependencies {
         classpath "com.android.tools.build:gradle:3.2.1"
+        classpath "android.arch.navigation:navigation-safe-args-gradle-plugin:1.0.0-alpha07"
     }
 }
 

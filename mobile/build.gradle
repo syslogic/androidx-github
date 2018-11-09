@@ -1,8 +1,10 @@
 // :mobile build.gradle
 apply plugin: "com.android.application"
+apply plugin: "androidx.navigation.safeargs"
 
 def androidxVersion = rootProject.ext.get('androidxVersion')
 def retrofitVersion = rootProject.ext.get('retrofitVersion')
+def navVersion = rootProject.ext.get('navVersion')
 
 android {
 
@@ -83,10 +85,15 @@ dependencies {
 
     // https://developer.android.com/jetpack/androidx/
     api "androidx.appcompat:appcompat:1.0.2"
-    api "android.arch.navigation:navigation-fragment:${androidxVersion}-alpha07"
     api "androidx.recyclerview:recyclerview:${androidxVersion}"
     api "androidx.annotation:annotation:${androidxVersion}"
     api "androidx.cardview:cardview:${androidxVersion}"
+
+    // https://mvnrepository.com/artifact/android.arch.navigation/navigation-fragment
+    api "android.arch.navigation:navigation-fragment:${navVersion}"
+
+    // https://mvnrepository.com/artifact/android.arch.navigation/navigation-ui
+    api "android.arch.navigation:navigation-ui:${navVersion}"
 
     // https://mvnrepository.com/artifact/com.google.code.gson/gson
     api "com.google.code.gson:gson:2.8.5"
@@ -111,6 +118,9 @@ dependencies {
     androidTestImplementation "androidx.test.ext:junit:${androidxVersion}"
     // androidTestImplementation "androidx.test.ext:truth:${androidxVersion}"
     // androidTestImplementation "com.google.truth:truth:0.42"
+
+    // https://mvnrepository.com/artifact/android.arch.navigation/navigation-testing
+    androidTestImplementation "android.arch.navigation:navigation-testing:${navVersion}"
 
     // https://mvnrepository.com/artifact/androidx.test.uiautomator/uiautomator
     androidTestImplementation "androidx.test.uiautomator:uiautomator:2.2.0"
