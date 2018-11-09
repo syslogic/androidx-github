@@ -82,9 +82,10 @@ android {
 dependencies {
 
     // https://developer.android.com/jetpack/androidx/
-    api "androidx.appcompat:appcompat:${androidxVersion}"
-    api "androidx.annotation:annotation:${androidxVersion}"
+    api "androidx.appcompat:appcompat:1.0.2"
+    api "android.arch.navigation:navigation-fragment:${androidxVersion}-alpha07"
     api "androidx.recyclerview:recyclerview:${androidxVersion}"
+    api "androidx.annotation:annotation:${androidxVersion}"
     api "androidx.cardview:cardview:${androidxVersion}"
 
     // https://mvnrepository.com/artifact/com.google.code.gson/gson
