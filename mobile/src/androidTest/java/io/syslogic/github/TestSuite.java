@@ -33,7 +33,7 @@ import static org.hamcrest.CoreMatchers.not;
  * @version 1.0.0
 **/
 @RunWith(org.junit.runners.Suite.class)
-@org.junit.runners.Suite.SuiteClasses({TestMainActivity.class, TestDetailActivity.class})
+@org.junit.runners.Suite.SuiteClasses({TestMainActivity.class})
 public class TestSuite {
 
     protected static final int LAUNCH_TIMEOUT = 5000;
