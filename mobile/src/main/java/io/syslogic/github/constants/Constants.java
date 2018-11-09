@@ -6,4 +6,5 @@ public final class Constants {
 
     public static final String ARGUMENT_ITEM_ID    = "itemId";
 
+    public static final int PARAMETER_PUSHED_WITHIN_LAST_DAYS = 90;
 }

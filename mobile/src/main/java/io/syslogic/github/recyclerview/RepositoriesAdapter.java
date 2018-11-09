@@ -106,7 +106,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter {
     private String getQueryString() {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(new Date());
-        calendar.add(Calendar.DAY_OF_YEAR, -90);
+        calendar.add(Calendar.DAY_OF_YEAR, -Constants.PARAMETER_PUSHED_WITHIN_LAST_DAYS);
         String isodate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(calendar.getTime());
         return queryString + "+pushed:>" + isodate;
     }
@@ -140,19 +140,12 @@ public class RepositoriesAdapter extends RecyclerView.Adapter {
                             try {
                                 String errors = response.errorBody().string();
                                 JsonObject jsonObject = (new JsonParser()).parse(errors).getAsJsonObject();
-                                String message = jsonObject.get("message").toString();
-                                if(mDebug) {
-                                    // Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show();
-                                    Log.e(LOG_TAG, message);
-                                }
-
-                                getSearchQuota();
-
+                                if(mDebug) {Log.e(LOG_TAG, jsonObject.get("message").toString());}
                             } catch (IOException e) {
                                 if(mDebug) {Log.e(LOG_TAG, e.getMessage());}
                             }
-
                             resetOnScollListener();
+                            getSearchQuota();
                         }
                         break;
                     }
