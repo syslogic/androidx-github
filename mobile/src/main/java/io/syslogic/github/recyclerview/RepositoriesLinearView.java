@@ -10,8 +10,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class RepositoriesLinearView extends RecyclerView {
 
-    LinearLayoutManager mLinearLayoutManager;
-
     ScrollListener scrollListener;
 
     /** Constructor */
@@ -24,12 +22,9 @@ public class RepositoriesLinearView extends RecyclerView {
 
         super(context, attrs);
 
-        this.mLinearLayoutManager = new LinearLayoutManager(this.getContext());
-        this.setLayoutManager(this.mLinearLayoutManager);
-
         this.addItemDecoration(new DividerItemDecoration(context, DividerItemDecoration.VERTICAL));
 
-        this.scrollListener = new ScrollListener(this.mLinearLayoutManager) {
+        this.scrollListener = new ScrollListener((LinearLayoutManager) this.getLayoutManager()) {
             @Override
             public boolean onLoadPage(int pageNumber, int totalItemsCount) {
                 RepositoriesAdapter adapter = ((RepositoriesAdapter) getAdapter());

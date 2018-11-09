@@ -1,9 +1,13 @@
 package io.syslogic.github.retrofit;
 
+import io.syslogic.github.constants.Constants;
+import io.syslogic.github.model.RateLimits;
+import io.syslogic.github.model.Repositories;
+import io.syslogic.github.model.Repository;
+
+import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-
-import io.syslogic.github.constants.Constants;
 
 public class GithubClient {
 
@@ -17,5 +21,18 @@ public class GithubClient {
                 .build();
         }
         return retrofit.create(GithubService.class);
+    }
+
+
+    public static Call<RateLimits> getRateLimits() {
+        return getService().getRateLimits();
+    }
+
+    public static Call<Repositories> getRepositories(String queryString, String sort, String order, int pageNumber) {
+        return getService().getRepositories(queryString, sort, order, pageNumber);
+    }
+
+    public static Call<Repository> getRepository(long itemId) {
+        return getService().getRepository(itemId);
     }
 }

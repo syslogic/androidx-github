@@ -60,8 +60,8 @@ public abstract class ScrollListener extends RecyclerView.OnScrollListener {
         currentPage = value;
     }
 
-    public void setIsLoading(boolean value) {
-        isLoading = value;
+    void setIsLoading(boolean value) {
+        this.isLoading = value;
     }
 
     public abstract boolean onLoadPage(int pageNumber, int totalCount);

@@ -22,10 +22,9 @@ import androidx.databinding.ViewDataBinding;
 import io.syslogic.github.R;
 import io.syslogic.github.constants.Constants;
 import io.syslogic.github.databinding.RepositoryFragmentBinding;
-import io.syslogic.github.model.Repository;
 import io.syslogic.github.network.IConnectivityListener;
 import io.syslogic.github.retrofit.GithubClient;
-import io.syslogic.github.retrofit.GithubService;
+import io.syslogic.github.model.Repository;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -96,12 +95,40 @@ public class RepositoryFragment extends BaseFragment implements IConnectivityLis
         return layout;
     }
 
+    @Override
+    public void onNetworkAvailable() {
+        if (mDebug) {Log.d(LOG_TAG, "network connection is available.");}
+        if(this.mWebView != null && !contentLoaded) {setRepository();}
+    }
+
+    @Override
+    public void onNetworkLost() {
+        if (mDebug) {Log.d(LOG_TAG, "network connection was lost.");}
+    }
+
+    /* Getters */
+    private RepositoryFragmentBinding getDataBinding() {
+        return this.mDataBinding;
+    }
+
+    private WebView getWebView() {
+        return this.mWebView;
+    }
+
+    public long getItemId() {
+        return this.itemId;
+    }
+
+    /* Setters */
+    private void setItemId(long value) {
+        this.itemId = value;
+    }
+
     private void setRepository() {
 
         if(this.itemId != 0) {
 
-            GithubService service = GithubClient.getService();
-            Call<Repository> api = service.getRepository(this.itemId);
+            Call<Repository> api = GithubClient.getRepository(this.itemId);
             if (mDebug) {Log.w(LOG_TAG, api.request().url() + "");}
 
             api.enqueue(new Callback<Repository>() {
@@ -149,32 +176,5 @@ public class RepositoryFragment extends BaseFragment implements IConnectivityLis
                 }
             });
         }
-    }
-
-    private void setItemId(long value) {
-        this.itemId = value;
-    }
-
-    public long getItemId() {
-        return this.itemId;
-    }
-
-    private WebView getWebView() {
-        return this.mWebView;
-    }
-
-    private RepositoryFragmentBinding getDataBinding() {
-        return this.mDataBinding;
-    }
-
-    @Override
-    public void onNetworkAvailable() {
-        if (mDebug) {Log.d(LOG_TAG, "network connection is available.");}
-        if(this.mWebView != null && !contentLoaded) {setRepository();}
-    }
-
-    @Override
-    public void onNetworkLost() {
-        if (mDebug) {Log.d(LOG_TAG, "network connection was lost.");}
     }
 }
