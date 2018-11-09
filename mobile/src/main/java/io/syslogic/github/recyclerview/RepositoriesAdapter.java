@@ -196,7 +196,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter {
                                 Log.d(LOG_TAG, quota);
                             }
 
-                            /* border-case, sometimes it happens */
+                            /* possible border-case: */
                             if(search.getRemaining() > 0) {
                                 if(mDebug) {Log.d(LOG_TAG, "the quota had been reset already");}
                             }
