@@ -63,7 +63,6 @@ public class RepositoriesFragment extends BaseFragment  implements IConnectivity
         View layout = this.mDataBinding.getRoot();
 
         if(this.getContext() != null) {
-            this.mViewFlipper = layout.findViewById(R.id.viewflipper_offline);
             this.mRecyclerView = layout.findViewById(R.id.recyclerview_repositories);
             if (this.mRecyclerView.getAdapter() == null) {
                 if(isNetworkAvailable(this.getContext())) {
@@ -103,29 +102,17 @@ public class RepositoriesFragment extends BaseFragment  implements IConnectivity
 
     @Override
     public void onNetworkAvailable() {
-        if (this.getActivity() != null && this.mViewFlipper != null && this.mViewFlipper.getDisplayedChild() == 1) {
-            this.getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    mViewFlipper.showPrevious();
-                    RepositoriesAdapter adapter = ((RepositoriesAdapter) mRecyclerView.getAdapter());
-                    if(adapter != null && adapter.getItemCount() == 0) {
-                        adapter.fetchPage(1);
-                    }
-                }
-            });
+        if (mDebug) {Log.d(LOG_TAG, "network connection is available.");}
+        if(mRecyclerView != null) {
+            RepositoriesAdapter adapter = ((RepositoriesAdapter) mRecyclerView.getAdapter());
+            if (adapter != null && adapter.getItemCount() == 0) {
+                adapter.fetchPage(1);
+            }
         }
     }
 
     @Override
     public void onNetworkLost() {
-        if (this.getActivity() != null && this.mViewFlipper != null && this.mViewFlipper.getDisplayedChild() == 0) {
-            this.getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    mViewFlipper.showNext();
-                }
-            });
-        }
+        if (mDebug) {Log.w(LOG_TAG, "network connection was lost.");}
     }
 }

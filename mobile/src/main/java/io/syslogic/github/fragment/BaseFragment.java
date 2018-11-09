@@ -13,22 +13,19 @@ import android.widget.ViewFlipper;
 import java.util.Objects;
 
 import androidx.annotation.RequiresApi;
-import androidx.fragment.app.Fragment;
+import androidx.navigation.fragment.NavHostFragment;
 
 import io.syslogic.github.BuildConfig;
 import io.syslogic.github.network.ConnectivityReceiver;
 import io.syslogic.github.network.IConnectivityListener;
 
-abstract public class BaseFragment extends Fragment {
+abstract public class BaseFragment extends NavHostFragment {
 
     /** {@link Log} Tag */
     private static final String LOG_TAG = BaseFragment.class.getSimpleName();
 
     /** Debug Output */
     static final boolean mDebug = BuildConfig.DEBUG;
-
-    /** the {@link android.widget.ViewFlipper} */
-    protected ViewFlipper mViewFlipper;
 
     public BaseFragment() {
 

@@ -79,7 +79,6 @@ public class RepositoryFragment extends BaseFragment implements IConnectivityLis
         this.mDataBinding = RepositoryFragmentBinding.inflate(inflater, container, false);
         View layout = this.mDataBinding.getRoot();
         if(this.getContext() != null) {
-            this.mViewFlipper = layout.findViewById(R.id.viewflipper_offline);
             if(! isNetworkAvailable(this.getContext())) {
                 this.onNetworkLost();
             } else {
@@ -170,26 +169,12 @@ public class RepositoryFragment extends BaseFragment implements IConnectivityLis
 
     @Override
     public void onNetworkAvailable() {
-        if (this.getActivity() != null && this.mViewFlipper != null && this.mViewFlipper.getDisplayedChild() == 1) {
-            this.getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    mViewFlipper.showPrevious();
-                    if(! contentLoaded) {setRepository();}
-                }
-            });
-        }
+        if (mDebug) {Log.d(LOG_TAG, "network connection is available.");}
+        if(this.mWebView != null && !contentLoaded) {setRepository();}
     }
 
     @Override
     public void onNetworkLost() {
-        if (this.getActivity() != null && this.mViewFlipper != null && this.mViewFlipper.getDisplayedChild() == 0) {
-            this.getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    mViewFlipper.showNext();
-                }
-            });
-        }
+        if (mDebug) {Log.d(LOG_TAG, "network connection was lost.");}
     }
 }
