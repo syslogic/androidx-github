@@ -51,7 +51,7 @@ public abstract class ScrollListener extends RecyclerView.OnScrollListener {
             currentPage ++;
         }
 
-        if (! isLoading && (firstVisibleItem + visibleItemCount + visibleThreshold) >= totalItemCount ) {
+        if (!recyclerView.isInEditMode() && !isLoading && (firstVisibleItem + visibleItemCount + visibleThreshold) >= totalItemCount ) {
             isLoading = onLoadPage(currentPage, totalItemCount);
         }
     }
