@@ -21,7 +21,7 @@ public interface GithubService {
 
     @GET("search/repositories")
     Call<Repositories> getRepositories(
-        @Query(value = "q", encoded = true) String queryString,
+        @Query(value = "q", encoded = true) String query,
         @Query(value = "sort") String sort,
         @Query(value = "order") String order,
         @Query(value = "page") int pageNumber

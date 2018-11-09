@@ -15,14 +15,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import io.syslogic.github.R;
 import io.syslogic.github.databinding.RepositoriesFragmentBinding;
-import io.syslogic.github.recyclerview.ScrollListener;
-import io.syslogic.github.recyclerview.RepositoriesAdapter;
-import io.syslogic.github.recyclerview.RepositoriesLinearView;
+import io.syslogic.github.model.SpinnerItem;
 import io.syslogic.github.network.IConnectivityListener;
 import io.syslogic.github.spinner.TopicsAdapter;
-import io.syslogic.github.model.SpinnerItem;
+import io.syslogic.github.recyclerview.RepositoriesAdapter;
+import io.syslogic.github.recyclerview.RepositoriesLinearView;
+import io.syslogic.github.recyclerview.ScrollListener;
 
-public class RepositoriesFragment extends BaseFragment implements IConnectivityListener {
+public class RepositoriesFragment extends BaseFragment  implements IConnectivityListener {
 
     /** {@link Log} Tag */
     private static final String LOG_TAG = RepositoriesFragment.class.getSimpleName();
@@ -96,6 +96,10 @@ public class RepositoriesFragment extends BaseFragment implements IConnectivityL
         return layout;
     }
 
+    private RepositoriesFragmentBinding getDataBinding() {
+        return this.mDataBinding;
+    }
+
     @Override
     public void onNetworkAvailable() {
         if (mDebug) {Log.d(LOG_TAG, "network connection is available.");}
@@ -110,9 +114,5 @@ public class RepositoriesFragment extends BaseFragment implements IConnectivityL
     @Override
     public void onNetworkLost() {
         if (mDebug) {Log.w(LOG_TAG, "network connection was lost.");}
-    }
-
-    private RepositoriesFragmentBinding getDataBinding() {
-        return this.mDataBinding;
     }
 }

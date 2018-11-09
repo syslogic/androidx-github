@@ -1,6 +1,7 @@
 package io.syslogic.github.recyclerview;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -22,12 +23,11 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.databinding.DataBindingUtil;
-import androidx.navigation.NavController;
 import androidx.recyclerview.widget.RecyclerView;
 
-import io.syslogic.github.R;
 import io.syslogic.github.BuildConfig;
-import io.syslogic.github.activity.MainActivity;
+import io.syslogic.github.R;
+import io.syslogic.github.activity.DetailActivity;
 import io.syslogic.github.constants.Constants;
 import io.syslogic.github.databinding.RepositoryViewHolderBinding;
 import io.syslogic.github.model.RateLimit;
@@ -35,6 +35,7 @@ import io.syslogic.github.model.RateLimits;
 import io.syslogic.github.model.Repositories;
 import io.syslogic.github.model.Repository;
 import io.syslogic.github.retrofit.GithubClient;
+import io.syslogic.github.retrofit.GithubService;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -56,12 +57,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter {
 
     private Context mContext;
 
-    private String queryString;
-
-    private String sortField = "stars";
-
-    private String sortOrder = "desc";
-
+    private String queryString = "topic:android";
 
     public RepositoriesAdapter(Context context, int pageNumber) {
         this.mContext = context;
@@ -107,18 +103,18 @@ public class RepositoriesAdapter extends RecyclerView.Adapter {
         this.mItems.addAll(items);
     }
 
-    private String getDateParam() {
+    private String getQueryString() {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(new Date());
-        calendar.add(Calendar.DAY_OF_YEAR, -Constants.ARGUMENT_PUSHED_WITHIN_LAST_N_DAYS);
+        calendar.add(Calendar.DAY_OF_YEAR, -Constants.PARAMETER_PUSHED_WITHIN_LAST_DAYS);
         String isodate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(calendar.getTime());
-        return "+pushed:>" + isodate;
+        return queryString + "+pushed:>" + isodate;
     }
 
     public void fetchPage(int pageNumber) {
 
-        final String queryStr = this.queryString + this.getDateParam();
-        Call<Repositories> api = GithubClient.getRepositories(queryStr, this.sortField, this.sortOrder, pageNumber);
+        GithubService service = GithubClient.getService();
+        Call<Repositories> api = service.getRepositories(getQueryString(),"stars","desc", pageNumber);
         if(mDebug) {Log.w(LOG_TAG, api.request().url() + "");}
 
         api.enqueue(new Callback<Repositories>() {
@@ -130,7 +126,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter {
                     case 200: {
                         if (response.body() != null) {
                             Repositories items = response.body();
-                            if (mDebug) {Log.d(LOG_TAG, "loaded " + getItemCount() + " / " + items.getCount() + ". " + queryStr);}
+                            if (mDebug) {Log.d(LOG_TAG, "loaded " + getItemCount() + " / " + items.getCount());}
                             setTotalItemCount(items.getCount());
                             int positionStart = getItemCount();
                             addAll(items.getRepositories());
@@ -144,9 +140,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter {
                             try {
                                 String errors = response.errorBody().string();
                                 JsonObject jsonObject = (new JsonParser()).parse(errors).getAsJsonObject();
-                                String message = jsonObject.get("message").toString();
-                                // message = message.replace(" (But here's the good news: Authenticated requests get a higher rate limit. Check out the documentation for more details.)", "");
-                                if(mDebug) {Log.e(LOG_TAG, message);}
+                                if(mDebug) {Log.e(LOG_TAG, jsonObject.get("message").toString());}
                             } catch (IOException e) {
                                 if(mDebug) {Log.e(LOG_TAG, e.getMessage());}
                             }
@@ -165,7 +159,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter {
         });
     }
 
-    /** reset the OnScollListener. */
+    /** reset the scroll listener. */
     private void resetOnScollListener() {
         if(mRecyclerView.getAdapter() != null) {
             ScrollListener listener = ((RepositoriesLinearView) mRecyclerView).getOnScrollListener();
@@ -175,7 +169,8 @@ public class RepositoriesAdapter extends RecyclerView.Adapter {
 
     private void getSearchQuota() {
 
-        Call<RateLimits> api = GithubClient.getRateLimits();
+        GithubService service = GithubClient.getService();
+        Call<RateLimits> api = service.getRateLimits();
         if (mDebug) {Log.w(LOG_TAG, api.request().url() + "");}
 
         api.enqueue(new Callback<RateLimits>() {
@@ -185,10 +180,8 @@ public class RepositoriesAdapter extends RecyclerView.Adapter {
                 switch(response.code()) {
                     case 200: {
                         if (response.body() != null) {
-
                             RateLimits items = response.body();
                             RateLimit search = items.getResources().getSearch();
-
                             if(mDebug) {
                                 long seconds = Math.round((new Date(search.getReset() * 1000).getTime() - new Date().getTime()) / 1000);
                                 String quota = String.format(Locale.getDefault(), "search quota: %d / %d. reset in %d seconds.", search.getRemaining(), search.getLimit(), seconds);
@@ -198,7 +191,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter {
 
                             /* possible border-case: */
                             if(search.getRemaining() > 0) {
-                                if(mDebug) {Log.d(LOG_TAG, "the quota had been reset already");}
+                                if(mDebug) {Log.d(LOG_TAG, "the quota was reset already");}
                             }
                         }
                         break;
@@ -262,9 +255,9 @@ public class RepositoriesAdapter extends RecyclerView.Adapter {
 
             Bundle extras = new Bundle();
             extras.putLong(Constants.ARGUMENT_ITEM_ID, item.getId());
-
-            NavController controller = ((MainActivity) activity).getNavController();
-            controller.navigate(R.id.action_RepositoriesFragment_to_RepositoryFragment, extras);
+            Intent intent = new Intent(activity, DetailActivity.class);
+            intent.putExtras(extras);
+            activity.startActivity(intent);
         }
 
         /** Setters */
