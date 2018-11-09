@@ -16,16 +16,11 @@
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning">
 
-        <activity android:name="io.syslogic.github.activity.MainActivity">
+        <activity
+            android:name="io.syslogic.github.activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
-        </activity>
-
-        <activity android:name="io.syslogic.github.activity.DetailActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
             </intent-filter>
         </activity>
 

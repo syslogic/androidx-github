@@ -9,5 +9,4 @@
     android:layout_width="match_parent"
     tools:context=".activity.MainActivity"
     tools:layout="@layout/layout_main"
-    app:navGraph="@navigation/graph"
-    app:defaultNavHost="true"/>
+    app:navGraph="@navigation/graph"/>
