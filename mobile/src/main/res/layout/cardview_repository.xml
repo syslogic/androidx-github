@@ -64,7 +64,8 @@
                     android:text="@string/text_forks"
                     android:textAlignment="center"
                     android:textColor="@color/colorText"
-                    android:textSize="10sp"/>
+                    android:textSize="10sp"
+                    tools:ignore="SmallSp"/>
             </androidx.appcompat.widget.LinearLayoutCompat>
 
             <androidx.appcompat.widget.LinearLayoutCompat

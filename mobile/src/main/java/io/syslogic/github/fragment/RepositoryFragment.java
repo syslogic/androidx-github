@@ -100,8 +100,7 @@ public class RepositoryFragment extends BaseFragment implements IConnectivityLis
 
         if(this.itemId != 0) {
 
-            GithubService service = GithubClient.getService();
-            Call<Repository> api = service.getRepository(this.itemId);
+            Call<Repository> api = GithubClient.getRepository(this.itemId);
             if (mDebug) {Log.w(LOG_TAG, api.request().url() + "");}
 
             api.enqueue(new Callback<Repository>() {

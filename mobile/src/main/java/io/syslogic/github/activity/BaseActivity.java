@@ -7,7 +7,6 @@ import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.navigation.fragment.NavHostFragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.fragment.app.Fragment;
 
@@ -19,7 +18,7 @@ abstract public class BaseActivity extends AppCompatActivity {
     protected static final boolean mDebug = BuildConfig.DEBUG;
 
     /** the current {@link Fragment} */
-    protected NavHostFragment currentFragment = null;
+    protected Fragment currentFragment = null;
 
     protected Fragment addFragment(@Nullable Bundle savedInstanceState, @IdRes int resId, @NonNull Fragment fragment) {
 
@@ -34,7 +33,7 @@ abstract public class BaseActivity extends AppCompatActivity {
             fragment = getSupportFragmentManager().getFragments().get(0);
         } else {
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.add(resId, fragment).addToBackStack(null).commit();
+            ft.add(resId, fragment).commit();
         }
 
         return fragment;

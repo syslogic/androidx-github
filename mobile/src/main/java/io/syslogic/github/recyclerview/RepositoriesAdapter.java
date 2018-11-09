@@ -113,8 +113,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter {
 
     public void fetchPage(int pageNumber) {
 
-        GithubService service = GithubClient.getService();
-        Call<Repositories> api = service.getRepositories(getQueryString(),"stars","desc", pageNumber);
+        Call<Repositories> api = GithubClient.getRepositories(getQueryString(),"stars","desc", pageNumber);
         if(mDebug) {Log.w(LOG_TAG, api.request().url() + "");}
 
         api.enqueue(new Callback<Repositories>() {

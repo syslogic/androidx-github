@@ -8,18 +8,17 @@ import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.ViewFlipper;
 
 import java.util.Objects;
 
 import androidx.annotation.RequiresApi;
-import androidx.navigation.fragment.NavHostFragment;
+import androidx.fragment.app.Fragment;
 
 import io.syslogic.github.BuildConfig;
 import io.syslogic.github.network.ConnectivityReceiver;
 import io.syslogic.github.network.IConnectivityListener;
 
-abstract public class BaseFragment extends NavHostFragment {
+abstract public class BaseFragment extends Fragment {
 
     /** {@link Log} Tag */
     private static final String LOG_TAG = BaseFragment.class.getSimpleName();
