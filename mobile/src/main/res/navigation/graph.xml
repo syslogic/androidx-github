@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    app:startDestination="@id/RepositoriesFragment">
+
+    <fragment
+        android:id="@+id/RepositoriesFragment"
+        android:name="io.syslogic.github.fragment.RepositoriesFragment"
+        android:label="fragment_main"
+        tools:layout="@layout/fragment_main">
+
+        <action
+            app:destination="@id/RepositoryFragment"
+            android:id="@+id/action_RepositoriesFragment_to_RepositoryFragment">
+            <argument android:name="ITEM_ID" android:defaultValue="0"  app:argType="integer"/>
+        </action>
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/RepositoryFragment"
+        android:name="io.syslogic.github.fragment.RepositoryFragment"
+        android:label="fragment_detail"
+        tools:layout="@layout/fragment_detail"/>
+
+</navigation>
