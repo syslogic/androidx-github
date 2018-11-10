@@ -10,6 +10,7 @@ import android.widget.AdapterView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatSpinner;
+import androidx.appcompat.widget.AppCompatTextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import io.syslogic.github.R;
@@ -34,6 +35,8 @@ public class RepositoriesFragment extends BaseFragment  implements IConnectivity
 
     /** the {@link RecyclerView} */
     private RepositoriesLinearView mRecyclerView;
+
+    private AppCompatTextView mTextQueryString;
 
     public RepositoriesFragment() {
 
@@ -63,14 +66,7 @@ public class RepositoriesFragment extends BaseFragment  implements IConnectivity
 
         if(this.getContext() != null) {
 
-            this.mRecyclerView = layout.findViewById(R.id.recyclerview_repositories);
-            if (this.mRecyclerView.getAdapter() == null) {
-                if(isNetworkAvailable(this.getContext())) {
-                    this.mRecyclerView.setAdapter(new RepositoriesAdapter(this.getContext(), 1));
-                } else {
-                    this.onNetworkLost();
-                }
-            }
+            this.mTextQueryString = layout.findViewById(R.id.text_query_string);
 
             this.mSpinnerTopic = layout.findViewById(R.id.spinner_topic);
             this.mSpinnerTopic.setAdapter(new TopicsAdapter(this.getContext()));
@@ -86,12 +82,26 @@ public class RepositoriesFragment extends BaseFragment  implements IConnectivity
                             mRecyclerView.clearAdapter();
                             ((RepositoriesAdapter) mRecyclerView.getAdapter()).fetchPage(1);
                         }
+                        if(mDebug) {
+                            mTextQueryString.setText(mRecyclerView.getQueryString());
+                        }
                     }
                     count++;
                 }
                 @Override
                 public void onNothingSelected(AdapterView<?> parent) {}
             });
+
+            this.mRecyclerView = layout.findViewById(R.id.recyclerview_repositories);
+            if (this.mRecyclerView.getAdapter() == null) {
+                if(isNetworkAvailable(this.getContext())) {
+                    this.mRecyclerView.setAdapter(new RepositoriesAdapter(this.getContext(), 1));
+                    if(mDebug) {this.mTextQueryString.setText(this.mRecyclerView.getQueryString());}
+                } else {
+                    this.onNetworkLost();
+                }
+            }
+
         }
         return layout;
     }

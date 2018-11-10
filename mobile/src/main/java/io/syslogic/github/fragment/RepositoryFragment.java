@@ -112,10 +112,6 @@ public class RepositoryFragment extends BaseFragment implements IConnectivityLis
                                 Repository item = response.body();
                                 getDataBinding().setRepository(item);
                                 getDataBinding().notifyChange();
-                                if (getActivity() != null) {
-                                    getActivity().setTitle(item.getFullName());
-                                    getWebView().loadUrl(item.getHtmlUrl());
-                                }
                             }
                             break;
                         }

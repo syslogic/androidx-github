@@ -105,7 +105,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter {
         this.mItems.addAll(items);
     }
 
-    private String getQueryString() {
+    protected String getQueryString() {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(new Date());
         calendar.add(Calendar.DAY_OF_YEAR, -Constants.PARAMETER_PUSHED_WITHIN_LAST_DAYS);

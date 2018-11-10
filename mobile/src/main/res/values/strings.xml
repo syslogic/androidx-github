@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Trending on Github</string>
+    <string name="app_name">Trending on GitHub</string>
 
     <string name="text_device_offline">the device appears to be offline</string>
 

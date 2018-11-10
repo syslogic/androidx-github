@@ -37,7 +37,8 @@
                     android:text='@{""+repository.forkCount}'
                     android:textAlignment="center"
                     android:textColor="@color/colorText"
-                    android:textSize="14sp"/>
+                    android:textSize="14sp"
+                    tools:text="@string/tools_fork_count"/>
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -64,7 +65,8 @@
                     android:text='@{""+repository.watcherCount}'
                     android:textAlignment="center"
                     android:textColor="@color/colorText"
-                    android:textSize="14sp"/>
+                    android:textSize="14sp"
+                    tools:text="@string/tools_watcher_count"/>
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -91,7 +93,8 @@
                     android:text='@{""+repository.subscriberCount}'
                     android:textAlignment="center"
                     android:textColor="@color/colorText"
-                    android:textSize="14sp"/>
+                    android:textSize="14sp"
+                    tools:text="@string/tools_subscriber_count"/>
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -118,7 +121,8 @@
                     android:text='@{""+repository.networkCount}'
                     android:textAlignment="center"
                     android:textColor="@color/colorText"
-                    android:textSize="14sp"/>
+                    android:textSize="14sp"
+                    tools:text="@string/tools_network_count"/>
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
