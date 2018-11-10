@@ -1,9 +1,6 @@
 // :mobile build.gradle
 apply plugin: "com.android.application"
 
-def androidxVersion = rootProject.ext.get('androidxVersion')
-def retrofitVersion = rootProject.ext.get('retrofitVersion')
-
 android {
 
     defaultConfig {
@@ -15,8 +12,8 @@ android {
         targetSdkVersion rootProject.ext.get('targetSdkVersion')
         minSdkVersion rootProject.ext.get('minSdkVersion')
 
-        testBuildType "debug"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testBuildType "debug"
     }
 
     testOptions {
@@ -24,7 +21,7 @@ android {
     }
 
     lintOptions {
-        lintConfig rootProject.file('gradle/lint.xml')
+        lintConfig rootProject.file('lint.xml')
         checkAllWarnings true
         warningsAsErrors true
         abortOnError false
@@ -79,41 +76,5 @@ android {
     }
 }
 
-dependencies {
-
-    // https://developer.android.com/jetpack/androidx/
-    api "androidx.appcompat:appcompat:1.0.2"
-    api "androidx.recyclerview:recyclerview:${androidxVersion}"
-    api "androidx.annotation:annotation:${androidxVersion}"
-    api "androidx.cardview:cardview:${androidxVersion}"
-
-    // https://mvnrepository.com/artifact/com.google.code.gson/gson
-    api "com.google.code.gson:gson:2.8.5"
-
-    // https://mvnrepository.com/artifact/com.squareup.okhttp3/okhttp
-    api "com.squareup.okhttp3:okhttp:3.11.0"
-
-    // https://mvnrepository.com/artifact/com.squareup.retrofit2
-    api ("com.squareup.retrofit2:retrofit:${retrofitVersion}") {
-        exclude group: "com.squareup.okhttp3"
-    }
-    api ("com.squareup.retrofit2:converter-gson:${retrofitVersion}") {
-        exclude group: "com.google.code.gson"
-    }
-
-    // https://mvnrepository.com/artifact/androidx.test
-    androidTestImplementation "androidx.test:core:${androidxVersion}"
-    androidTestImplementation "androidx.test:runner:1.1.0"
-    androidTestImplementation "androidx.test:rules:1.1.0"
-
-    // https://mvnrepository.com/artifact/androidx.test.ext
-    androidTestImplementation "androidx.test.ext:junit:${androidxVersion}"
-    // androidTestImplementation "androidx.test.ext:truth:${androidxVersion}"
-    // androidTestImplementation "com.google.truth:truth:0.42"
-
-    // https://mvnrepository.com/artifact/androidx.test.uiautomator/uiautomator
-    androidTestImplementation "androidx.test.uiautomator:uiautomator:2.2.0"
-
-    // https://mvnrepository.com/artifact/androidx.test.espresso
-    // androidTestImplementation "androidx.test.espresso:espresso-core:3.1.0"
-}
+// apply script: dependencies
+apply from: "dependencies.gradle"
