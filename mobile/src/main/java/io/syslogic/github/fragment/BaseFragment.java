@@ -12,6 +12,7 @@ import android.util.Log;
 import java.util.Objects;
 
 import androidx.annotation.RequiresApi;
+import androidx.databinding.ViewDataBinding;
 import androidx.fragment.app.Fragment;
 
 import io.syslogic.github.BuildConfig;
@@ -69,4 +70,6 @@ abstract public class BaseFragment extends Fragment {
         ConnectivityReceiver mReceiver = new ConnectivityReceiver(context);
         context.registerReceiver(mReceiver, intentFilter);
     }
+
+    abstract public ViewDataBinding getDataBinding();
 }

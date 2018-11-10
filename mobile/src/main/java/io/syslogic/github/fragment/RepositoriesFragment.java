@@ -10,7 +10,6 @@ import android.widget.AdapterView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatSpinner;
-import androidx.databinding.ViewDataBinding;
 import androidx.recyclerview.widget.RecyclerView;
 
 import io.syslogic.github.R;
@@ -27,7 +26,7 @@ public class RepositoriesFragment extends BaseFragment  implements IConnectivity
     /** {@link Log} Tag */
     private static final String LOG_TAG = RepositoriesFragment.class.getSimpleName();
 
-    /** the {@link ViewDataBinding} */
+    /** ViewDataBinding {@link RepositoriesFragmentBinding} */
     private RepositoriesFragmentBinding mDataBinding;
 
     /** the {@link AppCompatSpinner} */
@@ -63,6 +62,7 @@ public class RepositoriesFragment extends BaseFragment  implements IConnectivity
         View layout = this.mDataBinding.getRoot();
 
         if(this.getContext() != null) {
+
             this.mRecyclerView = layout.findViewById(R.id.recyclerview_repositories);
             if (this.mRecyclerView.getAdapter() == null) {
                 if(isNetworkAvailable(this.getContext())) {
@@ -96,7 +96,7 @@ public class RepositoriesFragment extends BaseFragment  implements IConnectivity
         return layout;
     }
 
-    private RepositoriesFragmentBinding getDataBinding() {
+    public RepositoriesFragmentBinding getDataBinding() {
         return this.mDataBinding;
     }
 

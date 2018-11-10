@@ -17,7 +17,6 @@ import com.google.gson.JsonParser;
 import java.io.IOException;
 
 import androidx.annotation.NonNull;
-import androidx.databinding.ViewDataBinding;
 
 import io.syslogic.github.R;
 import io.syslogic.github.constants.Constants;
@@ -25,7 +24,6 @@ import io.syslogic.github.databinding.RepositoryFragmentBinding;
 import io.syslogic.github.model.Repository;
 import io.syslogic.github.network.IConnectivityListener;
 import io.syslogic.github.retrofit.GithubClient;
-import io.syslogic.github.retrofit.GithubService;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -36,7 +34,7 @@ public class RepositoryFragment extends BaseFragment implements IConnectivityLis
     /** {@link Log} Tag */
     private static final String LOG_TAG = RepositoryFragment.class.getSimpleName();
 
-    /** the {@link ViewDataBinding} */
+    /** ViewDataBinding {@link RepositoryFragmentBinding} */
     private RepositoryFragmentBinding mDataBinding;
 
     /** {@link WebView} */
@@ -162,7 +160,7 @@ public class RepositoryFragment extends BaseFragment implements IConnectivityLis
         return this.mWebView;
     }
 
-    private RepositoryFragmentBinding getDataBinding() {
+    public RepositoryFragmentBinding getDataBinding() {
         return this.mDataBinding;
     }
 
