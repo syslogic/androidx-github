@@ -2,11 +2,13 @@
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".activity.DetailActivity">
 
     <!--suppress AndroidUnknownAttribute -->
     <data class=".databinding.RepositoryFragmentBinding">
         <variable name="repository" type="io.syslogic.github.model.Repository"/>
+        <variable name="webview" type="io.syslogic.github.model.WebView"/>
     </data>
 
     <androidx.appcompat.widget.LinearLayoutCompat
@@ -134,7 +136,9 @@
         <WebView
             android:id="@+id/webview_preview"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_weight="1.00"
+            app:loadUrl="@{repository.htmlUrl}"/>
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 
