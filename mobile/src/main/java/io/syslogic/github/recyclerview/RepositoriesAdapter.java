@@ -2,6 +2,7 @@ package io.syslogic.github.recyclerview;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,22 +21,23 @@ import java.util.Date;
 import java.util.Locale;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
-import io.syslogic.github.BuildConfig;
 import io.syslogic.github.R;
+import io.syslogic.github.BuildConfig;
+import io.syslogic.github.activity.BaseActivity;
 import io.syslogic.github.activity.DetailActivity;
 import io.syslogic.github.constants.Constants;
+import io.syslogic.github.databinding.RepositoriesFragmentBinding;
 import io.syslogic.github.databinding.RepositoryViewHolderBinding;
+import io.syslogic.github.fragment.BaseFragment;
 import io.syslogic.github.model.RateLimit;
 import io.syslogic.github.model.RateLimits;
 import io.syslogic.github.model.Repositories;
 import io.syslogic.github.model.Repository;
 import io.syslogic.github.retrofit.GithubClient;
-import io.syslogic.github.retrofit.GithubService;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -168,8 +170,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter {
 
     private void getSearchQuota() {
 
-        GithubService service = GithubClient.getService();
-        Call<RateLimits> api = service.getRateLimits();
+        Call<RateLimits> api = GithubClient.getRateLimits();
         if (mDebug) {Log.w(LOG_TAG, api.request().url() + "");}
 
         api.enqueue(new Callback<RateLimits>() {
@@ -249,14 +250,22 @@ public class RepositoriesAdapter extends RecyclerView.Adapter {
         public void onClick(View viewHolder) {
 
             this.mRecyclerView = (RepositoriesLinearView) viewHolder.getParent();
-            AppCompatActivity activity = (AppCompatActivity) this.mRecyclerView.getContext();
+            BaseActivity activity = (BaseActivity) this.mRecyclerView.getContext();
             Repository item = (Repository) viewHolder.getTag();
 
-            Bundle extras = new Bundle();
-            extras.putLong(Constants.ARGUMENT_ITEM_ID, item.getId());
-            Intent intent = new Intent(activity, DetailActivity.class);
-            intent.putExtras(extras);
-            activity.startActivity(intent);
+            if(activity.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+
+                BaseFragment fragment = (BaseFragment) activity.getSupportFragmentManager().getFragments().get(0);
+                RepositoriesFragmentBinding databinding = (RepositoriesFragmentBinding) fragment.getDataBinding();
+                databinding.layoutDetail.setRepository(item);
+
+            } else {
+                Bundle extras = new Bundle();
+                extras.putLong(Constants.ARGUMENT_ITEM_ID, item.getId());
+                Intent intent = new Intent(activity, DetailActivity.class);
+                intent.putExtras(extras);
+                activity.startActivity(intent);
+            }
         }
 
         /** Setters */
