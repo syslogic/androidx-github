@@ -3,7 +3,6 @@ package io.syslogic.github.model;
 import com.google.gson.annotations.SerializedName;
 
 import androidx.databinding.Bindable;
-import androidx.databinding.Observable;
 
 public class Repository extends BaseModel {
 

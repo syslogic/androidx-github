@@ -5,7 +5,6 @@ import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 
 import androidx.databinding.Bindable;
-import androidx.databinding.Observable;
 
 public class Repositories extends BaseModel {
 
