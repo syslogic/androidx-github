@@ -42,17 +42,17 @@ public abstract class ScrollListener extends RecyclerView.OnScrollListener {
 
         if (totalItemCount < previousTotalItemCount) {
             this.previousTotalItemCount = totalItemCount;
-            if (totalItemCount == 0) {isLoading = true;}
+            if (totalItemCount == 0) {this.isLoading = true;}
         }
 
-        if (isLoading && (totalItemCount > previousTotalItemCount)) {
-            isLoading = false;
+        if (this.isLoading && (totalItemCount > previousTotalItemCount)) {
+            this.isLoading = false;
             previousTotalItemCount = totalItemCount;
             currentPage ++;
         }
 
-        if (!recyclerView.isInEditMode() && !isLoading && (firstVisibleItem + visibleItemCount + visibleThreshold) >= totalItemCount ) {
-            isLoading = onLoadPage(currentPage, totalItemCount);
+        if (!recyclerView.isInEditMode() && !this.isLoading && (firstVisibleItem + visibleItemCount + visibleThreshold) >= totalItemCount ) {
+            this.isLoading = onLoadPage(currentPage, totalItemCount);
         }
     }
 
@@ -61,7 +61,7 @@ public abstract class ScrollListener extends RecyclerView.OnScrollListener {
     }
 
     public void setIsLoading(boolean value) {
-        isLoading = value;
+        this.isLoading = value;
     }
 
     public abstract boolean onLoadPage(int pageNumber, int totalCount);
