@@ -16,6 +16,13 @@
         android:layout_height="match_parent"
         android:orientation="horizontal">
 
+        <include
+            android:id="@+id/layout_detail"
+            layout="@layout/layout_detail"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1.00"/>
+
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="240dp"
             android:layout_height="match_parent"
@@ -37,13 +44,6 @@
                 android:layout_height="match_parent"/>
 
         </androidx.appcompat.widget.LinearLayoutCompat>
-
-        <include
-            android:id="@+id/layout_detail"
-            layout="@layout/layout_detail"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1.00"/>
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 
