@@ -10,9 +10,6 @@ import android.widget.AdapterView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.AppCompatSpinner;
-import androidx.appcompat.widget.AppCompatTextView;
-import androidx.appcompat.widget.Toolbar;
 
 import io.syslogic.github.databinding.RepositoriesFragmentBinding;
 import io.syslogic.github.model.PagerState;
@@ -29,15 +26,6 @@ public class RepositoriesFragment extends BaseFragment implements IConnectivityL
 
     /** {@link RepositoriesFragmentBinding} */
     private RepositoriesFragmentBinding mDataBinding;
-
-    /** {@link AppCompatTextView}, only visible in debug builds */
-    private AppCompatTextView mTextQueryString;
-
-    /** {@link AppCompatSpinner} */
-    private AppCompatSpinner mSpinnerTopic;
-
-    /** {@link Toolbar} for the {@link ScrollListener} */
-    private Toolbar mToolbarPager;
 
     public RepositoriesFragment() {
 

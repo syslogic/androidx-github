@@ -146,6 +146,10 @@ public class RepositoriesAdapter extends RecyclerView.Adapter {
                             } catch (IOException e) {
                                 if(BuildConfig.DEBUG) {Log.e(LOG_TAG, e.getMessage());}
                             }
+
+                            /* updating the pager data-binding */
+                            setPagerState(pageNumber, false, null);
+
                             resetOnScollListener();
                             getSearchQuota();
                         }
@@ -184,7 +188,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter {
         state.setIsLoading(isLoading);
         state.setPageNumber(pageNumber);
         if(itemCount != null) {
-            state.setPageCount(Math.round(itemCount / state.getItemsPerPage()));
+            state.setPageCount((int) Math.ceil(itemCount / state.getItemsPerPage()));
             state.setItemCount(itemCount);
         }
         databinding.setPager(state);
@@ -205,7 +209,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter {
                             RateLimits items = response.body();
                             RateLimit search = items.getResources().getSearch();
                             if(BuildConfig.DEBUG) {
-                                long seconds = Math.round((new Date(search.getReset() * 1000).getTime() - new Date().getTime()) / 1000);
+                                long seconds = (long) Math.ceil((new Date(search.getReset() * 1000).getTime() - new Date().getTime()) / 1000);
                                 String quota = String.format(Locale.getDefault(), "search quota: %d / %d. reset in %d seconds.", search.getRemaining(), search.getLimit(), seconds);
                                 Toast.makeText(getContext(), quota, Toast.LENGTH_SHORT).show();
                             }
