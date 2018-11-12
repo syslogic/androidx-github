@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string-array name="topic_keys" translatable="false">
+    <string-array name="topic_keys">
         <item name="android">Android</item>
         <item name="kotlin">Kotlin</item>
         <item name="gradle">Gradle</item>
@@ -13,12 +13,30 @@
         <item name="gradle">topic:gradle</item>
     </string-array>
 
-    <string-array name="sortBy" translatable="false">
+    <string-array name="sortfield_keys">
+        <item name="forks">Forks</item>
+        <item name="stargazers">Stargazers</item>
+        <item name="watchers">Watchers</item>
+        <item name="subscribers">Subscribers</item>
+        <item name="network">Networks</item>
+    </string-array>
+
+    <string-array name="sortfield_values" translatable="false">
         <item name="forks">forks_count</item>
         <item name="stargazers">stargazers_count</item>
         <item name="watchers">watchers_count</item>
         <item name="subscribers">subscribers_count</item>
         <item name="network">network_count</item>
+    </string-array>
+
+    <string-array name="sortorder_keys">
+        <item name="asc">ASC</item>
+        <item name="desc">DESC</item>
+    </string-array>
+
+    <string-array name="sortorder_values" translatable="false">
+        <item name="asc">ASC</item>
+        <item name="desc">DESC</item>
     </string-array>
 
 </resources>
