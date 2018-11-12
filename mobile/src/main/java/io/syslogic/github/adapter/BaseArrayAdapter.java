@@ -1,6 +1,7 @@
-package io.syslogic.github.spinner;
+package io.syslogic.github.adapter;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,23 +9,32 @@ import android.widget.BaseAdapter;
 
 import java.util.ArrayList;
 
+import androidx.annotation.ArrayRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatTextView;
-
 import io.syslogic.github.R;
 import io.syslogic.github.model.SpinnerItem;
 
-public class TopicsAdapter extends BaseAdapter {
+abstract public class BaseArrayAdapter extends BaseAdapter {
 
     private Context mContext;
     private ArrayList<SpinnerItem> mItems;
     private LayoutInflater layoutInflater;
 
-    public TopicsAdapter(@NonNull Context context) {
+    BaseArrayAdapter() {
+
+    }
+
+    BaseArrayAdapter(@NonNull Context context) {
         this.layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.setContext(context);
-        this.setItems();
+    }
+
+    BaseArrayAdapter(@NonNull Context context, @NonNull @ArrayRes Integer arrayKeys, @NonNull @ArrayRes Integer arrayValues) {
+        this.layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        this.setContext(context);
+        this.setItems(arrayKeys, arrayValues);
     }
 
     @Override
@@ -51,23 +61,24 @@ public class TopicsAdapter extends BaseAdapter {
         }
         convertView.setTag(this.mItems.get(position));
         AppCompatTextView textView = convertView.findViewById(android.R.id.text1);
-        textView.setText(mItems.get(position).getName());
+        textView.setText(this.mItems.get(position).getName());
         textView.setAllCaps(true);
         return convertView;
     }
 
     /** Setters */
-    private void setContext(@NonNull Context context) {
+    protected void setContext(@NonNull Context context) {
         this.mContext = context;
     }
 
-    private void setItems() {
+    void setItems(@NonNull @ArrayRes Integer arrayKeys, @NonNull @ArrayRes Integer arrayValues) {
         if (this.mItems != null) {this.mItems.clear();}
         else {this.mItems = new ArrayList<>();}
-        String[] topics = this.mContext.getResources().getStringArray(R.array.topics);
-        String[] queryStrings = this.mContext.getResources().getStringArray(R.array.queryStrings);
-        for(int i = 0; i < topics.length; i++) {
-            this.mItems.add(i, new SpinnerItem(i + 1, topics[i], queryStrings[i]));
+        Resources res = this.mContext.getResources();
+        String[] keys = res.getStringArray(arrayKeys);
+        String[] values = res.getStringArray(arrayValues);
+        for(int i = 0; i < keys.length; i++) {
+            this.mItems.add(i, new SpinnerItem(i + 1, keys[i], values[i]));
         }
     }
 }
