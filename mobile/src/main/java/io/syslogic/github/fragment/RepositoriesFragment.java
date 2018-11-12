@@ -77,14 +77,14 @@ public class RepositoriesFragment extends BaseFragment implements IConnectivityL
                     if (count > 0) {
                         SpinnerItem item = (SpinnerItem) view.getTag();
                         ScrollListener.setPageNumber(1);
-                        getDataBinding().recyclerviewRepositories.setQueryString(item.getValue());
-                        if (getDataBinding().recyclerviewRepositories.getAdapter() != null) {
-                            getDataBinding().recyclerviewRepositories.clearAdapter();
-                            ((RepositoriesAdapter) getDataBinding().recyclerviewRepositories.getAdapter()).fetchPage(1);
+                        getDataBinding().recyclerview.setQueryString(item.getValue());
+                        if (getDataBinding().recyclerview.getAdapter() != null) {
+                            getDataBinding().recyclerview.clearAdapter();
+                            ((RepositoriesAdapter) getDataBinding().recyclerview.getAdapter()).fetchPage(1);
                         }
                         if(mDebug) {
-                            String text = getDataBinding().recyclerviewRepositories.getQueryString();
-                            getDataBinding().toolbarQuery.textQueryString.setText(text);
+                            String text = getDataBinding().recyclerview.getQueryString();
+                            getDataBinding().toolbarPager.textQueryString.setText(text);
                         }
                     }
                     count++;
@@ -93,12 +93,12 @@ public class RepositoriesFragment extends BaseFragment implements IConnectivityL
                 public void onNothingSelected(AdapterView<?> parent) {}
             });
 
-            if (this.mDataBinding.recyclerviewRepositories.getAdapter() == null) {
+            if (this.mDataBinding.recyclerview.getAdapter() == null) {
                 if(isNetworkAvailable(this.getContext())) {
-                    this.mDataBinding.recyclerviewRepositories.setAdapter(new RepositoriesAdapter(this.getContext(), 1));
+                    this.mDataBinding.recyclerview.setAdapter(new RepositoriesAdapter(this.getContext(), 1));
                     if(mDebug) {
-                        String text = this.mDataBinding.recyclerviewRepositories.getQueryString();
-                        this.mDataBinding.toolbarQuery.textQueryString.setText(text);
+                        String text = this.mDataBinding.recyclerview.getQueryString();
+                        this.mDataBinding.toolbarPager.textQueryString.setText(text);
                     }
                 } else {
                     this.onNetworkLost();
@@ -116,8 +116,8 @@ public class RepositoriesFragment extends BaseFragment implements IConnectivityL
     @Override
     public void onNetworkAvailable() {
         if (mDebug) {Log.d(LOG_TAG, "network connection is available.");}
-        if(this.mDataBinding != null && this.mDataBinding.recyclerviewRepositories != null) {
-            RepositoriesAdapter adapter = ((RepositoriesAdapter) this.mDataBinding.recyclerviewRepositories.getAdapter());
+        if(this.mDataBinding != null && this.mDataBinding.recyclerview != null) {
+            RepositoriesAdapter adapter = ((RepositoriesAdapter) this.mDataBinding.recyclerview.getAdapter());
             if (adapter != null && adapter.getItemCount() == 0) {
                 adapter.fetchPage(1);
             }

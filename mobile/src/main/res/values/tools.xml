@@ -7,8 +7,9 @@
     <string name="tools_subscriber_count">2418</string>
     <string name="tools_network_count">8498</string>
 
+    <!-- toolbar pager -->
+    <string name="tools_page_number">loaded page 1 of 319</string>
     <string name="tools_total_item_count">9574</string>
     <string name="tools_total_pages">319</string>
-    <string name="tools_page_number">page 1 of 319</string>
 
 </resources>

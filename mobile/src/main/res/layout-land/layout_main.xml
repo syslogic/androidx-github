@@ -37,7 +37,7 @@
                 android:layout_margin="0dp"/>
 
             <io.syslogic.github.recyclerview.RepositoriesLinearView
-                android:id="@+id/recyclerview_repositories"
+                android:id="@+id/recyclerview"
                 tools:listitem="@layout/cardview_repository"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 android:layout_height="match_parent"

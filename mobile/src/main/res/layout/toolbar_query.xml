@@ -6,8 +6,7 @@
 
     <!--suppress AndroidUnknownAttribute -->
     <data class=".databinding.ToolbarQueryBinding">
-        <import type="io.syslogic.github.BuildConfig"/>
-        <import type="android.view.View"/>
+
     </data>
 
     <androidx.appcompat.widget.Toolbar
@@ -28,26 +27,14 @@
             style="?android:attr/buttonBarStyle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal">
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/text_query_string"
-                tools:text="@string/tools_query_string"
-                android:visibility="@{BuildConfig.DEBUG ? View.VISIBLE : View.GONE}"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical|start"
-                android:layout_weight="1.0"
-                android:paddingStart="8dp"
-                android:textSize="12sp"
-                tools:ignore="RtlSymmetry"/>
+            android:orientation="horizontal"
+            android:gravity="center_vertical|end">
 
             <androidx.appcompat.widget.AppCompatSpinner
                 android:id="@+id/spinner_topic"
-                android:layout_width="142dp"
-                android:layout_height="match_parent"
-                android:layout_gravity="center_vertical|end"
-                android:layout_weight="1.0"/>
+                tools:entries="@array/topic_keys"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"/>
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 

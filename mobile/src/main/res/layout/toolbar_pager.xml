@@ -7,6 +7,8 @@
     <!--suppress AndroidUnknownAttribute -->
     <data class=".databinding.ToolbarPagerBinding">
         <variable name="pager" type="io.syslogic.github.model.PagerState"/>
+        <import type="io.syslogic.github.BuildConfig"/>
+        <import type="android.view.View"/>
     </data>
 
     <androidx.appcompat.widget.Toolbar
@@ -31,12 +33,23 @@
             android:orientation="horizontal">
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/text_page_number"
+                android:id="@+id/text_query_string"
+                tools:text="@string/tools_query_string"
+                android:visibility="@{BuildConfig.DEBUG ? View.VISIBLE : View.GONE}"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical|start"
+                android:layout_weight="1.0"
                 android:padding="12dp"
-                android:textSize="14sp"
+                android:textSize="12sp"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/text_page_number"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical|end"
+                android:padding="12dp"
+                android:textSize="12sp"
                 android:text='@{String.format((safeUnbox(pager.isLoading) ? @string/text_pager_loading : @string/text_pager_loaded), pager.pageNumber, pager.pageCount)}'
                 tools:text="@string/tools_page_number"/>
 
