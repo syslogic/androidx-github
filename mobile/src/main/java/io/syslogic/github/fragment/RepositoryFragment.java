@@ -160,7 +160,7 @@ public class RepositoryFragment extends BaseFragment implements IConnectivityLis
     @Override
     public void onNetworkAvailable() {
         if (mDebug) {Log.d(LOG_TAG, "network connection is available.");}
-        if(this.mDataBinding.webviewPreview != null && !contentLoaded) {
+        if(this.mDataBinding != null && this.mDataBinding.webviewPreview != null && !this.contentLoaded) {
             setRepository();
         }
     }
