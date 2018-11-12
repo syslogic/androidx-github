@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string-array name="topics" translatable="false">
+    <string-array name="topic_keys" translatable="false">
         <item name="android">Android</item>
         <item name="kotlin">Kotlin</item>
         <item name="gradle">Gradle</item>
     </string-array>
 
-    <string-array name="queryStrings" translatable="false">
+    <string-array name="topic_values" translatable="false">
         <item name="android">topic:android</item>
         <item name="kotlin">topic:kotlin</item>
         <item name="gradle">topic:gradle</item>
