@@ -27,7 +27,6 @@
 
 -dontwarn okhttp3.internal.platform.*
 -dontnote okhttp3.internal.platform.*
--dontnote android.databinding.DataBinderMapper
 
 -keep,includedescriptorclasses class okhttp3.internal.platform.AndroidPlatform
 

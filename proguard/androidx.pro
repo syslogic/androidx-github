@@ -4,11 +4,13 @@
 
 -keep class androidx.** { *; }
 -keep interface androidx.** { *; }
+
 -keep class androidx.databinding.** { *; }
 -keep class androidx.databinding.BindingBuildInfo { *; }
 
 -keep class androidx.**.R$id { int title; int icon; }
 
+-keep class androidx.appcompat.view.menu.MenuBuilder
 -keep class androidx.core.content.res.FontResourcesParserCompat$** { *; }
 -keep class androidx.core.content.res.ResourcesCompat$FontCallback
 -keep class androidx.core.widget.TextViewCompat$OreoCallback { *; }
@@ -22,6 +24,8 @@
 -keep,includedescriptorclass class androidx.core.text.ICUCompat { *; }
 -keep,includedescriptorclass class androidx.core.graphics.** { *; }
 
+-dontnote androidx.transition.FragmentTransitionSupport
+
 -dontnote androidx.core.graphics.TypefaceCompatApi24Impl
 -keep class androidx.core.graphics.TypefaceCompatApi24Impl {
     java.lang.reflect.Method addFontWeightStyle(java.nio.ByteBuffer, int, java.util.List, int, boolean);
@@ -34,15 +38,15 @@
     java.lang.reflect.Method abortCreation();
 }
 
--keep class androidx.core.app.NotificationCompat$Action {
-    android.app.PendingIntent actionIntent;
-}
 -dontnote androidx.core.app.NotificationManagerCompat
 -keep class androidx.core.app.NotificationManagerCompat {
     java.lang.reflect.Method checkOpNoThrow(int, int, java.lang.String);
 }
 -keep class androidx.core.app.NotificationManagerCompat {
     java.lang.String OP_POST_NOTIFICATION;
+}
+-keep class androidx.core.app.NotificationCompat$Action {
+    android.app.PendingIntent actionIntent;
 }
 -keep class androidx.appcompat.app.** {
     boolean onMenuKeyEvent(android.view.KeyEvent);
@@ -59,28 +63,12 @@
     java.lang.reflect.Method makeOptionalFitsSystemWindows();
 }
 
--dontnote android.content.res.Resources
--keep class android.content.res.Resources {
-    java.lang.reflect.Field mDrawableCache;
-    java.lang.reflect.Field mUnthemedEntries;
-}
-
 -dontnote androidx.core.text.ICUCompat
 -keep class androidx.core.text.ICUCompat {
     java.lang.String addLikelySubtags(java.util.Locale);
 }
 
--keep class android.support.v4.app.INotificationSideChannel
--keep class androidx.appcompat.view.menu.MenuBuilder
-
 -dontnote android.icu.text.DecimalFormatSymbols
 -keep class android.icu.text.DecimalFormatSymbols {
     android.icu.text.DecimalFormatSymbols freeze();
 }
-
--dontnote androidx.transition.FragmentTransitionSupport
--dontnote com.android.internal.view.menu.MenuBuilder
--dontnote android.content.res.ThemedResourceCache
-
--keep class android.graphics.**
--dontnote android.graphics.**
