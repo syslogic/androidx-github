@@ -40,18 +40,20 @@
                 android:layout_height="match_parent"
                 android:gravity="center_vertical|start"
                 android:layout_weight="1.0"
-                android:padding="12dp"
-                android:textSize="12sp"/>
+                android:paddingStart="12dp"
+                android:textSize="12sp"
+                tools:ignore="RtlSymmetry"/>
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/text_page_number"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical|end"
-                android:padding="12dp"
+                android:paddingEnd="12dp"
                 android:textSize="12sp"
                 android:text='@{String.format((safeUnbox(pager.isLoading) ? @string/text_pager_loading : @string/text_pager_loaded), pager.pageNumber, pager.pageCount)}'
-                tools:text="@string/tools_page_number"/>
+                tools:text="@string/tools_page_number"
+                tools:ignore="RtlSymmetry"/>
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
