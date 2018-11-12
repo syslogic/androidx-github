@@ -18,7 +18,7 @@ import java.io.IOException;
 
 import androidx.annotation.NonNull;
 
-import io.syslogic.github.R;
+import androidx.annotation.Nullable;
 import io.syslogic.github.constants.Constants;
 import io.syslogic.github.databinding.RepositoryFragmentBinding;
 import io.syslogic.github.model.Repository;
@@ -37,25 +37,23 @@ public class RepositoryFragment extends BaseFragment implements IConnectivityLis
     /** {@link RepositoryFragmentBinding} */
     private RepositoryFragmentBinding mDataBinding;
 
-    /** {@link WebView} */
-    private WebView mWebView;
+    private Boolean contentLoaded = false;
 
-    private boolean contentLoaded = false;
-
-    private long itemId = 0;
+    private Long itemId = 0L;
 
     public RepositoryFragment() {
 
     }
 
-    public static RepositoryFragment newInstance(long itemId) {
+    @NonNull
+    public static RepositoryFragment newInstance(@NonNull Long itemId) {
         RepositoryFragment fragment = new RepositoryFragment();
         fragment.setItemId(itemId);
         return fragment;
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
 
@@ -71,16 +69,16 @@ public class RepositoryFragment extends BaseFragment implements IConnectivityLis
         }
     }
 
-    @SuppressLint("SetJavaScriptEnabled")
+    @NonNull
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    @SuppressLint("SetJavaScriptEnabled")
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         this.mDataBinding = RepositoryFragmentBinding.inflate(inflater, container, false);
         View layout = this.mDataBinding.getRoot();
         if(this.getContext() != null) {
             if(! isNetworkAvailable(this.getContext())) {
                 this.onNetworkLost();
             } else {
-                // this.mWebView = layout.findViewById(R.id.webview_preview);
                 this.mDataBinding.webviewPreview.getSettings().setJavaScriptEnabled(true);
                 this.mDataBinding.webviewPreview.setWebViewClient(new WebViewClient() {
                     @Override
@@ -138,24 +136,22 @@ public class RepositoryFragment extends BaseFragment implements IConnectivityLis
 
                 @Override
                 public void onFailure(@NonNull Call<Repository> call, @NonNull Throwable t) {
-                    if (mDebug) {Log.e(LOG_TAG, t.getMessage());}
+                    if (mDebug) {Log.e(getLogTag(), t.getMessage());}
                 }
             });
         }
     }
 
-    private void setItemId(long value) {
+    private void setItemId(@NonNull Long value) {
         this.itemId = value;
     }
 
-    public long getItemId() {
+    @NonNull
+    public Long getItemId() {
         return this.itemId;
     }
 
-    private WebView getWebView() {
-        return this.mWebView;
-    }
-
+    @NonNull
     public RepositoryFragmentBinding getDataBinding() {
         return this.mDataBinding;
     }
@@ -163,7 +159,9 @@ public class RepositoryFragment extends BaseFragment implements IConnectivityLis
     @Override
     public void onNetworkAvailable() {
         if (mDebug) {Log.d(LOG_TAG, "network connection is available.");}
-        if(this.mWebView != null && !contentLoaded) {setRepository();}
+        if(this.mDataBinding.webviewPreview != null && !contentLoaded) {
+            setRepository();
+        }
     }
 
     @Override

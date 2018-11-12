@@ -11,18 +11,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.fragment.app.Fragment;
 
-import io.syslogic.github.BuildConfig;
 import io.syslogic.github.fragment.BaseFragment;
 
 abstract public class BaseActivity extends AppCompatActivity {
 
-    /** Debug Output */
-    protected static final boolean mDebug = BuildConfig.DEBUG;
+    @NonNull
+    public ViewDataBinding getFragmentDataBinding() {
+        BaseFragment fragment = (BaseFragment) this.getSupportFragmentManager().getFragments().get(0);
+        return fragment.getDataBinding();
+    }
 
-    /** the current {@link Fragment} */
-    protected Fragment currentFragment = null;
-
-    protected Fragment addFragment(@Nullable Bundle savedInstanceState, @IdRes int resId, @NonNull Fragment fragment) {
+    protected void addFragment(@Nullable Bundle savedInstanceState, @NonNull @IdRes Integer resId, @NonNull Fragment fragment) {
 
         FrameLayout frameLayout = new FrameLayout(this);
         FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
@@ -30,19 +29,9 @@ abstract public class BaseActivity extends AppCompatActivity {
 
         this.setContentView(frameLayout, params);
 
-        /* onOrientationChange() */
-        if(savedInstanceState != null) {
-            fragment = getSupportFragmentManager().getFragments().get(0);
-        } else {
+        if(savedInstanceState == null) {
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.add(resId, fragment).commit();
         }
-
-        return fragment;
-    }
-
-    public ViewDataBinding getFragmentDataBinding() {
-        BaseFragment fragment = (BaseFragment) this.getSupportFragmentManager().getFragments().get(0);
-        return fragment.getDataBinding();
     }
 }

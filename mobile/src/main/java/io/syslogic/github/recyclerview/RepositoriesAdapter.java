@@ -46,12 +46,6 @@ import retrofit2.Response;
 
 public class RepositoriesAdapter extends RecyclerView.Adapter {
 
-    /** {@link Log} Tag */
-    private static final String LOG_TAG = RepositoriesAdapter.class.getSimpleName();
-
-    /** Debug Output */
-    private static final boolean mDebug = BuildConfig.DEBUG;
-
     private ArrayList<Repository> mItems = new ArrayList<>();
 
     private RecyclerView mRecyclerView;
@@ -62,7 +56,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter {
 
     private String queryString = "topic:android";
 
-    public RepositoriesAdapter(Context context, int pageNumber) {
+    public RepositoriesAdapter(@NonNull Context context, @NonNull Integer pageNumber) {
         this.mContext = context;
         String defaultQuery = context.getResources().getStringArray(R.array.queryStrings)[0];
         this.setQueryString(defaultQuery);
@@ -101,10 +95,6 @@ public class RepositoriesAdapter extends RecyclerView.Adapter {
         return this.mItems.size();
     }
 
-    private void addAll(ArrayList<Repository> items) {
-        this.mItems.addAll(items);
-    }
-
     String getQueryString() {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(new Date());
@@ -128,7 +118,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter {
     public void fetchPage(final int pageNumber) {
 
         Call<Repositories> api = GithubClient.getRepositories(getQueryString(),"stars","desc", pageNumber);
-        if(mDebug) {Log.w(LOG_TAG, api.request().url() + "");}
+        if(BuildConfig.DEBUG) {Log.w(getLogTag(), api.request().url() + "");}
 
         /* updating the pager data-binding */
         this.setPagerState(pageNumber, true, null);
@@ -143,10 +133,10 @@ public class RepositoriesAdapter extends RecyclerView.Adapter {
                         if (response.body() != null) {
 
                             Repositories items = response.body();
-                            if (mDebug) {Log.d(LOG_TAG, "loaded " + getItemCount() + " / " + items.getCount());}
+                            if (BuildConfig.DEBUG) {Log.d(getLogTag(), "loaded " + getItemCount() + " / " + items.getCount());}
                             setTotalItemCount(items.getCount());
                             int positionStart = getItemCount();
-                            addAll(items.getRepositories());
+                            mItems.addAll(items.getRepositories());
                             notifyItemRangeChanged(positionStart, getItemCount());
 
                             /* updating the pager data-binding */
@@ -160,9 +150,9 @@ public class RepositoriesAdapter extends RecyclerView.Adapter {
                             try {
                                 String errors = response.errorBody().string();
                                 JsonObject jsonObject = (new JsonParser()).parse(errors).getAsJsonObject();
-                                if(mDebug) {Log.e(LOG_TAG, jsonObject.get("message").toString());}
+                                if(BuildConfig.DEBUG) {Log.e(getLogTag(), jsonObject.get("message").toString());}
                             } catch (IOException e) {
-                                if(mDebug) {Log.e(LOG_TAG, e.getMessage());}
+                                if(BuildConfig.DEBUG) {Log.e(getLogTag(), e.getMessage());}
                             }
                             resetOnScollListener();
                             getSearchQuota();
@@ -174,7 +164,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter {
 
             @Override
             public void onFailure(@NonNull Call<Repositories> call, @NonNull Throwable t) {
-                if(mDebug) {Log.e(LOG_TAG, t.getMessage());}
+                if(BuildConfig.DEBUG) {Log.e(getLogTag(), t.getMessage());}
             }
         });
     }
@@ -190,7 +180,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter {
     private void getSearchQuota() {
 
         Call<RateLimits> api = GithubClient.getRateLimits();
-        if (mDebug) {Log.w(LOG_TAG, api.request().url() + "");}
+        if (BuildConfig.DEBUG) {Log.w(getLogTag(), api.request().url() + "");}
 
         api.enqueue(new Callback<RateLimits>() {
 
@@ -201,16 +191,15 @@ public class RepositoriesAdapter extends RecyclerView.Adapter {
                         if (response.body() != null) {
                             RateLimits items = response.body();
                             RateLimit search = items.getResources().getSearch();
-                            if(mDebug) {
+                            if(BuildConfig.DEBUG) {
                                 long seconds = Math.round((new Date(search.getReset() * 1000).getTime() - new Date().getTime()) / 1000);
                                 String quota = String.format(Locale.getDefault(), "search quota: %d / %d. reset in %d seconds.", search.getRemaining(), search.getLimit(), seconds);
-                                Toast.makeText(mContext, quota, Toast.LENGTH_SHORT).show();
-                                Log.d(LOG_TAG, quota);
+                                Toast.makeText(getContext(), quota, Toast.LENGTH_SHORT).show();
                             }
 
                             /* possible border-case: */
                             if(search.getRemaining() > 0) {
-                                if(mDebug) {Log.d(LOG_TAG, "the quota was reset already");}
+                                Toast.makeText(getContext(), "the quota was reset already", Toast.LENGTH_SHORT).show();
                             }
                         }
                         break;
@@ -220,9 +209,14 @@ public class RepositoriesAdapter extends RecyclerView.Adapter {
 
             @Override
             public void onFailure(@NonNull Call<RateLimits> call, @NonNull Throwable t) {
-                if (mDebug) {Log.e(LOG_TAG, t.getMessage());}
+                if (BuildConfig.DEBUG) {Log.e(getLogTag(), t.getMessage());}
             }
         });
+    }
+
+    @NonNull
+    protected Context getContext() {
+        return this.mContext;
     }
 
     void clearItems() {
@@ -241,6 +235,10 @@ public class RepositoriesAdapter extends RecyclerView.Adapter {
     /** Getters */
     private long getTotalItemCount() {
         return this.totalItemCount;
+    }
+
+    private String getLogTag() {
+        return RepositoriesAdapter.class.getSimpleName();
     }
 
     /** {@link RecyclerView.ViewHolder} for {@link CardView} of type {@link Repository}. */

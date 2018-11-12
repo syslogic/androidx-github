@@ -1,20 +1,20 @@
 package io.syslogic.github.model;
 
-import androidx.appcompat.widget.Toolbar;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.databinding.Bindable;
-import androidx.databinding.BindingAdapter;
 
 public class PagerState extends BaseModel {
 
-    private long itemCount = 0;
+    private Long itemCount = 0L;
 
-    private int itemsPerPage = 30;
+    private Integer itemsPerPage = 30;
 
-    private int pageCount = 0;
+    private Integer pageCount = 0;
 
-    private int pageNumber = 1;
+    private Integer pageNumber = 1;
 
-    private boolean isLoading = true;
+    private Boolean isLoading = true;
 
     public PagerState() {
 
@@ -24,57 +24,63 @@ public class PagerState extends BaseModel {
         this.setPageNumber(pageNumber);
     }
 
-    public void setPagerState(int pageNumber) {
-        this.setPageNumber(pageNumber);
+    public void setPagerState(@Nullable PagerState state) {
+
     }
 
-    public void setItemCount(long value) {
+    public void setItemCount(@NonNull Long value) {
         this.itemCount = value;
     }
 
-    public void setItemsPerPage(int value) {
+    public void setItemsPerPage(@NonNull Integer value) {
         this.itemsPerPage = value;
     }
 
-    public void setPageCount(int value) {
+    public void setPageCount(@NonNull Integer value) {
         this.pageCount = value;
     }
 
-    public void setPageNumber(int value) {
+    public void setPageNumber(@NonNull Integer value) {
         this.pageNumber = value;
     }
 
-    public void setIsLoading(boolean value) {
+    public void setIsLoading(@NonNull Boolean value) {
         this.isLoading = value;
     }
 
+    @NonNull
     @Bindable
     public PagerState getPagerState() {
         return this;
     }
 
+    @NonNull
     @Bindable
-    public long getItemCount() {
+    public Long getItemCount() {
         return this.itemCount;
     }
 
+    @NonNull
     @Bindable
-    public int getItemsPerPage() {
+    public Integer getItemsPerPage() {
         return this.itemsPerPage;
     }
 
+    @NonNull
     @Bindable
-    public int getPageCount() {
+    public Integer getPageCount() {
         return this.pageCount;
     }
 
+    @NonNull
     @Bindable
-    public int getPageNumber() {
+    public Integer getPageNumber() {
         return this.pageNumber;
     }
 
+    @NonNull
     @Bindable
-    public boolean getIsLoading() {
+    public Boolean getIsLoading() {
         return this.isLoading;
     }
 }

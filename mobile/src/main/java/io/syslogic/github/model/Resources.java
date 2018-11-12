@@ -2,6 +2,8 @@ package io.syslogic.github.model;
 
 import com.google.gson.annotations.SerializedName;
 
+import androidx.annotation.NonNull;
+
 public class Resources {
 
     @SerializedName("core")
@@ -13,28 +15,30 @@ public class Resources {
     @SerializedName("graphql")
     private RateLimit graphql;
 
+    public void setSearch(@NonNull RateLimit value) {
+        this.search = value;
+    }
+
+    public void setCore(@NonNull RateLimit value) {
+        this.core = value;
+    }
+
+    public void setGraphql(@NonNull RateLimit value) {
+        this.graphql = value;
+    }
+
+    @NonNull
     public RateLimit getCore() {
-        return core;
+        return this.core;
     }
 
-    public void setCore(RateLimit core) {
-        this.core = core;
-    }
-
+    @NonNull
     public RateLimit getSearch() {
-        return search;
+        return this.search;
     }
 
-    public void setSearch(RateLimit search) {
-        this.search = search;
-    }
-
+    @NonNull
     public RateLimit getGraphql() {
-        return graphql;
+        return this.graphql;
     }
-
-    public void setGraphql(RateLimit graphql) {
-        this.graphql = graphql;
-    }
-
 }

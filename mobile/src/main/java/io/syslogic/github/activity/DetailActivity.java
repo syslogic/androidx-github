@@ -1,21 +1,18 @@
 package io.syslogic.github.activity;
 
 import android.os.Bundle;
-import android.util.Log;
 
+import androidx.annotation.Nullable;
 import io.syslogic.github.R;
 import io.syslogic.github.fragment.RepositoryFragment;
 import io.syslogic.github.constants.Constants;
 
 public class DetailActivity extends BaseActivity {
 
-    /** {@link Log} Tag */
-    private static final String LOG_TAG = DetailActivity.class.getSimpleName();
-
     protected long itemId = -1;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
 
@@ -26,7 +23,7 @@ public class DetailActivity extends BaseActivity {
                 this.setItemId(extras.getLong(Constants.ARGUMENT_ITEM_ID));
             }
         }
-        this.currentFragment = addFragment(savedInstanceState, R.id.layout_repository, RepositoryFragment.newInstance(getItemId()));
+        addFragment(savedInstanceState, R.id.layout_repository, RepositoryFragment.newInstance(getItemId()));
     }
 
     protected void setItemId(long value) {

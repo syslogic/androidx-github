@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
 import io.syslogic.github.BuildConfig;
 import io.syslogic.github.activity.BaseActivity;
 import io.syslogic.github.activity.DetailActivity;
@@ -24,12 +25,12 @@ public class ConnectivityReceiver extends android.content.BroadcastReceiver {
     /** Debug Output */
     protected static final boolean mDebug = BuildConfig.DEBUG;
 
-    public ConnectivityReceiver(Context context) {
+    public ConnectivityReceiver(@NonNull Context context) {
 
     }
 
     @Override
-    public void onReceive(Context context, Intent intent) {
+    public void onReceive(@NonNull Context context, @NonNull Intent intent) {
         if(mDebug) {Log.d(LOG_TAG, "onReceive: "+ intent.getAction());}
         BaseActivity activity = ((BaseActivity) context);
         if(activity instanceof MainActivity) {

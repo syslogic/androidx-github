@@ -1,5 +1,6 @@
 package io.syslogic.github.retrofit;
 
+import androidx.annotation.NonNull;
 import io.syslogic.github.model.RateLimits;
 import io.syslogic.github.model.Repositories;
 import io.syslogic.github.model.Repository;
@@ -14,7 +15,7 @@ public class GithubClient {
 
     private static Retrofit retrofit;
 
-    public static GithubService getService() {
+    private static GithubService getService() {
         if (retrofit == null) {
             retrofit = new retrofit2.Retrofit.Builder()
                 .baseUrl(Constants.GITHUB_API_BASE_URL)
@@ -24,15 +25,15 @@ public class GithubClient {
         return retrofit.create(GithubService.class);
     }
 
-    public static Call<RateLimits> getRateLimits() {
+    public static @NonNull Call<RateLimits> getRateLimits() {
         return getService().getRateLimits();
     }
 
-    public static Call<Repositories> getRepositories(String queryString, String sort, String order, int pageNumber) {
-        return getService().getRepositories(queryString, sort, order, pageNumber);
+    public static @NonNull Call<Repositories> getRepositories(@NonNull String queryString, @NonNull String sortField, @NonNull String sortOrder, @NonNull Integer pageNumber) {
+        return getService().getRepositories(queryString, sortField, sortOrder, pageNumber);
     }
 
-    public static Call<Repository> getRepository(long itemId) {
+    public static @NonNull Call<Repository> getRepository(@NonNull Long itemId) {
         return getService().getRepository(itemId);
     }
 }

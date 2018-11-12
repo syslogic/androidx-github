@@ -1,5 +1,6 @@
 package io.syslogic.github.retrofit;
 
+import androidx.annotation.NonNull;
 import io.syslogic.github.model.RateLimits;
 import io.syslogic.github.model.Repositories;
 import io.syslogic.github.model.Repository;
@@ -16,19 +17,22 @@ import retrofit2.http.Query;
 **/
 public interface GithubService {
 
+    @NonNull
     @GET("rate_limit")
     Call<RateLimits> getRateLimits();
 
+    @NonNull
     @GET("search/repositories")
     Call<Repositories> getRepositories(
-        @Query(value = "q", encoded = true) String query,
-        @Query(value = "sort") String sort,
-        @Query(value = "order") String order,
-        @Query(value = "page") int pageNumber
+        @NonNull @Query(value = "q", encoded = true) String queryString,
+        @NonNull @Query(value = "sort") String sortField,
+        @NonNull @Query(value = "order") String sortOrder,
+        @NonNull @Query(value = "page") Integer pageNumber
     );
 
+    @NonNull
     @GET("repositories/{id}")
     Call<Repository> getRepository(
-        @Path(value = "id") long id
+        @NonNull @Path(value = "id") Long id
     );
 }

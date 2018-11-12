@@ -9,19 +9,17 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatSpinner;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.RecyclerView;
 
-import io.syslogic.github.R;
 import io.syslogic.github.databinding.RepositoriesFragmentBinding;
 import io.syslogic.github.model.PagerState;
 import io.syslogic.github.model.SpinnerItem;
 import io.syslogic.github.network.IConnectivityListener;
 import io.syslogic.github.spinner.TopicsAdapter;
 import io.syslogic.github.recyclerview.RepositoriesAdapter;
-import io.syslogic.github.recyclerview.RepositoriesLinearView;
 import io.syslogic.github.recyclerview.ScrollListener;
 
 public class RepositoriesFragment extends BaseFragment  implements IConnectivityListener {
@@ -38,9 +36,6 @@ public class RepositoriesFragment extends BaseFragment  implements IConnectivity
     /** {@link AppCompatSpinner} */
     private AppCompatSpinner mSpinnerTopic;
 
-    /** {@link RecyclerView} */
-    private RepositoriesLinearView mRecyclerView;
-
     /** {@link Toolbar} for the {@link ScrollListener} */
     private Toolbar mToolbarPager;
 
@@ -48,15 +43,14 @@ public class RepositoriesFragment extends BaseFragment  implements IConnectivity
 
     }
 
+    @NonNull
     public static RepositoriesFragment newInstance() {
         return new RepositoriesFragment();
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             this.registerNetworkCallback(this.getContext(), this);
         } else {
@@ -64,8 +58,9 @@ public class RepositoriesFragment extends BaseFragment  implements IConnectivity
         }
     }
 
+    @NonNull
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         this.mDataBinding = RepositoriesFragmentBinding.inflate(inflater, container, false);
         View layout = this.mDataBinding.getRoot();
@@ -82,14 +77,14 @@ public class RepositoriesFragment extends BaseFragment  implements IConnectivity
                     if (count > 0) {
                         SpinnerItem item = (SpinnerItem) view.getTag();
                         ScrollListener.setPageNumber(1);
-                        mRecyclerView.setQueryString(item.getValue());
-                        if (mRecyclerView.getAdapter() != null) {
-                            mRecyclerView.clearAdapter();
-                            ((RepositoriesAdapter) mRecyclerView.getAdapter()).fetchPage(1);
+                        getDataBinding().recyclerviewRepositories.setQueryString(item.getValue());
+                        if (getDataBinding().recyclerviewRepositories.getAdapter() != null) {
+                            getDataBinding().recyclerviewRepositories.clearAdapter();
+                            ((RepositoriesAdapter) getDataBinding().recyclerviewRepositories.getAdapter()).fetchPage(1);
                         }
                         if(mDebug) {
-                            String text = mDataBinding.recyclerviewRepositories.getQueryString();
-                            mDataBinding.toolbarQuery.textQueryString.setText(text);
+                            String text = getDataBinding().recyclerviewRepositories.getQueryString();
+                            getDataBinding().toolbarQuery.textQueryString.setText(text);
                         }
                     }
                     count++;
@@ -113,6 +108,7 @@ public class RepositoriesFragment extends BaseFragment  implements IConnectivity
         return layout;
     }
 
+    @NonNull
     public RepositoriesFragmentBinding getDataBinding() {
         return this.mDataBinding;
     }

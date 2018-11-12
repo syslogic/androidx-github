@@ -8,6 +8,8 @@ import android.widget.BaseAdapter;
 
 import java.util.ArrayList;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatTextView;
 
 import io.syslogic.github.R;
@@ -19,7 +21,7 @@ public class TopicsAdapter extends BaseAdapter {
     private ArrayList<SpinnerItem> mItems;
     private LayoutInflater layoutInflater;
 
-    public TopicsAdapter(Context context) {
+    public TopicsAdapter(@NonNull Context context) {
         this.layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.setContext(context);
         this.setItems();
@@ -30,8 +32,9 @@ public class TopicsAdapter extends BaseAdapter {
         return this.mItems.size();
     }
 
+    @NonNull
     @Override
-    public Object getItem(int position) {
+    public SpinnerItem getItem(int position) {
         return this.mItems.get(position);
     }
 
@@ -40,8 +43,9 @@ public class TopicsAdapter extends BaseAdapter {
         return this.mItems.get(position).getId();
     }
 
+    @NonNull
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         if (convertView == null) {
             convertView = this.layoutInflater.inflate(R.layout.support_simple_spinner_dropdown_item, parent, false);
         }
@@ -53,7 +57,7 @@ public class TopicsAdapter extends BaseAdapter {
     }
 
     /** Setters */
-    private void setContext(Context context) {
+    private void setContext(@NonNull Context context) {
         this.mContext = context;
     }
 

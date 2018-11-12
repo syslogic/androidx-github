@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,7 +21,7 @@ public class RepositoriesLinearView extends RecyclerView {
     }
 
     /** Constructor */
-    public RepositoriesLinearView(Context context, AttributeSet attrs) {
+    public RepositoriesLinearView(@NonNull Context context, @Nullable AttributeSet attrs) {
 
         super(context, attrs);
 
@@ -52,11 +53,12 @@ public class RepositoriesLinearView extends RecyclerView {
         }
     }
 
-    public void setQueryString(String value) {
+    public void setQueryString(@NonNull String value) {
         RepositoriesAdapter adapter = ((RepositoriesAdapter) getAdapter());
         if (adapter != null) {adapter.setQueryString(value);}
     }
 
+    @Nullable
     public String getQueryString() {
         RepositoriesAdapter adapter = ((RepositoriesAdapter) getAdapter());
         if (adapter != null) {
@@ -65,6 +67,7 @@ public class RepositoriesLinearView extends RecyclerView {
         return null;
     }
 
+    @NonNull
     public ScrollListener getOnScrollListener() {
         return this.scrollListener;
     }

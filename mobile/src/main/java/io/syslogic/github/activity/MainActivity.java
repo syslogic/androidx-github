@@ -1,19 +1,16 @@
 package io.syslogic.github.activity;
 
 import android.os.Bundle;
-import android.util.Log;
 
+import androidx.annotation.Nullable;
 import io.syslogic.github.R;
 import io.syslogic.github.fragment.RepositoriesFragment;
 
 public class MainActivity extends BaseActivity {
 
-    /** {@link Log} Tag */
-    private static final String LOG_TAG = MainActivity.class.getSimpleName();
-
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.currentFragment = addFragment(savedInstanceState, R.id.layout_repositories, RepositoriesFragment.newInstance());
+        addFragment(savedInstanceState, R.id.layout_repositories, RepositoriesFragment.newInstance());
     }
 }

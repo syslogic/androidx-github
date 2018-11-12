@@ -6,11 +6,11 @@ import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkInfo;
 import android.os.Build;
-import android.os.Bundle;
 import android.util.Log;
 
 import java.util.Objects;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.databinding.ViewDataBinding;
 import androidx.fragment.app.Fragment;
@@ -22,7 +22,7 @@ import io.syslogic.github.network.IConnectivityListener;
 abstract public class BaseFragment extends Fragment {
 
     /** {@link Log} Tag */
-    private static final String LOG_TAG = BaseFragment.class.getSimpleName();
+    private final String LOG_TAG = BaseFragment.class.getSimpleName();
 
     /** Debug Output */
     static final boolean mDebug = BuildConfig.DEBUG;
@@ -31,17 +31,12 @@ abstract public class BaseFragment extends Fragment {
 
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
     private static ConnectivityManager getConnectivityManager(Context context) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         return Objects.requireNonNull(cm);
     }
 
-    public boolean isNetworkAvailable(Context context) {
+    public boolean isNetworkAvailable(@NonNull Context context) {
         ConnectivityManager cm = getConnectivityManager(context);
         NetworkInfo info = cm.getActiveNetworkInfo();
         return info != null;
@@ -71,5 +66,10 @@ abstract public class BaseFragment extends Fragment {
         context.registerReceiver(mReceiver, intentFilter);
     }
 
+    String getLogTag() {
+        return this.LOG_TAG;
+    }
+
+    @NonNull
     abstract public ViewDataBinding getDataBinding();
 }

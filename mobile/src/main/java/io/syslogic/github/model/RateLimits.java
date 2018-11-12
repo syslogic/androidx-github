@@ -2,7 +2,7 @@ package io.syslogic.github.model;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.util.ArrayList;
+import androidx.annotation.NonNull;
 
 public class RateLimits {
 
@@ -12,18 +12,20 @@ public class RateLimits {
     @SerializedName("rate")
     private RateLimit rates;
 
-    public void setResources(Resources item) {
+    public void setResources(@NonNull Resources item) {
         this.resources = item;
     }
 
+    public void setRate(@NonNull RateLimit item) {
+        this.rates = item;
+    }
+
+    @NonNull
     public Resources getResources() {
         return this.resources;
     }
 
-    public void setRate(RateLimit item) {
-        this.rates = item;
-    }
-
+    @NonNull
     public RateLimit getRate() {
         return this.rates;
     }

@@ -2,12 +2,13 @@ package io.syslogic.github.model;
 
 import com.google.gson.annotations.SerializedName;
 
+import androidx.annotation.NonNull;
 import androidx.databinding.Bindable;
 
 public class Repository extends BaseModel {
 
     @SerializedName("id")
-    private long id;
+    private Long id;
 
     @SerializedName("name")
     private String name;
@@ -22,115 +23,125 @@ public class Repository extends BaseModel {
     private String htmlUrl;
 
     @SerializedName("forks_count")
-    private long forkCount;
+    private Long forkCount;
 
     @SerializedName("stargazers_count")
-    private long stargazerCount;
+    private Long stargazerCount;
 
     @SerializedName("watchers_count")
-    private long watcherCount;
+    private Long watcherCount;
 
     @SerializedName("subscribers_count")
-    private long subscriberCount;
+    private Long subscriberCount;
 
     @SerializedName("network_count")
-    private long networkCount;
+    private Long networkCount;
 
-    public Repository(long id, String name, String url) {
+    public Repository(@NonNull Long id, @NonNull String name, @NonNull String url) {
         this.setId(id);
         this.setName(name);
         this.setUrl(url);
     }
 
     /* Setters */
-    public void setId(long value) {
+    public void setId(@NonNull Long value) {
         this.id = value;
     }
 
-    public void setName(String value) {
+    public void setName(@NonNull String value) {
         this.name = value;
     }
 
-    public void setFullName(String value) {
+    public void setFullName(@NonNull  String value) {
         this.fullName = value;
     }
 
-    public void setUrl(String value) {
+    public void setUrl(@NonNull String value) {
         this.url = value;
     }
 
-    public void setHtmlUrl(String value) {
+    public void setHtmlUrl(@NonNull String value) {
         this.htmlUrl = value;
     }
 
-    public void setForkCount(long value) {
+    public void setForkCount(@NonNull Long value) {
         this.forkCount = value;
     }
 
-    public void setStargazerCount(long value) {
+    public void setStargazerCount(@NonNull Long value) {
         this.stargazerCount = value;
     }
 
-    public void setWatcherCount(long value) {
+    public void setWatcherCount(@NonNull Long value) {
         this.watcherCount = value;
     }
 
-    public void setSubscriberCount(long value) {
+    public void setSubscriberCount(@NonNull Long value) {
         this.subscriberCount = value;
     }
 
-    public void setNetworkCount(long value) {
+    public void setNetworkCount(@NonNull Long value) {
         this.networkCount = value;
     }
 
     /* Getters */
+    @NonNull
     @Bindable
-    public long getId() {
+    public Long getId() {
         return this.id;
     }
 
+    @NonNull
     @Bindable
     public String getName() {
         return this.name;
     }
 
+    @NonNull
     @Bindable
     public String getFullName() {
         return this.fullName;
     }
 
+    @NonNull
     @Bindable
     public String getUrl() {
         return this.url;
     }
 
+    @NonNull
     @Bindable
     public String getHtmlUrl() {
         return this.htmlUrl;
     }
 
+    @NonNull
     @Bindable
-    public long getForkCount() {
+    public Long getForkCount() {
         return this.forkCount;
     }
 
+    @NonNull
     @Bindable
-    public long getStargazerCount() {
+    public Long getStargazerCount() {
         return this.stargazerCount;
     }
 
+    @NonNull
     @Bindable
-    public long getWatcherCount() {
+    public Long getWatcherCount() {
         return this.watcherCount;
     }
 
+    @NonNull
     @Bindable
-    public long getSubscriberCount() {
+    public Long getSubscriberCount() {
         return this.subscriberCount;
     }
 
+    @NonNull
     @Bindable
-    public long getNetworkCount() {
+    public Long getNetworkCount() {
         return this.networkCount;
     }
 }
