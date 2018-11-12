@@ -18,11 +18,11 @@ import io.syslogic.github.databinding.RepositoriesFragmentBinding;
 import io.syslogic.github.model.PagerState;
 import io.syslogic.github.model.SpinnerItem;
 import io.syslogic.github.network.IConnectivityListener;
-import io.syslogic.github.spinner.TopicsAdapter;
+import io.syslogic.github.adapter.TopicsAdapter;
 import io.syslogic.github.recyclerview.RepositoriesAdapter;
 import io.syslogic.github.recyclerview.ScrollListener;
 
-public class RepositoriesFragment extends BaseFragment  implements IConnectivityListener {
+public class RepositoriesFragment extends BaseFragment implements IConnectivityListener {
 
     /** {@link Log} Tag */
     private static final String LOG_TAG = RepositoriesFragment.class.getSimpleName();

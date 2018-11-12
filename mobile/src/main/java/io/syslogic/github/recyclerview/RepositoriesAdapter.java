@@ -46,6 +46,10 @@ import retrofit2.Response;
 
 public class RepositoriesAdapter extends RecyclerView.Adapter {
 
+    /** {@link Log} Tag */
+    @NonNull
+    static final String LOG_TAG = RepositoriesAdapter.class.getSimpleName();
+
     private ArrayList<Repository> mItems = new ArrayList<>();
 
     private RecyclerView mRecyclerView;
@@ -58,7 +62,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter {
 
     public RepositoriesAdapter(@NonNull Context context, @NonNull Integer pageNumber) {
         this.mContext = context;
-        String defaultQuery = context.getResources().getStringArray(R.array.queryStrings)[0];
+        String defaultQuery = context.getResources().getStringArray(R.array.topic_values)[0];
         this.setQueryString(defaultQuery);
         this.fetchPage(pageNumber);
     }
@@ -103,25 +107,13 @@ public class RepositoriesAdapter extends RecyclerView.Adapter {
         return queryString + "+pushed:>" + isodate;
     }
 
-    private void setPagerState(int pageNumber, boolean isLoading, @Nullable Long itemCount) {
-        RepositoriesFragmentBinding databinding = (RepositoriesFragmentBinding) ((BaseActivity) mContext).getFragmentDataBinding();
-        PagerState state = databinding.getPager();
-        state.setIsLoading(isLoading);
-        state.setPageNumber(pageNumber);
-        if(itemCount != null) {
-            state.setPageCount(Math.round(itemCount / state.getItemsPerPage()));
-            state.setItemCount(itemCount);
-        }
-        databinding.setPager(state);
-    }
-
     public void fetchPage(final int pageNumber) {
 
         Call<Repositories> api = GithubClient.getRepositories(getQueryString(),"stars","desc", pageNumber);
-        if(BuildConfig.DEBUG) {Log.w(getLogTag(), api.request().url() + "");}
+        if(BuildConfig.DEBUG) {Log.w(LOG_TAG, api.request().url() + "");}
 
         /* updating the pager data-binding */
-        this.setPagerState(pageNumber, true, null);
+        setPagerState(pageNumber, true, null);
 
         api.enqueue(new Callback<Repositories>() {
 
@@ -133,10 +125,10 @@ public class RepositoriesAdapter extends RecyclerView.Adapter {
                         if (response.body() != null) {
 
                             Repositories items = response.body();
-                            if (BuildConfig.DEBUG) {Log.d(getLogTag(), "loaded " + getItemCount() + " / " + items.getCount());}
+                            if (BuildConfig.DEBUG) {Log.d(LOG_TAG, "loaded " + getItemCount() + " / " + items.getCount());}
                             setTotalItemCount(items.getCount());
                             int positionStart = getItemCount();
-                            mItems.addAll(items.getRepositories());
+                            getItems().addAll(items.getRepositories());
                             notifyItemRangeChanged(positionStart, getItemCount());
 
                             /* updating the pager data-binding */
@@ -150,9 +142,9 @@ public class RepositoriesAdapter extends RecyclerView.Adapter {
                             try {
                                 String errors = response.errorBody().string();
                                 JsonObject jsonObject = (new JsonParser()).parse(errors).getAsJsonObject();
-                                if(BuildConfig.DEBUG) {Log.e(getLogTag(), jsonObject.get("message").toString());}
+                                if(BuildConfig.DEBUG) {Log.e(LOG_TAG, jsonObject.get("message").toString());}
                             } catch (IOException e) {
-                                if(BuildConfig.DEBUG) {Log.e(getLogTag(), e.getMessage());}
+                                if(BuildConfig.DEBUG) {Log.e(LOG_TAG, e.getMessage());}
                             }
                             resetOnScollListener();
                             getSearchQuota();
@@ -164,23 +156,44 @@ public class RepositoriesAdapter extends RecyclerView.Adapter {
 
             @Override
             public void onFailure(@NonNull Call<Repositories> call, @NonNull Throwable t) {
-                if(BuildConfig.DEBUG) {Log.e(getLogTag(), t.getMessage());}
+                if(BuildConfig.DEBUG) {Log.e(LOG_TAG, t.getMessage());}
             }
         });
     }
 
+    ArrayList<Repository> getItems() {
+        return this.mItems;
+    }
+
+    void clearItems() {
+        this.mItems.clear();
+        notifyItemRangeChanged(0, getItemCount());
+    }
+
     /** reset the scroll listener. */
-    private void resetOnScollListener() {
+    void resetOnScollListener() {
         if(this.mRecyclerView.getAdapter() != null) {
             ScrollListener listener = ((RepositoriesLinearView) mRecyclerView).getOnScrollListener();
             listener.setIsLoading(false);
         }
     }
 
-    private void getSearchQuota() {
+    void setPagerState(int pageNumber, boolean isLoading, @Nullable Long itemCount) {
+        RepositoriesFragmentBinding databinding = (RepositoriesFragmentBinding) ((BaseActivity) mContext).getFragmentDataBinding();
+        PagerState state = databinding.getPager();
+        state.setIsLoading(isLoading);
+        state.setPageNumber(pageNumber);
+        if(itemCount != null) {
+            state.setPageCount(Math.round(itemCount / state.getItemsPerPage()));
+            state.setItemCount(itemCount);
+        }
+        databinding.setPager(state);
+    }
+
+    void getSearchQuota() {
 
         Call<RateLimits> api = GithubClient.getRateLimits();
-        if (BuildConfig.DEBUG) {Log.w(getLogTag(), api.request().url() + "");}
+        if (BuildConfig.DEBUG) {Log.w(LOG_TAG, api.request().url() + "");}
 
         api.enqueue(new Callback<RateLimits>() {
 
@@ -209,7 +222,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter {
 
             @Override
             public void onFailure(@NonNull Call<RateLimits> call, @NonNull Throwable t) {
-                if (BuildConfig.DEBUG) {Log.e(getLogTag(), t.getMessage());}
+                if (BuildConfig.DEBUG) {Log.e(LOG_TAG, t.getMessage());}
             }
         });
     }
@@ -219,13 +232,8 @@ public class RepositoriesAdapter extends RecyclerView.Adapter {
         return this.mContext;
     }
 
-    void clearItems() {
-        this.mItems.clear();
-        notifyItemRangeChanged(0, getItemCount());
-    }
-
     /** Setters */
-    private void setTotalItemCount(long value) {
+    void setTotalItemCount(long value) {
         this.totalItemCount = value;
     }
     void setQueryString(String value) {
@@ -235,10 +243,6 @@ public class RepositoriesAdapter extends RecyclerView.Adapter {
     /** Getters */
     private long getTotalItemCount() {
         return this.totalItemCount;
-    }
-
-    private String getLogTag() {
-        return RepositoriesAdapter.class.getSimpleName();
     }
 
     /** {@link RecyclerView.ViewHolder} for {@link CardView} of type {@link Repository}. */

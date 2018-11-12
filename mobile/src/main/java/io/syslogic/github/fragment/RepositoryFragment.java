@@ -32,12 +32,13 @@ import retrofit2.Response;
 public class RepositoryFragment extends BaseFragment implements IConnectivityListener {
 
     /** {@link Log} Tag */
-    private static final String LOG_TAG = RepositoryFragment.class.getSimpleName();
+    @NonNull
+    static final String LOG_TAG = RepositoryFragment.class.getSimpleName();
 
     /** {@link RepositoryFragmentBinding} */
     private RepositoryFragmentBinding mDataBinding;
 
-    private Boolean contentLoaded = false;
+    Boolean contentLoaded = false;
 
     private Long itemId = 0L;
 
