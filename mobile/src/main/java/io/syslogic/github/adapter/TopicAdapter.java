@@ -6,9 +6,9 @@ import androidx.annotation.NonNull;
 
 import io.syslogic.github.R;
 
-public class TopicsAdapter extends BaseArrayAdapter {
+public class TopicAdapter extends BaseArrayAdapter {
 
-    public TopicsAdapter(@NonNull Context context) {
+    public TopicAdapter(@NonNull Context context) {
         super(context);
         this.setItems(R.array.topic_keys, R.array.topic_values);
     }

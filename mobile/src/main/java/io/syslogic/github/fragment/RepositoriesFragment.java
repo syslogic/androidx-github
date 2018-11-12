@@ -18,7 +18,7 @@ import io.syslogic.github.databinding.RepositoriesFragmentBinding;
 import io.syslogic.github.model.PagerState;
 import io.syslogic.github.model.SpinnerItem;
 import io.syslogic.github.network.IConnectivityListener;
-import io.syslogic.github.adapter.TopicsAdapter;
+import io.syslogic.github.adapter.TopicAdapter;
 import io.syslogic.github.recyclerview.RepositoriesAdapter;
 import io.syslogic.github.recyclerview.ScrollListener;
 
@@ -69,7 +69,7 @@ public class RepositoriesFragment extends BaseFragment implements IConnectivityL
 
             this.mDataBinding.setPager(new PagerState());
 
-            this.mDataBinding.toolbarQuery.spinnerTopic.setAdapter(new TopicsAdapter(this.getContext()));
+            this.mDataBinding.toolbarQuery.spinnerTopic.setAdapter(new TopicAdapter(this.getContext()));
             this.mDataBinding.toolbarQuery.spinnerTopic.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 int count = 0;
                 @Override
