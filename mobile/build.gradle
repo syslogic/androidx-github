@@ -79,3 +79,6 @@ android {
 
 // apply script: dependencies
 apply from: "dependencies.gradle"
+
+// apply script: build tasks
+apply from: "tasks.gradle"

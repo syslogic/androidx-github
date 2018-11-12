@@ -1,7 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <lint>
-    <issue id="InvalidPackage">
-        <ignore regexp=".*okio.*" />
-        <ignore regexp=".*retrofit.*" />
+
+    <issue id="MissingRegistered">
+        <ignore regexp="androidx.*.widget.*" />
     </issue>
+
+    <issue id="UnusedResources">
+        <ignore regexp="R.layout.*" />
+        <ignore regexp="R.string.tools_*" />
+        <ignore regexp="R.string.text_pager_loading" />
+        <ignore regexp="R.string.text_pager_loaded" />
+        <ignore regexp="R.string.text_stargazers" />
+        <ignore regexp="R.string.text_subscribers" />
+        <ignore regexp="R.string.text_networks" />
+    </issue>
+
 </lint>
