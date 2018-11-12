@@ -1,0 +1,10 @@
+// :mobile tasks.gradle
+
+// task :assemble finalized by :lint
+tasks.whenTaskAdded { task ->
+    if (task.name == "assembleDebug") {
+        task.finalizedBy "lintDebug"
+    } else if (task.name == "assembleRelease") {
+        task.finalizedBy "lintRelease"
+    }
+}
