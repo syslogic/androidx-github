@@ -23,19 +23,19 @@ public class Repository extends BaseModel {
     private String htmlUrl;
 
     @SerializedName("forks_count")
-    private Long forkCount;
+    private Long forkCount = 0L;
 
     @SerializedName("stargazers_count")
-    private Long stargazerCount;
+    private Long stargazerCount = 0L;
 
     @SerializedName("watchers_count")
-    private Long watcherCount;
+    private Long watcherCount = 0L;
 
     @SerializedName("subscribers_count")
-    private Long subscriberCount;
+    private Long subscriberCount = 0L;
 
     @SerializedName("network_count")
-    private Long networkCount;
+    private Long networkCount = 0L;
 
     public Repository(@NonNull Long id, @NonNull String name, @NonNull String url) {
         this.setId(id);

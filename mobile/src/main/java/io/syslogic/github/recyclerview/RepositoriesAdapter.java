@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Objects;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -33,6 +34,7 @@ import io.syslogic.github.activity.DetailActivity;
 import io.syslogic.github.constants.Constants;
 import io.syslogic.github.databinding.RepositoriesFragmentBinding;
 import io.syslogic.github.databinding.RepositoryViewHolderBinding;
+import io.syslogic.github.fragment.RepositoryFragment;
 import io.syslogic.github.model.PagerState;
 import io.syslogic.github.model.RateLimit;
 import io.syslogic.github.model.RateLimits;
@@ -281,7 +283,9 @@ public class RepositoriesAdapter extends RecyclerView.Adapter {
             if(activity.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
 
                 RepositoriesFragmentBinding databinding = (RepositoriesFragmentBinding) activity.getFragmentDataBinding();
-                databinding.layoutDetail.setRepository(item);
+                if (databinding.layoutDetail.getRepository() == null || !Objects.equals(databinding.layoutDetail.getRepository().getId(), item.getId())) {
+                    databinding.layoutDetail.setRepository(item);
+                }
 
             } else {
                 Bundle extras = new Bundle();

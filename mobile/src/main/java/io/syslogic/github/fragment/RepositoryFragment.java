@@ -80,8 +80,8 @@ public class RepositoryFragment extends BaseFragment implements IConnectivityLis
             if(! isNetworkAvailable(this.getContext())) {
                 this.onNetworkLost();
             } else {
-                this.mDataBinding.webviewPreview.getSettings().setJavaScriptEnabled(true);
-                this.mDataBinding.webviewPreview.setWebViewClient(new WebViewClient() {
+                this.mDataBinding.webview.getSettings().setJavaScriptEnabled(true);
+                this.mDataBinding.webview.setWebViewClient(new WebViewClient() {
                     @Override
                     public void onPageCommitVisible (WebView view, String url) {
                         contentLoaded = true;
@@ -91,6 +91,11 @@ public class RepositoryFragment extends BaseFragment implements IConnectivityLis
             }
         }
         return layout;
+    }
+
+    private void setRepository(Long value) {
+        this.itemId = value;
+        this.setRepository();
     }
 
     private void setRepository() {
@@ -128,7 +133,7 @@ public class RepositoryFragment extends BaseFragment implements IConnectivityLis
                                 } catch (IOException e) {
                                     if(mDebug) {Log.e(LOG_TAG, e.getMessage());}
                                 }
-                                /* TODO: try to setRepository() in a second. */
+                                /* TODO: try to setRepository() later. */
                             }
                             break;
                         }
@@ -137,7 +142,7 @@ public class RepositoryFragment extends BaseFragment implements IConnectivityLis
 
                 @Override
                 public void onFailure(@NonNull Call<Repository> call, @NonNull Throwable t) {
-                    if (mDebug) {Log.e(getLogTag(), t.getMessage());}
+                    if (mDebug) {Log.e(LOG_TAG, t.getMessage());}
                 }
             });
         }
@@ -160,7 +165,7 @@ public class RepositoryFragment extends BaseFragment implements IConnectivityLis
     @Override
     public void onNetworkAvailable() {
         if (mDebug) {Log.d(LOG_TAG, "network connection is available.");}
-        if(this.mDataBinding != null && this.mDataBinding.webviewPreview != null && !this.contentLoaded) {
+        if(this.mDataBinding != null && this.mDataBinding.webview != null && !this.contentLoaded) {
             setRepository();
         }
     }

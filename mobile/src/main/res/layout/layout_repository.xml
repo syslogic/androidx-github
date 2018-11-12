@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".activity.DetailActivity">
+
+    <!--suppress AndroidUnknownAttribute -->
+    <data class=".databinding.RepositoryFragmentBinding">
+        <variable name="repository" type="io.syslogic.github.model.Repository"/>
+        <variable name="webview" type="io.syslogic.github.model.WebView"/>
+    </data>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/layout_repository"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include layout="@layout/toolbar_info"
+             android:id="@+id/toolbar_info"
+             android:layout_width="match_parent"
+             android:layout_height="?android:attr/actionBarSize"
+             android:layout_margin="0dp"
+             bind:repository="@{repository}"/>
+
+        <WebView
+            android:id="@+id/webview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.00"
+            app:loadUrl="@{repository.htmlUrl}"/>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</layout>

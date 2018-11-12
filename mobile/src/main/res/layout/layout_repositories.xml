@@ -8,7 +8,7 @@
 
     <!--suppress AndroidUnknownAttribute -->
     <data class=".databinding.RepositoriesFragmentBinding">
-        <variable name="repository" type="io.syslogic.github.model.Repositories"/>
+        <variable name="repositories" type="io.syslogic.github.model.Repositories"/>
         <variable name="pager" type="io.syslogic.github.model.PagerState"/>
     </data>
 

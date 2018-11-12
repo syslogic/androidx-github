@@ -8,18 +8,25 @@
 
     <!--suppress AndroidUnknownAttribute -->
     <data class=".databinding.RepositoriesFragmentBinding">
-        <variable name="repository" type="io.syslogic.github.model.Repositories"/>
+        <variable name="repositories" type="io.syslogic.github.model.Repositories"/>
+        <variable name="pager" type="io.syslogic.github.model.PagerState"/>
     </data>
 
     <androidx.appcompat.widget.LinearLayoutCompat
-        android:id="@+id/layout_repositories"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal">
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/layout_repositories"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1.00">
 
         <include
             android:id="@+id/layout_detail"
-            layout="@layout/layout_detail"
+            layout="@layout/layout_repository"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1.00"/>
@@ -41,16 +48,19 @@
                 tools:listitem="@layout/cardview_repository"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 android:layout_height="match_parent"
-                android:layout_width="match_parent"/>
-
-            <include layout="@layout/toolbar_pager"
-                 android:id="@+id/toolbar_pager"
-                 bind:pager="@{pager}"
-                 android:layout_width="match_parent"
-                 android:layout_height="?android:attr/actionBarSize"
-                 android:layout_margin="0dp"/>
+                android:layout_width="match_parent"
+                android:layout_weight="1.00"/>
 
         </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <include layout="@layout/toolbar_pager"
+             android:id="@+id/toolbar_pager"
+             android:layout_width="match_parent"
+             android:layout_height="?android:attr/actionBarSize"
+             android:layout_margin="0dp"
+             bind:pager="@{pager}"/>
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 

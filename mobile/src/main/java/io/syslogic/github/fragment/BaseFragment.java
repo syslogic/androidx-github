@@ -66,10 +66,6 @@ abstract public class BaseFragment extends Fragment {
         context.registerReceiver(mReceiver, intentFilter);
     }
 
-    String getLogTag() {
-        return this.LOG_TAG;
-    }
-
     @NonNull
     abstract public ViewDataBinding getDataBinding();
 }
