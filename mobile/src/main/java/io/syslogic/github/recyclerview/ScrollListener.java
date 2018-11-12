@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import io.syslogic.github.model.PagerState;
+
 public abstract class ScrollListener extends RecyclerView.OnScrollListener {
 
     private LinearLayoutManager layoutManager;
@@ -12,9 +14,7 @@ public abstract class ScrollListener extends RecyclerView.OnScrollListener {
 
     private int previousTotalItemCount = 0;
 
-    private static int currentPage = 1;
-
-    private boolean isLoading = true;
+    private static PagerState state = new PagerState(1);
 
     ScrollListener(LinearLayoutManager layoutManager) {
         this.layoutManager = layoutManager;
@@ -41,27 +41,27 @@ public abstract class ScrollListener extends RecyclerView.OnScrollListener {
         int firstVisibleItem = layoutManager.findFirstVisibleItemPosition();
 
         if (totalItemCount < previousTotalItemCount) {
+            if (totalItemCount == 0) {this.setIsLoading(true);}
             this.previousTotalItemCount = totalItemCount;
-            if (totalItemCount == 0) {this.isLoading = true;}
         }
 
-        if (this.isLoading && (totalItemCount > previousTotalItemCount)) {
-            this.isLoading = false;
-            previousTotalItemCount = totalItemCount;
-            currentPage ++;
+        if (state.getIsLoading() && (totalItemCount > previousTotalItemCount)) {
+            state.setPageNumber(state.getPageNumber() + 1);
+            this.previousTotalItemCount = totalItemCount;
+            this.setIsLoading(false);
         }
 
-        if (!recyclerView.isInEditMode() && !this.isLoading && (firstVisibleItem + visibleItemCount + visibleThreshold) >= totalItemCount ) {
-            this.isLoading = onLoadPage(currentPage, totalItemCount);
+        if (!recyclerView.isInEditMode() && !state.getIsLoading() && (firstVisibleItem + visibleItemCount + visibleThreshold) >= totalItemCount ) {
+            this.setIsLoading(this.onLoadPage(state.getPageNumber(), totalItemCount));
         }
     }
 
     public static void setPageNumber(int value) {
-        currentPage = value;
+        state.setPageNumber(value);
     }
 
-    public void setIsLoading(boolean value) {
-        this.isLoading = value;
+    void setIsLoading(boolean value) {
+        state.setIsLoading(value);
     }
 
     public abstract boolean onLoadPage(int pageNumber, int totalCount);

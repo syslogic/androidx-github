@@ -11,10 +11,12 @@ import android.widget.AdapterView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatSpinner;
 import androidx.appcompat.widget.AppCompatTextView;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.RecyclerView;
 
 import io.syslogic.github.R;
 import io.syslogic.github.databinding.RepositoriesFragmentBinding;
+import io.syslogic.github.model.PagerState;
 import io.syslogic.github.model.SpinnerItem;
 import io.syslogic.github.network.IConnectivityListener;
 import io.syslogic.github.spinner.TopicsAdapter;
@@ -27,16 +29,20 @@ public class RepositoriesFragment extends BaseFragment  implements IConnectivity
     /** {@link Log} Tag */
     private static final String LOG_TAG = RepositoriesFragment.class.getSimpleName();
 
-    /** ViewDataBinding {@link RepositoriesFragmentBinding} */
+    /** {@link RepositoriesFragmentBinding} */
     private RepositoriesFragmentBinding mDataBinding;
 
-    /** the {@link AppCompatSpinner} */
+    /** {@link AppCompatTextView}, only visible in debug builds */
+    private AppCompatTextView mTextQueryString;
+
+    /** {@link AppCompatSpinner} */
     private AppCompatSpinner mSpinnerTopic;
 
-    /** the {@link RecyclerView} */
+    /** {@link RecyclerView} */
     private RepositoriesLinearView mRecyclerView;
 
-    private AppCompatTextView mTextQueryString;
+    /** {@link Toolbar} for the {@link ScrollListener} */
+    private Toolbar mToolbarPager;
 
     public RepositoriesFragment() {
 
@@ -66,11 +72,10 @@ public class RepositoriesFragment extends BaseFragment  implements IConnectivity
 
         if(this.getContext() != null) {
 
-            this.mTextQueryString = layout.findViewById(R.id.text_query_string);
+            this.mDataBinding.setPager(new PagerState());
 
-            this.mSpinnerTopic = layout.findViewById(R.id.spinner_topic);
-            this.mSpinnerTopic.setAdapter(new TopicsAdapter(this.getContext()));
-            this.mSpinnerTopic.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            this.mDataBinding.toolbarQuery.spinnerTopic.setAdapter(new TopicsAdapter(this.getContext()));
+            this.mDataBinding.toolbarQuery.spinnerTopic.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 int count = 0;
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -83,7 +88,8 @@ public class RepositoriesFragment extends BaseFragment  implements IConnectivity
                             ((RepositoriesAdapter) mRecyclerView.getAdapter()).fetchPage(1);
                         }
                         if(mDebug) {
-                            mTextQueryString.setText(mRecyclerView.getQueryString());
+                            String text = mDataBinding.recyclerviewRepositories.getQueryString();
+                            mDataBinding.toolbarQuery.textQueryString.setText(text);
                         }
                     }
                     count++;
@@ -92,16 +98,17 @@ public class RepositoriesFragment extends BaseFragment  implements IConnectivity
                 public void onNothingSelected(AdapterView<?> parent) {}
             });
 
-            this.mRecyclerView = layout.findViewById(R.id.recyclerview_repositories);
-            if (this.mRecyclerView.getAdapter() == null) {
+            if (this.mDataBinding.recyclerviewRepositories.getAdapter() == null) {
                 if(isNetworkAvailable(this.getContext())) {
-                    this.mRecyclerView.setAdapter(new RepositoriesAdapter(this.getContext(), 1));
-                    if(mDebug) {this.mTextQueryString.setText(this.mRecyclerView.getQueryString());}
+                    this.mDataBinding.recyclerviewRepositories.setAdapter(new RepositoriesAdapter(this.getContext(), 1));
+                    if(mDebug) {
+                        String text = this.mDataBinding.recyclerviewRepositories.getQueryString();
+                        this.mDataBinding.toolbarQuery.textQueryString.setText(text);
+                    }
                 } else {
                     this.onNetworkLost();
                 }
             }
-
         }
         return layout;
     }
@@ -113,8 +120,8 @@ public class RepositoriesFragment extends BaseFragment  implements IConnectivity
     @Override
     public void onNetworkAvailable() {
         if (mDebug) {Log.d(LOG_TAG, "network connection is available.");}
-        if(mRecyclerView != null) {
-            RepositoriesAdapter adapter = ((RepositoriesAdapter) mRecyclerView.getAdapter());
+        if(this.mDataBinding != null && this.mDataBinding.recyclerviewRepositories != null) {
+            RepositoriesAdapter adapter = ((RepositoriesAdapter) this.mDataBinding.recyclerviewRepositories.getAdapter());
             if (adapter != null && adapter.getItemCount() == 0) {
                 adapter.fetchPage(1);
             }

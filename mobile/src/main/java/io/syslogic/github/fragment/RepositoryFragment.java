@@ -34,7 +34,7 @@ public class RepositoryFragment extends BaseFragment implements IConnectivityLis
     /** {@link Log} Tag */
     private static final String LOG_TAG = RepositoryFragment.class.getSimpleName();
 
-    /** ViewDataBinding {@link RepositoryFragmentBinding} */
+    /** {@link RepositoryFragmentBinding} */
     private RepositoryFragmentBinding mDataBinding;
 
     /** {@link WebView} */
@@ -80,9 +80,9 @@ public class RepositoryFragment extends BaseFragment implements IConnectivityLis
             if(! isNetworkAvailable(this.getContext())) {
                 this.onNetworkLost();
             } else {
-                this.mWebView = layout.findViewById(R.id.webview_preview);
-                this.mWebView.getSettings().setJavaScriptEnabled(true);
-                this.mWebView.setWebViewClient(new WebViewClient() {
+                // this.mWebView = layout.findViewById(R.id.webview_preview);
+                this.mDataBinding.webviewPreview.getSettings().setJavaScriptEnabled(true);
+                this.mDataBinding.webviewPreview.setWebViewClient(new WebViewClient() {
                     @Override
                     public void onPageCommitVisible (WebView view, String url) {
                         contentLoaded = true;

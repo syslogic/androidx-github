@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     tools:context=".activity.MainActivity">
 
     <!--suppress AndroidUnknownAttribute -->
     <data class=".databinding.RepositoriesFragmentBinding">
         <variable name="repository" type="io.syslogic.github.model.Repositories"/>
+        <variable name="pager" type="io.syslogic.github.model.PagerState"/>
     </data>
 
     <androidx.appcompat.widget.LinearLayoutCompat
@@ -16,19 +18,26 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <include
+        <include layout="@layout/toolbar_query"
             android:id="@+id/toolbar_query"
-            layout="@layout/toolbar_query"
             android:layout_width="match_parent"
             android:layout_height="?android:attr/actionBarSize"
             android:layout_margin="0dp"/>
 
         <io.syslogic.github.recyclerview.RepositoriesLinearView
             android:id="@+id/recyclerview_repositories"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/cardview_repository"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:layout_height="match_parent"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_weight="1.00"/>
+
+        <include layout="@layout/toolbar_pager"
+            android:id="@+id/toolbar_pager"
+            bind:pager="@{pager}"
+            android:layout_width="match_parent"
+            android:layout_height="?android:attr/actionBarSize"
+            android:layout_margin="0dp"/>
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 

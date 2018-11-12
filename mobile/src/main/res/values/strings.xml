@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Trending on GitHub</string>
+    <string name="app_name">GitHub Browser</string>
 
     <string name="text_device_offline">the device appears to be offline</string>
 
@@ -10,5 +10,8 @@
     <string name="text_watchers">watchers</string>
     <string name="text_subscribers">subscribers</string>
     <string name="text_networks">networks</string>
+
+    <string name="text_pager_loading">loading page %d of %d</string>
+    <string name="text_pager_loaded">loaded page %d of %d</string>
 
 </resources>

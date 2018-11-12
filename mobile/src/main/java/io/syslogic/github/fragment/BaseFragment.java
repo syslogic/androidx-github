@@ -36,7 +36,7 @@ abstract public class BaseFragment extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
-    protected static ConnectivityManager getConnectivityManager(Context context) {
+    private static ConnectivityManager getConnectivityManager(Context context) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         return Objects.requireNonNull(cm);
     }
@@ -48,7 +48,7 @@ abstract public class BaseFragment extends Fragment {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    protected void registerNetworkCallback(Context context, final IConnectivityListener listener) {
+    void registerNetworkCallback(Context context, final IConnectivityListener listener) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {return;}
         ConnectivityManager cm = getConnectivityManager(context);
         cm.registerDefaultNetworkCallback(new ConnectivityManager.NetworkCallback() {
@@ -65,7 +65,7 @@ abstract public class BaseFragment extends Fragment {
 
     /** required < API 24 Nougat */
     @SuppressWarnings("deprecation")
-    protected void registerBroadcastReceiver(Context context) {
+    void registerBroadcastReceiver(Context context) {
         IntentFilter intentFilter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
         ConnectivityReceiver mReceiver = new ConnectivityReceiver(context);
         context.registerReceiver(mReceiver, intentFilter);

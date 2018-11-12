@@ -6,11 +6,13 @@ import android.widget.FrameLayout;
 import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.databinding.ViewDataBinding;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.fragment.app.Fragment;
 
 import io.syslogic.github.BuildConfig;
+import io.syslogic.github.fragment.BaseFragment;
 
 abstract public class BaseActivity extends AppCompatActivity {
 
@@ -37,5 +39,10 @@ abstract public class BaseActivity extends AppCompatActivity {
         }
 
         return fragment;
+    }
+
+    public ViewDataBinding getFragmentDataBinding() {
+        BaseFragment fragment = (BaseFragment) this.getSupportFragmentManager().getFragments().get(0);
+        return fragment.getDataBinding();
     }
 }

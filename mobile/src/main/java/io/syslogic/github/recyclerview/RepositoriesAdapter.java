@@ -21,6 +21,7 @@ import java.util.Date;
 import java.util.Locale;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
@@ -32,7 +33,7 @@ import io.syslogic.github.activity.DetailActivity;
 import io.syslogic.github.constants.Constants;
 import io.syslogic.github.databinding.RepositoriesFragmentBinding;
 import io.syslogic.github.databinding.RepositoryViewHolderBinding;
-import io.syslogic.github.fragment.BaseFragment;
+import io.syslogic.github.model.PagerState;
 import io.syslogic.github.model.RateLimit;
 import io.syslogic.github.model.RateLimits;
 import io.syslogic.github.model.Repositories;
@@ -78,8 +79,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter {
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         RepositoryViewHolderBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.cardview_repository, parent, false);
-        View layout = binding.getRoot();
-        layout.setLayoutParams(new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        binding.getRoot().setLayoutParams(new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         return new ViewHolder(binding);
     }
 
@@ -105,7 +105,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter {
         this.mItems.addAll(items);
     }
 
-    protected String getQueryString() {
+    String getQueryString() {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(new Date());
         calendar.add(Calendar.DAY_OF_YEAR, -Constants.PARAMETER_PUSHED_WITHIN_LAST_DAYS);
@@ -113,10 +113,25 @@ public class RepositoriesAdapter extends RecyclerView.Adapter {
         return queryString + "+pushed:>" + isodate;
     }
 
-    public void fetchPage(int pageNumber) {
+    private void setPagerState(int pageNumber, boolean isLoading, @Nullable Long itemCount) {
+        RepositoriesFragmentBinding databinding = (RepositoriesFragmentBinding) ((BaseActivity) mContext).getFragmentDataBinding();
+        PagerState state = databinding.getPager();
+        state.setIsLoading(isLoading);
+        state.setPageNumber(pageNumber);
+        if(itemCount != null) {
+            state.setPageCount(Math.round(itemCount / state.getItemsPerPage()));
+            state.setItemCount(itemCount);
+        }
+        databinding.setPager(state);
+    }
+
+    public void fetchPage(final int pageNumber) {
 
         Call<Repositories> api = GithubClient.getRepositories(getQueryString(),"stars","desc", pageNumber);
         if(mDebug) {Log.w(LOG_TAG, api.request().url() + "");}
+
+        /* updating the pager data-binding */
+        this.setPagerState(pageNumber, true, null);
 
         api.enqueue(new Callback<Repositories>() {
 
@@ -126,12 +141,16 @@ public class RepositoriesAdapter extends RecyclerView.Adapter {
 
                     case 200: {
                         if (response.body() != null) {
+
                             Repositories items = response.body();
                             if (mDebug) {Log.d(LOG_TAG, "loaded " + getItemCount() + " / " + items.getCount());}
                             setTotalItemCount(items.getCount());
                             int positionStart = getItemCount();
                             addAll(items.getRepositories());
                             notifyItemRangeChanged(positionStart, getItemCount());
+
+                            /* updating the pager data-binding */
+                            setPagerState(pageNumber, false, items.getCount());
                         }
                         break;
                     }
@@ -162,7 +181,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter {
 
     /** reset the scroll listener. */
     private void resetOnScollListener() {
-        if(mRecyclerView.getAdapter() != null) {
+        if(this.mRecyclerView.getAdapter() != null) {
             ScrollListener listener = ((RepositoriesLinearView) mRecyclerView).getOnScrollListener();
             listener.setIsLoading(false);
         }
@@ -255,8 +274,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter {
 
             if(activity.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
 
-                BaseFragment fragment = (BaseFragment) activity.getSupportFragmentManager().getFragments().get(0);
-                RepositoriesFragmentBinding databinding = (RepositoriesFragmentBinding) fragment.getDataBinding();
+                RepositoriesFragmentBinding databinding = (RepositoriesFragmentBinding) activity.getFragmentDataBinding();
                 databinding.layoutDetail.setRepository(item);
 
             } else {
