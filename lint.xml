@@ -8,8 +8,7 @@
     <issue id="UnusedResources">
         <ignore regexp="R.layout.*" />
         <ignore regexp="R.string.tools_*" />
-        <ignore regexp="R.string.text_pager_loading" />
-        <ignore regexp="R.string.text_pager_loaded" />
+        <ignore regexp="R.string.text_pager_*" />
         <ignore regexp="R.string.text_stargazers" />
         <ignore regexp="R.string.text_subscribers" />
         <ignore regexp="R.string.text_networks" />
