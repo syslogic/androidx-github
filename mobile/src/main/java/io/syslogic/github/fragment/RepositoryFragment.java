@@ -22,14 +22,14 @@ import androidx.annotation.Nullable;
 import io.syslogic.github.constants.Constants;
 import io.syslogic.github.databinding.RepositoryFragmentBinding;
 import io.syslogic.github.model.Repository;
-import io.syslogic.github.network.IConnectivityListener;
+import io.syslogic.github.network.IConnectivityAware;
 import io.syslogic.github.retrofit.GithubClient;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class RepositoryFragment extends BaseFragment implements IConnectivityListener {
+public class RepositoryFragment extends BaseFragment implements IConnectivityAware {
 
     /** {@link Log} Tag */
     @NonNull

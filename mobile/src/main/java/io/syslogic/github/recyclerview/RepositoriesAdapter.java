@@ -34,7 +34,6 @@ import io.syslogic.github.activity.DetailActivity;
 import io.syslogic.github.constants.Constants;
 import io.syslogic.github.databinding.RepositoriesFragmentBinding;
 import io.syslogic.github.databinding.RepositoryViewHolderBinding;
-import io.syslogic.github.fragment.RepositoryFragment;
 import io.syslogic.github.model.PagerState;
 import io.syslogic.github.model.RateLimit;
 import io.syslogic.github.model.RateLimits;

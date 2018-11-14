@@ -1,6 +1,6 @@
 package io.syslogic.github.network;
 
-public interface IConnectivityListener {
+public interface IConnectivityAware {
 
     void onNetworkAvailable();
 

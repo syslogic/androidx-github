@@ -17,7 +17,7 @@ import androidx.fragment.app.Fragment;
 
 import io.syslogic.github.BuildConfig;
 import io.syslogic.github.network.ConnectivityReceiver;
-import io.syslogic.github.network.IConnectivityListener;
+import io.syslogic.github.network.IConnectivityAware;
 
 abstract public class BaseFragment extends Fragment {
 
@@ -43,7 +43,7 @@ abstract public class BaseFragment extends Fragment {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    void registerNetworkCallback(Context context, final IConnectivityListener listener) {
+    void registerNetworkCallback(Context context, final IConnectivityAware listener) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {return;}
         ConnectivityManager cm = getConnectivityManager(context);
         cm.registerDefaultNetworkCallback(new ConnectivityManager.NetworkCallback() {
