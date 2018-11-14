@@ -10,6 +10,6 @@ public class TopicAdapter extends BaseArrayAdapter {
 
     public TopicAdapter(@NonNull Context context) {
         super(context);
-        this.setItems(R.array.topic_keys, R.array.topic_values);
+        this.setItems(context, R.array.topic_keys, R.array.topic_values);
     }
 }

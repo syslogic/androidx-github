@@ -13,13 +13,14 @@ import androidx.annotation.ArrayRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatTextView;
+
 import io.syslogic.github.R;
 import io.syslogic.github.model.SpinnerItem;
 
 abstract public class BaseArrayAdapter extends BaseAdapter {
 
-    private Context mContext;
     private ArrayList<SpinnerItem> mItems;
+
     private LayoutInflater layoutInflater;
 
     BaseArrayAdapter() {
@@ -28,13 +29,11 @@ abstract public class BaseArrayAdapter extends BaseAdapter {
 
     BaseArrayAdapter(@NonNull Context context) {
         this.layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        this.setContext(context);
     }
 
     BaseArrayAdapter(@NonNull Context context, @NonNull @ArrayRes Integer arrayKeys, @NonNull @ArrayRes Integer arrayValues) {
         this.layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        this.setContext(context);
-        this.setItems(arrayKeys, arrayValues);
+        this.setItems(context, arrayKeys, arrayValues);
     }
 
     @Override
@@ -66,15 +65,14 @@ abstract public class BaseArrayAdapter extends BaseAdapter {
         return convertView;
     }
 
-    /** Setters */
-    protected void setContext(@NonNull Context context) {
-        this.mContext = context;
-    }
-
-    void setItems(@NonNull @ArrayRes Integer arrayKeys, @NonNull @ArrayRes Integer arrayValues) {
+    private void clearItems() {
         if (this.mItems != null) {this.mItems.clear();}
         else {this.mItems = new ArrayList<>();}
-        Resources res = this.mContext.getResources();
+    }
+
+    void setItems(@NonNull Context context, @NonNull @ArrayRes Integer arrayKeys, @NonNull @ArrayRes Integer arrayValues) {
+        this.clearItems();
+        Resources res = context.getResources();
         String[] keys = res.getStringArray(arrayKeys);
         String[] values = res.getStringArray(arrayValues);
         for(int i = 0; i < keys.length; i++) {

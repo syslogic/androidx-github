@@ -10,6 +10,6 @@ public class SortFieldAdapter extends BaseArrayAdapter {
 
     public SortFieldAdapter(@NonNull Context context) {
         super(context);
-        this.setItems(R.array.sortfield_keys, R.array.sortfield_values);
+        this.setItems(context, R.array.sortfield_keys, R.array.sortfield_values);
     }
 }
