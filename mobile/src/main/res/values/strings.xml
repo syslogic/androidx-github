@@ -9,7 +9,11 @@
     <string name="text_subscribers">subscribers</string>
     <string name="text_networks">networks</string>
 
+    <string name="text_pager_offline">device offline</string>
     <string name="text_pager_loading" formatted="false">loading page %d of %d</string>
     <string name="text_pager_loaded" formatted="false">loaded page %d of %d</string>
+
+    <string name="debug_network_available">network connection is available</string>
+    <string name="debug_network_lost">network connection was lost</string>
 
 </resources>

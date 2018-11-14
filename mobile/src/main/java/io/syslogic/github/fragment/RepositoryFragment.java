@@ -17,19 +17,18 @@ import com.google.gson.JsonParser;
 import java.io.IOException;
 
 import androidx.annotation.NonNull;
-
 import androidx.annotation.Nullable;
+
 import io.syslogic.github.constants.Constants;
 import io.syslogic.github.databinding.RepositoryFragmentBinding;
-import io.syslogic.github.model.Repository;
-import io.syslogic.github.network.IConnectivityAware;
 import io.syslogic.github.retrofit.GithubClient;
+import io.syslogic.github.model.Repository;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class RepositoryFragment extends BaseFragment implements IConnectivityAware {
+public class RepositoryFragment extends BaseFragment {
 
     /** {@link Log} Tag */
     @NonNull
@@ -93,9 +92,31 @@ public class RepositoryFragment extends BaseFragment implements IConnectivityAwa
         return layout;
     }
 
-    private void setRepository(Long value) {
+    private void setItemId(@NonNull Long value) {
         this.itemId = value;
-        this.setRepository();
+    }
+
+    @NonNull
+    public Long getItemId() {
+        return this.itemId;
+    }
+
+    @NonNull
+    public RepositoryFragmentBinding getDataBinding() {
+        return this.mDataBinding;
+    }
+
+    @Override
+    public void onNetworkAvailable() {
+        super.onNetworkAvailable();
+        if(this.mDataBinding != null && this.mDataBinding.webview != null && !this.contentLoaded) {
+            setRepository();
+        }
+    }
+
+    @Override
+    public void onNetworkLost() {
+        super.onNetworkLost();
     }
 
     private void setRepository() {
@@ -146,32 +167,5 @@ public class RepositoryFragment extends BaseFragment implements IConnectivityAwa
                 }
             });
         }
-    }
-
-    private void setItemId(@NonNull Long value) {
-        this.itemId = value;
-    }
-
-    @NonNull
-    public Long getItemId() {
-        return this.itemId;
-    }
-
-    @NonNull
-    public RepositoryFragmentBinding getDataBinding() {
-        return this.mDataBinding;
-    }
-
-    @Override
-    public void onNetworkAvailable() {
-        if (mDebug) {Log.d(LOG_TAG, "network connection is available.");}
-        if(this.mDataBinding != null && this.mDataBinding.webview != null && !this.contentLoaded) {
-            setRepository();
-        }
-    }
-
-    @Override
-    public void onNetworkLost() {
-        if (mDebug) {Log.d(LOG_TAG, "network connection was lost.");}
     }
 }

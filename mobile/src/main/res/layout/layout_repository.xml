@@ -9,7 +9,7 @@
     <!--suppress AndroidUnknownAttribute -->
     <data class=".databinding.RepositoryFragmentBinding">
         <variable name="repository" type="io.syslogic.github.model.Repository"/>
-        <variable name="webview" type="io.syslogic.github.model.WebView"/>
+        <variable name="preview" type="io.syslogic.github.model.WebView"/>
     </data>
 
     <androidx.appcompat.widget.LinearLayoutCompat

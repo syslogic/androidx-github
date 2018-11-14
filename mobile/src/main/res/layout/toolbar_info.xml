@@ -40,7 +40,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="0.2"
-                    android:visibility="@{repository.forkCount > 0 ? View.VISIBLE : View.INVISIBLE}"
+                    android:visibility="@{safeUnbox(repository.forkCount) > 0 ? View.VISIBLE : View.INVISIBLE}"
                     android:orientation="vertical">
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/forkCount"
@@ -69,7 +69,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="0.2"
-                    android:visibility="@{repository.watcherCount > 0 ? View.VISIBLE : View.INVISIBLE}"
+                    android:visibility="@{safeUnbox(repository.watcherCount) > 0 ? View.VISIBLE : View.INVISIBLE}"
                     android:orientation="vertical">
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/watcherCount"
@@ -98,7 +98,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="0.2"
-                    android:visibility="@{repository.subscriberCount > 0 ? View.VISIBLE : View.INVISIBLE}"
+                    android:visibility="@{safeUnbox(repository.subscriberCount) > 0 ? View.VISIBLE : View.INVISIBLE}"
                     android:orientation="vertical">
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/subscriberCount"
@@ -127,7 +127,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="0.2"
-                    android:visibility="@{repository.networkCount > 0 ? View.VISIBLE : View.INVISIBLE}"
+                    android:visibility="@{safeUnbox(repository.networkCount) > 0 ? View.VISIBLE : View.INVISIBLE}"
                     android:orientation="vertical">
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/networkCount"

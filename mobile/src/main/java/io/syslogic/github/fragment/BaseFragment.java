@@ -7,6 +7,7 @@ import android.net.Network;
 import android.net.NetworkInfo;
 import android.os.Build;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.util.Objects;
 
@@ -16,10 +17,11 @@ import androidx.databinding.ViewDataBinding;
 import androidx.fragment.app.Fragment;
 
 import io.syslogic.github.BuildConfig;
+import io.syslogic.github.R;
 import io.syslogic.github.network.ConnectivityReceiver;
 import io.syslogic.github.network.IConnectivityAware;
 
-abstract public class BaseFragment extends Fragment {
+abstract public class BaseFragment extends Fragment implements IConnectivityAware {
 
     /** {@link Log} Tag */
     private final String LOG_TAG = BaseFragment.class.getSimpleName();
@@ -64,6 +66,24 @@ abstract public class BaseFragment extends Fragment {
         IntentFilter intentFilter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
         ConnectivityReceiver mReceiver = new ConnectivityReceiver(context);
         context.registerReceiver(mReceiver, intentFilter);
+    }
+
+    @Override
+    public void onNetworkAvailable() {
+        if(mDebug && this.getContext() != null) {
+            String message = this.getContext().getResources().getString(R.string.debug_network_available);
+            // Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+            Log.w(LOG_TAG, message);
+        }
+    }
+
+    @Override
+    public void onNetworkLost() {
+        if(mDebug && this.getContext() != null) {
+            String message = this.getContext().getResources().getString(R.string.debug_network_lost);
+            // Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+            Log.w(LOG_TAG, message);
+        }
     }
 
     @NonNull

@@ -11,15 +11,14 @@ import android.widget.AdapterView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import io.syslogic.github.databinding.RepositoriesFragmentBinding;
 import io.syslogic.github.model.PagerState;
 import io.syslogic.github.model.SpinnerItem;
-import io.syslogic.github.network.IConnectivityAware;
 import io.syslogic.github.adapter.TopicAdapter;
+import io.syslogic.github.databinding.RepositoriesFragmentBinding;
 import io.syslogic.github.recyclerview.RepositoriesAdapter;
 import io.syslogic.github.recyclerview.ScrollListener;
 
-public class RepositoriesFragment extends BaseFragment implements IConnectivityAware {
+public class RepositoriesFragment extends BaseFragment {
 
     /** {@link Log} Tag */
     private static final String LOG_TAG = RepositoriesFragment.class.getSimpleName();
@@ -103,17 +102,40 @@ public class RepositoriesFragment extends BaseFragment implements IConnectivityA
 
     @Override
     public void onNetworkAvailable() {
-        if (mDebug) {Log.d(LOG_TAG, "network connection is available.");}
-        if(this.mDataBinding != null && this.mDataBinding.recyclerview != null) {
-            RepositoriesAdapter adapter = ((RepositoriesAdapter) this.mDataBinding.recyclerview.getAdapter());
-            if (adapter != null && adapter.getItemCount() == 0) {
-                adapter.fetchPage(1);
+        super.onNetworkAvailable();
+
+        if(this.getContext() != null && this.mDataBinding != null) {
+
+             if(this.mDataBinding.toolbarPager != null) {
+                PagerState state = this.mDataBinding.toolbarPager.getPager();
+                state.setIsOffline(false);
+                this.mDataBinding.toolbarPager.setPager(state);
+            }
+
+            if(this.mDataBinding.recyclerview != null) {
+                RepositoriesAdapter adapter = ((RepositoriesAdapter) this.mDataBinding.recyclerview.getAdapter());
+                if (adapter != null && adapter.getItemCount() == 0) {
+                    adapter.fetchPage(1);
+                }
             }
         }
     }
 
     @Override
     public void onNetworkLost() {
-        if (mDebug) {Log.w(LOG_TAG, "network connection was lost.");}
+        if(this.getContext() != null && this.mDataBinding != null) {
+            if(this.mDataBinding.toolbarPager != null) {
+                PagerState state;
+                if(this.mDataBinding.toolbarPager.getPager() == null) {
+                    state = new PagerState();
+                    state.setIsOffline(true);
+                    this.mDataBinding.toolbarPager.setPager(state);
+                } else {
+                    state = this.mDataBinding.toolbarPager.getPager();
+                    state.setIsOffline(true);
+                }
+                this.mDataBinding.toolbarPager.setPager(state);
+            }
+        }
     }
 }

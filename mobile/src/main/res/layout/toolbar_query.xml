@@ -23,17 +23,40 @@
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/layout_toolbar_query"
-            style="?android:attr/buttonBarStyle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:gravity="center_vertical|end">
+            android:orientation="vertical">
 
-            <androidx.appcompat.widget.AppCompatSpinner
-                android:id="@+id/spinner_topic"
-                tools:entries="@array/topic_keys"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"/>
+            <androidx.appcompat.widget.LinearLayoutCompat
+                style="?android:attr/buttonBarStyle"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1.00"
+                android:orientation="horizontal"
+                android:gravity="center_vertical|end">
+
+                <androidx.appcompat.widget.AppCompatSpinner
+                    android:id="@+id/spinner_topic"
+                    tools:entries="@array/topic_keys"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"/>
+
+                <androidx.appcompat.widget.AppCompatImageButton
+                    android:id="@+id/button_sort_order"
+                    android:background="@android:drawable/ic_menu_sort_by_size"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"/>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_gravity="bottom"
+                android:background="@color/colorAccent"
+                android:orientation="vertical"
+                android:padding="0dp"/>
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
