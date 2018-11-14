@@ -25,7 +25,7 @@
         android:layout_weight="1.00">
 
         <include
-            android:id="@+id/layout_detail"
+            android:id="@+id/layout_repository"
             layout="@layout/layout_repository"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -58,7 +58,7 @@
         <include layout="@layout/toolbar_pager"
              android:id="@+id/toolbar_pager"
              android:layout_width="match_parent"
-             android:layout_height="22dp"
+             android:layout_height="26dp"
              android:layout_margin="0dp"
              bind:pager="@{pager}"/>
 

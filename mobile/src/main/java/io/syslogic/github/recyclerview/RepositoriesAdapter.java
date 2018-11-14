@@ -283,8 +283,8 @@ public class RepositoriesAdapter extends RecyclerView.Adapter {
             if(activity.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
 
                 RepositoriesFragmentBinding databinding = (RepositoriesFragmentBinding) activity.getFragmentDataBinding();
-                if (databinding.layoutDetail.getRepository() == null || !Objects.equals(databinding.layoutDetail.getRepository().getId(), item.getId())) {
-                    databinding.layoutDetail.setRepository(item);
+                if (databinding.layoutRepository.getRepository() == null || !Objects.equals(databinding.layoutRepository.getRepository().getId(), item.getId())) {
+                    databinding.layoutRepository.setRepository(item);
                 }
 
             } else {
