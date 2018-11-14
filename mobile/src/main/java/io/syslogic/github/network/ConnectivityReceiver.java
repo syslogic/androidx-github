@@ -5,12 +5,10 @@ import android.content.Intent;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+
 import io.syslogic.github.BuildConfig;
 import io.syslogic.github.activity.BaseActivity;
-import io.syslogic.github.activity.DetailActivity;
-import io.syslogic.github.activity.MainActivity;
-import io.syslogic.github.fragment.RepositoriesFragment;
-import io.syslogic.github.fragment.RepositoryFragment;
+import io.syslogic.github.fragment.BaseFragment;
 
 /**
  * Apps targeting Android 7.0 (API level 24) and higher do not receive CONNECTIVITY_ACTION broadcasts
@@ -31,14 +29,19 @@ public class ConnectivityReceiver extends android.content.BroadcastReceiver {
 
     @Override
     public void onReceive(@NonNull Context context, @NonNull Intent intent) {
-        if(mDebug) {Log.d(LOG_TAG, "onReceive: "+ intent.getAction());}
+
+        if(mDebug) {
+            Log.d(LOG_TAG, "onReceive: "+ intent.getAction());
+        }
+
         BaseActivity activity = ((BaseActivity) context);
-        if(activity instanceof MainActivity) {
-            RepositoriesFragment fragment = (RepositoriesFragment) activity.getSupportFragmentManager().getFragments().get(0);
-            if(fragment.isNetworkAvailable(context)) {fragment.onNetworkAvailable();} else {fragment.onNetworkLost();}
-        } else if (activity instanceof DetailActivity) {
-            RepositoryFragment fragment = (RepositoryFragment) activity.getSupportFragmentManager().getFragments().get(0);
-            if(fragment.isNetworkAvailable(context)) {fragment.onNetworkAvailable();} else {fragment.onNetworkLost();}
+        BaseFragment fragment = (BaseFragment) activity.getSupportFragmentManager().getFragments().get(0);
+        if(fragment != null) {
+            if (fragment.isNetworkAvailable(context)) {
+                fragment.onNetworkAvailable();
+            } else {
+                fragment.onNetworkLost();
+            }
         }
     }
 }

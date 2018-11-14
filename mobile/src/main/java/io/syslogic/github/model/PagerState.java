@@ -16,6 +16,8 @@ public class PagerState extends BaseModel {
 
     private Boolean isLoading = true;
 
+    private Boolean isOffline = false;
+
     public PagerState() {
 
     }
@@ -46,6 +48,10 @@ public class PagerState extends BaseModel {
 
     public void setIsLoading(@NonNull Boolean value) {
         this.isLoading = value;
+    }
+
+    public void setIsOffline(@NonNull Boolean value) {
+        this.isOffline = value;
     }
 
     @NonNull
@@ -82,5 +88,11 @@ public class PagerState extends BaseModel {
     @Bindable
     public Boolean getIsLoading() {
         return this.isLoading;
+    }
+
+    @NonNull
+    @Bindable
+    public Boolean getIsOffline() {
+        return this.isOffline;
     }
 }

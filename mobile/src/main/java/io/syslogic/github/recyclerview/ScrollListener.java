@@ -10,7 +10,7 @@ public abstract class ScrollListener extends RecyclerView.OnScrollListener {
 
     private LinearLayoutManager layoutManager;
 
-    private int visibleThreshold = 12;
+    private int visibleThreshold = 20;
 
     private int previousTotalItemCount = 0;
 
@@ -56,6 +56,9 @@ public abstract class ScrollListener extends RecyclerView.OnScrollListener {
         }
     }
 
+    public abstract boolean onLoadPage(int pageNumber, int totalCount);
+
+    /* setters */
     public static void setPageNumber(int value) {
         state.setPageNumber(value);
     }
@@ -64,5 +67,8 @@ public abstract class ScrollListener extends RecyclerView.OnScrollListener {
         state.setIsLoading(value);
     }
 
-    public abstract boolean onLoadPage(int pageNumber, int totalCount);
+    /* getters */
+    public static PagerState getPagerState() {
+        return state;
+    }
 }
