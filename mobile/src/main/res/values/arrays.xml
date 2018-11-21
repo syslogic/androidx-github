@@ -9,7 +9,7 @@
 
     <string-array name="topic_values" translatable="false">
         <item name="android">topic:android</item>
-        <item name="kotlin">topic:kotlin</item>
+        <item name="kotlin">topic:kotlin-android</item>
         <item name="gradle">topic:gradle</item>
     </string-array>
 
