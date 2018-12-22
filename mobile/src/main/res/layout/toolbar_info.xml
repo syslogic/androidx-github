@@ -156,9 +156,10 @@
 
                 <androidx.appcompat.widget.AppCompatImageButton
                     android:id="@+id/button_download"
-                    android:layout_width="42dp"
+                    android:layout_width="48dp"
                     android:layout_height="match_parent"
-                    android:src="@drawable/baseline_cloud_download_black_18"/>
+                    android:background="@null"
+                    android:src="@drawable/baseline_cloud_download_black_24"/>
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
