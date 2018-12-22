@@ -32,7 +32,7 @@ import io.syslogic.github.R;
 import io.syslogic.github.constants.Constants;
 import io.syslogic.github.databinding.RepositoryFragmentBinding;
 import io.syslogic.github.task.IDownloadTask;
-import io.syslogic.github.retrofit.GithubClient;
+import io.syslogic.github.network.GithubClient;
 import io.syslogic.github.model.Repository;
 import io.syslogic.github.task.DownloadTask;
 
@@ -58,7 +58,6 @@ public class RepositoryFragment extends BaseFragment implements IDownloadTask {
     private BottomSheetBehavior<View> mBottomSheet;
     private AppCompatTextView mFileName;
     private AppCompatTextView mStatus;
-    private ProgressBar mProgress;
 
     private Long itemId = 0L;
 
@@ -107,7 +106,6 @@ public class RepositoryFragment extends BaseFragment implements IDownloadTask {
             this.mBottomSheet.setState(BottomSheetBehavior.STATE_COLLAPSED);
 
             /* bottom sheet items */
-            this.mProgress = layout.findViewById(R.id.progressbar_download_status);
             this.mFileName = layout.findViewById(R.id.text_download_filename);
             this.mStatus   = layout.findViewById(R.id.text_download_status);
 
@@ -192,12 +190,8 @@ public class RepositoryFragment extends BaseFragment implements IDownloadTask {
             String text;
             if(fileSize > 0) {
                 text = String.format(Locale.getDefault(), getActivity().getResources().getString(R.string.text_file_size_known), fileSize);
-                mProgress.setVisibility(View.VISIBLE);
-                mProgress.setMax(fileSize.intValue());
             } else {
                 text = getActivity().getResources().getString(R.string.text_file_size_unknown);
-                mProgress.setVisibility(View.VISIBLE);
-                mProgress.setMax(100);
             }
             if (mDebug) {Log.d(LOG_TAG, text);}
             mFileName.setText(fileName);
@@ -209,7 +203,6 @@ public class RepositoryFragment extends BaseFragment implements IDownloadTask {
     @Override
     public void OnProgress( final String fileName, final Integer progress,  final Long fileSize) {
         if(getActivity() != null) {
-            mProgress.setProgress(progress);
             String text;
             if(fileSize > 0) {
                 text = String.format(Locale.getDefault(), getActivity().getResources().getString(R.string.text_file_progress), progress, fileSize);
@@ -230,7 +223,6 @@ public class RepositoryFragment extends BaseFragment implements IDownloadTask {
                 @Override
                 public void run() {
                     mBottomSheet.setState(BottomSheetBehavior.STATE_EXPANDED);
-                    mProgress.setVisibility(View.GONE);
                     String text = String.format(Locale.getDefault(), getActivity().getResources().getString(R.string.text_file_size_known), fileSize);
                     if (mDebug) {Log.d(LOG_TAG, text);}
                     mFileName.setText(fileName);
@@ -244,15 +236,10 @@ public class RepositoryFragment extends BaseFragment implements IDownloadTask {
     public void OnComplete(final String fileName, final Long fileSize, Boolean success) {
         this.mDownload.setClickable(true);
         if(getActivity() != null && success) {
-
             mBottomSheet.setState(BottomSheetBehavior.STATE_EXPANDED);
             String text = getActivity().getResources().getString(R.string.text_file_downloaded);
             if (mDebug) {Log.d(LOG_TAG, text);}
             mStatus.setText(text);
-
-            mProgress.setVisibility(View.VISIBLE);
-            mProgress.setMax(100);
-            mProgress.setProgress(100);
         }
     }
 
@@ -265,7 +252,6 @@ public class RepositoryFragment extends BaseFragment implements IDownloadTask {
                 @Override
                 public void run() {
                     mBottomSheet.setState(BottomSheetBehavior.STATE_EXPANDED);
-                    mProgress.setVisibility(View.GONE);
                     mStatus.setText(e.getMessage());
                 }
             });

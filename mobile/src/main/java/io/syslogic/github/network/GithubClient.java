@@ -1,4 +1,4 @@
-package io.syslogic.github.retrofit;
+package io.syslogic.github.network;
 
 import androidx.annotation.NonNull;
 import io.syslogic.github.model.RateLimits;

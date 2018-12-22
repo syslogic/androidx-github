@@ -10,7 +10,7 @@ public abstract class ScrollListener extends RecyclerView.OnScrollListener {
 
     private LinearLayoutManager layoutManager;
 
-    private int visibleThreshold = 20;
+    private int visibleThreshold = 12;
 
     private int previousTotalItemCount = 0;
 
@@ -28,13 +28,13 @@ public abstract class ScrollListener extends RecyclerView.OnScrollListener {
      * after a layout calculation. In that case, dx and dy will be 0.
      *
      * @param recyclerView The RecyclerView which scrolled.
-     * @param dx The amount of horizontal scroll.
-     * @param dy The amount of vertical scroll.
+     * @param scrollX The amount of horizontal scroll.
+     * @param scrollY The amount of vertical scroll.
     **/
     @Override
-    public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+    public void onScrolled(@NonNull RecyclerView recyclerView, int scrollX, int scrollY) {
 
-        super.onScrolled(recyclerView, dx, dy);
+        super.onScrolled(recyclerView, scrollX, scrollY);
 
         int totalItemCount   = layoutManager.getItemCount();
         int visibleItemCount = layoutManager.getChildCount();

@@ -1,4 +1,4 @@
-package io.syslogic.github.retrofit;
+package io.syslogic.github.network;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -52,6 +52,7 @@ public interface GithubService {
      * Note: For private repositories, these links are temporary and expire after five minutes.
     **/
     @NonNull
+    @Streaming
     @GET("/repos/{owner}/{repo}/{format}/{ref}")
     Call<ResponseBody> getArchiveLink(
         @NonNull @Path(value = "owner")  String owner,

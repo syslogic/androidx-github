@@ -39,7 +39,7 @@ import io.syslogic.github.model.RateLimit;
 import io.syslogic.github.model.RateLimits;
 import io.syslogic.github.model.Repositories;
 import io.syslogic.github.model.Repository;
-import io.syslogic.github.retrofit.GithubClient;
+import io.syslogic.github.network.GithubClient;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -49,7 +49,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter {
 
     /** {@link Log} Tag */
     @NonNull
-    static final String LOG_TAG = RepositoriesAdapter.class.getSimpleName();
+    private static final String LOG_TAG = RepositoriesAdapter.class.getSimpleName();
 
     private ArrayList<Repository> mItems = new ArrayList<>();
 
@@ -175,14 +175,14 @@ public class RepositoriesAdapter extends RecyclerView.Adapter {
     }
 
     /** reset the scroll listener. */
-    void resetOnScollListener() {
+    private void resetOnScollListener() {
         if(this.mRecyclerView.getAdapter() != null) {
             ScrollListener listener = ((RepositoriesLinearView) mRecyclerView).getOnScrollListener();
             listener.setIsLoading(false);
         }
     }
 
-    void setPagerState(int pageNumber, boolean isLoading, @Nullable Long itemCount) {
+    private void setPagerState(int pageNumber, boolean isLoading, @Nullable Long itemCount) {
         RepositoriesFragmentBinding databinding = (RepositoriesFragmentBinding) ((BaseActivity) mContext).getFragmentDataBinding();
         PagerState state = databinding.getPager();
         state.setIsLoading(isLoading);
@@ -194,7 +194,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter {
         databinding.setPager(state);
     }
 
-    void getSearchQuota() {
+    private void getSearchQuota() {
 
         Call<RateLimits> api = GithubClient.getRateLimits();
         if (BuildConfig.DEBUG) {Log.w(LOG_TAG, api.request().url() + "");}
@@ -237,7 +237,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter {
     }
 
     /** Setters */
-    void setTotalItemCount(long value) {
+    private void setTotalItemCount(long value) {
         this.totalItemCount = value;
     }
     void setQueryString(String value) {

@@ -20,10 +20,10 @@ import androidx.fragment.app.Fragment;
 import io.syslogic.github.BuildConfig;
 import io.syslogic.github.R;
 import io.syslogic.github.network.ConnectivityReceiver;
-import io.syslogic.github.network.IConnectivityAware;
+import io.syslogic.github.network.ConnectivityAware;
 import io.syslogic.github.network.TokenHelper;
 
-abstract public class BaseFragment extends Fragment implements IConnectivityAware {
+abstract public class BaseFragment extends Fragment implements ConnectivityAware {
 
     /** {@link Log} Tag */
     private final String LOG_TAG = BaseFragment.class.getSimpleName();
@@ -55,7 +55,7 @@ abstract public class BaseFragment extends Fragment implements IConnectivityAwar
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    void registerNetworkCallback(Context context, final IConnectivityAware listener) {
+    void registerNetworkCallback(Context context, final ConnectivityAware listener) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {return;}
         ConnectivityManager cm = getConnectivityManager(context);
         cm.registerDefaultNetworkCallback(new ConnectivityManager.NetworkCallback() {
