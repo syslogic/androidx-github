@@ -6,7 +6,7 @@ android {
     defaultConfig {
 
         applicationId rootProject.ext.get('applicationId')
-        manifestPlaceholders = [ accessToken: null ]
+        manifestPlaceholders = [ accessToken: "" ]
         versionName rootProject.ext.get('versionName')
         versionCode rootProject.ext.get('versionCode')
         compileSdkVersion rootProject.ext.get('compileSdkVersion')
@@ -51,6 +51,7 @@ android {
         debug {
             applicationIdSuffix ".debug"
             signingConfig signingConfigs.debug
+            manifestPlaceholders = [accessToken: "${accessToken}"]
             testCoverageEnabled false
             minifyEnabled false
             debuggable true
@@ -62,6 +63,7 @@ android {
         }
         release {
             signingConfig signingConfigs.release
+            manifestPlaceholders = [accessToken: "${accessToken}"]
             proguardFile "${project.rootDir}/proguard/android.pro"
             proguardFile "${project.rootDir}/proguard/androidx.pro"
             proguardFile "${project.rootDir}/proguard/retrofit.pro"

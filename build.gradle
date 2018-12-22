@@ -13,6 +13,11 @@ project.ext.set('androidxTestVersion', version['androidxTestVersion'])
 project.ext.set('androidxVersion',     version['androidxVersion'])
 project.ext.set('retrofitVersion',     version['retrofitVersion'])
 
+// Access Token, loaded from token.properties
+def apikeys = new Properties()
+apikeys.load(new FileInputStream(rootProject.file('token.properties')))
+project.ext.set('accessToken', apikeys['accessToken'])
+
 buildscript {
     repositories {
         google()
