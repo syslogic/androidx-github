@@ -105,7 +105,6 @@ public class RepositoriesFragment extends BaseFragment {
     @Override
     public void onNetworkAvailable() {
         super.onNetworkAvailable();
-
         if(this.getContext() != null && this.mDataBinding != null) {
 
             if(this.mDataBinding.toolbarPager != null) {
@@ -125,7 +124,9 @@ public class RepositoriesFragment extends BaseFragment {
 
     @Override
     public void onNetworkLost() {
+        super.onNetworkLost();
         if(this.getContext() != null && this.mDataBinding != null) {
+
             if(this.mDataBinding.toolbarPager != null) {
                 PagerState state;
                 if(this.mDataBinding.toolbarPager.getPager() == null) {

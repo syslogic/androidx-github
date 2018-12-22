@@ -1,4 +1,4 @@
-package io.syslogic.github.task;
+package io.syslogic.github.network;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -31,10 +31,10 @@ public class DownloadTask extends AsyncTask<ResponseBody, Pair<Integer, Long>, B
     private final String fileName;
 
     /** Callback Listener */
-    private IDownloadTask listener;
+    private DownloadListener listener;
 
     /** Constructor */
-    public DownloadTask(String fileName, IDownloadTask listener) {
+    public DownloadTask(String fileName, DownloadListener listener) {
         this.fileName = fileName;
         this.listener = listener;
     }

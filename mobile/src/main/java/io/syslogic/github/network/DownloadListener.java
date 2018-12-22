@@ -1,6 +1,6 @@
-package io.syslogic.github.task;
+package io.syslogic.github.network;
 
-public interface IDownloadTask {
+public interface DownloadListener {
 
     void OnFileSize(String fileName, Long fileSize);
 
