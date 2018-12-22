@@ -106,7 +106,7 @@ public class RepositoriesFragment extends BaseFragment {
 
         if(this.getContext() != null && this.mDataBinding != null) {
 
-             if(this.mDataBinding.toolbarPager != null) {
+            if(this.mDataBinding.toolbarPager != null) {
                 PagerState state = this.mDataBinding.toolbarPager.getPager();
                 state.setIsOffline(false);
                 this.mDataBinding.toolbarPager.setPager(state);

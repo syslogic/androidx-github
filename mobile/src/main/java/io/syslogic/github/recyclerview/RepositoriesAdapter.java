@@ -1,12 +1,9 @@
 package io.syslogic.github.recyclerview;
 
-import android.app.DownloadManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -88,7 +85,6 @@ public class RepositoriesAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(@NonNull final RecyclerView.ViewHolder viewHolder, int position) {
         final Repository item = getItem(position);
-        // if(mDebug) {Log.d(LOG_TAG, item.getFullName() + ": " + item.getUrl());}
         ((ViewHolder) viewHolder).getDataBinding().setRepository(item);
         ((ViewHolder) viewHolder).setId(item.getId());
         ((ViewHolder) viewHolder).setTag(item);

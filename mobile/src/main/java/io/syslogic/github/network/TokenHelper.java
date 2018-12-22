@@ -20,12 +20,15 @@ public class TokenHelper {
     public static String getAccessToken(Context context) {
         String accessToken = "";
         if (mDebug) {
+
             try {
                 ApplicationInfo app = context.getPackageManager().getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA);
                 accessToken = app.metaData.getString("com.github.ACCESS_TOKEN");
                 Log.d(LOG_TAG, "com.github.ACCESS_TOKEN: " + accessToken);
             } catch (NullPointerException | PackageManager.NameNotFoundException ignore) {}
+
         } else {
+
             AccountManager accountManager = AccountManager.get(context);
             Account[] accounts = accountManager.getAccountsByType("com.github");
             if (accounts.length > 0) {
@@ -34,6 +37,7 @@ public class TokenHelper {
             } else {
                 Log.d(LOG_TAG, "no device tokens");
             }
+
         }
         return accessToken;
     }

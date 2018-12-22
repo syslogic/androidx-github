@@ -23,17 +23,8 @@ abstract public class BaseArrayAdapter extends BaseAdapter {
 
     private LayoutInflater layoutInflater;
 
-    BaseArrayAdapter() {
-
-    }
-
     BaseArrayAdapter(@NonNull Context context) {
         this.layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-    }
-
-    BaseArrayAdapter(@NonNull Context context, @NonNull @ArrayRes Integer arrayKeys, @NonNull @ArrayRes Integer arrayValues) {
-        this.layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        this.setItems(context, arrayKeys, arrayValues);
     }
 
     @Override
@@ -65,7 +56,7 @@ abstract public class BaseArrayAdapter extends BaseAdapter {
         return convertView;
     }
 
-    private void clearItems() {
+    protected void clearItems() {
         if (this.mItems != null) {this.mItems.clear();}
         else {this.mItems = new ArrayList<>();}
     }

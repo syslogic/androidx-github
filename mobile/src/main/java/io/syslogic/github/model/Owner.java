@@ -8,21 +8,22 @@ public class Owner {
     private long id;
 
     @SerializedName("login")
-    private String name;
+    private String login;
 
     public long getId() {
         return this.id;
     }
 
-    public String getName() {
-        return this.name;
+    public String getLogin() {
+        return this.login;
     }
 
     public void setId(long value) {
         this.id = value;
     }
 
-    public void setName(String value) {
-        this.name = value;
+    public void setLogin(String value) {
+        this.login = value;
     }
+
 }

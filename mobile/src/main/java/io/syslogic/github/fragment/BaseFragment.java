@@ -6,12 +6,13 @@ import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkInfo;
 import android.os.Build;
+import android.os.Bundle;
 import android.util.Log;
-import android.widget.Toast;
 
 import java.util.Objects;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.databinding.ViewDataBinding;
 import androidx.fragment.app.Fragment;
@@ -20,6 +21,7 @@ import io.syslogic.github.BuildConfig;
 import io.syslogic.github.R;
 import io.syslogic.github.network.ConnectivityReceiver;
 import io.syslogic.github.network.IConnectivityAware;
+import io.syslogic.github.network.TokenHelper;
 
 abstract public class BaseFragment extends Fragment implements IConnectivityAware {
 
@@ -29,8 +31,16 @@ abstract public class BaseFragment extends Fragment implements IConnectivityAwar
     /** Debug Output */
     static final boolean mDebug = BuildConfig.DEBUG;
 
+    protected String accessToken = null;
+
     public BaseFragment() {
 
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        this.accessToken = this.getAccessToken(this.getContext());
     }
 
     private static ConnectivityManager getConnectivityManager(Context context) {
@@ -88,4 +98,8 @@ abstract public class BaseFragment extends Fragment implements IConnectivityAwar
 
     @NonNull
     abstract public ViewDataBinding getDataBinding();
+
+    String getAccessToken(Context context) {
+        return TokenHelper.getAccessToken(context);
+    }
 }

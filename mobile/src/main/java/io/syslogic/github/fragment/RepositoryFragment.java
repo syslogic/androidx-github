@@ -25,8 +25,9 @@ import java.util.Objects;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
+import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.appcompat.widget.AppCompatTextView;
+
 import io.syslogic.github.R;
 import io.syslogic.github.constants.Constants;
 import io.syslogic.github.databinding.RepositoryFragmentBinding;
@@ -50,14 +51,14 @@ public class RepositoryFragment extends BaseFragment implements IDownloadTask {
     /** {@link RepositoryFragmentBinding} */
     private RepositoryFragmentBinding mDataBinding;
 
+    private Boolean contentLoaded = false;
+
+    private AppCompatImageButton mDownload;
+
     private BottomSheetBehavior<View> mBottomSheet;
-
-    private ProgressBar mProgress;
-
     private AppCompatTextView mFileName;
     private AppCompatTextView mStatus;
-
-    Boolean contentLoaded = false;
+    private ProgressBar mProgress;
 
     private Long itemId = 0L;
 
@@ -97,14 +98,18 @@ public class RepositoryFragment extends BaseFragment implements IDownloadTask {
         View layout = this.mDataBinding.getRoot();
         if(this.getContext() != null) {
 
-            this.mProgress = layout.findViewById(R.id.progressbar_download_status);
-            this.mFileName = layout.findViewById(R.id.text_download_filename);
-            this.mStatus   = layout.findViewById(R.id.text_download_status);
+            /* download button */
+            this.mDownload = layout.findViewById(R.id.button_download);
 
+            /* bottom sheet */
             View bottomSheet = layout.findViewById(R.id.dialog_bottom_sheet);
             this.mBottomSheet = BottomSheetBehavior.from(bottomSheet);
             this.mBottomSheet.setState(BottomSheetBehavior.STATE_COLLAPSED);
-            this.mBottomSheet.setHideable(false);
+
+            /* bottom sheet items */
+            this.mProgress = layout.findViewById(R.id.progressbar_download_status);
+            this.mFileName = layout.findViewById(R.id.text_download_filename);
+            this.mStatus   = layout.findViewById(R.id.text_download_status);
 
             if(! isNetworkAvailable(this.getContext())) {
                 this.onNetworkLost();
@@ -120,7 +125,7 @@ public class RepositoryFragment extends BaseFragment implements IDownloadTask {
                 this.setRepository();
 
                 /* the download button */
-                this.mDataBinding.toolbarInfo.buttonDownload.setOnClickListener(new View.OnClickListener() {
+                this.mDownload.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         if (getActivity() != null) {
@@ -184,25 +189,20 @@ public class RepositoryFragment extends BaseFragment implements IDownloadTask {
     @Override
     public void OnFileSize(final String fileName, final Long fileSize) {
         if(getActivity() != null) {
-            getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    String text;
-                    if(fileSize > 0) {
-                        text = String.format(Locale.getDefault(), getActivity().getResources().getString(R.string.text_file_size_known), fileSize);
-                        mProgress.setVisibility(View.VISIBLE);
-                        mProgress.setMax(fileSize.intValue());
-                    } else {
-                        text = String.format(Locale.getDefault(), getActivity().getResources().getString(R.string.text_file_size_unknown));
-                        mProgress.setVisibility(View.VISIBLE);
-                        mProgress.setMax(100);
-                    }
-                    if (mDebug) {Log.d(LOG_TAG, text);}
-                    mFileName.setText(fileName);
-                    mStatus.setText(text);
-                    mBottomSheet.setState(BottomSheetBehavior.STATE_EXPANDED);
-                }
-            });
+            String text;
+            if(fileSize > 0) {
+                text = String.format(Locale.getDefault(), getActivity().getResources().getString(R.string.text_file_size_known), fileSize);
+                mProgress.setVisibility(View.VISIBLE);
+                mProgress.setMax(fileSize.intValue());
+            } else {
+                text = getActivity().getResources().getString(R.string.text_file_size_unknown);
+                mProgress.setVisibility(View.VISIBLE);
+                mProgress.setMax(100);
+            }
+            if (mDebug) {Log.d(LOG_TAG, text);}
+            mFileName.setText(fileName);
+            mStatus.setText(text);
+            mBottomSheet.setState(BottomSheetBehavior.STATE_EXPANDED);
         }
     }
 
@@ -223,7 +223,7 @@ public class RepositoryFragment extends BaseFragment implements IDownloadTask {
 
     @Override
     public void OnFileExists(final String fileName, final Long fileSize) {
-        this.mDataBinding.toolbarInfo.buttonDownload.setClickable(true);
+        this.mDownload.setClickable(true);
         if(getActivity() != null) {
             /* needs to run on UiThread */
             getActivity().runOnUiThread(new Runnable() {
@@ -242,28 +242,24 @@ public class RepositoryFragment extends BaseFragment implements IDownloadTask {
 
     @Override
     public void OnComplete(final String fileName, final Long fileSize, Boolean success) {
-        this.mDataBinding.toolbarInfo.buttonDownload.setClickable(true);
+        this.mDownload.setClickable(true);
         if(getActivity() != null && success) {
-            getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    mBottomSheet.setState(BottomSheetBehavior.STATE_EXPANDED);
-                    String text = getActivity().getResources().getString(R.string.text_file_downloaded);
-                    if (mDebug) {Log.d(LOG_TAG, text);}
-                    mStatus.setText(text);
 
-                    mProgress.setVisibility(View.VISIBLE);
-                    mProgress.setMax(100);
-                    mProgress.setProgress(100);
-                }
-            });
+            mBottomSheet.setState(BottomSheetBehavior.STATE_EXPANDED);
+            String text = getActivity().getResources().getString(R.string.text_file_downloaded);
+            if (mDebug) {Log.d(LOG_TAG, text);}
+            mStatus.setText(text);
+
+            mProgress.setVisibility(View.VISIBLE);
+            mProgress.setMax(100);
+            mProgress.setProgress(100);
         }
     }
 
     @Override
     public void OnException(String fileName, final Exception e) {
         if (mDebug) {Log.e(LOG_TAG, "failed to save " + fileName + ".", e);}
-        this.mDataBinding.toolbarInfo.buttonDownload.setClickable(true);
+        this.mDownload.setClickable(true);
         if(getActivity() != null) {
             getActivity().runOnUiThread(new Runnable() {
                 @Override
@@ -343,8 +339,10 @@ public class RepositoryFragment extends BaseFragment implements IDownloadTask {
 
     private void downloadRepository(final Repository item, String archiveFormat, String gitRef) {
 
+        this.mDownload.setClickable(false);
+
         final RepositoryFragment fragment = this;
-        Call<ResponseBody> api = GithubClient.getArchiveLink(item.getOwner().getName(), item.getName(), archiveFormat, gitRef);
+        Call<ResponseBody> api = GithubClient.getArchiveLink(item.getOwner().getLogin(), item.getName(), archiveFormat, gitRef);
         if (mDebug) {Log.w(LOG_TAG, api.request().url() + "");}
 
         api.enqueue(new Callback<ResponseBody>() {
