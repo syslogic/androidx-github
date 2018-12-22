@@ -1,13 +1,17 @@
 package io.syslogic.github.activity;
 
+import android.annotation.TargetApi;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+
 import io.syslogic.github.R;
 import io.syslogic.github.fragment.RepositoryFragment;
 import io.syslogic.github.constants.Constants;
 
-public class DetailActivity extends BaseActivity {
+public class DetailActivity extends BaseActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
 
     protected long itemId = -1;
 
@@ -32,5 +36,11 @@ public class DetailActivity extends BaseActivity {
 
     public long getItemId() {
         return this.itemId;
+    }
+
+    @TargetApi(23)
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        this.currentFragment.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 }

@@ -5,6 +5,7 @@ import io.syslogic.github.model.RateLimits;
 import io.syslogic.github.model.Repositories;
 import io.syslogic.github.model.Repository;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -35,5 +36,9 @@ public class GithubClient {
 
     public static @NonNull Call<Repository> getRepository(@NonNull Long itemId) {
         return getService().getRepository(itemId);
+    }
+
+    public static @NonNull Call<ResponseBody> getArchiveLink(@NonNull String owner, @NonNull String repo, @NonNull String format, @NonNull String ref) {
+        return getService().getArchiveLink(owner, repo, format, ref);
     }
 }

@@ -14,7 +14,7 @@ public class RateLimit {
     private long reset;
 
     public int getLimit() {
-        return limit;
+        return this.limit;
     }
 
     public void setLimit(int limit) {
@@ -22,7 +22,7 @@ public class RateLimit {
     }
 
     public int getRemaining() {
-        return remaining;
+        return this.remaining;
     }
 
     public void setRemaining(int remaining) {
@@ -30,7 +30,7 @@ public class RateLimit {
     }
 
     public long getReset() {
-        return reset;
+        return this.reset;
     }
 
     public void setReset(long reset) {

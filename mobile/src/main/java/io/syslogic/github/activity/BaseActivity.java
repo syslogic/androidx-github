@@ -15,6 +15,8 @@ import io.syslogic.github.fragment.BaseFragment;
 
 abstract public class BaseActivity extends AppCompatActivity {
 
+    protected Fragment currentFragment = null;
+
     @NonNull
     public ViewDataBinding getFragmentDataBinding() {
         BaseFragment fragment = (BaseFragment) this.getSupportFragmentManager().getFragments().get(0);
@@ -31,6 +33,7 @@ abstract public class BaseActivity extends AppCompatActivity {
 
         if(savedInstanceState == null) {
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            this.currentFragment = fragment;
             ft.add(resId, fragment).commit();
         }
     }

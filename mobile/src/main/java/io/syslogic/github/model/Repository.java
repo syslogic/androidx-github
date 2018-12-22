@@ -16,11 +16,16 @@ public class Repository extends BaseModel {
     @SerializedName("full_name")
     private String fullName;
 
+    private String fileName;
+
     @SerializedName("url")
     private String url;
 
     @SerializedName("html_url")
     private String htmlUrl;
+
+    @SerializedName("owner")
+    private Owner owner;
 
     @SerializedName("forks_count")
     private Long forkCount = 0L;
@@ -56,12 +61,20 @@ public class Repository extends BaseModel {
         this.fullName = value;
     }
 
+    public void setFileName(@NonNull  String value) {
+        this.fileName = value;
+    }
+
     public void setUrl(@NonNull String value) {
         this.url = value;
     }
 
     public void setHtmlUrl(@NonNull String value) {
         this.htmlUrl = value;
+    }
+
+    public void setOwner(@NonNull Owner value) {
+        this.owner = value;
     }
 
     public void setForkCount(@NonNull Long value) {
@@ -99,6 +112,12 @@ public class Repository extends BaseModel {
 
     @NonNull
     @Bindable
+    public String getFileName() {
+        return this.fileName;
+    }
+
+    @NonNull
+    @Bindable
     public String getFullName() {
         return this.fullName;
     }
@@ -113,6 +132,12 @@ public class Repository extends BaseModel {
     @Bindable
     public String getHtmlUrl() {
         return this.htmlUrl;
+    }
+
+    @NonNull
+    @Bindable
+    public Owner getOwner() {
+        return this.owner;
     }
 
     @NonNull

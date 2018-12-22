@@ -10,5 +10,4 @@ public class WebView extends BaseObservable {
     public static void loadUrl(@NonNull android.webkit.WebView view, @NonNull String url) {
         view.loadUrl(url);
     }
-
 }

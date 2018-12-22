@@ -3,6 +3,7 @@ package io.syslogic.github.activity;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
+
 import io.syslogic.github.R;
 import io.syslogic.github.fragment.RepositoriesFragment;
 

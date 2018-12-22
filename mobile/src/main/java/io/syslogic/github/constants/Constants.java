@@ -12,4 +12,20 @@ public final class Constants {
 
     @NonNull
     public static final String ARGUMENT_ITEM_ID = "itemId";
+
+    @NonNull
+    public static final Integer REQUESTCODE_DOWNLOAD_TARBALL = 501;
+
+    @NonNull
+    public static final Integer REQUESTCODE_DOWNLOAD_ZIPBALL = 502;
+
+    @NonNull
+    public static final String ARGUMENT_FILE_NAME    = "fileName";
+
+    @NonNull
+    public static final String ARGUMENT_FILE_SIZE    = "fileSize";
+
+    @NonNull
+    public static final String ARGUMENT_TASK_SUCCESS = "taskSuccess";
+
 }
