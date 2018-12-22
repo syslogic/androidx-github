@@ -19,6 +19,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Objects;
 
@@ -30,10 +31,11 @@ import androidx.appcompat.widget.AppCompatTextView;
 import io.syslogic.github.R;
 import io.syslogic.github.constants.Constants;
 import io.syslogic.github.databinding.RepositoryFragmentBinding;
-import io.syslogic.github.task.IDownloadTask;
+import io.syslogic.github.network.DownloadListener;
 import io.syslogic.github.network.GithubClient;
+import io.syslogic.github.model.Branch;
 import io.syslogic.github.model.Repository;
-import io.syslogic.github.task.DownloadTask;
+import io.syslogic.github.network.DownloadTask;
 
 import okhttp3.Headers;
 import okhttp3.ResponseBody;
@@ -42,7 +44,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class RepositoryFragment extends BaseFragment implements IDownloadTask {
+public class RepositoryFragment extends BaseFragment implements DownloadListener {
 
     /** {@link Log} Tag */
     private static final String LOG_TAG = RepositoryFragment.class.getSimpleName();
@@ -51,6 +53,8 @@ public class RepositoryFragment extends BaseFragment implements IDownloadTask {
     private RepositoryFragmentBinding mDataBinding;
 
     private Boolean contentLoaded = false;
+
+    private ArrayList<Branch> mBranches = new ArrayList<>();
 
     private AppCompatImageButton mDownload;
 
@@ -111,7 +115,7 @@ public class RepositoryFragment extends BaseFragment implements IDownloadTask {
             if(! isNetworkAvailable(this.getContext())) {
                 this.onNetworkLost();
             } else {
-
+                this.mDataBinding.webview.loadUrl("file://android_asset/index.html");
                 this.mDataBinding.webview.getSettings().setJavaScriptEnabled(true);
                 this.mDataBinding.webview.setWebViewClient(new WebViewClient() {
                     @Override
@@ -130,13 +134,13 @@ public class RepositoryFragment extends BaseFragment implements IDownloadTask {
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                                 if (getActivity().checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
 
-                                    downloadZipball(mDataBinding.getRepository());
+                                    downloadZipball(mDataBinding.getRepository(), "master");
 
                                 } else {
                                     getActivity().requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, Constants.REQUESTCODE_DOWNLOAD_ZIPBALL);
                                 }
                             } else {
-                                downloadZipball(mDataBinding.getRepository());
+                                downloadZipball(mDataBinding.getRepository(), "master");
                             }
                         }
                     }
@@ -178,7 +182,7 @@ public class RepositoryFragment extends BaseFragment implements IDownloadTask {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if(grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             if(requestCode == Constants.REQUESTCODE_DOWNLOAD_ZIPBALL) {
-                this.downloadZipball(this.mDataBinding.getRepository());
+                this.downloadZipball(this.mDataBinding.getRepository(), "master");
             }
         }
     }
@@ -275,6 +279,8 @@ public class RepositoryFragment extends BaseFragment implements IDownloadTask {
                                 Repository item = response.body();
                                 getDataBinding().setRepository(item);
                                 getDataBinding().notifyChange();
+
+                                setBranches();
                             }
                             break;
                         }
@@ -306,28 +312,68 @@ public class RepositoryFragment extends BaseFragment implements IDownloadTask {
         }
     }
 
-    private void downloadZipball(Repository item) {
-        downloadRepository(item, "zipball", "master");
+    private void setBranches() {
+
+        Repository item = getDataBinding().getRepository();
+        if(item.getOwner().getLogin() != null) {
+
+            Call<ArrayList<Branch>> api = GithubClient.getBranches(item.getOwner().getLogin(), item.getName());
+            if (mDebug) {Log.w(LOG_TAG, api.request().url() + "");}
+
+            api.enqueue(new Callback<ArrayList<Branch>>() {
+
+                @Override
+                public void onResponse(@NonNull Call<ArrayList<Branch>> call, @NonNull Response<ArrayList<Branch>> response) {
+                    switch(response.code()) {
+
+                        case 200: {
+                            if (response.body() != null) {
+                                mBranches.addAll(response.body());
+                            }
+                            break;
+                        }
+
+                        case 403: {
+                            if (response.errorBody() != null) {
+                                try {
+                                    String errors = response.errorBody().string();
+                                    JsonObject jsonObject = (new JsonParser()).parse(errors).getAsJsonObject();
+                                    String message = jsonObject.get("message").toString();
+                                    if(mDebug) {
+                                        Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
+                                        Log.e(LOG_TAG, message);
+                                    }
+                                } catch (IOException e) {
+                                    if(mDebug) {Log.e(LOG_TAG, e.getMessage());}
+                                }
+                            }
+                            break;
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(@NonNull Call<ArrayList<Branch>> call, @NonNull Throwable t) {
+                    if (mDebug) {Log.e(LOG_TAG, t.getMessage());}
+                }
+            });
+        }
     }
 
-    private void downloadZipball(Repository item, String gitRef) {
-        downloadRepository(item, "zipball", gitRef);
+    private void downloadZipball(Repository item, String branch) {
+        downloadRepository(item, "zipball", branch);
     }
 
-    private void downloadTarball(Repository item) {
-        downloadRepository(item, "tarball", "master");
+    private void downloadTarball(Repository item, String branch) {
+        downloadRepository(item, "tarball", branch);
     }
 
-    private void downloadTarball(Repository item, String gitRef) {
-        downloadRepository(item, "tarball", gitRef);
-    }
-
-    private void downloadRepository(final Repository item, String archiveFormat, String gitRef) {
+    private void downloadRepository(final Repository item, String archiveFormat, String branch) {
 
         this.mDownload.setClickable(false);
 
         final RepositoryFragment fragment = this;
-        Call<ResponseBody> api = GithubClient.getArchiveLink(item.getOwner().getLogin(), item.getName(), archiveFormat, gitRef);
+        Call<ResponseBody> api = GithubClient.getArchiveLink(item.getOwner().getLogin(), item.getName(), archiveFormat, branch);
         if (mDebug) {Log.w(LOG_TAG, api.request().url() + "");}
 
         api.enqueue(new Callback<ResponseBody>() {

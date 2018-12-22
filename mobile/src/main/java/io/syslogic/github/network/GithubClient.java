@@ -1,6 +1,9 @@
 package io.syslogic.github.network;
 
+import java.util.ArrayList;
+
 import androidx.annotation.NonNull;
+import io.syslogic.github.model.Branch;
 import io.syslogic.github.model.RateLimits;
 import io.syslogic.github.model.Repositories;
 import io.syslogic.github.model.Repository;
@@ -36,6 +39,10 @@ public class GithubClient {
 
     public static @NonNull Call<Repository> getRepository(@NonNull Long itemId) {
         return getService().getRepository(itemId);
+    }
+
+    public static @NonNull Call<ArrayList<Branch>> getBranches(@NonNull String owner, @NonNull String repo) {
+        return getService().getBranches(owner, repo);
     }
 
     public static @NonNull Call<ResponseBody> getArchiveLink(@NonNull String owner, @NonNull String repo, @NonNull String format, @NonNull String ref) {

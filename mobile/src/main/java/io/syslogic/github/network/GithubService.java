@@ -1,8 +1,11 @@
 package io.syslogic.github.network;
 
+import java.util.ArrayList;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import io.syslogic.github.model.Branch;
 import io.syslogic.github.model.RateLimits;
 import io.syslogic.github.model.Repositories;
 import io.syslogic.github.model.Repository;
@@ -30,15 +33,22 @@ public interface GithubService {
     @GET("search/repositories")
     Call<Repositories> getRepositories(
         @NonNull @Query(value = "q", encoded = true) String queryString,
-        @NonNull @Query(value = "sort") String sortField,
+        @NonNull @Query(value = "sort")  String sortField,
         @NonNull @Query(value = "order") String sortOrder,
-        @NonNull @Query(value = "page") Integer pageNumber
+        @NonNull @Query(value = "page")  Integer pageNumber
     );
 
     @NonNull
     @GET("repositories/{id}")
     Call<Repository> getRepository(
         @NonNull @Path(value = "id") Long id
+    );
+
+    @NonNull
+    @GET("/repos/{owner}/{repo}/branches")
+    Call<ArrayList<Branch>> getBranches(
+        @NonNull @Path(value = "owner") String owner,
+        @NonNull @Path(value = "repo")  String repo
     );
 
     /**
