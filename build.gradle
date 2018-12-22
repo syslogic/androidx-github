@@ -3,14 +3,15 @@
 // Version Settings, loaded from version.properties
 def version = new Properties()
 version.load(new FileInputStream(rootProject.file('version.properties')))
-project.ext.set('applicationId',     version['applicationId'])
-project.ext.set('versionName',       version['versionName'])
-project.ext.set('versionCode',       new Integer(version['versionCode']))
-project.ext.set('compileSdkVersion', new Integer(version['compileSdkVersion']))
-project.ext.set('targetSdkVersion',  new Integer(version['targetSdkVersion']))
-project.ext.set('minSdkVersion',     new Integer(version['minSdkVersion']))
-project.ext.set('androidxVersion',   version['androidxVersion'])
-project.ext.set('retrofitVersion',   version['retrofitVersion'])
+project.ext.set('applicationId',       version['applicationId'])
+project.ext.set('versionName',         version['versionName'])
+project.ext.set('versionCode',         new Integer(version['versionCode']))
+project.ext.set('compileSdkVersion',   new Integer(version['compileSdkVersion']))
+project.ext.set('targetSdkVersion',    new Integer(version['targetSdkVersion']))
+project.ext.set('minSdkVersion',       new Integer(version['minSdkVersion']))
+project.ext.set('androidxTestVersion', version['androidxTestVersion'])
+project.ext.set('androidxVersion',     version['androidxVersion'])
+project.ext.set('retrofitVersion',     version['retrofitVersion'])
 
 buildscript {
     repositories {

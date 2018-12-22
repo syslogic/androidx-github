@@ -10,6 +10,7 @@ dependencies {
     api "androidx.recyclerview:recyclerview:${androidxVersion}"
     api "androidx.annotation:annotation:${androidxVersion}"
     api "androidx.cardview:cardview:${androidxVersion}"
+    api "com.google.android.material:material:1.0.0"
 
     // https://mvnrepository.com/artifact/com.google.code.gson/gson
     api "com.google.code.gson:gson:2.8.5"
@@ -25,13 +26,13 @@ dependencies {
         exclude group: "com.google.code.gson"
     }
 
-    // https://mvnrepository.com/artifact/androidx.test
-    androidTestImplementation "androidx.test:core:${androidxVersion}"
-    androidTestImplementation "androidx.test:runner:1.1.0"
-    androidTestImplementation "androidx.test:rules:1.1.0"
-
     // https://mvnrepository.com/artifact/androidx.test.ext
-    androidTestImplementation "androidx.test.ext:junit:${androidxVersion}"
+    androidTestImplementation "androidx.test.ext:junit:${androidxTestVersion}"
+
+    // https://mvnrepository.com/artifact/androidx.test
+    androidTestImplementation "androidx.test:core:${androidxTestVersion}"
+    androidTestImplementation "androidx.test:runner:1.1.1"
+    androidTestImplementation "androidx.test:rules:1.1.1"
 
     // https://mvnrepository.com/artifact/androidx.test.uiautomator/uiautomator
     androidTestImplementation "androidx.test.uiautomator:uiautomator:2.2.0"

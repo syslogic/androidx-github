@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="io.syslogic.github">
 
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.INTERNET"/>
 
@@ -12,8 +13,10 @@
         android:roundIcon="@drawable/ic_launcher_round"
         android:icon="@drawable/ic_launcher"
         android:theme="@style/AppTheme"
+        android:allowBackup="false"
         android:supportsRtl="true"
-        tools:ignore="AllowBackup,GoogleAppIndexingWarning">
+        android:networkSecurityConfig="@xml/network"
+        tools:ignore="UnusedAttribute">
 
         <activity
             android:name="io.syslogic.github.activity.MainActivity">
@@ -27,6 +30,7 @@
             android:name="io.syslogic.github.activity.DetailActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.VIEW"/>
             </intent-filter>
         </activity>
 
