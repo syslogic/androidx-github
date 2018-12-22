@@ -16,7 +16,7 @@
         <item name="colorAccent">@color/colorAccent</item>
 
         <!-- Status Bar Color -->
-        <item name="android:statusBarColor">@color/colorText</item>
+        <item name="android:statusBarColor">@color/statusBar</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:windowContentOverlay">@null</item>
 

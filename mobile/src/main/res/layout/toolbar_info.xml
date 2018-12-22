@@ -35,7 +35,7 @@
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/colorText"
+                android:background="@color/statusBar"
                 android:orientation="horizontal"
                 android:padding="8dp">
 
@@ -168,7 +168,7 @@
                     android:layout_width="48dp"
                     android:layout_height="match_parent"
                     android:background="@null"
-                    android:src="@drawable/baseline_cloud_download_black_24"/>
+                    android:src="@drawable/baseline_cloud_download_white_24"/>
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
