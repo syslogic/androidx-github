@@ -1,5 +1,6 @@
 package io.syslogic.github.network;
 
+import android.Manifest;
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.content.Context;
@@ -8,6 +9,7 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 
+import androidx.appcompat.app.AppCompatActivity;
 import io.syslogic.github.BuildConfig;
 
 public class TokenHelper {
@@ -18,33 +20,39 @@ public class TokenHelper {
     /** Debug Output */
     private static final boolean mDebug = BuildConfig.DEBUG;
 
+    private static final String accountType = "io.syslogic.github";
+
     public static String getAccessToken(Context context) {
 
+        AccountManager accountManager = AccountManager.get(context);
         String accessToken = null;
 
-        if (! mDebug) {
+        if (mDebug) {
 
             try {
                 ApplicationInfo app = context.getPackageManager().getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA);
                 accessToken = app.metaData.getString("com.github.ACCESS_TOKEN");
                 Log.d(LOG_TAG, "com.github.ACCESS_TOKEN: " + accessToken);
-                Bundle extras = new Bundle();
+                addAccount(accountManager, accessToken);
 
-
-
-            } catch (NullPointerException | PackageManager.NameNotFoundException ignore) {}
+            } catch (NullPointerException | PackageManager.NameNotFoundException e) {
+                e.printStackTrace();
+            }
 
         } else {
-            Account account = getAccount(context);
-
+            Account account = getAccount(accountManager);
+            if(account == null) {
+                Log.d(LOG_TAG, "acccount not found: " + accountType);
+            } else {
+                accessToken = accountManager.getUserData(account, "accessToken");
+            }
         }
         return accessToken;
     }
 
-    private static Account getAccount(Context context) {
+    private static Account getAccount(AccountManager accountManager) {
 
-        AccountManager accountManager = AccountManager.get(context);
-        Account[] accounts = accountManager.getAccountsByType("io.syslogic.github");
+        Account[] accounts = accountManager.getAccountsByType(accountType);
 
         if (accounts.length == 0) {
             Log.d(LOG_TAG, "no device tokens");
@@ -55,10 +63,8 @@ public class TokenHelper {
         }
     }
 
-    private static boolean addAccount(Context context, String accessToken) {
-
-        AccountManager accountManager = AccountManager.get(context);
-        Account account = new Account("accessToken", "io.syslogic.github");
+    private static boolean addAccount(AccountManager accountManager, String accessToken) {
+        Account account = new Account("GitHub", accountType);
         Bundle extraData = new Bundle();
         extraData.putString("accessToken", accessToken);
         return accountManager.addAccountExplicitly(account, accessToken, extraData);

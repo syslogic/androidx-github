@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.material.bottomsheet.BottomSheetBehavior;

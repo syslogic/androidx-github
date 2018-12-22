@@ -1,7 +1,9 @@
 package io.syslogic.github.fragment;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkInfo;
@@ -39,8 +41,16 @@ abstract public class BaseFragment extends Fragment implements ConnectivityAware
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
-        this.accessToken = this.getAccessToken(this.getContext());
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && getContext() != null) {
+            if (getContext().checkSelfPermission(Manifest.permission.ACCOUNT_MANAGER) == PackageManager.PERMISSION_GRANTED) {
+                this.accessToken = this.getAccessToken(this.getContext());
+            }
+        } else {
+            this.accessToken = this.getAccessToken(this.getContext());
+        }
     }
 
     private static ConnectivityManager getConnectivityManager(Context context) {

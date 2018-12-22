@@ -14,6 +14,9 @@ public final class Constants {
     public static final String ARGUMENT_ITEM_ID = "itemId";
 
     @NonNull
+    public static final Integer REQUESTCODE_ADD_ACCESS_TOKEN = 500;
+
+    @NonNull
     public static final Integer REQUESTCODE_DOWNLOAD_TARBALL = 501;
 
     @NonNull

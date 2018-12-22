@@ -1,5 +1,6 @@
 package io.syslogic.github.fragment;
 
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,6 +12,7 @@ import android.widget.AdapterView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import io.syslogic.github.constants.Constants;
 import io.syslogic.github.model.PagerState;
 import io.syslogic.github.model.SpinnerItem;
 import io.syslogic.github.adapter.TopicAdapter;
@@ -135,6 +137,16 @@ public class RepositoriesFragment extends BaseFragment {
                     state.setIsOffline(true);
                 }
                 this.mDataBinding.toolbarPager.setPager(state);
+            }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            if(requestCode == Constants.REQUESTCODE_ADD_ACCESS_TOKEN) {
+
             }
         }
     }
