@@ -328,7 +328,9 @@ public class RepositoryFragment extends BaseFragment implements DownloadListener
 
                         case 200: {
                             if (response.body() != null) {
-                                mBranches.addAll(response.body());
+                                ArrayList<Branch> items = response.body();
+                                if (mDebug) {Log.d(LOG_TAG, "branches: " + items.size());}
+                                getDataBinding().setBranches(items);
                             }
                             break;
                         }
