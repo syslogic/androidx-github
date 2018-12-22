@@ -35,6 +35,7 @@
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:background="@color/colorText"
                 android:orientation="horizontal"
                 android:padding="8dp">
 
@@ -42,8 +43,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="0.2"
-                    android:visibility="@{safeUnbox(repository.forkCount) > 0 ? View.VISIBLE : View.INVISIBLE}"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:visibility="@{safeUnbox(repository.forkCount) > 0 ? View.VISIBLE : View.INVISIBLE}">
+
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/forkCount"
                         android:layout_width="match_parent"
@@ -52,9 +54,10 @@
                         android:gravity="start"
                         android:text='@{""+repository.forkCount}'
                         android:textAlignment="center"
-                        android:textColor="@color/colorText"
+                        android:textColor="@android:color/white"
                         android:textSize="14sp"
                         tools:text="@string/tools_fork_count"/>
+
                     <androidx.appcompat.widget.AppCompatTextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -63,7 +66,7 @@
                         android:labelFor="@id/forkCount"
                         android:text="@string/text_forks"
                         android:textAlignment="center"
-                        android:textColor="@color/colorText"
+                        android:textColor="@android:color/white"
                         android:textSize="12sp"/>
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -71,8 +74,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="0.2"
-                    android:visibility="@{safeUnbox(repository.watcherCount) > 0 ? View.VISIBLE : View.INVISIBLE}"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:visibility="@{safeUnbox(repository.watcherCount) > 0 ? View.VISIBLE : View.INVISIBLE}">
+
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/watcherCount"
                         android:layout_width="match_parent"
@@ -81,9 +85,10 @@
                         android:gravity="start"
                         android:text='@{""+repository.watcherCount}'
                         android:textAlignment="center"
-                        android:textColor="@color/colorText"
+                        android:textColor="@android:color/white"
                         android:textSize="14sp"
                         tools:text="@string/tools_watcher_count"/>
+
                     <androidx.appcompat.widget.AppCompatTextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -92,7 +97,7 @@
                         android:labelFor="@id/watcherCount"
                         android:text="@string/text_watchers"
                         android:textAlignment="center"
-                        android:textColor="@color/colorText"
+                        android:textColor="@android:color/white"
                         android:textSize="12sp"/>
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -100,8 +105,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="0.2"
-                    android:visibility="@{safeUnbox(repository.subscriberCount) > 0 ? View.VISIBLE : View.INVISIBLE}"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:visibility="@{safeUnbox(repository.subscriberCount) > 0 ? View.VISIBLE : View.INVISIBLE}">
+
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/subscriberCount"
                         android:layout_width="match_parent"
@@ -110,9 +116,10 @@
                         android:gravity="start"
                         android:text='@{""+repository.subscriberCount}'
                         android:textAlignment="center"
-                        android:textColor="@color/colorText"
+                        android:textColor="@android:color/white"
                         android:textSize="14sp"
                         tools:text="@string/tools_subscriber_count"/>
+
                     <androidx.appcompat.widget.AppCompatTextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -121,7 +128,7 @@
                         android:labelFor="@id/watcherCount"
                         android:text="@string/text_subscribers"
                         android:textAlignment="center"
-                        android:textColor="@color/colorText"
+                        android:textColor="@android:color/white"
                         android:textSize="12sp"/>
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -129,8 +136,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="0.2"
-                    android:visibility="@{safeUnbox(repository.networkCount) > 0 ? View.VISIBLE : View.INVISIBLE}"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:visibility="@{safeUnbox(repository.networkCount) > 0 ? View.VISIBLE : View.INVISIBLE}">
+
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/networkCount"
                         android:layout_width="match_parent"
@@ -139,9 +147,10 @@
                         android:gravity="start"
                         android:text='@{""+repository.networkCount}'
                         android:textAlignment="center"
-                        android:textColor="@color/colorText"
+                        android:textColor="@android:color/white"
                         android:textSize="14sp"
                         tools:text="@string/tools_network_count"/>
+
                     <androidx.appcompat.widget.AppCompatTextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -150,7 +159,7 @@
                         android:labelFor="@id/networkCount"
                         android:text="@string/text_networks"
                         android:textAlignment="center"
-                        android:textColor="@color/colorText"
+                        android:textColor="@android:color/white"
                         android:textSize="12sp"/>
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
