@@ -19,9 +19,9 @@
         android:elevation="4dp"
         android:gravity="top"
         android:padding="0dp"
-        app:layout_scrollFlags="scroll|enterAlways"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:layout_scrollFlags="scroll|enterAlways"
         app:contentInsetStart="0dp">
 
         <androidx.appcompat.widget.LinearLayoutCompat
@@ -154,13 +154,11 @@
                         android:textSize="12sp"/>
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
-                <androidx.appcompat.widget.AppCompatImageView
+                <androidx.appcompat.widget.AppCompatImageButton
                     android:id="@+id/button_download"
-                    android:layout_width="24dp"
+                    android:layout_width="42dp"
                     android:layout_height="match_parent"
-                    android:src="@drawable/baseline_cloud_download_black_18"
-                    android:paddingStart="2dp"
-                    android:paddingEnd="2dp"/>
+                    android:src="@drawable/baseline_cloud_download_black_18"/>
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
