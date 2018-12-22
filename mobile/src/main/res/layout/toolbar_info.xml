@@ -15,9 +15,11 @@
         android:layout_width="match_parent"
         android:layout_height="?android:attr/actionBarSize"
         android:contentInsetStart="0dp"
+        android:layout_margin="0dp"
         android:elevation="4dp"
         android:gravity="top"
         android:padding="0dp"
+        app:layout_scrollFlags="scroll|enterAlways"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:contentInsetStart="0dp">
@@ -151,6 +153,14 @@
                         android:textColor="@color/colorText"
                         android:textSize="12sp"/>
                 </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/button_download"
+                    android:layout_width="24dp"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/baseline_cloud_download_black_18"
+                    android:paddingStart="2dp"
+                    android:paddingEnd="2dp"/>
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 

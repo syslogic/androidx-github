@@ -12,26 +12,36 @@
         <variable name="preview" type="io.syslogic.github.model.WebView"/>
     </data>
 
-    <androidx.appcompat.widget.LinearLayoutCompat
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/layout_repository"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-        <include layout="@layout/toolbar_info"
-             android:id="@+id/toolbar_info"
-             android:layout_width="match_parent"
-             android:layout_height="?android:attr/actionBarSize"
-             android:layout_margin="0dp"
-             bind:repository="@{repository}"/>
+        <!-- https://github.com/material-components/material-components-android/blob/master/docs/components/AppBarLayout.md -->
+        <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+            <include
+                android:id="@+id/toolbar_info"
+                layout="@layout/toolbar_info"
+                bind:repository="@{repository}"/>
+
+        </com.google.android.material.appbar.AppBarLayout>
 
         <WebView
             android:id="@+id/webview"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1.00"
+            android:layout_height="match_parent"
+            android:nestedScrollingEnabled="true"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
             app:loadUrl="@{repository.htmlUrl}"/>
 
-    </androidx.appcompat.widget.LinearLayoutCompat>
+        <include
+            android:id="@+id/dialog_bottom_sheet"
+            layout="@layout/dialog_bottom_sheet"/>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 </layout>

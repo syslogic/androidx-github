@@ -12,4 +12,9 @@
     <string name="tools_total_item_count">9574</string>
     <string name="tools_total_pages">319</string>
 
+    <!-- bottom sheet dialog -->
+    <string name="tools_download_progress">100</string>
+    <string name="tools_download_filename" tools:ignore="TypographyDashes">fastlane-fastlane-fastlane-2.112.0-7-g87864cf.zip</string>
+    <string name="tools_download_status">36703943 bytes</string>
+
 </resources>
