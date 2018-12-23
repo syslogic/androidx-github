@@ -22,6 +22,7 @@ import retrofit2.http.Streaming;
  * @see <a href="https://developer.github.com/v3/">api v3</>
  * @see <a href="https://developer.github.com/v3/rate_limit/">rate limit</>
  * @see <a href="https://developer.github.com/v3/search/#search-repositories">search</>
+ * @see <a href="https://developer.github.com/v3/repos/branches/">branches</>
 **/
 public interface GithubService {
 
@@ -29,6 +30,7 @@ public interface GithubService {
     @GET("rate_limit")
     Call<RateLimits> getRateLimits();
 
+    /** all repositories. */
     @NonNull
     @GET("search/repositories")
     Call<Repositories> getRepositories(
@@ -38,12 +40,14 @@ public interface GithubService {
         @NonNull @Query(value = "page")  Integer pageNumber
     );
 
+    /** one repository. */
     @NonNull
     @GET("repositories/{id}")
     Call<Repository> getRepository(
         @NonNull @Path(value = "id") Long id
     );
 
+    /** all branches of a repository. */
     @NonNull
     @GET("/repos/{owner}/{repo}/branches")
     Call<ArrayList<Branch>> getBranches(
@@ -52,6 +56,7 @@ public interface GithubService {
     );
 
 
+    /** one branch of a repository. */
     @NonNull
     @GET("/repos/{owner}/{repo}/branches/{repo}")
     Call<Branch> getBranch(
@@ -61,20 +66,19 @@ public interface GithubService {
     );
 
     /**
-     * Gets a redirect URL to download an archive for a repository.
-     * The :archive_format can be either tarball or zipball.
-     * The :ref must be a valid Git reference.
-     * If you omit :ref, the repository’s default branch (usually master) will be used.
-     *
-     * Note: For private repositories, these links are temporary and expire after five minutes.
+     * gets the redirect URL to download an archive for a repository.
+     * the :archive_format can be either "tarball" or "zipball".
+     * the :branch must be a valid Git reference.
+     * if you omit :branch, the repository’s default branch (usually master) will be used.
+     * note: for private repositories, these links are temporary and expire after five minutes.
     **/
     @NonNull
     @Streaming
-    @GET("/repos/{owner}/{repo}/{format}/{ref}")
+    @GET("/repos/{owner}/{repo}/{format}/{branch}")
     Call<ResponseBody> getArchiveLink(
-        @NonNull @Path(value = "owner")  String owner,
-        @NonNull @Path(value = "repo")   String repo,
-        @NonNull @Path(value = "format") String format,
-        @Nullable @Path(value = "ref")   String ref
+        @NonNull @Path(value = "owner")   String owner,
+        @NonNull @Path(value = "repo")    String repo,
+        @NonNull @Path(value = "format")  String format,
+        @Nullable @Path(value = "branch") String branch
     );
 }

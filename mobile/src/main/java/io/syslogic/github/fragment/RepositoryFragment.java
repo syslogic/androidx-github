@@ -337,6 +337,9 @@ public class RepositoryFragment extends BaseFragment implements DownloadListener
                                 if (mDebug) {
                                     String text = String.format(getContext().getResources().getString(R.string.debug_repository_branches), items.size());
                                     Log.d(LOG_TAG, text);
+                                    for(int i=0; i < items.size(); i++) {
+                                        Log.d(LOG_TAG, "branch: " + items.get(i).getName());
+                                    }
                                 }
                             }
                             break;

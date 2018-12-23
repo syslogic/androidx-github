@@ -9,9 +9,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
+
+import java.util.Locale;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import io.syslogic.github.R;
 import io.syslogic.github.constants.Constants;
 import io.syslogic.github.model.PagerState;
 import io.syslogic.github.model.SpinnerItem;
@@ -90,7 +95,7 @@ public class RepositoriesFragment extends BaseFragment {
                         this.mDataBinding.toolbarPager.textQueryString.setText(text);
                     }
                 } else {
-                    this.onNetworkLost();
+                    // this.onNetworkLost();
                 }
             }
         }
@@ -114,8 +119,24 @@ public class RepositoriesFragment extends BaseFragment {
             }
 
             if(this.mDataBinding.recyclerview != null) {
+
                 RepositoriesAdapter adapter = ((RepositoriesAdapter) this.mDataBinding.recyclerview.getAdapter());
-                if (adapter != null && adapter.getItemCount() == 0) {
+
+                /* when online for the first time */
+                if(adapter == null) {
+
+                    /* needs to run on UiThread */
+                    if(getActivity() != null) {
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                mDataBinding.recyclerview.setAdapter(new RepositoriesAdapter(getContext(), 1));
+                            }
+                        });
+                    }
+
+                /* if required, fetch page 1 */
+                } else if (adapter.getItemCount() == 0) {
                     adapter.fetchPage(1);
                 }
             }
@@ -139,6 +160,7 @@ public class RepositoriesFragment extends BaseFragment {
                 }
                 this.mDataBinding.toolbarPager.setPager(state);
             }
+
         }
     }
 

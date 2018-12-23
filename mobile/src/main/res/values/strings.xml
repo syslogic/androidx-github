@@ -20,7 +20,7 @@
     <string name="text_file_downloaded">file download success</string>
 
     <string name="debug_repository_branches" formatted="false">repository has %d branches</string>
-    <string name="debug_network_available">network connection is available</string>
-    <string name="debug_network_lost">network connection was lost</string>
+    <string name="debug_network_present">network connection is present</string>
+    <string name="debug_network_absent">network connection is absent</string>
 
 </resources>

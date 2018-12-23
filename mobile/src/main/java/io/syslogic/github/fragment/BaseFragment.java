@@ -91,8 +91,7 @@ abstract public class BaseFragment extends Fragment implements ConnectivityListe
     @Override
     public void onNetworkAvailable() {
         if(mDebug && this.getContext() != null) {
-            String message = this.getContext().getResources().getString(R.string.debug_network_available);
-            // Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+            String message = this.getContext().getResources().getString(R.string.debug_network_present);
             Log.w(LOG_TAG, message);
         }
     }
@@ -100,8 +99,7 @@ abstract public class BaseFragment extends Fragment implements ConnectivityListe
     @Override
     public void onNetworkLost() {
         if(mDebug && this.getContext() != null) {
-            String message = this.getContext().getResources().getString(R.string.debug_network_lost);
-            // Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+            String message = this.getContext().getResources().getString(R.string.debug_network_absent);
             Log.w(LOG_TAG, message);
         }
     }
