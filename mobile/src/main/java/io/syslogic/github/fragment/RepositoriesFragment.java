@@ -9,14 +9,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 
-import com.google.android.material.bottomsheet.BottomSheetBehavior;
-
-import java.util.Locale;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import io.syslogic.github.R;
 import io.syslogic.github.constants.Constants;
 import io.syslogic.github.model.PagerState;
 import io.syslogic.github.model.SpinnerItem;

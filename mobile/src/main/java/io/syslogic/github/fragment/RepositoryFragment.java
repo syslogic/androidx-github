@@ -19,7 +19,9 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 
@@ -319,57 +321,60 @@ public class RepositoryFragment extends BaseFragment implements DownloadListener
     private void setBranches() {
 
         Repository item = getDataBinding().getRepository();
-        if(item.getOwner().getLogin() != null) {
+        Call<ArrayList<Branch>> api = GithubClient.getBranches(item.getOwner().getLogin(), item.getName());
+        if (mDebug) {Log.w(LOG_TAG, api.request().url() + "");}
 
-            Call<ArrayList<Branch>> api = GithubClient.getBranches(item.getOwner().getLogin(), item.getName());
-            if (mDebug) {Log.w(LOG_TAG, api.request().url() + "");}
+        api.enqueue(new Callback<ArrayList<Branch>>() {
 
-            api.enqueue(new Callback<ArrayList<Branch>>() {
+            @Override
+            public void onResponse(@NonNull Call<ArrayList<Branch>> call, @NonNull Response<ArrayList<Branch>> response) {
+                switch(response.code()) {
 
-                @Override
-                public void onResponse(@NonNull Call<ArrayList<Branch>> call, @NonNull Response<ArrayList<Branch>> response) {
-                    switch(response.code()) {
+                    case 200: {
+                        if (response.body() != null && getContext() != null) {
+                            ArrayList<Branch> items = response.body();
+                            getDataBinding().setBranches(items);
+                            if (mDebug) {
+                                String text = String.format(getContext().getResources().getString(R.string.debug_repository_branches), items.size());
+                                Log.d(LOG_TAG, text);
+                                ArrayList<String> elements = new ArrayList<>();
+                                for(int i=0; i < items.size(); i++) {
+                                    elements.add(i, items.get(i).getName());
+                                }
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 
-                        case 200: {
-                            if (response.body() != null && getContext() != null) {
-                                ArrayList<Branch> items = response.body();
-                                getDataBinding().setBranches(items);
-                                if (mDebug) {
-                                    String text = String.format(getContext().getResources().getString(R.string.debug_repository_branches), items.size());
-                                    Log.d(LOG_TAG, text);
-                                    for(int i=0; i < items.size(); i++) {
-                                        Log.d(LOG_TAG, "branch: " + items.get(i).getName());
-                                    }
+                                    Joiner.on(", ").skipNulls().join(elements)
+                                    Log.d(LOG_TAG, "branches: " + String.join(", ", elements));
                                 }
                             }
-                            break;
                         }
+                        break;
+                    }
 
-                        case 403: {
-                            if (response.errorBody() != null) {
-                                try {
-                                    String errors = response.errorBody().string();
-                                    JsonObject jsonObject = (new JsonParser()).parse(errors).getAsJsonObject();
-                                    String message = jsonObject.get("message").toString();
-                                    if(mDebug) {
-                                        Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
-                                        Log.e(LOG_TAG, message);
-                                    }
-                                } catch (IOException e) {
-                                    if(mDebug) {Log.e(LOG_TAG, e.getMessage());}
+                    case 403: {
+                        if (response.errorBody() != null) {
+                            try {
+                                String errors = response.errorBody().string();
+                                JsonObject jsonObject = (new JsonParser()).parse(errors).getAsJsonObject();
+                                String message = jsonObject.get("message").toString();
+                                if(mDebug) {
+                                    Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
+                                    Log.e(LOG_TAG, message);
                                 }
+                            } catch (IOException e) {
+                                if(mDebug) {Log.e(LOG_TAG, e.getMessage());}
                             }
-                            break;
                         }
+                        break;
                     }
                 }
+            }
 
-                @Override
-                public void onFailure(@NonNull Call<ArrayList<Branch>> call, @NonNull Throwable t) {
-                    if (mDebug) {Log.e(LOG_TAG, t.getMessage());}
-                }
-            });
-        }
+            @Override
+            public void onFailure(@NonNull Call<ArrayList<Branch>> call, @NonNull Throwable t) {
+                if (mDebug) {Log.e(LOG_TAG, t.getMessage());}
+            }
+        });
     }
 
     private void downloadZipball(Repository item, String branch) {
