@@ -10,6 +10,9 @@ public class Repository extends BaseModel {
     @SerializedName("id")
     private Long id;
 
+    @SerializedName("node_id")
+    private String nodeId;
+
     @SerializedName("name")
     private String name;
 
@@ -26,6 +29,9 @@ public class Repository extends BaseModel {
 
     @SerializedName("owner")
     private Owner owner;
+
+    @SerializedName("license")
+    private License license;
 
     @SerializedName("forks_count")
     private Long forkCount = 0L;
@@ -53,6 +59,10 @@ public class Repository extends BaseModel {
         this.id = value;
     }
 
+    public void setNodeId(@NonNull String value) {
+        this.nodeId = value;
+    }
+
     public void setName(@NonNull String value) {
         this.name = value;
     }
@@ -75,6 +85,10 @@ public class Repository extends BaseModel {
 
     public void setOwner(@NonNull Owner value) {
         this.owner = value;
+    }
+
+    public void setLicense(@NonNull License value) {
+        this.license = value;
     }
 
     public void setForkCount(@NonNull Long value) {
@@ -102,6 +116,12 @@ public class Repository extends BaseModel {
     @Bindable
     public Long getId() {
         return this.id;
+    }
+
+    @NonNull
+    @Bindable
+    public String getNodeId() {
+        return this.nodeId;
     }
 
     @NonNull
@@ -138,6 +158,12 @@ public class Repository extends BaseModel {
     @Bindable
     public Owner getOwner() {
         return this.owner;
+    }
+
+    @NonNull
+    @Bindable
+    public License getLicense() {
+        return this.license;
     }
 
     @NonNull

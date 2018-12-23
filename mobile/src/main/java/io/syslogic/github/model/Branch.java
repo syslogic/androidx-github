@@ -3,7 +3,6 @@ package io.syslogic.github.model;
 import com.google.gson.annotations.SerializedName;
 
 import androidx.annotation.NonNull;
-import androidx.databinding.Bindable;
 
 public class Branch {
 
