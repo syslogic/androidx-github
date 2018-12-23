@@ -19,7 +19,7 @@
     <string name="text_file_size_unknown">content-length is unknown</string>
     <string name="text_file_downloaded">file download success</string>
 
-    <string name="debug_repository_branches" formatted="false">repository has %d branches</string>
+    <string name="debug_branches" formatted="false">repo %s has %d branches: %s</string>
     <string name="debug_network_present">network connection is present</string>
     <string name="debug_network_absent">network connection is absent</string>
 

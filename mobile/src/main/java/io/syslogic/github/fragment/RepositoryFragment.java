@@ -337,6 +337,8 @@ public class RepositoryFragment extends BaseFragment implements DownloadListener
     private void setBranches() {
 
         Repository item = getDataBinding().getRepository();
+        final String repoName = item.getName();
+
         Call<ArrayList<Branch>> api = GithubClient.getBranches(item.getOwner().getLogin(), item.getName());
         if (mDebug) {Log.w(LOG_TAG, api.request().url() + "");}
 
@@ -353,13 +355,11 @@ public class RepositoryFragment extends BaseFragment implements DownloadListener
                             ArrayList<Branch> items = response.body();
                             getDataBinding().setBranches(items);
 
-                            if (mDebug) {
-                                Log.d(LOG_TAG, String.format(getContext().getResources().getString(R.string.debug_repository_branches), items.size()));
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                                    ArrayList<String> elements = new ArrayList<>();
-                                    for(int i=0; i < items.size(); i++) {elements.add(i, items.get(i).getName());}
-                                    Log.d(LOG_TAG, String.join(", ", elements));
-                                }
+                            if (mDebug && Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                ArrayList<String> elements = new ArrayList<>();
+                                for(int i=0; i < items.size(); i++) {elements.add(i, items.get(i).getName());}
+                                String text = String.format(getContext().getResources().getString(R.string.debug_branches), repoName, items.size(), String.join(", ", elements));
+                                Log.d(LOG_TAG, text);
                             }
                         }
                         break;
