@@ -45,6 +45,10 @@ public class GithubClient {
         return getService().getBranches(owner, repo);
     }
 
+    public static @NonNull Call<Branch> getBranch(@NonNull String owner, @NonNull String repo, @NonNull String branch) {
+        return getService().getBranch(owner, repo, branch);
+    }
+
     public static @NonNull Call<ResponseBody> getArchiveLink(@NonNull String owner, @NonNull String repo, @NonNull String format, @NonNull String ref) {
         return getService().getArchiveLink(owner, repo, format, ref);
     }

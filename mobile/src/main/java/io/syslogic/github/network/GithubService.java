@@ -51,6 +51,15 @@ public interface GithubService {
         @NonNull @Path(value = "repo")  String repo
     );
 
+
+    @NonNull
+    @GET("/repos/{owner}/{repo}/branches/{repo}")
+    Call<Branch> getBranch(
+        @NonNull @Path(value = "owner") String owner,
+        @NonNull @Path(value = "repo")  String repo,
+        @NonNull @Path(value = "branch")  String branch
+    );
+
     /**
      * Gets a redirect URL to download an archive for a repository.
      * The :archive_format can be either tarball or zipball.
