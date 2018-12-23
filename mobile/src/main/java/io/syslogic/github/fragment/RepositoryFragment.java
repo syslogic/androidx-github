@@ -13,15 +13,13 @@ import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
+import android.widget.ViewFlipper;
 
-import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 
@@ -29,6 +27,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.appcompat.widget.AppCompatTextView;
+import androidx.appcompat.widget.Toolbar;
 
 import io.syslogic.github.R;
 import io.syslogic.github.constants.Constants;
@@ -58,9 +57,9 @@ public class RepositoryFragment extends BaseFragment implements DownloadListener
 
     private ArrayList<Branch> mBranches = new ArrayList<>();
 
-    private AppCompatImageButton mDownload;
+    private Toolbar mToolbar;
 
-    private BottomSheetBehavior<View> mBottomSheet;
+    private AppCompatImageButton mDownload;
     private AppCompatTextView mFileName;
     private AppCompatTextView mStatus;
 
@@ -98,22 +97,21 @@ public class RepositoryFragment extends BaseFragment implements DownloadListener
     @Override
     @SuppressLint("SetJavaScriptEnabled")
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
         this.mDataBinding = RepositoryFragmentBinding.inflate(inflater, container, false);
         View layout = this.mDataBinding.getRoot();
 
         if(this.getContext() != null) {
 
-            /* download button */
-            this.mDownload = layout.findViewById(R.id.button_download);
-
             /* default web-view */
             this.mDataBinding.webview.getSettings().setJavaScriptEnabled(true);
             this.mDataBinding.webview.loadUrl("file:///android_asset/index.html");
 
-            /* bottom sheet */
-            View bottomSheet = layout.findViewById(R.id.dialog_bottom_sheet);
-            this.mBottomSheet = BottomSheetBehavior.from(bottomSheet);
-            this.mBottomSheet.setState(BottomSheetBehavior.STATE_COLLAPSED);
+            /* bottom toolbar */
+            this.mToolbar = layout.findViewById(R.id.toolbar_download);
+
+            /* download button */
+            this.mDownload = layout.findViewById(R.id.button_download);
 
             /* bottom sheet items */
             this.mFileName = layout.findViewById(R.id.text_download_filename);
@@ -129,6 +127,7 @@ public class RepositoryFragment extends BaseFragment implements DownloadListener
                         contentLoaded = true;
                     }
                 });
+
                 this.setRepository();
 
                 /* the download button */
@@ -196,16 +195,27 @@ public class RepositoryFragment extends BaseFragment implements DownloadListener
     @Override
     public void OnFileSize(final String fileName, final Long fileSize) {
         if(getActivity() != null) {
-            String text;
-            if(fileSize > 0) {
-                text = String.format(Locale.getDefault(), getActivity().getResources().getString(R.string.text_file_size_known), fileSize);
-            } else {
-                text = getActivity().getResources().getString(R.string.text_file_size_unknown);
-            }
-            if (mDebug) {Log.d(LOG_TAG, text);}
-            mFileName.setText(fileName);
-            mStatus.setText(text);
-            mBottomSheet.setState(BottomSheetBehavior.STATE_EXPANDED);
+
+            /* needs to run on UiThread */
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+
+                    ViewFlipper viewFlipper = getActivity().findViewById(R.id.viewflipper_download);
+                    viewFlipper.showNext();
+
+                    mFileName.setText(fileName);
+
+                    String text;
+                    if(fileSize > 0) {
+                        text = String.format(Locale.getDefault(), getActivity().getResources().getString(R.string.text_file_size_known), fileSize);
+                    } else {
+                        text = getActivity().getResources().getString(R.string.text_file_size_unknown);
+                    }
+                    if (mDebug) {Log.d(LOG_TAG, text);}
+                    mStatus.setText(text);
+                }
+            });
         }
     }
 
@@ -231,7 +241,10 @@ public class RepositoryFragment extends BaseFragment implements DownloadListener
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    mBottomSheet.setState(BottomSheetBehavior.STATE_EXPANDED);
+
+                    ViewFlipper viewFlipper = getActivity().findViewById(R.id.viewflipper_download);
+                    viewFlipper.showPrevious();
+
                     String text = String.format(Locale.getDefault(), getActivity().getResources().getString(R.string.text_file_size_known), fileSize);
                     if (mDebug) {Log.d(LOG_TAG, text);}
                     mFileName.setText(fileName);
@@ -245,7 +258,10 @@ public class RepositoryFragment extends BaseFragment implements DownloadListener
     public void OnComplete(final String fileName, final Long fileSize, Boolean success) {
         this.mDownload.setClickable(true);
         if(getActivity() != null && success) {
-            mBottomSheet.setState(BottomSheetBehavior.STATE_EXPANDED);
+
+            ViewFlipper viewFlipper = getActivity().findViewById(R.id.viewflipper_download);
+            viewFlipper.showPrevious();
+
             String text = getActivity().getResources().getString(R.string.text_file_downloaded);
             if (mDebug) {Log.d(LOG_TAG, text);}
             mStatus.setText(text);
@@ -260,8 +276,8 @@ public class RepositoryFragment extends BaseFragment implements DownloadListener
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    mBottomSheet.setState(BottomSheetBehavior.STATE_EXPANDED);
-                    mStatus.setText(e.getMessage());
+                    ViewFlipper viewFlipper = getActivity().findViewById(R.id.viewflipper_download);
+                    viewFlipper.showPrevious();
                 }
             });
         }
@@ -332,19 +348,17 @@ public class RepositoryFragment extends BaseFragment implements DownloadListener
 
                     case 200: {
                         if (response.body() != null && getContext() != null) {
+
+                            /* updating the branches */
                             ArrayList<Branch> items = response.body();
                             getDataBinding().setBranches(items);
-                            if (mDebug) {
-                                String text = String.format(getContext().getResources().getString(R.string.debug_repository_branches), items.size());
-                                Log.d(LOG_TAG, text);
-                                ArrayList<String> elements = new ArrayList<>();
-                                for(int i=0; i < items.size(); i++) {
-                                    elements.add(i, items.get(i).getName());
-                                }
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 
-                                    Joiner.on(", ").skipNulls().join(elements)
-                                    Log.d(LOG_TAG, "branches: " + String.join(", ", elements));
+                            if (mDebug) {
+                                Log.d(LOG_TAG, String.format(getContext().getResources().getString(R.string.debug_repository_branches), items.size()));
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                    ArrayList<String> elements = new ArrayList<>();
+                                    for(int i=0; i < items.size(); i++) {elements.add(i, items.get(i).getName());}
+                                    Log.d(LOG_TAG, String.join(", ", elements));
                                 }
                             }
                         }
