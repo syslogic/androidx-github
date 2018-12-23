@@ -13,7 +13,6 @@ public class StringArrayAdapter extends BaseArrayAdapter {
 
     public StringArrayAdapter(@NonNull Context context) {
         super(context);
-
     }
 
     void setItems(@NonNull Context context, String[] array) {
