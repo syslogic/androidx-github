@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!--suppress AndroidUnknownAttribute -->
+    <data class=".databinding.ToolbarDownloadBinding">
+        <import type="android.view.View"/>
+        <import type="java.util.ArrayList"/>
+        <variable name="branches" type="ArrayList&lt;io.syslogic.github.model.Branch&gt;"/>
+    </data>
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_download"
+        android:layout_width="match_parent"
+        android:layout_height="?android:attr/actionBarSize"
+        android:contentInsetStart="0dp"
+        android:layout_margin="0dp"
+        android:elevation="4dp"
+        android:gravity="top"
+        android:padding="0dp"
+        android:background="@color/design_default_color_primary"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:layout_scrollFlags="scroll|enterAlways"
+        app:contentInsetStart="0dp"
+        tools:layout_gravity="bottom">
+
+        <ViewFlipper
+            android:id="@+id/viewflipper_download"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/layout_download_selection"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical|end"
+                android:orientation="horizontal">
+
+                <androidx.appcompat.widget.AppCompatSpinner
+                    android:id="@+id/spinner_branch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:entries="@{branches}"/>
+
+                <androidx.appcompat.widget.AppCompatImageButton
+                    android:id="@+id/button_download"
+                    android:layout_width="48dp"
+                    android:layout_height="match_parent"
+                    android:background="@null"
+                    android:src="@drawable/baseline_cloud_download_white_24"/>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/layout_download_progress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="0dp"
+                android:orientation="vertical">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/text_download_filename"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="4dp"
+                    android:textAlignment="center"
+                    android:textColor="#FFFFFF"
+                    android:textSize="10sp"
+                    app:fontFamily="monospace"
+                    tools:text="@string/tools_download_filename"
+                    tools:ignore="SmallSp"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/text_download_status"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="4dp"
+                    android:textAlignment="center"
+                    android:textColor="#FFFFFF"
+                    android:textSize="10sp"
+                    app:fontFamily="monospace"
+                    tools:text="@string/tools_download_status"
+                    tools:ignore="SmallSp"/>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+        </ViewFlipper>
+
+    </androidx.appcompat.widget.Toolbar>
+
+</layout>

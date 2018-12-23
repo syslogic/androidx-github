@@ -25,10 +25,17 @@
             android:layout_height="wrap_content"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
+            <!--
             <include
                 android:id="@+id/toolbar_repository"
                 layout="@layout/toolbar_repository"
                 bind:repository="@{repository}"/>
+            -->
+
+            <include
+                android:id="@+id/toolbar_download"
+                layout="@layout/toolbar_download"
+                bind:branches="@{branches}"/>
 
         </com.google.android.material.appbar.AppBarLayout>
 
@@ -36,13 +43,10 @@
             android:id="@+id/webview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_weight="0.80"
             android:nestedScrollingEnabled="true"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             app:loadUrl="@{repository.htmlUrl}"/>
-
-        <include
-            android:id="@+id/dialog_bottom_sheet"
-            layout="@layout/dialog_bottom_sheet"/>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
