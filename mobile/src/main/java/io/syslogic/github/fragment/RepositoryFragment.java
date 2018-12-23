@@ -98,10 +98,15 @@ public class RepositoryFragment extends BaseFragment implements DownloadListener
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         this.mDataBinding = RepositoryFragmentBinding.inflate(inflater, container, false);
         View layout = this.mDataBinding.getRoot();
+
         if(this.getContext() != null) {
 
             /* download button */
             this.mDownload = layout.findViewById(R.id.button_download);
+
+            /* default web-view */
+            this.mDataBinding.webview.getSettings().setJavaScriptEnabled(true);
+            this.mDataBinding.webview.loadUrl("file:///android_asset/index.html");
 
             /* bottom sheet */
             View bottomSheet = layout.findViewById(R.id.dialog_bottom_sheet);
@@ -115,8 +120,7 @@ public class RepositoryFragment extends BaseFragment implements DownloadListener
             if(! isNetworkAvailable(this.getContext())) {
                 this.onNetworkLost();
             } else {
-                this.mDataBinding.webview.loadUrl("file://android_asset/index.html");
-                this.mDataBinding.webview.getSettings().setJavaScriptEnabled(true);
+
                 this.mDataBinding.webview.setWebViewClient(new WebViewClient() {
                     @Override
                     public void onPageCommitVisible (WebView view, String url) {
@@ -327,10 +331,13 @@ public class RepositoryFragment extends BaseFragment implements DownloadListener
                     switch(response.code()) {
 
                         case 200: {
-                            if (response.body() != null) {
+                            if (response.body() != null && getContext() != null) {
                                 ArrayList<Branch> items = response.body();
-                                if (mDebug) {Log.d(LOG_TAG, "branches: " + items.size());}
                                 getDataBinding().setBranches(items);
+                                if (mDebug) {
+                                    String text = String.format(getContext().getResources().getString(R.string.debug_repository_branches), items.size());
+                                    Log.d(LOG_TAG, text);
+                                }
                             }
                             break;
                         }
