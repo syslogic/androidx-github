@@ -29,4 +29,9 @@ public class Branch {
     public String getName() {
         return this.name;
     }
+
+    @NonNull
+    public String toString() {
+        return this.name;
+    }
 }
