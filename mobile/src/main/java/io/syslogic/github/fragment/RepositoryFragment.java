@@ -105,12 +105,13 @@ public class RepositoryFragment extends BaseFragment implements DownloadListener
 
         if(this.getContext() != null) {
 
-            /* default web-view */
             this.mDataBinding.webview.getSettings().setJavaScriptEnabled(true);
-            this.mDataBinding.webview.loadUrl("file:///android_asset/index.html");
             this.mDataBinding.webview.setWebViewClient(new WebViewClient() {
                 @Override
                 public void onPageCommitVisible (WebView view, String url) {
+                    if(mDataBinding.viewflipperContent.getDisplayedChild() == 0) {
+                        mDataBinding.viewflipperContent.showNext();
+                    }
                     contentLoaded = true;
                 }
             });
@@ -250,7 +251,7 @@ public class RepositoryFragment extends BaseFragment implements DownloadListener
                     mDataBinding.toolbarDownload.textDownloadStatus.setText(text);
                     if (mDebug) {Log.d(LOG_TAG, text);}
 
-                    switchViewFlipper(1);
+                    switchToolbarView(1);
                 }
             });
         }
@@ -284,7 +285,7 @@ public class RepositoryFragment extends BaseFragment implements DownloadListener
                     if (mDebug) {Log.d(LOG_TAG, text);}
 
                     /* would need to be delayed */
-                    switchViewFlipper(0);
+                    switchToolbarView(0);
                 }
             });
         }
@@ -305,7 +306,7 @@ public class RepositoryFragment extends BaseFragment implements DownloadListener
             if (mDebug) {Log.d(LOG_TAG, text);}
 
             /* would need to be delayed */
-            switchViewFlipper(0);
+            switchToolbarView(0);
         }
     }
 
@@ -324,7 +325,7 @@ public class RepositoryFragment extends BaseFragment implements DownloadListener
                     public void run() {
 
                         /* would need to be delayed */
-                        switchViewFlipper(0);
+                        switchToolbarView(0);
                     }
                 });
             }
@@ -476,7 +477,7 @@ public class RepositoryFragment extends BaseFragment implements DownloadListener
         downloadRepository(item, "tarball", branch);
     }
 
-    private void switchViewFlipper(Integer childIndex) {
+    private void switchToolbarView(Integer childIndex) {
         ViewFlipper view = mDataBinding.toolbarDownload.viewflipperDownload;
         int index = view.getDisplayedChild();
         switch(childIndex) {

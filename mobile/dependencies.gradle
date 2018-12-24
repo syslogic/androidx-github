@@ -12,6 +12,8 @@ dependencies {
     api "androidx.cardview:cardview:${androidxVersion}"
     api "com.google.android.material:material:1.0.0"
 
+    api "com.airbnb.android:lottie:2.5.0"
+
     // https://mvnrepository.com/artifact/com.google.code.gson/gson
     api "com.google.code.gson:gson:2.8.5"
 
