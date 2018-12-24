@@ -137,7 +137,7 @@ abstract public class BaseFragment extends Fragment implements ConnectivityListe
                     case 200: {
                         if (response.body() != null) {
                             User item = response.body();
-                            if(mDebug) {Log.w(LOG_TAG, "token auth: " + item.getLogin());}
+                            if(mDebug) {Log.w(LOG_TAG, "logged in as: " + item.getLogin());}
                             ((BaseActivity) getContext()).setUser(item);
                         }
                         break;
