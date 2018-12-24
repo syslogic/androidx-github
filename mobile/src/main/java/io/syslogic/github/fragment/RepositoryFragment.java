@@ -427,7 +427,7 @@ public class RepositoryFragment extends BaseFragment implements DownloadListener
                                     defaultIndex=i;
                                 }
                             }
-                            
+
                             /* debug output */
                             if(mDebug) {
                                 if(defaultIndex == -1) {

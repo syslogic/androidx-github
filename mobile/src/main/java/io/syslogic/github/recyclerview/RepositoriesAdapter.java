@@ -114,6 +114,8 @@ public class RepositoriesAdapter extends RecyclerView.Adapter {
 
     public void fetchPage(final int pageNumber) {
 
+        final int pageSize = 30;
+
         Call<Repositories> api = GithubClient.getRepositories(getQueryString(),"stars","desc", pageNumber);
         if(BuildConfig.DEBUG) {Log.w(LOG_TAG, api.request().url() + "");}
 
@@ -130,7 +132,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter {
                         if (response.body() != null) {
 
                             Repositories items = response.body();
-                            if (BuildConfig.DEBUG) {Log.d(LOG_TAG, "loaded " + getItemCount() + " / " + items.getCount());}
+                            if (BuildConfig.DEBUG) {Log.d(LOG_TAG, "loaded " + (getItemCount() + pageSize) + " / " + items.getCount());}
                             setTotalItemCount(items.getCount());
                             int positionStart = getItemCount();
                             getItems().addAll(items.getRepositories());
