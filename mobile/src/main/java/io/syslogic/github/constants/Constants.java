@@ -22,10 +22,10 @@ public final class Constants {
     public static final Integer REQUESTCODE_ADD_ACCESS_TOKEN = 500;
 
     @NonNull
-    public static final Integer REQUESTCODE_DOWNLOAD_TARBALL = 501;
+    public static final Integer REQUESTCODE_DOWNLOAD_ZIPBALL = 501;
 
     @NonNull
-    public static final Integer REQUESTCODE_DOWNLOAD_ZIPBALL = 502;
+    public static final Integer REQUESTCODE_DOWNLOAD_TARBALL = 502;
 
     @NonNull
     public static final String ARGUMENT_FILE_NAME    = "fileName";
