@@ -420,13 +420,24 @@ public class RepositoryFragment extends BaseFragment implements DownloadListener
                             }
 
                             /* attempting to select branch master */
-                            int defaultIndex = 0;
+                            int defaultIndex = -1;
                             for(int i=0; i < items.size(); i++) {
                                 if( items.get(i).getName().equals("master")) {
                                     if (mDebug) {Log.d(LOG_TAG, String.format(getContext().getResources().getString(R.string.debug_branch_master), repoName, i));}
                                     defaultIndex=i;
                                 }
                             }
+                            
+                            /* debug output */
+                            if(mDebug) {
+                                if(defaultIndex == -1) {
+                                    Log.d(LOG_TAG, repoName + " has no master branch.");
+                                }
+                                if(defaultIndex == 0) {
+                                    Log.d(LOG_TAG, String.format(getContext().getResources().getString(R.string.debug_branch_master), repoName, defaultIndex));
+                                }
+                            }
+
                             if(getActivity() != null && defaultIndex > 0) {
                                 final int index = defaultIndex;
                                 mDataBinding.toolbarDownload.spinnerBranch.post(new Runnable() {
