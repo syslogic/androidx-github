@@ -22,7 +22,7 @@
     <string name="text_out_of_space">no space left on device</string>
 
     <string name="debug_branch_list" formatted="false">%s has %d branches: %s</string>
-    <string name="debug_branch_master" formatted="false">%s master branch at index: %d</string>
+    <string name="debug_branch_master" formatted="false">%s master branch index: %d</string>
     <string name="debug_network_present">network connection is present</string>
     <string name="debug_network_absent">network connection is absent</string>
 
