@@ -431,12 +431,12 @@ public class RepositoryFragment extends BaseFragment implements DownloadListener
 
                             if(getActivity() != null && defaultIndex > 0) {
                                 final int index = defaultIndex;
-                                mDataBinding.toolbarDownload.spinnerBranch.post(new Runnable() {
+                                mDataBinding.toolbarDownload.spinnerBranch.postDelayed(new Runnable() {
                                     @Override
                                     public void run() {
                                         mDataBinding.toolbarDownload.spinnerBranch.setSelection(index, false);
                                     }
-                                });
+                                }, 100);
                             }
                         }
                         break;
