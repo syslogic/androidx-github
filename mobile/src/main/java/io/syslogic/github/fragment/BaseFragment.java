@@ -23,8 +23,13 @@ import io.syslogic.github.BuildConfig;
 import io.syslogic.github.R;
 import io.syslogic.github.network.ConnectivityReceiver;
 import io.syslogic.github.network.ConnectivityListener;
-import io.syslogic.github.network.TokenHelper;
+import io.syslogic.github.retrofit.TokenHelper;
 
+/**
+ * Base Fragment
+ * @author Martin Zeitler
+ * @version 1.0.0
+**/
 abstract public class BaseFragment extends Fragment implements ConnectivityListener {
 
     /** {@link Log} Tag */

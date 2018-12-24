@@ -1,4 +1,4 @@
-package io.syslogic.github.network;
+package io.syslogic.github.task;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -19,6 +19,11 @@ import io.syslogic.github.constants.Constants;
 
 import okhttp3.ResponseBody;
 
+/**
+ * Download Task
+ * @author Martin Zeitler
+ * @version 1.0.0
+**/
 public class DownloadTask extends AsyncTask<ResponseBody, Pair<Integer, Long>, Bundle> {
 
     /** {@link Log} Tag */

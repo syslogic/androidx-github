@@ -6,6 +6,11 @@ import androidx.annotation.NonNull;
 
 import io.syslogic.github.R;
 
+/**
+ * Sort-Order Adapter
+ * @author Martin Zeitler
+ * @version 1.0.0
+**/
 public class SortOrderAdapter extends BaseArrayAdapter {
 
     public SortOrderAdapter(@NonNull Context context) {

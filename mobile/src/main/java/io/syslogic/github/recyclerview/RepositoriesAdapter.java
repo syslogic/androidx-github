@@ -39,12 +39,17 @@ import io.syslogic.github.model.RateLimit;
 import io.syslogic.github.model.RateLimits;
 import io.syslogic.github.model.Repositories;
 import io.syslogic.github.model.Repository;
-import io.syslogic.github.network.GithubClient;
+import io.syslogic.github.retrofit.GithubClient;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * Repositories RecyclerView Adapter
+ * @author Martin Zeitler
+ * @version 1.0.0
+**/
 public class RepositoriesAdapter extends RecyclerView.Adapter {
 
     /** {@link Log} Tag */

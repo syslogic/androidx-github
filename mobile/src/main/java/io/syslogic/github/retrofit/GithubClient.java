@@ -1,4 +1,4 @@
-package io.syslogic.github.network;
+package io.syslogic.github.retrofit;
 
 import java.util.ArrayList;
 
@@ -15,6 +15,11 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 import io.syslogic.github.constants.Constants;
 
+/**
+ * Github Client
+ * @author Martin Zeitler
+ * @version 1.0.0
+**/
 public class GithubClient {
 
     private static Retrofit retrofit;

@@ -1,5 +1,10 @@
-package io.syslogic.github.network;
+package io.syslogic.github.task;
 
+/**
+ * Download Listener
+ * @author Martin Zeitler
+ * @version 1.0.0
+**/
 public interface DownloadListener {
 
     void OnFileSize(String fileName, Long fileSize);

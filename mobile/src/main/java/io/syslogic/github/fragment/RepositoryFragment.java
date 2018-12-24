@@ -32,11 +32,11 @@ import androidx.appcompat.widget.Toolbar;
 import io.syslogic.github.R;
 import io.syslogic.github.constants.Constants;
 import io.syslogic.github.databinding.RepositoryFragmentBinding;
-import io.syslogic.github.network.DownloadListener;
-import io.syslogic.github.network.GithubClient;
+import io.syslogic.github.task.DownloadListener;
+import io.syslogic.github.retrofit.GithubClient;
 import io.syslogic.github.model.Branch;
 import io.syslogic.github.model.Repository;
-import io.syslogic.github.network.DownloadTask;
+import io.syslogic.github.task.DownloadTask;
 
 import okhttp3.Headers;
 import okhttp3.ResponseBody;
@@ -45,6 +45,11 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * Repository Fragment
+ * @author Martin Zeitler
+ * @version 1.0.0
+**/
 public class RepositoryFragment extends BaseFragment implements DownloadListener {
 
     /** {@link Log} Tag */

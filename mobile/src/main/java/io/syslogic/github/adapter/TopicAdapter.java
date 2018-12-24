@@ -6,6 +6,11 @@ import androidx.annotation.NonNull;
 
 import io.syslogic.github.R;
 
+/**
+ * Topic Adapter
+ * @author Martin Zeitler
+ * @version 1.0.0
+**/
 public class TopicAdapter extends BaseArrayAdapter {
 
     public TopicAdapter(@NonNull Context context) {

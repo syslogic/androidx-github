@@ -7,6 +7,11 @@ import androidx.annotation.Nullable;
 import io.syslogic.github.R;
 import io.syslogic.github.fragment.RepositoriesFragment;
 
+/**
+ * Main Activity
+ * @author Martin Zeitler
+ * @version 1.0.0
+**/
 public class MainActivity extends BaseActivity {
 
     @Override

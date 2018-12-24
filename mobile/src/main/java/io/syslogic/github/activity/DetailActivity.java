@@ -11,6 +11,11 @@ import io.syslogic.github.R;
 import io.syslogic.github.fragment.RepositoryFragment;
 import io.syslogic.github.constants.Constants;
 
+/**
+ * Detail Activity
+ * @author Martin Zeitler
+ * @version 1.0.0
+**/
 public class DetailActivity extends BaseActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
 
     protected long itemId = -1;

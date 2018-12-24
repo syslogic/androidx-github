@@ -1,6 +1,5 @@
-package io.syslogic.github.network;
+package io.syslogic.github.retrofit;
 
-import android.Manifest;
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.content.Context;
@@ -9,9 +8,13 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 
-import androidx.appcompat.app.AppCompatActivity;
 import io.syslogic.github.BuildConfig;
 
+/**
+ * Token Helper
+ * @author Martin Zeitler
+ * @version 1.0.0
+**/
 public class TokenHelper {
 
     /** {@link Log} Tag */

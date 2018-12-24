@@ -6,6 +6,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import io.syslogic.github.model.PagerState;
 
+/**
+ * RecyclerView Scroll-Listener
+ * @author Martin Zeitler
+ * @version 1.0.0
+**/
 public abstract class ScrollListener extends RecyclerView.OnScrollListener {
 
     private LinearLayoutManager layoutManager;

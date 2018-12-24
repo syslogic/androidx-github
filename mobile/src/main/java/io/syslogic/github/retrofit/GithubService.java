@@ -1,4 +1,4 @@
-package io.syslogic.github.network;
+package io.syslogic.github.retrofit;
 
 import java.util.ArrayList;
 
@@ -19,10 +19,13 @@ import retrofit2.http.Query;
 import retrofit2.http.Streaming;
 
 /**
+ * Github Service
  * @see <a href="https://developer.github.com/v3/">api v3</>
  * @see <a href="https://developer.github.com/v3/rate_limit/">rate limit</>
  * @see <a href="https://developer.github.com/v3/search/#search-repositories">search</>
  * @see <a href="https://developer.github.com/v3/repos/branches/">branches</>
+ * @author Martin Zeitler
+ * @version 1.0.0
 **/
 public interface GithubService {
 

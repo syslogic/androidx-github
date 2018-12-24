@@ -13,6 +13,11 @@ import androidx.fragment.app.Fragment;
 
 import io.syslogic.github.fragment.BaseFragment;
 
+/**
+ * Base Activity
+ * @author Martin Zeitler
+ * @version 1.0.0
+**/
 abstract public class BaseActivity extends AppCompatActivity {
 
     protected Fragment currentFragment = null;

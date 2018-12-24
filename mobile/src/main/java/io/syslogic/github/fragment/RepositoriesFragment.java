@@ -20,6 +20,11 @@ import io.syslogic.github.databinding.RepositoriesFragmentBinding;
 import io.syslogic.github.recyclerview.RepositoriesAdapter;
 import io.syslogic.github.recyclerview.ScrollListener;
 
+/**
+ * Repositories Fragment
+ * @author Martin Zeitler
+ * @version 1.0.0
+**/
 public class RepositoriesFragment extends BaseFragment {
 
     /** {@link Log} Tag */

@@ -17,6 +17,11 @@ import androidx.appcompat.widget.AppCompatTextView;
 import io.syslogic.github.R;
 import io.syslogic.github.model.SpinnerItem;
 
+/**
+ * Base Array Adapter
+ * @author Martin Zeitler
+ * @version 1.0.0
+**/
 abstract public class BaseArrayAdapter extends BaseAdapter {
 
     private ArrayList<SpinnerItem> mItems;
