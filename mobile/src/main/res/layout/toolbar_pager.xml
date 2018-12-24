@@ -69,7 +69,9 @@
                     tools:ignore="RtlSymmetry"/>
 
             </androidx.appcompat.widget.LinearLayoutCompat>
+
         </androidx.appcompat.widget.LinearLayoutCompat>
+
     </androidx.appcompat.widget.Toolbar>
 
 </layout>

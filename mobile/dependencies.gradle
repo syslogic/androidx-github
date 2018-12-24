@@ -1,7 +1,15 @@
 // :mobile dependencies.gradle
 
-def androidxVersion = rootProject.ext.get('androidxVersion')
-def retrofitVersion = rootProject.ext.get('retrofitVersion')
+ext {
+    testVersion     = rootProject.ext.get('androidxTestVersion')
+    testRunner      = rootProject.ext.get('androidxTestRunner')
+    androidxVersion = rootProject.ext.get('androidxVersion')
+    materialVersion = rootProject.ext.get('materialVersion')
+    lottieVersion   = rootProject.ext.get('lottieVersion')
+    retrofitVersion = rootProject.ext.get('retrofitVersion')
+    okhttpVersion   = rootProject.ext.get('okhttpVersion')
+    gsonVersion     = rootProject.ext.get('gsonVersion')
+}
 
 dependencies {
 
@@ -10,16 +18,18 @@ dependencies {
     api "androidx.recyclerview:recyclerview:${androidxVersion}"
     api "androidx.annotation:annotation:${androidxVersion}"
     api "androidx.cardview:cardview:${androidxVersion}"
-    api "com.google.android.material:material:1.0.0"
+
+    // https://mvnrepository.com/artifact/com.google.android.material/material
+    api "com.google.android.material:material:${materialVersion}"
 
     // https://mvnrepository.com/artifact/com.airbnb.android/lottie
-    api "com.airbnb.android:lottie:2.8.0"
-
-    // https://mvnrepository.com/artifact/com.google.code.gson/gson
-    api "com.google.code.gson:gson:2.8.5"
+    api "com.airbnb.android:lottie:${lottieVersion}"
 
     // https://mvnrepository.com/artifact/com.squareup.okhttp3/okhttp
-    api "com.squareup.okhttp3:okhttp:3.11.0"
+    api "com.squareup.okhttp3:okhttp:${okhttpVersion}"
+
+    // https://mvnrepository.com/artifact/com.google.code.gson/gson
+    api "com.google.code.gson:gson:${gsonVersion}"
 
     // https://mvnrepository.com/artifact/com.squareup.retrofit2
     api ("com.squareup.retrofit2:retrofit:${retrofitVersion}") {
@@ -30,12 +40,12 @@ dependencies {
     }
 
     // https://mvnrepository.com/artifact/androidx.test.ext
-    androidTestImplementation "androidx.test.ext:junit:${androidxTestVersion}"
+    androidTestImplementation "androidx.test.ext:junit:${testVersion}"
 
     // https://mvnrepository.com/artifact/androidx.test
-    androidTestImplementation "androidx.test:core:${androidxTestVersion}"
-    androidTestImplementation "androidx.test:runner:1.1.1"
-    androidTestImplementation "androidx.test:rules:1.1.1"
+    androidTestImplementation "androidx.test:core:${testVersion}"
+    androidTestImplementation "androidx.test:runner:${testRunner}"
+    androidTestImplementation "androidx.test:rules:${testRunner}"
 
     // https://mvnrepository.com/artifact/androidx.test.uiautomator/uiautomator
     androidTestImplementation "androidx.test.uiautomator:uiautomator:2.2.0"

@@ -86,6 +86,7 @@
                     tools:ignore="SmallSp"/>
 
             </androidx.appcompat.widget.LinearLayoutCompat>
+
         </ViewFlipper>
 
     </androidx.appcompat.widget.Toolbar>

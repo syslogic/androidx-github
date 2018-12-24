@@ -10,8 +10,13 @@ project.ext.set('compileSdkVersion',   new Integer(version['compileSdkVersion'])
 project.ext.set('targetSdkVersion',    new Integer(version['targetSdkVersion']))
 project.ext.set('minSdkVersion',       new Integer(version['minSdkVersion']))
 project.ext.set('androidxTestVersion', version['androidxTestVersion'])
+project.ext.set('androidxTestRunner',  version['androidxTestRunner'])
 project.ext.set('androidxVersion',     version['androidxVersion'])
+project.ext.set('materialVersion',     version['materialVersion'])
+project.ext.set('lottieVersion',       version['lottieVersion'])
 project.ext.set('retrofitVersion',     version['retrofitVersion'])
+project.ext.set('okhttpVersion',       version['okhttpVersion'])
+project.ext.set('gsonVersion',         version['gsonVersion'])
 
 // Access Token, loaded from token.properties
 def apikeys = new Properties()
