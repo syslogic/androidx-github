@@ -408,28 +408,34 @@ public class RepositoryFragment extends BaseFragment implements DownloadListener
                             /* updating the branches */
                             ArrayList<Branch> items = response.body();
                             getDataBinding().setBranches(items);
-                            int defaultIndex = -1;
 
-
+                            /* debug output */
+                            if (mDebug && Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                                 ArrayList<String> elements = new ArrayList<>();
                                 for(int i=0; i < items.size(); i++) {
                                     String name = items.get(i).getName();
                                     elements.add(i, name);
-                                    if(name.equals("master")) {
-                                        if (mDebug) {Log.d(LOG_TAG, "default branch index: " + i);}
-                                        defaultIndex=i;
+                                }
+                                Log.d(LOG_TAG, String.format(getContext().getResources().getString(R.string.debug_branch_list), repoName, items.size(), String.join(", ", elements)));
+                            }
+
+                            /* attempting to select branch master */
+                            int defaultIndex = 0;
+                            for(int i=0; i < items.size(); i++) {
+                                if( items.get(i).getName().equals("master")) {
+                                    if (mDebug) {Log.d(LOG_TAG, String.format(getContext().getResources().getString(R.string.debug_branch_master), repoName, i));}
+                                    defaultIndex=i;
+                                }
+                            }
+                            if(getActivity() != null && defaultIndex > 0) {
+                                final int index = defaultIndex;
+                                mDataBinding.toolbarDownload.spinnerBranch.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        mDataBinding.toolbarDownload.spinnerBranch.setSelection(index, false);
                                     }
-                                }
-
-                                if (mDebug && Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                                    Log.d(LOG_TAG, String.format(getContext().getResources().getString(R.string.debug_branches), repoName, items.size(), String.join(", ", elements)));
-                                }
-
-                                /* spinner default selection */
-                                if(defaultIndex > -1) {
-                                    mDataBinding.toolbarDownload.spinnerBranch.setSelection(defaultIndex);
-
-                                }
+                                });
+                            }
                         }
                         break;
                     }
