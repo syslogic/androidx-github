@@ -425,13 +425,8 @@ public class RepositoryFragment extends BaseFragment implements DownloadListener
                             }
 
                             /* debug output */
-                            if(mDebug) {
-                                if(defaultIndex == -1) {
-                                    Log.d(LOG_TAG, repoName + " has no master branch.");
-                                }
-                                if(defaultIndex == 0) {
-                                    Log.d(LOG_TAG, String.format(getContext().getResources().getString(R.string.debug_branch_master), repoName, defaultIndex));
-                                }
+                            if(mDebug && defaultIndex == -1) {
+                                Log.d(LOG_TAG, repoName + " has no master branch.");
                             }
 
                             if(getActivity() != null && defaultIndex > 0) {
