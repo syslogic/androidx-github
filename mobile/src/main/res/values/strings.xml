@@ -15,9 +15,10 @@
 
     <string name="text_file_exists" formatted="false">%s exists</string>
     <string name="text_file_progress" formatted="false">%d of %d bytes</string>
+    <string name="text_download_complete">file download complete</string>
+    <string name="text_download_failed">file download has failed</string>
     <string name="text_file_size_known" formatted="false">%d bytes</string>
     <string name="text_file_size_unknown">content-length is unknown</string>
-    <string name="text_file_downloaded">file download success</string>
 
     <string name="debug_branches" formatted="false">%s has %d branches: %s</string>
     <string name="debug_network_present">network connection is present</string>
