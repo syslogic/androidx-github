@@ -313,19 +313,21 @@ public class RepositoryFragment extends BaseFragment implements DownloadListener
     public void OnException(String fileName, final Exception e) {
         if (mDebug) {Log.e(LOG_TAG, "failed to save " + fileName + ".");}
 
-        if(e.getMessage().equals("write failed: ENOSPC (No space left on device)")) {
-
-        }
-
         if(getActivity() != null) {
-            getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
 
-                    /* would need to be delayed */
-                    switchViewFlipper(0);
-                }
-            });
+            if(e.getMessage().equals("write failed: ENOSPC (No space left on device)")) {
+                String text = getActivity().getResources().getString(R.string.text_out_of_space);
+                mDataBinding.toolbarDownload.textDownloadStatus.setText(text);
+            } else {
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        /* would need to be delayed */
+                        switchViewFlipper(0);
+                    }
+                });
+            }
         }
     }
 
