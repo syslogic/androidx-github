@@ -156,7 +156,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter {
                             setPagerState(pageNumber, false, null);
 
                             resetOnScollListener();
-                            getSearchQuota();
+                            getQuota("search");
                         }
                         break;
                     }
@@ -199,7 +199,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter {
         databinding.setPager(state);
     }
 
-    private void getSearchQuota() {
+    private void getQuota(final String resourceName) {
 
         Call<RateLimits> api = GithubClient.getRateLimits();
         if (BuildConfig.DEBUG) {Log.w(LOG_TAG, api.request().url() + "");}
@@ -212,16 +212,21 @@ public class RepositoriesAdapter extends RecyclerView.Adapter {
                     case 200: {
                         if (response.body() != null) {
                             RateLimits items = response.body();
-                            RateLimit search = items.getResources().getSearch();
-                            if(BuildConfig.DEBUG) {
-                                long seconds = (long) Math.ceil((new Date(search.getReset() * 1000).getTime() - new Date().getTime()) / 1000);
-                                String quota = String.format(Locale.getDefault(), "search quota: %d / %d. reset in %d seconds.", search.getRemaining(), search.getLimit(), seconds);
-                                Toast.makeText(getContext(), quota, Toast.LENGTH_SHORT).show();
+                            RateLimit limit = null;
+                            switch(resourceName) {
+                                case "graphql": limit = items.getResources().getGraphql(); break;
+                                case "search": limit = items.getResources().getSearch(); break;
+                                case "core": limit = items.getResources().getCore(); break;
+                            }
+                            if(limit != null && BuildConfig.DEBUG) {
+                                long seconds = (long) Math.ceil((new Date(limit.getReset() * 1000).getTime() - new Date().getTime()) / 1000);
+                                String text = String.format(Locale.getDefault(), "%s quota: %d / %d. reset in %d seconds.", resourceName, limit.getRemaining(), limit.getLimit(), seconds);
+                                Toast.makeText(getContext(), text, Toast.LENGTH_SHORT).show();
                             }
 
                             /* possible border-case: */
-                            if(search.getRemaining() > 0) {
-                                Toast.makeText(getContext(), "the quota was reset already", Toast.LENGTH_SHORT).show();
+                            if(limit != null && limit.getRemaining() > 0) {
+                                Toast.makeText(getContext(), "the " + resourceName + " quota was reset already", Toast.LENGTH_SHORT).show();
                             }
                         }
                         break;
