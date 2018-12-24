@@ -16,8 +16,6 @@ import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.SpinnerAdapter;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
 
@@ -34,7 +32,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatSpinner;
 import androidx.databinding.ViewDataBinding;
 
-import androidx.databinding.adapters.SpinnerBindingAdapter;
 import io.syslogic.github.R;
 import io.syslogic.github.constants.Constants;
 import io.syslogic.github.databinding.RepositoryFragmentBinding;
@@ -112,7 +109,8 @@ public class RepositoryFragment extends BaseFragment implements DownloadListener
                 this.onNetworkLost();
             } else {
 
-                this.mDataBinding.layoutLottieLoading.lottieAnimation.enableMergePathsForKitKatAndAbove(true);
+                this.mDataBinding.layoutLottieLoading.lottieLoading.enableMergePathsForKitKatAndAbove(true);
+                this.mDataBinding.layoutLottieLoading.lottieError.enableMergePathsForKitKatAndAbove(true);
 
                 this.mDataBinding.webview.getSettings().setJavaScriptEnabled(true);
                 this.mDataBinding.webview.setWebViewClient(new WebViewClient() {
@@ -355,8 +353,7 @@ public class RepositoryFragment extends BaseFragment implements DownloadListener
                                 Repository item = response.body();
                                 getDataBinding().setRepository(item);
                                 getDataBinding().notifyChange();
-
-                                setBranches();
+                                setBranches(item);
                             }
                             break;
                         }
@@ -367,6 +364,7 @@ public class RepositoryFragment extends BaseFragment implements DownloadListener
                                     String errors = response.errorBody().string();
                                     JsonObject jsonObject = (new JsonParser()).parse(errors).getAsJsonObject();
                                     String message = jsonObject.get("message").toString();
+                                    mDataBinding.layoutLottieLoading.viewflipperLottie.showNext();
                                     if(mDebug) {
                                         Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
                                         Log.e(LOG_TAG, message);
@@ -388,13 +386,11 @@ public class RepositoryFragment extends BaseFragment implements DownloadListener
         }
     }
 
-    private void setBranches() {
-
-        Repository item = getDataBinding().getRepository();
-        final String repoName = item.getName();
+    private void setBranches(Repository item) {
 
         Call<ArrayList<Branch>> api = GithubClient.getBranches(item.getOwner().getLogin(), item.getName());
         if (mDebug) {Log.w(LOG_TAG, api.request().url() + "");}
+        final String repoName = item.getName();
 
         api.enqueue(new Callback<ArrayList<Branch>>() {
 
@@ -457,6 +453,7 @@ public class RepositoryFragment extends BaseFragment implements DownloadListener
                                 String errors = response.errorBody().string();
                                 JsonObject jsonObject = (new JsonParser()).parse(errors).getAsJsonObject();
                                 String message = jsonObject.get("message").toString();
+                                mDataBinding.layoutLottieLoading.viewflipperLottie.showNext();
                                 if(mDebug) {
                                     Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
                                     Log.e(LOG_TAG, message);

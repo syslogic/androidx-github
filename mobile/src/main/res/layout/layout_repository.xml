@@ -47,7 +47,7 @@
 
         <include
             android:id="@+id/layout_lottie_loading"
-            layout="@layout/layout_lottie_hourglass"/>
+            layout="@layout/layout_lottie_loading"/>
 
         <WebView
             android:id="@+id/webview"
