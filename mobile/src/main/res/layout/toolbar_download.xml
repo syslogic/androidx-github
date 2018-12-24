@@ -15,17 +15,16 @@
         android:id="@+id/toolbar_download"
         android:layout_width="match_parent"
         android:layout_height="?android:attr/actionBarSize"
-        android:contentInsetStart="0dp"
         android:layout_margin="0dp"
-        android:elevation="4dp"
-        android:gravity="top"
-        android:padding="0dp"
         android:background="@color/statusBar"
+        android:contentInsetStart="0dp"
+        android:elevation="4dp"
+        android:padding="0dp"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:layout_scrollFlags="scroll|enterAlways"
         app:contentInsetStart="0dp"
-        tools:layout_gravity="bottom">
+        app:layout_scrollFlags="scroll|enterAlways"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        tools:layout_gravity="top">
 
         <ViewFlipper
             android:id="@+id/viewflipper_download"
@@ -43,7 +42,8 @@
                     android:id="@+id/spinner_branch"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:entries="@{branches}"/>
+                    android:entries="@{branches}"
+                    android:textAlignment="viewEnd"/>
 
                 <androidx.appcompat.widget.AppCompatImageButton
                     android:id="@+id/button_download"
@@ -70,8 +70,8 @@
                     android:textColor="#FFFFFF"
                     android:textSize="10sp"
                     app:fontFamily="monospace"
-                    tools:text="@string/tools_download_filename"
-                    tools:ignore="SmallSp"/>
+                    tools:ignore="SmallSp"
+                    tools:text="@string/tools_download_filename"/>
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/text_download_status"
@@ -82,8 +82,8 @@
                     android:textColor="#FFFFFF"
                     android:textSize="10sp"
                     app:fontFamily="monospace"
-                    tools:text="@string/tools_download_status"
-                    tools:ignore="SmallSp"/>
+                    tools:ignore="SmallSp"
+                    tools:text="@string/tools_download_status"/>
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 

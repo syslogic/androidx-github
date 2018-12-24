@@ -16,6 +16,8 @@ import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.SpinnerAdapter;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
 
@@ -32,6 +34,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatSpinner;
 import androidx.databinding.ViewDataBinding;
 
+import androidx.databinding.adapters.SpinnerBindingAdapter;
 import io.syslogic.github.R;
 import io.syslogic.github.constants.Constants;
 import io.syslogic.github.databinding.RepositoryFragmentBinding;
@@ -105,20 +108,22 @@ public class RepositoryFragment extends BaseFragment implements DownloadListener
 
         if(this.getContext() != null) {
 
-            this.mDataBinding.webview.getSettings().setJavaScriptEnabled(true);
-            this.mDataBinding.webview.setWebViewClient(new WebViewClient() {
-                @Override
-                public void onPageCommitVisible (WebView view, String url) {
-                    if(mDataBinding.viewflipperContent.getDisplayedChild() == 0) {
-                        mDataBinding.viewflipperContent.showNext();
-                    }
-                    contentLoaded = true;
-                }
-            });
-
             if(! isNetworkAvailable(this.getContext())) {
                 this.onNetworkLost();
             } else {
+
+                this.mDataBinding.layoutLottieLoading.lottieAnimation.enableMergePathsForKitKatAndAbove(true);
+
+                this.mDataBinding.webview.getSettings().setJavaScriptEnabled(true);
+                this.mDataBinding.webview.setWebViewClient(new WebViewClient() {
+                    @Override
+                    public void onPageCommitVisible (WebView view, String url) {
+                        if(mDataBinding.viewflipperContent.getDisplayedChild() == 0) {
+                            mDataBinding.viewflipperContent.showNext();
+                        }
+                        contentLoaded = true;
+                    }
+                });
 
                 this.setRepository();
 
@@ -403,13 +408,28 @@ public class RepositoryFragment extends BaseFragment implements DownloadListener
                             /* updating the branches */
                             ArrayList<Branch> items = response.body();
                             getDataBinding().setBranches(items);
+                            int defaultIndex = -1;
 
-                            if (mDebug && Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+
                                 ArrayList<String> elements = new ArrayList<>();
-                                for(int i=0; i < items.size(); i++) {elements.add(i, items.get(i).getName());}
-                                String text = String.format(getContext().getResources().getString(R.string.debug_branches), repoName, items.size(), String.join(", ", elements));
-                                Log.d(LOG_TAG, text);
-                            }
+                                for(int i=0; i < items.size(); i++) {
+                                    String name = items.get(i).getName();
+                                    elements.add(i, name);
+                                    if(name.equals("master")) {
+                                        if (mDebug) {Log.d(LOG_TAG, "default branch index: " + i);}
+                                        defaultIndex=i;
+                                    }
+                                }
+
+                                if (mDebug && Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                    Log.d(LOG_TAG, String.format(getContext().getResources().getString(R.string.debug_branches), repoName, items.size(), String.join(", ", elements)));
+                                }
+
+                                /* spinner default selection */
+                                if(defaultIndex > -1) {
+                                    mDataBinding.toolbarDownload.spinnerBranch.setSelection(defaultIndex);
+
+                                }
                         }
                         break;
                     }
