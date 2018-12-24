@@ -33,6 +33,7 @@ import androidx.appcompat.widget.AppCompatSpinner;
 import androidx.databinding.ViewDataBinding;
 
 import io.syslogic.github.R;
+import io.syslogic.github.activity.BaseActivity;
 import io.syslogic.github.constants.Constants;
 import io.syslogic.github.databinding.RepositoryFragmentBinding;
 import io.syslogic.github.task.DownloadListener;
@@ -206,8 +207,16 @@ public class RepositoryFragment extends BaseFragment implements DownloadListener
     @Override
     public void onNetworkAvailable() {
         super.onNetworkAvailable();
-        if(this.mDataBinding != null && this.mDataBinding.webview != null && !this.contentLoaded) {
-            setRepository();
+        if(this.getContext() != null) {
+
+            String token = this.getAccessToken(this.getContext());
+            if (((BaseActivity) this.getContext()).getUser() == null && token != null) {
+                this.setUser(token);
+            }
+
+            if(this.mDataBinding != null && this.mDataBinding.webview != null && !this.contentLoaded) {
+                setRepository();
+            }
         }
     }
 

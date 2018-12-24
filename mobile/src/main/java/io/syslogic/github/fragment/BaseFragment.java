@@ -117,13 +117,10 @@ abstract public class BaseFragment extends Fragment implements ConnectivityListe
                 String message = this.getContext().getResources().getString(R.string.debug_network_present);
                 Log.w(LOG_TAG, message);
             }
-            if(this.accessToken != null) {
-                this.setUser(this.accessToken);
-            }
         }
     }
 
-    private void setUser(@NonNull String accessToken) {
+    void setUser(@NonNull String accessToken) {
 
         Call<User> api = GithubClient.getUser(accessToken);
         if (mDebug) {Log.w(LOG_TAG, api.request().url() + "");}
@@ -190,7 +187,7 @@ abstract public class BaseFragment extends Fragment implements ConnectivityListe
     @NonNull
     abstract public ViewDataBinding getDataBinding();
 
-    private String getAccessToken(Context context) {
+    String getAccessToken(Context context) {
         return TokenHelper.getAccessToken(context);
     }
 

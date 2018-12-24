@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import androidx.databinding.ViewDataBinding;
+import io.syslogic.github.activity.BaseActivity;
 import io.syslogic.github.model.PagerState;
 import io.syslogic.github.model.SpinnerItem;
 import io.syslogic.github.adapter.TopicAdapter;
@@ -114,6 +115,9 @@ public class RepositoriesFragment extends BaseFragment {
     public void onNetworkAvailable() {
         super.onNetworkAvailable();
         if(this.getContext() != null && this.mDataBinding != null) {
+
+            String token = this.getAccessToken(this.getContext());
+            if(((BaseActivity) this.getContext()).getUser() == null && token != null) {this.setUser(token);}
 
             if(this.mDataBinding.toolbarPager != null) {
                 PagerState state = this.mDataBinding.toolbarPager.getPager();
