@@ -115,4 +115,6 @@ abstract public class BaseFragment extends Fragment implements ConnectivityListe
     String getAccessToken(Context context) {
         return TokenHelper.getAccessToken(context);
     }
+
+    abstract public void setDataBinding(ViewDataBinding dataBinding);
 }

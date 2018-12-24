@@ -3,7 +3,6 @@ package io.syslogic.github.fragment;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +11,7 @@ import android.widget.AdapterView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import androidx.databinding.ViewDataBinding;
 import io.syslogic.github.constants.Constants;
 import io.syslogic.github.model.PagerState;
 import io.syslogic.github.model.SpinnerItem;
@@ -27,10 +27,10 @@ import io.syslogic.github.recyclerview.ScrollListener;
 **/
 public class RepositoriesFragment extends BaseFragment {
 
-    /** {@link Log} Tag */
+    /** Log Tag */
     private static final String LOG_TAG = RepositoriesFragment.class.getSimpleName();
 
-    /** {@link RepositoriesFragmentBinding} */
+    /** Data Binding */
     private RepositoriesFragmentBinding mDataBinding;
 
     public RepositoriesFragment() {
@@ -56,8 +56,8 @@ public class RepositoriesFragment extends BaseFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        this.mDataBinding = RepositoriesFragmentBinding.inflate(inflater, container, false);
-        View layout = this.mDataBinding.getRoot();
+        this.setDataBinding(RepositoriesFragmentBinding.inflate(inflater, container, false));
+        View layout = this.getDataBinding().getRoot();
 
         if(this.getContext() != null) {
 
@@ -67,7 +67,7 @@ public class RepositoriesFragment extends BaseFragment {
             this.mDataBinding.toolbarQuery.spinnerTopic.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 int count = 0;
                 @Override
-                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long resId) {
                     if (count > 0) {
                         SpinnerItem item = (SpinnerItem) view.getTag();
                         ScrollListener.setPageNumber(1);
@@ -105,6 +105,11 @@ public class RepositoriesFragment extends BaseFragment {
     @NonNull
     public RepositoriesFragmentBinding getDataBinding() {
         return this.mDataBinding;
+    }
+
+    @Override
+    public void setDataBinding(ViewDataBinding dataBinding) {
+        this.mDataBinding = (RepositoriesFragmentBinding) dataBinding;
     }
 
     @Override

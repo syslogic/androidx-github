@@ -2,16 +2,20 @@ package io.syslogic.github.fragment;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.AdapterView;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
 
@@ -25,9 +29,8 @@ import java.util.Objects;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.AppCompatImageButton;
-import androidx.appcompat.widget.AppCompatTextView;
-import androidx.appcompat.widget.Toolbar;
+import androidx.appcompat.widget.AppCompatSpinner;
+import androidx.databinding.ViewDataBinding;
 
 import io.syslogic.github.R;
 import io.syslogic.github.constants.Constants;
@@ -45,6 +48,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static io.syslogic.github.constants.Constants.REQUESTCODE_DOWNLOAD_ZIPBALL;
+
 /**
  * Repository Fragment
  * @author Martin Zeitler
@@ -52,21 +57,13 @@ import retrofit2.Response;
 **/
 public class RepositoryFragment extends BaseFragment implements DownloadListener {
 
-    /** {@link Log} Tag */
+    /** Log Tag */
     private static final String LOG_TAG = RepositoryFragment.class.getSimpleName();
 
-    /** {@link RepositoryFragmentBinding} */
+    /** Data Binding */
     private RepositoryFragmentBinding mDataBinding;
 
     private Boolean contentLoaded = false;
-
-    private ArrayList<Branch> mBranches = new ArrayList<>();
-
-    private Toolbar mToolbar;
-
-    private AppCompatImageButton mDownload;
-    private AppCompatTextView mFileName;
-    private AppCompatTextView mStatus;
 
     private Long itemId = 0L;
 
@@ -103,7 +100,7 @@ public class RepositoryFragment extends BaseFragment implements DownloadListener
     @SuppressLint("SetJavaScriptEnabled")
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        this.mDataBinding = RepositoryFragmentBinding.inflate(inflater, container, false);
+        this.setDataBinding(RepositoryFragmentBinding.inflate(inflater, container, false));
         View layout = this.mDataBinding.getRoot();
 
         if(this.getContext() != null) {
@@ -111,46 +108,65 @@ public class RepositoryFragment extends BaseFragment implements DownloadListener
             /* default web-view */
             this.mDataBinding.webview.getSettings().setJavaScriptEnabled(true);
             this.mDataBinding.webview.loadUrl("file:///android_asset/index.html");
-
-            /* bottom toolbar */
-            this.mToolbar = layout.findViewById(R.id.toolbar_download);
-
-            /* download button */
-            this.mDownload = layout.findViewById(R.id.button_download);
-
-            /* bottom sheet items */
-            this.mFileName = layout.findViewById(R.id.text_download_filename);
-            this.mStatus   = layout.findViewById(R.id.text_download_status);
+            this.mDataBinding.webview.setWebViewClient(new WebViewClient() {
+                @Override
+                public void onPageCommitVisible (WebView view, String url) {
+                    contentLoaded = true;
+                }
+            });
 
             if(! isNetworkAvailable(this.getContext())) {
                 this.onNetworkLost();
             } else {
 
-                this.mDataBinding.webview.setWebViewClient(new WebViewClient() {
-                    @Override
-                    public void onPageCommitVisible (WebView view, String url) {
-                        contentLoaded = true;
-                    }
-                });
-
                 this.setRepository();
 
-                /* the download button */
-                this.mDownload.setOnClickListener(new View.OnClickListener() {
+                this.mDataBinding.toolbarDownload.spinnerBranch.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    int count = 0;
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        if (count > 0) {
+
+                            WebView webview = mDataBinding.webview;
+                            AppCompatSpinner spinner = mDataBinding.toolbarDownload.spinnerBranch;
+                            String branch = spinner.getSelectedItem().toString();
+
+                            String url = webview.getUrl();
+                            if(url.equals("https://github.com/" + mDataBinding.getRepository().getFullName())) {
+                                url += "/tree/" + branch;
+                            } else {
+                                Uri uri = Uri.parse(url);
+                                String token = uri.getLastPathSegment();
+                                if(token != null) {
+                                    url = url.replace(token, branch);
+                                }
+                            }
+                            url = url.replace("/tree/master", "");
+                            if (mDebug) {Log.d(LOG_TAG, url);}
+                            webview.loadUrl(url);
+                        }
+                        count++;
+                    }
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {}
+                });
+
+                /* the download button; TODO: consider tarball. */
+                this.mDataBinding.toolbarDownload.buttonDownload.setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        if (getActivity() != null) {
+                        Activity activity = getActivity();
+                        if (activity != null) {
                             view.setClickable(false);
+                            String branch = mDataBinding.toolbarDownload.spinnerBranch.getSelectedItem().toString();
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                                if (getActivity().checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-
-                                    downloadZipball(mDataBinding.getRepository(), "master");
-
+                                if (activity.checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                                    downloadBranchAsZip(branch);
                                 } else {
-                                    getActivity().requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, Constants.REQUESTCODE_DOWNLOAD_ZIPBALL);
+                                    activity.requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUESTCODE_DOWNLOAD_ZIPBALL);
                                 }
                             } else {
-                                downloadZipball(mDataBinding.getRepository(), "master");
+                                downloadBranchAsZip(branch);
                             }
                         }
                     }
@@ -160,8 +176,9 @@ public class RepositoryFragment extends BaseFragment implements DownloadListener
         return layout;
     }
 
-    private void setItemId(@NonNull Long value) {
-        this.itemId = value;
+    private void downloadBranchAsZip(@Nullable String branch) {
+        if(branch == null) {branch ="master";}
+        downloadZipball(this.mDataBinding.getRepository(), branch);
     }
 
     @NonNull
@@ -169,9 +186,18 @@ public class RepositoryFragment extends BaseFragment implements DownloadListener
         return this.itemId;
     }
 
+    private void setItemId(@NonNull Long value) {
+        this.itemId = value;
+    }
+
     @NonNull
     public RepositoryFragmentBinding getDataBinding() {
         return this.mDataBinding;
+    }
+
+    @Override
+    public void setDataBinding(ViewDataBinding dataBinding) {
+        this.mDataBinding = (RepositoryFragmentBinding) dataBinding;
     }
 
     @Override
@@ -191,25 +217,28 @@ public class RepositoryFragment extends BaseFragment implements DownloadListener
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if(grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            if(requestCode == Constants.REQUESTCODE_DOWNLOAD_ZIPBALL) {
-                this.downloadZipball(this.mDataBinding.getRepository(), "master");
+
+            AppCompatSpinner spinner = getDataBinding().toolbarDownload.spinnerBranch;
+            Repository repo = getDataBinding().getRepository();
+            String branch = "master";
+
+            if(spinner.getAdapter().getCount() > 0) {
+                branch = spinner.getSelectedItem().toString();
+            }
+            switch(requestCode) {
+                case 501: this.downloadZipball(repo, branch); break;
+                case 502: this.downloadTarball(repo, branch);  break;
             }
         }
     }
 
+    /** needs to run on UiThread */
     @Override
     public void OnFileSize(final String fileName, final Long fileSize) {
         if(getActivity() != null) {
-
-            /* needs to run on UiThread */
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-
-                    ViewFlipper viewFlipper = getActivity().findViewById(R.id.viewflipper_download);
-                    viewFlipper.showNext();
-
-                    mFileName.setText(fileName);
 
                     String text;
                     if(fileSize > 0) {
@@ -217,8 +246,12 @@ public class RepositoryFragment extends BaseFragment implements DownloadListener
                     } else {
                         text = getActivity().getResources().getString(R.string.text_file_size_unknown);
                     }
+
+                    mDataBinding.toolbarDownload.textDownloadFilename.setText(fileName);
+                    mDataBinding.toolbarDownload.textDownloadStatus.setText(text);
                     if (mDebug) {Log.d(LOG_TAG, text);}
-                    mStatus.setText(text);
+
+                    switchViewFlipper(1);
                 }
             });
         }
@@ -233,27 +266,26 @@ public class RepositoryFragment extends BaseFragment implements DownloadListener
             } else {
                 text = String.format(Locale.getDefault(), getActivity().getResources().getString(R.string.text_file_size_known), progress);
             }
+            mDataBinding.toolbarDownload.textDownloadStatus.setText(text);
             // if (mDebug) {Log.d(LOG_TAG, text);}
-            mStatus.setText(text);
         }
     }
 
+    /** needs to run on UiThread */
     @Override
     public void OnFileExists(final String fileName, final Long fileSize) {
-        this.mDownload.setClickable(true);
         if(getActivity() != null) {
-            /* needs to run on UiThread */
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
 
-                    ViewFlipper viewFlipper = getActivity().findViewById(R.id.viewflipper_download);
-                    viewFlipper.showPrevious();
-
                     String text = String.format(Locale.getDefault(), getActivity().getResources().getString(R.string.text_file_size_known), fileSize);
+                    mDataBinding.toolbarDownload.textDownloadFilename.setText(fileName);
+                    mDataBinding.toolbarDownload.textDownloadStatus.setText(text);
                     if (mDebug) {Log.d(LOG_TAG, text);}
-                    mFileName.setText(fileName);
-                    mStatus.setText(text);
+
+                    /* would need to be delayed */
+                    switchViewFlipper(0);
                 }
             });
         }
@@ -261,28 +293,38 @@ public class RepositoryFragment extends BaseFragment implements DownloadListener
 
     @Override
     public void OnComplete(final String fileName, final Long fileSize, Boolean success) {
-        this.mDownload.setClickable(true);
-        if(getActivity() != null && success) {
+        if(getActivity() != null ) {
+            Resources res = getActivity().getResources();
+            String text;
+            if(success) {
+                text = res.getString(R.string.text_download_complete);
+            } else {
+                text = res.getString(R.string.text_download_failed);
+            }
 
-            ViewFlipper viewFlipper = getActivity().findViewById(R.id.viewflipper_download);
-            viewFlipper.showPrevious();
-
-            String text = getActivity().getResources().getString(R.string.text_file_downloaded);
+            mDataBinding.toolbarDownload.textDownloadStatus.setText(text);
             if (mDebug) {Log.d(LOG_TAG, text);}
-            mStatus.setText(text);
+
+            /* would need to be delayed */
+            switchViewFlipper(0);
         }
     }
 
     @Override
     public void OnException(String fileName, final Exception e) {
-        if (mDebug) {Log.e(LOG_TAG, "failed to save " + fileName + ".", e);}
-        this.mDownload.setClickable(true);
+        if (mDebug) {Log.e(LOG_TAG, "failed to save " + fileName + ".");}
+
+        if(e.getMessage().equals("write failed: ENOSPC (No space left on device)")) {
+
+        }
+
         if(getActivity() != null) {
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    ViewFlipper viewFlipper = getActivity().findViewById(R.id.viewflipper_download);
-                    viewFlipper.showPrevious();
+
+                    /* would need to be delayed */
+                    switchViewFlipper(0);
                 }
             });
         }
@@ -396,18 +438,7 @@ public class RepositoryFragment extends BaseFragment implements DownloadListener
         });
     }
 
-    private void downloadZipball(Repository item, String branch) {
-        downloadRepository(item, "zipball", branch);
-    }
-
-    private void downloadTarball(Repository item, String branch) {
-        downloadRepository(item, "tarball", branch);
-    }
-
     private void downloadRepository(final Repository item, String archiveFormat, String branch) {
-
-        this.mDownload.setClickable(false);
-
         final RepositoryFragment fragment = this;
         Call<ResponseBody> api = GithubClient.getArchiveLink(item.getOwner().getLogin(), item.getName(), archiveFormat, branch);
         if (mDebug) {Log.w(LOG_TAG, api.request().url() + "");}
@@ -434,5 +465,22 @@ public class RepositoryFragment extends BaseFragment implements DownloadListener
                 if (mDebug) {Log.e(LOG_TAG, t.getMessage());}
             }
         });
+    }
+
+    private void downloadZipball(Repository item, String branch) {
+        downloadRepository(item, "zipball", branch);
+    }
+
+    private void downloadTarball(Repository item, String branch) {
+        downloadRepository(item, "tarball", branch);
+    }
+
+    private void switchViewFlipper(Integer childIndex) {
+        ViewFlipper view = mDataBinding.toolbarDownload.viewflipperDownload;
+        int index = view.getDisplayedChild();
+        switch(childIndex) {
+            case 0: if(index != childIndex) {view.showPrevious();} break;
+            case 1: if(index != childIndex) {view.showNext();} break;
+        }
     }
 }
