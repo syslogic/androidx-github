@@ -1,5 +1,8 @@
 package io.syslogic.github.retrofit;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import java.util.ArrayList;
 
 import androidx.annotation.NonNull;
@@ -8,6 +11,7 @@ import io.syslogic.github.model.RateLimits;
 import io.syslogic.github.model.Repositories;
 import io.syslogic.github.model.Repository;
 
+import io.syslogic.github.model.User;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Retrofit;
@@ -26,9 +30,10 @@ public class GithubClient {
 
     private static GithubService getService() {
         if (retrofit == null) {
+            Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'").create();
             retrofit = new retrofit2.Retrofit.Builder()
                 .baseUrl(Constants.GITHUB_API_BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
         }
         return retrofit.create(GithubService.class);
@@ -56,5 +61,13 @@ public class GithubClient {
 
     public static @NonNull Call<ResponseBody> getArchiveLink(@NonNull String owner, @NonNull String repo, @NonNull String format, @NonNull String ref) {
         return getService().getArchiveLink(owner, repo, format, ref);
+    }
+
+    public static @NonNull Call<User> getUser(@NonNull String token) {
+        return getService().getUser(token);
+    }
+
+    public static @NonNull Call<User> getUser(@NonNull String user, @NonNull String token) {
+        return getService().getUser(user, token);
     }
 }

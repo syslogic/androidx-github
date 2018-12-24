@@ -10,6 +10,7 @@ import io.syslogic.github.model.RateLimits;
 import io.syslogic.github.model.Repositories;
 import io.syslogic.github.model.Repository;
 
+import io.syslogic.github.model.User;
 import okhttp3.ResponseBody;
 
 import retrofit2.Call;
@@ -83,5 +84,20 @@ public interface GithubService {
         @NonNull @Path(value = "repo")    String repo,
         @NonNull @Path(value = "format")  String format,
         @Nullable @Path(value = "branch") String branch
+    );
+
+    /** one user. */
+    @NonNull
+    @GET("user")
+    Call<User> getUser(
+        @NonNull @Query("access_token") String token
+    );
+
+    /** one user. */
+    @NonNull
+    @GET("user/{username}")
+    Call<User> getUser(
+        @NonNull  @Path(value = "name") String username,
+        @NonNull @Query("access_token") String accessToken
     );
 }

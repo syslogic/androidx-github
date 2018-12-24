@@ -1,4 +1,4 @@
-package io.syslogic.github.retrofit;
+package io.syslogic.github.network;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
@@ -45,7 +45,7 @@ public class TokenHelper {
         } else {
             Account account = getAccount(accountManager);
             if(account == null) {
-                Log.d(LOG_TAG, "acccount not found: " + accountType);
+                Log.d(LOG_TAG, "account not found: " + accountType);
             } else {
                 accessToken = accountManager.getUserData(account, "accessToken");
             }

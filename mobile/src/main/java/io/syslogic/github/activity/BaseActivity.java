@@ -12,6 +12,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.fragment.app.Fragment;
 
 import io.syslogic.github.fragment.BaseFragment;
+import io.syslogic.github.model.User;
 
 /**
  * Base Activity
@@ -22,10 +23,20 @@ abstract public class BaseActivity extends AppCompatActivity {
 
     protected Fragment currentFragment = null;
 
+    protected User currentUser = null;
+
     @NonNull
     public ViewDataBinding getFragmentDataBinding() {
         BaseFragment fragment = (BaseFragment) this.getSupportFragmentManager().getFragments().get(0);
         return fragment.getDataBinding();
+    }
+
+    public void setUser(User value) {
+        this.currentUser = value;
+    }
+
+    public User getUser() {
+        return this.currentUser;
     }
 
     protected void addFragment(@Nullable Bundle savedInstanceState, @NonNull @IdRes Integer resId, @NonNull Fragment fragment) {
