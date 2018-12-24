@@ -157,7 +157,6 @@ public class RepositoryFragment extends BaseFragment implements DownloadListener
                     public void onClick(View view) {
                         Activity activity = getActivity();
                         if (activity != null) {
-                            view.setClickable(false);
                             String branch = mDataBinding.toolbarDownload.spinnerBranch.getSelectedItem().toString();
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                                 if (activity.checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
