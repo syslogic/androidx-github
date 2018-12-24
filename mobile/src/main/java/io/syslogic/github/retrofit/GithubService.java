@@ -100,4 +100,12 @@ public interface GithubService {
         @NonNull  @Path(value = "name") String username,
         @NonNull @Query("access_token") String accessToken
     );
+
+    /** one user. */
+    @NonNull
+    @GET("/user/repos")
+    Call<Repositories> getRepositories(
+        @NonNull @Query("access_token") String accessToken
+    );
+
 }
