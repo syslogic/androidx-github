@@ -16,6 +16,9 @@ public final class Constants {
     public static final String GITHUB_API_BASE_URL = "https://api.github.com/";
 
     @NonNull
+    public static final String GITHUB_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss'Z'";
+
+    @NonNull
     public static final String ARGUMENT_ITEM_ID = "itemId";
 
     @NonNull

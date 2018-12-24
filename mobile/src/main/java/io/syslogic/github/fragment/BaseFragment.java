@@ -138,7 +138,7 @@ abstract public class BaseFragment extends Fragment implements ConnectivityListe
                         if (response.body() != null) {
                             User item = response.body();
                             if(mDebug) {Log.w(LOG_TAG, "logged in as: " + item.getLogin());}
-                            ((BaseActivity) getContext()).setUser(item);
+                            ((BaseActivity) Objects.requireNonNull(getContext())).setUser(item);
                         }
                         break;
                     }
@@ -190,7 +190,7 @@ abstract public class BaseFragment extends Fragment implements ConnectivityListe
     @NonNull
     abstract public ViewDataBinding getDataBinding();
 
-    String getAccessToken(Context context) {
+    private String getAccessToken(Context context) {
         return TokenHelper.getAccessToken(context);
     }
 

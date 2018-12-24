@@ -30,7 +30,7 @@ public class GithubClient {
 
     private static GithubService getService() {
         if (retrofit == null) {
-            Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'").create();
+            Gson gson = new GsonBuilder().setDateFormat(Constants.GITHUB_DATE_FORMAT).create();
             retrofit = new retrofit2.Retrofit.Builder()
                 .baseUrl(Constants.GITHUB_API_BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create(gson))
