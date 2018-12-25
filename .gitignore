@@ -2,12 +2,12 @@
 .gradle
 /local.properties
 /keystore.properties
+/token.properties
 /.idea/caches/build_file_checksums.ser
 /.idea/libraries
 /.idea/modules.xml
 /.idea/workspace.xml
 /build
 /captures
-/results
 .externalNativeBuild
-/token.properties
+
