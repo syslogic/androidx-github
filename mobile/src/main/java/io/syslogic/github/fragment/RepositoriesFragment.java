@@ -133,7 +133,7 @@ public class RepositoriesFragment extends BaseFragment {
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                mDataBinding.recyclerview.setAdapter(new RepositoriesAdapter(getContext(), 1));
+                                getDataBinding().recyclerview.setAdapter(new RepositoriesAdapter(getContext(), 1));
                             }
                         });
                     }

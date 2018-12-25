@@ -30,8 +30,6 @@ public class ProfileFragment extends BaseFragment {
     /** Data Binding */
     private ProfileFragmentBinding mDataBinding;
 
-    private Boolean contentLoaded = false;
-
     private Long itemId = 0L;
 
     public ProfileFragment() {
@@ -76,7 +74,7 @@ public class ProfileFragment extends BaseFragment {
                     @Override
                     public void onPageCommitVisible (WebView view, String url) {
                         if(! contentLoaded) {
-                            mDataBinding.viewflipperContent.showNext();
+                            getDataBinding().viewflipperContent.showNext();
                             contentLoaded = true;
                         }
                     }

@@ -182,14 +182,14 @@ public class RepositoriesAdapter extends RecyclerView.Adapter {
     }
 
     /** reset the scroll listener. */
-    private void resetOnScollListener() {
+    protected void resetOnScollListener() {
         if(this.mRecyclerView.getAdapter() != null) {
             ScrollListener listener = ((RepositoriesLinearView) mRecyclerView).getOnScrollListener();
             listener.setIsLoading(false);
         }
     }
 
-    private void setPagerState(int pageNumber, boolean isLoading, @Nullable Long itemCount) {
+    protected void setPagerState(int pageNumber, boolean isLoading, @Nullable Long itemCount) {
         RepositoriesFragmentBinding databinding = (RepositoriesFragmentBinding) ((BaseActivity) mContext).getFragmentDataBinding();
         PagerState state = databinding.getPager();
         state.setIsLoading(isLoading);
@@ -201,7 +201,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter {
         databinding.setPager(state);
     }
 
-    private void getQuota(final String resourceName) {
+    protected void getQuota(@NonNull final String resourceName) {
 
         Call<RateLimits> api = GithubClient.getRateLimits();
         if (BuildConfig.DEBUG) {Log.w(LOG_TAG, api.request().url() + "");}
@@ -249,7 +249,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter {
     }
 
     /** Setters */
-    private void setTotalItemCount(long value) {
+    void setTotalItemCount(long value) {
         this.totalItemCount = value;
     }
     void setQueryString(String value) {

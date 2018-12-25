@@ -52,6 +52,9 @@ abstract public class BaseFragment extends Fragment implements ConnectivityListe
     /** Debug Output */
     static final boolean mDebug = BuildConfig.DEBUG;
 
+    @NonNull
+    protected Boolean contentLoaded = false;
+
     private static User currentUser = null;
 
     private String accessToken = null;
@@ -129,7 +132,7 @@ abstract public class BaseFragment extends Fragment implements ConnectivityListe
         }
     }
 
-    void setUser(@NonNull String accessToken, @Nullable final TokenCallback listener) {
+    public void setUser(@NonNull String accessToken, @Nullable final TokenCallback listener) {
 
         Call<User> api = GithubClient.getUser(accessToken);
         if (mDebug) {Log.w(LOG_TAG, api.request().url() + "");}
@@ -200,12 +203,12 @@ abstract public class BaseFragment extends Fragment implements ConnectivityListe
         return TokenHelper.getAccessToken(context);
     }
 
-    private void setCurrentUser(@Nullable User value) {
+    public void setCurrentUser(@Nullable User value) {
         currentUser = value;
     }
 
     @Nullable
-    User getCurrentUser() {
+    public User getCurrentUser() {
         return currentUser;
     }
 

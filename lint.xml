@@ -18,4 +18,8 @@
         <ignore regexp="R.drawable.baseline_cloud_download_*" />
     </issue>
 
+    <issue id="SyntheticAccessor">
+        <ignore regexp="LOG_TAG" />
+    </issue>
+
 </lint>

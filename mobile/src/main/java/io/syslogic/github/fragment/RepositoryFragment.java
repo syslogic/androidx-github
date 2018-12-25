@@ -64,8 +64,6 @@ public class RepositoryFragment extends BaseFragment implements DownloadListener
     /** Data Binding */
     private RepositoryFragmentBinding mDataBinding;
 
-    private Boolean contentLoaded = false;
-
     private Long itemId = 0L;
 
     public RepositoryFragment() {
@@ -109,8 +107,8 @@ public class RepositoryFragment extends BaseFragment implements DownloadListener
                 this.mDataBinding.webview.setWebViewClient(new WebViewClient() {
                     @Override
                     public void onPageCommitVisible (WebView view, String url) {
-                        if(mDataBinding.viewflipperContent.getDisplayedChild() == 0) {
-                            mDataBinding.viewflipperContent.showNext();
+                        if(getDataBinding().viewflipperContent.getDisplayedChild() == 0) {
+                            getDataBinding().viewflipperContent.showNext();
                         }
                         contentLoaded = true;
                     }
@@ -124,12 +122,12 @@ public class RepositoryFragment extends BaseFragment implements DownloadListener
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                         if (count > 0) {
 
-                            WebView webview = mDataBinding.webview;
-                            AppCompatSpinner spinner = mDataBinding.toolbarDownload.spinnerBranch;
+                            WebView webview = getDataBinding().webview;
+                            AppCompatSpinner spinner = getDataBinding().toolbarDownload.spinnerBranch;
                             String branch = spinner.getSelectedItem().toString();
 
                             String url = webview.getUrl();
-                            if(url.equals("https://github.com/" + mDataBinding.getRepository().getFullName())) {
+                            if(url.equals("https://github.com/" + getDataBinding().getRepository().getFullName())) {
                                 url += "/tree/" + branch;
                             } else {
                                 Uri uri = Uri.parse(url);
@@ -154,7 +152,7 @@ public class RepositoryFragment extends BaseFragment implements DownloadListener
                     public void onClick(View view) {
                         Activity activity = getActivity();
                         if (activity != null) {
-                            String branch = mDataBinding.toolbarDownload.spinnerBranch.getSelectedItem().toString();
+                            String branch = getDataBinding().toolbarDownload.spinnerBranch.getSelectedItem().toString();
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                                 if (activity.checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
                                     downloadBranchAsZip(branch);
@@ -172,9 +170,9 @@ public class RepositoryFragment extends BaseFragment implements DownloadListener
         return layout;
     }
 
-    private void downloadBranchAsZip(@Nullable String branch) {
+    public void downloadBranchAsZip(@Nullable String branch) {
         if(branch == null) {branch ="master";}
-        downloadZipball(this.mDataBinding.getRepository(), branch);
+        downloadZipball(this.getDataBinding().getRepository(), branch);
     }
 
     @NonNull
@@ -251,8 +249,8 @@ public class RepositoryFragment extends BaseFragment implements DownloadListener
                         text = getActivity().getResources().getString(R.string.text_file_size_unknown);
                     }
 
-                    mDataBinding.toolbarDownload.textDownloadFilename.setText(fileName);
-                    mDataBinding.toolbarDownload.textDownloadStatus.setText(text);
+                    getDataBinding().toolbarDownload.textDownloadFilename.setText(fileName);
+                    getDataBinding().toolbarDownload.textDownloadStatus.setText(text);
                     if (mDebug) {Log.d(LOG_TAG, text);}
 
                     switchToolbarView(1);
@@ -284,8 +282,8 @@ public class RepositoryFragment extends BaseFragment implements DownloadListener
                 public void run() {
 
                     String text = String.format(Locale.getDefault(), getActivity().getResources().getString(R.string.text_file_size_known), fileSize);
-                    mDataBinding.toolbarDownload.textDownloadFilename.setText(fileName);
-                    mDataBinding.toolbarDownload.textDownloadStatus.setText(text);
+                    getDataBinding().toolbarDownload.textDownloadFilename.setText(fileName);
+                    getDataBinding().toolbarDownload.textDownloadStatus.setText(text);
                     if (mDebug) {Log.d(LOG_TAG, text);}
 
                     /* would need to be delayed */
@@ -364,7 +362,7 @@ public class RepositoryFragment extends BaseFragment implements DownloadListener
                                     String errors = response.errorBody().string();
                                     JsonObject jsonObject = (new JsonParser()).parse(errors).getAsJsonObject();
                                     String message = jsonObject.get("message").toString();
-                                    mDataBinding.layoutLottieLoading.viewflipperLottie.showNext();
+                                    getDataBinding().layoutLottieLoading.viewflipperLottie.showNext();
                                     if(mDebug) {
                                         Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
                                         Log.e(LOG_TAG, message);
@@ -386,7 +384,7 @@ public class RepositoryFragment extends BaseFragment implements DownloadListener
         }
     }
 
-    private void setBranches(Repository item) {
+    public void setBranches(@NonNull Repository item) {
 
         Call<ArrayList<Branch>> api = GithubClient.getBranches(item.getOwner().getLogin(), item.getName());
         if (mDebug) {Log.w(LOG_TAG, api.request().url() + "");}
@@ -431,10 +429,10 @@ public class RepositoryFragment extends BaseFragment implements DownloadListener
 
                             if(getActivity() != null && defaultIndex > 0) {
                                 final int index = defaultIndex;
-                                mDataBinding.toolbarDownload.spinnerBranch.postDelayed(new Runnable() {
+                                getDataBinding().toolbarDownload.spinnerBranch.postDelayed(new Runnable() {
                                     @Override
                                     public void run() {
-                                        mDataBinding.toolbarDownload.spinnerBranch.setSelection(index, false);
+                                        getDataBinding().toolbarDownload.spinnerBranch.setSelection(index, false);
                                     }
                                 }, 100);
                             }
@@ -448,7 +446,7 @@ public class RepositoryFragment extends BaseFragment implements DownloadListener
                                 String errors = response.errorBody().string();
                                 JsonObject jsonObject = (new JsonParser()).parse(errors).getAsJsonObject();
                                 String message = jsonObject.get("message").toString();
-                                mDataBinding.layoutLottieLoading.viewflipperLottie.showNext();
+                                getDataBinding().layoutLottieLoading.viewflipperLottie.showNext();
                                 if(mDebug) {
                                     Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
                                     Log.e(LOG_TAG, message);
@@ -506,7 +504,7 @@ public class RepositoryFragment extends BaseFragment implements DownloadListener
         downloadRepository(item, "tarball", branch);
     }
 
-    private void switchToolbarView(Integer childIndex) {
+    void switchToolbarView(Integer childIndex) {
         ViewFlipper view = mDataBinding.toolbarDownload.viewflipperDownload;
         int index = view.getDisplayedChild();
         switch(childIndex) {
