@@ -1,7 +1,6 @@
 package io.syslogic.github.fragment;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -76,7 +75,10 @@ public class ProfileFragment extends BaseFragment {
                 this.mDataBinding.webview.setWebViewClient(new WebViewClient() {
                     @Override
                     public void onPageCommitVisible (WebView view, String url) {
-                        contentLoaded = true;
+                        if(! contentLoaded) {
+                            mDataBinding.viewflipperContent.showNext();
+                            contentLoaded = true;
+                        }
                     }
                 });
 
@@ -127,17 +129,9 @@ public class ProfileFragment extends BaseFragment {
     }
 
     @Override
-    public void onLogin(final User item) {
-        if(this.getContext() != null && this.mDataBinding != null && !this.contentLoaded) {
-
-            /* needs to run on UiThread */
-            ((Activity) this.getContext()).runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    mDataBinding.setProfile(item);
-                    mDataBinding.viewflipperContent.showNext();
-                }
-            });
+    public void onLogin(User item) {
+        if(this.mDataBinding != null && !this.contentLoaded) {
+            this.mDataBinding.setProfile(item);
         }
     }
 }
