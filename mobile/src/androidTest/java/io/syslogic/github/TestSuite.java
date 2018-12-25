@@ -28,12 +28,16 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
 
 /**
- * Graphical User Interface Test TestSuite
+ * Test Suite
  * @author Martin Zeitler
  * @version 1.0.0
 **/
 @RunWith(org.junit.runners.Suite.class)
-@org.junit.runners.Suite.SuiteClasses({TestMainActivity.class, TestDetailActivity.class})
+@org.junit.runners.Suite.SuiteClasses({
+    TestRepositoriesActivity.class,
+    TestRepositoryActivity.class,
+    TestProfileActivity.class
+})
 public class TestSuite {
 
     protected static final int LAUNCH_TIMEOUT = 5000;

@@ -15,14 +15,14 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 
 /**
- * Main Activity UiAutomator TestCase
+ * Repositories Activity UiAutomator TestCase
  * @author Martin Zeitler
  * @version 1.0.0
 **/
 @RunWith(AndroidJUnit4.class)
-public class TestMainActivity extends TestSuite {
+public class TestRepositoriesActivity extends TestSuite {
 
-    private String className = TestMainActivity.class.getSimpleName().replace("Test", "");
+    private String className = TestRepositoriesActivity.class.getSimpleName().replace("Test", "");
 
     @Before
     public void setPackageName() {

@@ -1,10 +1,10 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Test Main" type="AndroidTestRunConfigurationType" factoryName="Android Instrumented Tests">
+  <configuration default="false" name="Test Repository" type="AndroidTestRunConfigurationType" factoryName="Android Instrumented Tests">
     <module name="mobile" />
     <option name="TESTING_TYPE" value="2" />
     <option name="INSTRUMENTATION_RUNNER_CLASS" value="" />
     <option name="METHOD_NAME" value="" />
-    <option name="CLASS_NAME" value="io.syslogic.github.TestMainActivity" />
+    <option name="CLASS_NAME" value="io.syslogic.github.TestRepositoryActivity" />
     <option name="PACKAGE_NAME" value="" />
     <option name="EXTRA_OPTIONS" value="" />
     <option name="CLEAR_LOGCAT" value="false" />
