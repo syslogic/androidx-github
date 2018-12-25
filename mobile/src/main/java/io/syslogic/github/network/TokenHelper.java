@@ -35,7 +35,7 @@ public class TokenHelper {
             try {
                 ApplicationInfo app = context.getPackageManager().getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA);
                 accessToken = app.metaData.getString("com.github.ACCESS_TOKEN");
-                Log.d(LOG_TAG, "com.github.ACCESS_TOKEN: " + accessToken);
+                // Log.d(LOG_TAG, "com.github.ACCESS_TOKEN: " + accessToken);
                 addAccount(accountManager, accessToken);
 
             } catch (NullPointerException | PackageManager.NameNotFoundException e) {

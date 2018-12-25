@@ -10,8 +10,6 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
 
-import androidx.annotation.Nullable;
-
 /**
  * Token Service
  * @author Martin Zeitler
