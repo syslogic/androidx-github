@@ -7,6 +7,12 @@ env:
     - export ANDROID_SDK_ROOT=/usr/local/android-sdk
     - export ANDROID_HOME=/home/travis/.android
 
+android:
+  components:
+    - android-28
+    - build-tools-28.0.3
+    - sys-img-armeabi-v7a-google_apis-25
+
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
   - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
@@ -19,18 +25,7 @@ cache:
 
 before_install:
   - export PATH=${ANDROID_SDK_ROOT}/tools/bin:$PATH
-
-android:
-  components:
-    - android-28
-    - build-tools-28.0.3
-    - sys-img-armeabi-v7a-google_apis-25
-  licenses:
-    - android-sdk-preview-license-.+
-    - android-sdk-license-.+
-
-before_install:
-- mkdir "$ANDROID_HOME/licenses" || true
+  - mkdir "$ANDROID_HOME/licenses" || true
 
 before_script:
   - echo no | android create avd --force -n test -t android-25 --abi google_apis/armeabi-v7a
