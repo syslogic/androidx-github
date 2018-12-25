@@ -5,10 +5,12 @@ sudo: false
 env:
   global:
     - DISPLAY=:99.0
-    - ROOT_DIR=`pwd`
-    - export ANDROID_TARGET_SDK_VERSION=28
-    - export ANDROID_SDK_ROOT=/usr/local/android-sdk
-    - export PATH=$PWD/android-sdk-linux/tools:$PATH
+    - export ANDROID_SDK_ROOT=/opt/android-sdk
+
+before_install:
+  - mkdir -p $ANDROID_SDK_ROOT
+  - yes | sdkmanager --sdk_root=$ANDROID_SDK_ROOT "tools" "build-tools;28.0.3" "android"
+  - export PATH=${ANDROID_SDK_ROOT}/tools/bin:$PATH
 
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
@@ -29,7 +31,6 @@ android:
     - sys-img-x86-android-28
 
 before_script:
-  # Create and start emulator
   - echo no | android create avd --force -n test -t android-28 --abi x86
   - emulator -avd test -no-skin -no-audio -no-window &
   - android-wait-for-emulator
