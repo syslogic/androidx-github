@@ -39,6 +39,14 @@ dependencies {
         exclude group: "com.google.code.gson"
     }
 
+    // jUnit Tests
+    testImplementation ("junit:junit:4.12") {
+        exclude group: "com.android.support.test"
+    }
+
+    // JaCoCo Agent
+    testImplementation "org.jacoco:org.jacoco.agent:0.8.2"
+
     // https://mvnrepository.com/artifact/androidx.test.ext
     androidTestImplementation "androidx.test.ext:junit:${testVersion}"
 

@@ -1,10 +1,10 @@
 // :mobile build.gradle
 apply plugin: "com.android.application"
+apply from: "../jacoco.gradle"
 
 android {
 
     defaultConfig {
-
         applicationId rootProject.ext.get('applicationId')
         manifestPlaceholders = [ accessToken: "" ]
         versionName rootProject.ext.get('versionName')
@@ -12,9 +12,9 @@ android {
         compileSdkVersion rootProject.ext.get('compileSdkVersion')
         targetSdkVersion rootProject.ext.get('targetSdkVersion')
         minSdkVersion rootProject.ext.get('minSdkVersion')
-
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         testBuildType "debug"
+        multiDexEnabled true
     }
 
     testOptions {

@@ -53,7 +53,7 @@ abstract public class BaseFragment extends Fragment implements ConnectivityListe
     static final boolean mDebug = BuildConfig.DEBUG;
 
     @NonNull
-    protected Boolean contentLoaded = false;
+    Boolean contentLoaded = false;
 
     private static User currentUser = null;
 

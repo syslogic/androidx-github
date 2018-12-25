@@ -44,6 +44,8 @@
       <option name="STARTUP_CPU_PROFILING_ENABLED" value="false" />
       <option name="STARTUP_CPU_PROFILING_CONFIGURATION_NAME" value="Sampled (Java)" />
     </Profilers>
-    <method />
+    <method>
+      <option name="Android.Gradle.BeforeRunTask" enabled="false" />
+    </method>
   </configuration>
 </component>
