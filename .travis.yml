@@ -25,7 +25,7 @@ cache:
 
 before_install:
   - export PATH=${ANDROID_SDK_ROOT}/tools/bin:$PATH
-  - mkdir "$ANDROID_HOME/licenses" || true
+  - touch ~/.android/emu-update-last-check.ini
 
 before_script:
   - echo no | android create avd --force -n test -t android-25 --abi google_apis/armeabi-v7a
