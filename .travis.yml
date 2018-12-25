@@ -27,8 +27,7 @@ android:
     - build-tools-28.0.3
 
 before_script:
-  - echo no | android create avd --force -n test -t android-28 --abi google_apis/x86
-  - ls -la $ANDROID_SDK_ROOT/system-images/android-28/google_apis/x86
+  - echo no | android create avd --force -n test -t android-28 --abi google_apis/x86_64
   - emulator -avd test -no-audio -no-window -verbose &
   - android-wait-for-emulator
   - adb shell input keyevent 82 &
