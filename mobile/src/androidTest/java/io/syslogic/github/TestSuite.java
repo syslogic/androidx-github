@@ -90,7 +90,7 @@ public class TestSuite {
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
 
             Bundle extras = new Bundle();
-            if(className.equals("DetailActivity")) {
+            if(className.equals("RepositoryActivity")) {
                 extras.putLong(Constants.ARGUMENT_ITEM_ID, 51148780);
                 intent.putExtras(extras);
             }

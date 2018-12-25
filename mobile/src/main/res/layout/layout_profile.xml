@@ -4,18 +4,18 @@
     xmlns:bind="http://schemas.android.com/apk/res-auto"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".activity.RepositoryActivity">
+    tools:context=".activity.ProfileActivity">
 
     <!--suppress AndroidUnknownAttribute -->
-    <data class=".databinding.RepositoryFragmentBinding">
+    <data class=".databinding.ProfileFragmentBinding">
         <variable name="preview" type="io.syslogic.github.model.WebView"/>
-        <variable name="repository" type="io.syslogic.github.model.Repository"/>
+        <variable name="profile" type="io.syslogic.github.model.User"/>
         <import type="java.util.ArrayList"/>
-        <variable name="branches" type="ArrayList&lt;io.syslogic.github.model.Branch&gt;"/>
+        <variable name="repositories" type="ArrayList&lt;io.syslogic.github.model.Repository&gt;"/>
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
-        android:id="@+id/layout_repository"
+        android:id="@+id/layout_profile"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -25,17 +25,10 @@
             android:layout_height="wrap_content"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
-            <!--
             <include
-                android:id="@+id/toolbar_repository"
-                layout="@layout/toolbar_repository"
-                bind:repository="@{repository}"/>
-            -->
-
-            <include
-                android:id="@+id/toolbar_download"
-                layout="@layout/toolbar_download"
-                bind:branches="@{branches}"/>
+                android:id="@+id/toolbar_profile"
+                layout="@layout/toolbar_profile"
+                bind:profile="@{profile}"/>
 
         </com.google.android.material.appbar.AppBarLayout>
 
@@ -55,7 +48,7 @@
             android:layout_height="match_parent"
             android:nestedScrollingEnabled="true"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            app:loadUrl="@{repository.htmlUrl}"/>
+            app:loadUrl="@{profile.htmlUrl}"/>
 
         </ViewFlipper>
 

@@ -30,7 +30,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import io.syslogic.github.R;
 import io.syslogic.github.BuildConfig;
 import io.syslogic.github.activity.BaseActivity;
-import io.syslogic.github.activity.DetailActivity;
+import io.syslogic.github.activity.RepositoryActivity;
 import io.syslogic.github.constants.Constants;
 import io.syslogic.github.databinding.RepositoriesFragmentBinding;
 import io.syslogic.github.databinding.RepositoryViewHolderBinding;
@@ -300,7 +300,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter {
             } else {
                 Bundle extras = new Bundle();
                 extras.putLong(Constants.ARGUMENT_ITEM_ID, item.getId());
-                Intent intent = new Intent(activity, DetailActivity.class);
+                Intent intent = new Intent(activity, RepositoryActivity.class);
                 intent.putExtras(extras);
                 activity.startActivity(intent);
             }

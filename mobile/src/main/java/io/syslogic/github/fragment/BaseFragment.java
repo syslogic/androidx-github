@@ -27,11 +27,11 @@ import androidx.fragment.app.Fragment;
 
 import io.syslogic.github.BuildConfig;
 import io.syslogic.github.R;
-import io.syslogic.github.activity.BaseActivity;
 import io.syslogic.github.constants.Constants;
 import io.syslogic.github.model.User;
 import io.syslogic.github.network.ConnectivityReceiver;
 import io.syslogic.github.network.ConnectivityListener;
+import io.syslogic.github.network.TokenCallback;
 import io.syslogic.github.retrofit.GithubClient;
 import io.syslogic.github.network.TokenHelper;
 
@@ -44,7 +44,7 @@ import retrofit2.Response;
  * @author Martin Zeitler
  * @version 1.0.0
 **/
-abstract public class BaseFragment extends Fragment implements ConnectivityListener {
+abstract public class BaseFragment extends Fragment implements ConnectivityListener, TokenCallback {
 
     /** {@link Log} Tag */
     private final String LOG_TAG = BaseFragment.class.getSimpleName();
@@ -52,13 +52,25 @@ abstract public class BaseFragment extends Fragment implements ConnectivityListe
     /** Debug Output */
     static final boolean mDebug = BuildConfig.DEBUG;
 
+    private static User currentUser = null;
+
     private String accessToken = null;
 
-    public BaseFragment() {}
+    public BaseFragment() {
+
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            this.registerNetworkCallback(this.getContext(), this);
+        } else {
+            this.registerBroadcastReceiver(this.getContext());
+        }
+
         if (getContext() != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             Activity activity = (Activity) getContext();
 
@@ -87,7 +99,7 @@ abstract public class BaseFragment extends Fragment implements ConnectivityListe
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    void registerNetworkCallback(Context context, final ConnectivityListener listener) {
+    private void registerNetworkCallback(Context context, final ConnectivityListener listener) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {return;}
         ConnectivityManager cm = getConnectivityManager(context);
         cm.registerDefaultNetworkCallback(new ConnectivityManager.NetworkCallback() {
@@ -104,7 +116,7 @@ abstract public class BaseFragment extends Fragment implements ConnectivityListe
 
     /** required < API 24 Nougat */
     @SuppressWarnings("deprecation")
-    void registerBroadcastReceiver(Context context) {
+    private void registerBroadcastReceiver(Context context) {
         IntentFilter intentFilter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
         ConnectivityReceiver mReceiver = new ConnectivityReceiver(context);
         context.registerReceiver(mReceiver, intentFilter);
@@ -112,15 +124,12 @@ abstract public class BaseFragment extends Fragment implements ConnectivityListe
 
     @Override
     public void onNetworkAvailable() {
-        if(this.getContext() != null) {
-            if(mDebug) {
-                String message = this.getContext().getResources().getString(R.string.debug_network_present);
-                Log.w(LOG_TAG, message);
-            }
+        if(mDebug && this.getContext() != null) {
+            Log.w(LOG_TAG, this.getContext().getResources().getString(R.string.debug_network_present));
         }
     }
 
-    void setUser(@NonNull String accessToken) {
+    void setUser(@NonNull String accessToken, @Nullable final TokenCallback listener) {
 
         Call<User> api = GithubClient.getUser(accessToken);
         if (mDebug) {Log.w(LOG_TAG, api.request().url() + "");}
@@ -135,7 +144,8 @@ abstract public class BaseFragment extends Fragment implements ConnectivityListe
                         if (response.body() != null) {
                             User item = response.body();
                             if(mDebug) {Log.w(LOG_TAG, "logged in as: " + item.getLogin());}
-                            ((BaseActivity) Objects.requireNonNull(getContext())).setUser(item);
+                            if(listener != null) {listener.onLogin(item);}
+                            setCurrentUser(item);
                         }
                         break;
                     }
@@ -179,7 +189,7 @@ abstract public class BaseFragment extends Fragment implements ConnectivityListe
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if(grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             if(requestCode == Constants.REQUESTCODE_ADD_ACCESS_TOKEN) {
-                this.setUser(this.accessToken);
+                //this.setUser(this.accessToken, this);
             }
         }
     }
@@ -189,6 +199,14 @@ abstract public class BaseFragment extends Fragment implements ConnectivityListe
 
     String getAccessToken(Context context) {
         return TokenHelper.getAccessToken(context);
+    }
+
+    public void setCurrentUser(User value) {
+        currentUser = value;
+    }
+
+    public User getCurrentUser() {
+        return currentUser;
     }
 
     abstract public void setDataBinding(ViewDataBinding dataBinding);

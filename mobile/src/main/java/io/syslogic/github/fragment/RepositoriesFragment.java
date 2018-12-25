@@ -1,6 +1,5 @@
 package io.syslogic.github.fragment;
 
-import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,11 +10,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import androidx.databinding.ViewDataBinding;
-import io.syslogic.github.activity.BaseActivity;
 import io.syslogic.github.model.PagerState;
 import io.syslogic.github.model.SpinnerItem;
 import io.syslogic.github.adapter.TopicAdapter;
 import io.syslogic.github.databinding.RepositoriesFragmentBinding;
+import io.syslogic.github.model.User;
 import io.syslogic.github.recyclerview.RepositoriesAdapter;
 import io.syslogic.github.recyclerview.ScrollListener;
 
@@ -44,11 +43,6 @@ public class RepositoriesFragment extends BaseFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            this.registerNetworkCallback(this.getContext(), this);
-        } else {
-            this.registerBroadcastReceiver(this.getContext());
-        }
     }
 
     @NonNull
@@ -117,7 +111,9 @@ public class RepositoriesFragment extends BaseFragment {
         if(this.getContext() != null && this.mDataBinding != null) {
 
             String token = this.getAccessToken(this.getContext());
-            if(((BaseActivity) this.getContext()).getUser() == null && token != null) {this.setUser(token);}
+            if(getCurrentUser() == null && token != null) {
+                this.setUser(token, this);
+            }
 
             if(this.mDataBinding.toolbarPager != null) {
                 PagerState state = this.mDataBinding.toolbarPager.getPager();
@@ -169,5 +165,10 @@ public class RepositoriesFragment extends BaseFragment {
             }
 
         }
+    }
+
+    @Override
+    public void onLogin(User item) {
+
     }
 }

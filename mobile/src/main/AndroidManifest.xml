@@ -36,26 +36,36 @@
             android:value="${accessToken}"/>
 
         <activity
-            android:name="io.syslogic.github.activity.MainActivity">
+            android:name="io.syslogic.github.activity.ProfileActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
+                <action android:name="android.intent.action.MAIN"/>
             </intent-filter>
         </activity>
 
         <activity
-            android:name="io.syslogic.github.activity.DetailActivity">
+            android:name="io.syslogic.github.activity.RepositoriesActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name="io.syslogic.github.activity.RepositoryActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <action android:name="android.intent.action.VIEW"/>
             </intent-filter>
         </activity>
 
-        <service android:name="io.syslogic.github.network.TokenService">
+        <service
+            android:name="io.syslogic.github.network.TokenService">
             <intent-filter>
                 <action android:name="android.accounts.AccountAuthenticator" />
             </intent-filter>
-            <meta-data android:name="android.accounts.AccountAuthenticator" android:resource="@xml/authenticator" />
+            <meta-data
+                android:name="android.accounts.AccountAuthenticator"
+                android:resource="@xml/authenticator" />
         </service>
 
     </application>

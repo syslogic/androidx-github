@@ -33,9 +33,9 @@ import androidx.appcompat.widget.AppCompatSpinner;
 import androidx.databinding.ViewDataBinding;
 
 import io.syslogic.github.R;
-import io.syslogic.github.activity.BaseActivity;
 import io.syslogic.github.constants.Constants;
 import io.syslogic.github.databinding.RepositoryFragmentBinding;
+import io.syslogic.github.model.User;
 import io.syslogic.github.task.DownloadListener;
 import io.syslogic.github.retrofit.GithubClient;
 import io.syslogic.github.model.Branch;
@@ -81,18 +81,10 @@ public class RepositoryFragment extends BaseFragment implements DownloadListener
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
-
         Bundle args = this.getArguments();
         if(itemId == 0 && args != null) {
             this.setItemId(args.getLong(Constants.ARGUMENT_ITEM_ID));
-        }
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            this.registerNetworkCallback(this.getContext(), this);
-        } else {
-            this.registerBroadcastReceiver(this.getContext());
         }
     }
 
@@ -210,8 +202,8 @@ public class RepositoryFragment extends BaseFragment implements DownloadListener
         if(this.getContext() != null) {
 
             String token = this.getAccessToken(this.getContext());
-            if (((BaseActivity) this.getContext()).getUser() == null && token != null) {
-                this.setUser(token);
+            if (getCurrentUser() == null && token != null) {
+                this.setUser(token, this);
             }
 
             if(this.mDataBinding != null && this.mDataBinding.webview != null && !this.contentLoaded) {
@@ -522,5 +514,10 @@ public class RepositoryFragment extends BaseFragment implements DownloadListener
             case 0: if(index != childIndex) {view.showPrevious();} break;
             case 1: if(index != childIndex) {view.showNext();} break;
         }
+    }
+
+    @Override
+    public void onLogin(User item) {
+
     }
 }

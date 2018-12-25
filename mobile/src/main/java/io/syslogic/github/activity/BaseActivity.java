@@ -1,5 +1,6 @@
 package io.syslogic.github.activity;
 
+import android.annotation.TargetApi;
 import android.os.Bundle;
 import android.widget.FrameLayout;
 
@@ -23,20 +24,16 @@ abstract public class BaseActivity extends AppCompatActivity {
 
     protected Fragment currentFragment = null;
 
-    protected User currentUser = null;
-
     @NonNull
     public ViewDataBinding getFragmentDataBinding() {
         BaseFragment fragment = (BaseFragment) this.getSupportFragmentManager().getFragments().get(0);
         return fragment.getDataBinding();
     }
 
-    public void setUser(User value) {
-        this.currentUser = value;
-    }
-
-    public User getUser() {
-        return this.currentUser;
+    @TargetApi(23)
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        this.currentFragment.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
     protected void addFragment(@Nullable Bundle savedInstanceState, @NonNull @IdRes Integer resId, @NonNull Fragment fragment) {
