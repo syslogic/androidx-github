@@ -201,10 +201,11 @@ abstract public class BaseFragment extends Fragment implements ConnectivityListe
         return TokenHelper.getAccessToken(context);
     }
 
-    public void setCurrentUser(User value) {
+    public void setCurrentUser(@Nullable User value) {
         currentUser = value;
     }
 
+    @Nullable
     public User getCurrentUser() {
         return currentUser;
     }

@@ -22,6 +22,7 @@ import io.syslogic.github.model.User;
 **/
 abstract public class BaseActivity extends AppCompatActivity {
 
+    @Nullable
     protected Fragment currentFragment = null;
 
     @NonNull
@@ -33,7 +34,9 @@ abstract public class BaseActivity extends AppCompatActivity {
     @TargetApi(23)
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        this.currentFragment.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(this.currentFragment != null) {
+            this.currentFragment.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
     }
 
     protected void addFragment(@Nullable Bundle savedInstanceState, @NonNull @IdRes Integer resId, @NonNull Fragment fragment) {
