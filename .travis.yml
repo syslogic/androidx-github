@@ -1,4 +1,3 @@
-dist: xenial
 language: android
 jdk: oraclejdk8
 sudo: false
@@ -10,8 +9,8 @@ env:
 
 android:
   components:
-    - android-28
-    - build-tools-28.0.3
+    - android-25
+    - build-tools-25.0.3
     - sys-img-armeabi-v7a-google_apis-25
 
 before_cache:
