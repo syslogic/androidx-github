@@ -28,7 +28,7 @@ android:
 
 before_script:
   - echo no | android create avd --force -n test -t android-28 --abi google_apis/x86
-  - emulator -avd test -no-audio -no-window -kernel /usr/local/android-sdk/system-images/android-28/google_apis/x86/kernel-ranchu-64 -verbose &
+  - emulator -kernel /usr/local/android-sdk/system-images/android-28/google_apis/x86/kernel-ranchu-64 -avd test -no-audio -no-window &
   - android-wait-for-emulator
   - adb shell input keyevent 82 &
 
