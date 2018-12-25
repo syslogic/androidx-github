@@ -5,7 +5,7 @@ sudo: false
 env:
   global:
     - export ANDROID_AVD_HOME=/home/travis/.android/avd
-    - export ANDROID_SDK_ROOT=/home/travis/.android/avd
+    - export ANDROID_SDK_ROOT=/usr/local/android-sdk
     - export ANDROID_HOME=/usr/local/android-sdk
 
     - DISPLAY=:99.0
