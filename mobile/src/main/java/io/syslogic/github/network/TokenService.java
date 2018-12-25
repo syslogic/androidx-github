@@ -44,6 +44,7 @@ public class TokenService extends Service {
     }
 
     public class Authenticator extends AbstractAccountAuthenticator {
+
         public Authenticator(Context context) {
             super(context);
         }
