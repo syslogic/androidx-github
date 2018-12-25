@@ -31,10 +31,6 @@
         android:supportsRtl="true"
         tools:ignore="UnusedAttribute">
 
-        <meta-data
-            android:name="com.github.ACCESS_TOKEN"
-            android:value="${accessToken}"/>
-
         <activity
             android:name="io.syslogic.github.activity.ProfileActivity">
             <intent-filter>

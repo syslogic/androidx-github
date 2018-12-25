@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="io.syslogic.github">
+
+    <application
+        tools:ignore="GoogleAppIndexingWarning">
+
+        <meta-data
+            android:name="com.github.ACCESS_TOKEN"
+            android:value="${accessToken}"/>
+
+    </application>
+
+</manifest>
