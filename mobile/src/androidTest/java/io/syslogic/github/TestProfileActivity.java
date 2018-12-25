@@ -14,7 +14,7 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 
 /**
- * Profile Activity UiAutomator TestCase
+ * Profile Test Case
  * @author Martin Zeitler
  * @version 1.0.0
 **/

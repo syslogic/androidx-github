@@ -59,7 +59,8 @@
         </activity>
 
         <service
-            android:name="io.syslogic.github.network.TokenService">
+            android:name="io.syslogic.github.network.TokenService"
+            tools:ignore="ExportedService">
             <intent-filter>
                 <action android:name="android.accounts.AccountAuthenticator" />
             </intent-filter>

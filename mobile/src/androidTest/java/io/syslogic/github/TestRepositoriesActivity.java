@@ -15,7 +15,7 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 
 /**
- * Repositories Activity UiAutomator TestCase
+ * Repositories Test Case
  * @author Martin Zeitler
  * @version 1.0.0
 **/
