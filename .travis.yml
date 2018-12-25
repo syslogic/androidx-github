@@ -28,13 +28,11 @@ android:
     - android-28
     - build-tools-28.0.3
     - sys-img-x86-google_apis-28
-    - tools
 
 before_script:
-  - android list targets
   - echo no | android create avd --force -n test -t android-28 --abi x86
   - emulator -avd test -no-audio -no-window -verbose &
   - android-wait-for-emulator
   - adb shell input keyevent 82 &
 
-script: ./gradlew mobile:assembleDebug connectedAndroidTest
+script: ./gradlew connectedAndroidTest
