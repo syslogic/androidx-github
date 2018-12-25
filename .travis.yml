@@ -1,0 +1,9 @@
+language: android
+android:
+  components:
+    - build-tools-28.0.3
+    - android-28
+
+    # Specify at least one system image,
+    - sys-img-x86-android-28
+
