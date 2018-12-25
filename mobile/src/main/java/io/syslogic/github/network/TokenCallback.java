@@ -1,5 +1,6 @@
 package io.syslogic.github.network;
 
+import androidx.annotation.NonNull;
 import io.syslogic.github.model.User;
 
 /**
@@ -9,5 +10,5 @@ import io.syslogic.github.model.User;
 **/
 public interface TokenCallback {
 
-    void onLogin(User item);
+    void onLogin(@NonNull User item);
 }

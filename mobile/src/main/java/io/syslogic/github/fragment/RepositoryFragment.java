@@ -192,7 +192,7 @@ public class RepositoryFragment extends BaseFragment implements DownloadListener
     }
 
     @Override
-    public void setDataBinding(ViewDataBinding dataBinding) {
+    public void setDataBinding(@NonNull ViewDataBinding dataBinding) {
         this.mDataBinding = (RepositoryFragmentBinding) dataBinding;
     }
 
@@ -238,7 +238,7 @@ public class RepositoryFragment extends BaseFragment implements DownloadListener
 
     /** needs to run on UiThread */
     @Override
-    public void OnFileSize(final String fileName, final Long fileSize) {
+    public void OnFileSize(@NonNull final String fileName, @NonNull final Long fileSize) {
         if(getActivity() != null) {
             getActivity().runOnUiThread(new Runnable() {
                 @Override
@@ -262,7 +262,7 @@ public class RepositoryFragment extends BaseFragment implements DownloadListener
     }
 
     @Override
-    public void OnProgress( final String fileName, final Integer progress,  final Long fileSize) {
+    public void OnProgress(@NonNull final String fileName, @NonNull final Integer progress, @NonNull final Long fileSize) {
         if(getActivity() != null) {
             String text;
             if(fileSize > 0) {
@@ -277,7 +277,7 @@ public class RepositoryFragment extends BaseFragment implements DownloadListener
 
     /** needs to run on UiThread */
     @Override
-    public void OnFileExists(final String fileName, final Long fileSize) {
+    public void OnFileExists(@NonNull final String fileName, @NonNull final Long fileSize) {
         if(getActivity() != null) {
             getActivity().runOnUiThread(new Runnable() {
                 @Override
@@ -296,7 +296,7 @@ public class RepositoryFragment extends BaseFragment implements DownloadListener
     }
 
     @Override
-    public void OnComplete(final String fileName, final Long fileSize, Boolean success) {
+    public void OnComplete(@NonNull final String fileName, @NonNull final Long fileSize, @NonNull Boolean success) {
         if(getActivity() != null ) {
             Resources res = getActivity().getResources();
             String text;
@@ -315,9 +315,8 @@ public class RepositoryFragment extends BaseFragment implements DownloadListener
     }
 
     @Override
-    public void OnException(String fileName, final Exception e) {
+    public void OnException(@NonNull String fileName, @NonNull final Exception e) {
         if (mDebug) {Log.e(LOG_TAG, "failed to save " + fileName + ".");}
-
         if(getActivity() != null) {
 
             if(e.getMessage().equals("write failed: ENOSPC (No space left on device)")) {
@@ -517,7 +516,7 @@ public class RepositoryFragment extends BaseFragment implements DownloadListener
     }
 
     @Override
-    public void onLogin(User item) {
+    public void onLogin(@NonNull User item) {
 
     }
 }

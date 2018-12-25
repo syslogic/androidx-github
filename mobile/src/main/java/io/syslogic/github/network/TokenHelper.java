@@ -8,6 +8,8 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import io.syslogic.github.BuildConfig;
 
 /**
@@ -25,7 +27,8 @@ public class TokenHelper {
 
     private static final String accountType = "io.syslogic.github";
 
-    public static String getAccessToken(Context context) {
+    @Nullable
+    public static String getAccessToken(@NonNull Context context) {
 
         AccountManager accountManager = AccountManager.get(context);
         String accessToken = null;

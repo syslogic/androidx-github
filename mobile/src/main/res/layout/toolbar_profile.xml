@@ -25,7 +25,7 @@
         tools:layout_gravity="top">
 
         <androidx.appcompat.widget.LinearLayoutCompat
-            android:id="@+id/layout_download_progress"
+            android:id="@+id/layout_toolbar_profile"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="0dp"

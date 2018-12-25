@@ -3,15 +3,19 @@
 
     <issue id="MissingRegistered">
         <ignore regexp="androidx.*.widget.*" />
+        <ignore regexp="com.google.android.material.appbar.AppBarLayout" />
+        <ignore regexp="com.airbnb.lottie.LottieAnimationView" />
     </issue>
 
     <issue id="UnusedResources">
+        <ignore regexp="R.raw.*" />
         <ignore regexp="R.layout.*" />
         <ignore regexp="R.string.tools_*" />
         <ignore regexp="R.string.text_pager_*" />
         <ignore regexp="R.string.text_stargazers" />
         <ignore regexp="R.string.text_subscribers" />
         <ignore regexp="R.string.text_networks" />
+        <ignore regexp="R.drawable.baseline_cloud_download_*" />
     </issue>
 
 </lint>

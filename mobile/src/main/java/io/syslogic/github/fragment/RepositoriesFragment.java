@@ -101,7 +101,7 @@ public class RepositoriesFragment extends BaseFragment {
     }
 
     @Override
-    public void setDataBinding(ViewDataBinding dataBinding) {
+    public void setDataBinding(@NonNull ViewDataBinding dataBinding) {
         this.mDataBinding = (RepositoriesFragmentBinding) dataBinding;
     }
 
@@ -168,7 +168,7 @@ public class RepositoriesFragment extends BaseFragment {
     }
 
     @Override
-    public void onLogin(User item) {
+    public void onLogin(@NonNull User item) {
 
     }
 }

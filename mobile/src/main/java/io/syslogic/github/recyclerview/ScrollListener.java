@@ -73,6 +73,7 @@ public abstract class ScrollListener extends RecyclerView.OnScrollListener {
     }
 
     /* getters */
+    @NonNull
     public static PagerState getPagerState() {
         return state;
     }

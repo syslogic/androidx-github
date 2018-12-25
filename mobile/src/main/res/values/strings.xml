@@ -13,7 +13,7 @@
     <string name="text_pager_loading" formatted="false">loading page %d of %d</string>
     <string name="text_pager_loaded" formatted="false">loaded page %d of %d</string>
 
-    <string name="text_file_exists" formatted="false">%s exists</string>
+    <!-- <string name="text_file_exists" formatted="false">%s exists</string> -->
     <string name="text_file_progress" formatted="false">%d of %d bytes</string>
     <string name="text_download_complete">file download complete</string>
     <string name="text_download_failed">file download has failed</string>

@@ -10,6 +10,9 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 /**
  * Token Service
  * @author Martin Zeitler
@@ -21,7 +24,8 @@ public class TokenService extends Service {
 
     private Authenticator mAuthenticator;
 
-    public static Account getAccount(String accountName, String accountType) {
+    @NonNull
+    public static Account getAccount(@NonNull String accountName, @NonNull String accountType) {
         return new Account(accountName, accountType);
     }
 
@@ -36,49 +40,57 @@ public class TokenService extends Service {
         Log.i(LOG_TAG, "Service destroyed");
     }
 
+    @NonNull
     @Override
-    public IBinder onBind(Intent intent) {
+    public IBinder onBind(@NonNull Intent intent) {
         return mAuthenticator.getIBinder();
     }
 
     public class Authenticator extends AbstractAccountAuthenticator {
 
-        public Authenticator(Context context) {
+        Authenticator(@NonNull Context context) {
             super(context);
         }
 
+        @Nullable
         @Override
-        public Bundle editProperties(AccountAuthenticatorResponse accountAuthenticatorResponse, String s) {
+        public Bundle editProperties(@NonNull AccountAuthenticatorResponse accountAuthenticatorResponse, @NonNull String s) {
             throw new UnsupportedOperationException();
         }
 
+        @Nullable
         @Override
-        public Bundle addAccount(AccountAuthenticatorResponse accountAuthenticatorResponse, String s, String s2, String[] strings, Bundle bundle) {
+        public Bundle addAccount(@NonNull AccountAuthenticatorResponse accountAuthenticatorResponse, @NonNull String s, @NonNull String s2, @NonNull String[] strings, @NonNull Bundle bundle) {
             return null;
         }
 
+        @Nullable
         @Override
-        public Bundle confirmCredentials(AccountAuthenticatorResponse accountAuthenticatorResponse, Account account, Bundle bundle) {
+        public Bundle confirmCredentials(@NonNull AccountAuthenticatorResponse accountAuthenticatorResponse, @NonNull Account account, @NonNull Bundle bundle) {
             return null;
         }
 
+        @Nullable
         @Override
-        public Bundle getAuthToken(AccountAuthenticatorResponse accountAuthenticatorResponse, Account account, String s, Bundle bundle) {
+        public Bundle getAuthToken(@NonNull AccountAuthenticatorResponse accountAuthenticatorResponse, @NonNull Account account, @NonNull String s, @NonNull Bundle bundle) {
             throw new UnsupportedOperationException();
         }
 
+        @Nullable
         @Override
-        public String getAuthTokenLabel(String s) {
+        public String getAuthTokenLabel(@NonNull String s) {
             throw new UnsupportedOperationException();
         }
 
+        @Nullable
         @Override
-        public Bundle updateCredentials(AccountAuthenticatorResponse accountAuthenticatorResponse, Account account, String s, Bundle bundle) {
+        public Bundle updateCredentials(@NonNull AccountAuthenticatorResponse accountAuthenticatorResponse, @NonNull Account account, @NonNull String s, @NonNull Bundle bundle) {
             throw new UnsupportedOperationException();
         }
 
+        @Nullable
         @Override
-        public Bundle hasFeatures(AccountAuthenticatorResponse accountAuthenticatorResponse, Account account, String[] strings) {
+        public Bundle hasFeatures(@NonNull AccountAuthenticatorResponse accountAuthenticatorResponse, @NonNull Account account, @NonNull String[] strings) {
             throw new UnsupportedOperationException();
         }
     }

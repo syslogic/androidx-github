@@ -171,7 +171,7 @@ abstract public class BaseFragment extends Fragment implements ConnectivityListe
 
             @Override
             public void onFailure(@NonNull Call<User> call, @NonNull Throwable t) {
-                if (mDebug) {Log.e(LOG_TAG, t.getMessage());}
+                // if (mDebug) {Log.e(LOG_TAG, t.getMessage());}
             }
         });
     }
@@ -179,8 +179,7 @@ abstract public class BaseFragment extends Fragment implements ConnectivityListe
     @Override
     public void onNetworkLost() {
         if(mDebug && this.getContext() != null) {
-            String message = this.getContext().getResources().getString(R.string.debug_network_absent);
-            Log.w(LOG_TAG, message);
+            Log.w(LOG_TAG, this.getContext().getResources().getString(R.string.debug_network_absent));
         }
     }
 
@@ -201,14 +200,14 @@ abstract public class BaseFragment extends Fragment implements ConnectivityListe
         return TokenHelper.getAccessToken(context);
     }
 
-    public void setCurrentUser(@Nullable User value) {
+    private void setCurrentUser(@Nullable User value) {
         currentUser = value;
     }
 
     @Nullable
-    public User getCurrentUser() {
+    User getCurrentUser() {
         return currentUser;
     }
 
-    abstract public void setDataBinding(ViewDataBinding dataBinding);
+    abstract public void setDataBinding(@NonNull ViewDataBinding dataBinding);
 }

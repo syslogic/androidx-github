@@ -1,5 +1,7 @@
 package io.syslogic.github.task;
 
+import androidx.annotation.NonNull;
+
 /**
  * Download Listener
  * @author Martin Zeitler
@@ -7,13 +9,13 @@ package io.syslogic.github.task;
 **/
 public interface DownloadListener {
 
-    void OnFileSize(String fileName, Long fileSize);
+    void OnFileSize(@NonNull String fileName, @NonNull Long fileSize);
 
-    void OnFileExists(String fileName, Long fileSize);
+    void OnFileExists(@NonNull String fileName, @NonNull Long fileSize);
 
-    void OnProgress(String fileName, Integer progress, Long fileSize);
+    void OnProgress(@NonNull String fileName, @NonNull Integer progress, @NonNull Long fileSize);
 
-    void OnComplete(String fileName, Long fileSize, Boolean success);
+    void OnComplete(@NonNull String fileName, @NonNull Long fileSize, @NonNull Boolean success);
 
-    void OnException(String fileName, Exception e);
+    void OnException(@NonNull String fileName, @NonNull Exception e);
 }

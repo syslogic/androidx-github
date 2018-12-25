@@ -106,7 +106,7 @@ public class ProfileFragment extends BaseFragment {
     }
 
     @Override
-    public void setDataBinding(ViewDataBinding dataBinding) {
+    public void setDataBinding(@NonNull ViewDataBinding dataBinding) {
         this.mDataBinding = (ProfileFragmentBinding) dataBinding;
     }
 
@@ -129,7 +129,7 @@ public class ProfileFragment extends BaseFragment {
     }
 
     @Override
-    public void onLogin(User item) {
+    public void onLogin(@NonNull User item) {
         if(this.mDataBinding != null && !this.contentLoaded) {
             this.mDataBinding.setProfile(item);
         }

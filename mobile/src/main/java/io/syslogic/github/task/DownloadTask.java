@@ -12,6 +12,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Locale;
 
+import androidx.annotation.NonNull;
 import androidx.core.util.Pair;
 
 import io.syslogic.github.BuildConfig;
@@ -39,7 +40,7 @@ public class DownloadTask extends AsyncTask<ResponseBody, Pair<Integer, Long>, B
     private DownloadListener listener;
 
     /** Constructor */
-    public DownloadTask(String fileName, DownloadListener listener) {
+    public DownloadTask(@NonNull String fileName, @NonNull DownloadListener listener) {
         this.fileName = fileName;
         this.listener = listener;
     }
@@ -50,7 +51,7 @@ public class DownloadTask extends AsyncTask<ResponseBody, Pair<Integer, Long>, B
     }
 
     @Override
-    protected final void onProgressUpdate(Pair<Integer, Long>[] values) {
+    protected final void onProgressUpdate(@NonNull Pair<Integer, Long>[] values) {
         if(values.length > 0 && values[0].first != null && values[0].second != null) {
             if (this.listener != null) {
                 this.listener.OnProgress(this.fileName, values[0].first, values[0].second);
@@ -59,9 +60,10 @@ public class DownloadTask extends AsyncTask<ResponseBody, Pair<Integer, Long>, B
         }
     }
 
+    @NonNull
     @Override
     @SuppressWarnings("unchecked")
-    protected Bundle doInBackground(ResponseBody... urls) {
+    protected Bundle doInBackground(@NonNull ResponseBody... urls) {
 
         Bundle result = new Bundle();
         boolean success = false;
@@ -131,7 +133,7 @@ public class DownloadTask extends AsyncTask<ResponseBody, Pair<Integer, Long>, B
     }
 
     @Override
-    protected void onPostExecute(Bundle result) {
+    protected void onPostExecute(@NonNull Bundle result) {
 
         boolean success = result.getBoolean(Constants.ARGUMENT_TASK_SUCCESS, false);
         String fileName = result.getString(Constants.ARGUMENT_FILE_NAME, this.fileName);

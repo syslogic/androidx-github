@@ -12,11 +12,11 @@ public class Commit {
     @SerializedName("url")
     private String url;
 
-    public void setSha(String value) {
+    public void setSha(@NonNull String value) {
         this.sha = value;
     }
 
-    public void setUrl(String value) {
+    public void setUrl(@NonNull String value) {
         this.url = value;
     }
 
