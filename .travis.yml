@@ -1,4 +1,6 @@
 language: android
+jdk: oraclejdk8
+sudo: false
 
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
@@ -17,3 +19,12 @@ android:
 
     # Specify at least one system image,
     - sys-img-x86-android-28
+
+before_script:
+  # Create and start emulator
+  - echo no | android create avd --force -n test -t android-28 --abi x86
+  - emulator -avd test -no-skin -no-audio -no-window &
+  - android-wait-for-emulator
+  - adb shell input keyevent 82 &
+
+script: ./gradlew connectedAndroidTest
