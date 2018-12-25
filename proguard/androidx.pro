@@ -23,8 +23,8 @@
 -keep,includedescriptorclass class androidx.core.app.NotificationCompatJellybean
 -keep,includedescriptorclass class androidx.core.text.ICUCompat { *; }
 -keep,includedescriptorclass class androidx.core.graphics.** { *; }
-
--dontnote androidx.transition.FragmentTransitionSupport
+-keep,includedescriptorclass class androidx.transition.** { *; }
+-dontnote androidx.transition.**
 
 -dontnote androidx.core.graphics.TypefaceCompatApi24Impl
 -keep class androidx.core.graphics.TypefaceCompatApi24Impl {
