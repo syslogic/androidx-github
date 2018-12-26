@@ -5,7 +5,7 @@ sudo: false
 env:
   global:
     - export ANDROID_SDK_ROOT=/usr/local/android-sdk
-    - export ANDROID_HOME=~/.android
+    - export ANDROID_HOME=${TRAVIS_HOME}/.android
 
 android:
   components:
@@ -19,17 +19,17 @@ before_cache:
 
 cache:
   directories:
-    - $HOME/.gradle/caches/
-    - $HOME/.gradle/wrapper/
-    - $ANDROID_HOME/build-cache
+    - ${TRAVIS_HOME}/.gradle/caches/
+    - ${TRAVIS_HOME}/.gradle/wrapper/
+    - ${ANDROID_HOME}/build-cache
 
 before_install:
   - export PATH=${ANDROID_SDK_ROOT}/tools/bin:$PATH
-  - export QEMU_AUDIO_DRV=none
   - mkdir -p ~/build/syslogic/androidx-github
   - touch ~/build/syslogic/androidx-github/token.properties
-  - touch $ANDROID_HOME/emu-update-last-check.ini
-
+  - touch ${ANDROID_HOME}/emu-update-last-check.ini
+  - export QEMU_AUDIO_DRV=pa
+  
 before_script:
   - echo no | android create avd --force -n test -t android-25 --abi google_apis/armeabi-v7a
   - emulator -avd test -no-window -verbose &
