@@ -28,8 +28,8 @@ before_install:
   - mkdir -p ~/build/syslogic/androidx-github
   - touch ~/build/syslogic/androidx-github/token.properties
   - touch ${ANDROID_HOME}/emu-update-last-check.ini
-  - export QEMU_AUDIO_DRV=pa
-  
+  - export QEMU_AUDIO_DRV=none
+
 before_script:
   - echo no | android create avd --force -n test -t android-25 --abi google_apis/armeabi-v7a
   - emulator -avd test -no-window -verbose &
