@@ -1,8 +1,12 @@
 package io.syslogic.github.recyclerview;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -23,6 +27,7 @@ import java.util.Objects;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
 import androidx.cardview.widget.CardView;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
@@ -45,6 +50,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import io.syslogic.github.network.TokenHelper;
+
 /**
  * Repositories RecyclerView Adapter
  * @author Martin Zeitler
@@ -52,9 +59,12 @@ import retrofit2.Response;
 **/
 public class RepositoriesAdapter extends RecyclerView.Adapter {
 
-    /** {@link Log} Tag */
+    /** Log Tag */
     @NonNull
     private static final String LOG_TAG = RepositoriesAdapter.class.getSimpleName();
+
+    /** Debug Output */
+    static final boolean mDebug = BuildConfig.DEBUG;
 
     private ArrayList<Repository> mItems = new ArrayList<>();
 
@@ -115,8 +125,9 @@ public class RepositoriesAdapter extends RecyclerView.Adapter {
     public void fetchPage(final int pageNumber) {
 
         final int pageSize = 30;
+        String accessToken = getAccessToken();
 
-        Call<Repositories> api = GithubClient.getRepositories(getQueryString(),"stars","desc", pageNumber);
+        Call<Repositories> api = GithubClient.getRepositories(getQueryString(),"stars","desc", pageNumber, accessToken);
         if(BuildConfig.DEBUG) {Log.w(LOG_TAG, api.request().url() + "");}
 
         /* updating the pager data-binding */
@@ -158,7 +169,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter {
                             setPagerState(pageNumber, false, null);
 
                             resetOnScollListener();
-                            getQuota("search");
+                            getRateLimit("search");
                         }
                         break;
                     }
@@ -174,6 +185,21 @@ public class RepositoriesAdapter extends RecyclerView.Adapter {
 
     ArrayList<Repository> getItems() {
         return this.mItems;
+    }
+
+    private String getAccessToken() {
+        Activity activity = (Activity) getContext();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (activity.checkSelfPermission(Manifest.permission.ACCOUNT_MANAGER) == PackageManager.PERMISSION_GRANTED) {
+                return TokenHelper.getAccessToken(activity);
+            } else {
+                /* for testing purposes only: */
+                if(mDebug) {return TokenHelper.getAccessToken(activity);}
+                else {return null;}
+            }
+        } else {
+            return TokenHelper.getAccessToken(activity);
+        }
     }
 
     void clearItems() {
@@ -201,7 +227,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter {
         databinding.setPager(state);
     }
 
-    protected void getQuota(@NonNull final String resourceName) {
+    protected void getRateLimit(@NonNull final String resourceName) {
 
         Call<RateLimits> api = GithubClient.getRateLimits();
         if (BuildConfig.DEBUG) {Log.w(LOG_TAG, api.request().url() + "");}

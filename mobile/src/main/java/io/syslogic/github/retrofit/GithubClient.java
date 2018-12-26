@@ -6,13 +6,15 @@ import com.google.gson.GsonBuilder;
 import java.util.ArrayList;
 
 import androidx.annotation.NonNull;
+
 import io.syslogic.github.model.Branch;
 import io.syslogic.github.model.RateLimits;
 import io.syslogic.github.model.Repositories;
 import io.syslogic.github.model.Repository;
-
 import io.syslogic.github.model.User;
+
 import okhttp3.ResponseBody;
+
 import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -43,8 +45,20 @@ public class GithubClient {
         return getService().getRateLimits();
     }
 
+    public static @NonNull Call<User> getUser(@NonNull String token) {
+        return getService().getUser(token);
+    }
+
+    public static @NonNull Call<User> getUser(@NonNull String user, @NonNull String token) {
+        return getService().getUser(user, token);
+    }
+
+    public static @NonNull Call<Repositories> getRepositories(@NonNull String queryString, @NonNull String sortField, @NonNull String sortOrder, @NonNull Integer pageNumber, @NonNull String token) {
+        return getService().getRepositories(queryString, sortField, sortOrder, pageNumber, token);
+    }
+
     public static @NonNull Call<Repositories> getRepositories(@NonNull String queryString, @NonNull String sortField, @NonNull String sortOrder, @NonNull Integer pageNumber) {
-        return getService().getRepositories(queryString, sortField, sortOrder, pageNumber);
+        return getService().getRepositories(queryString, sortField, sortOrder, pageNumber, null);
     }
 
     public static @NonNull Call<Repository> getRepository(@NonNull Long itemId) {
@@ -61,13 +75,5 @@ public class GithubClient {
 
     public static @NonNull Call<ResponseBody> getArchiveLink(@NonNull String owner, @NonNull String repo, @NonNull String format, @NonNull String ref) {
         return getService().getArchiveLink(owner, repo, format, ref);
-    }
-
-    public static @NonNull Call<User> getUser(@NonNull String token) {
-        return getService().getUser(token);
-    }
-
-    public static @NonNull Call<User> getUser(@NonNull String user, @NonNull String token) {
-        return getService().getUser(user, token);
     }
 }

@@ -39,9 +39,10 @@ public interface GithubService {
     @GET("search/repositories")
     Call<Repositories> getRepositories(
         @NonNull @Query(value = "q", encoded = true) String queryString,
-        @NonNull @Query(value = "sort")  String sortField,
-        @NonNull @Query(value = "order") String sortOrder,
-        @NonNull @Query(value = "page")  Integer pageNumber
+        @NonNull @Query(value = "sort")              String sortField,
+        @NonNull @Query(value = "order")             String sortOrder,
+        @NonNull @Query(value = "page")              Integer pageNumber,
+        @Nullable @Query(value = "access_token")     String token
     );
 
     /** one repository. */
@@ -80,9 +81,9 @@ public interface GithubService {
     @Streaming
     @GET("/repos/{owner}/{repo}/{format}/{branch}")
     Call<ResponseBody> getArchiveLink(
-        @NonNull @Path(value = "owner")   String owner,
-        @NonNull @Path(value = "repo")    String repo,
-        @NonNull @Path(value = "format")  String format,
+        @NonNull  @Path(value = "owner")  String owner,
+        @NonNull  @Path(value = "repo")   String repo,
+        @NonNull  @Path(value = "format") String format,
         @Nullable @Path(value = "branch") String branch
     );
 
@@ -90,22 +91,22 @@ public interface GithubService {
     @NonNull
     @GET("user")
     Call<User> getUser(
-        @NonNull @Query("access_token") String token
+        @NonNull @Query(value = "access_token") String token
     );
 
     /** one user. */
     @NonNull
     @GET("user/{username}")
     Call<User> getUser(
-        @NonNull  @Path(value = "name") String username,
-        @NonNull @Query("access_token") String accessToken
+        @NonNull @Path(value = "name")          String username,
+        @NonNull @Query(value = "access_token") String accessToken
     );
 
     /** one user. */
     @NonNull
     @GET("/user/repos")
     Call<Repositories> getRepositories(
-        @NonNull @Query("access_token") String accessToken
+        @NonNull @Query(value = "access_token") String accessToken
     );
 
 }

@@ -189,7 +189,7 @@ abstract public class BaseFragment extends Fragment implements ConnectivityListe
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if(grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+        if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             if(requestCode == Constants.REQUESTCODE_ADD_ACCESS_TOKEN) {
                 //this.setUser(this.accessToken, this);
             }
