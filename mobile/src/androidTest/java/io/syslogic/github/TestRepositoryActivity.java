@@ -30,8 +30,22 @@ public class TestRepositoryActivity extends TestSuite {
     }
 
     @Test
-    public void WebView() {
-        UiObject2 layout = this.mDevice.findObject(By.res(this.packageName, "webview_preview"));
-        Assert.assertThat(true, is(equalTo(true)));
+    public void ButtonDownload() {
+
+        UiObject2 view = this.mDevice.findObject(By.res(this.packageName, "button_download"));
+        Assert.assertThat(view.isClickable(), is(equalTo(true)));
+        view.click();
+
+        sleep(1000);
+        grantPermission();
+
+        sleep(30000);
+    }
+
+    @Test
+    public void SpinnerBranch() {
+        clickSpinnerItem("spinner_branch", 1);
+        clickSpinnerItem("spinner_branch", 2);
+        clickSpinnerItem("spinner_branch", 0);
     }
 }

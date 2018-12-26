@@ -44,9 +44,6 @@ dependencies {
         exclude group: "com.android.support.test"
     }
 
-    // JaCoCo Agent
-    testImplementation "org.jacoco:org.jacoco.agent:0.8.2"
-
     // https://mvnrepository.com/artifact/androidx.test.ext
     androidTestImplementation "androidx.test.ext:junit:${testVersion}"
 
@@ -55,9 +52,12 @@ dependencies {
     androidTestImplementation "androidx.test:runner:${testRunner}"
     androidTestImplementation "androidx.test:rules:${testRunner}"
 
+    // https://mvnrepository.com/artifact/androidx.test.espresso
+    androidTestImplementation "androidx.test.espresso:espresso-core:3.1.1"
+
+    // https://mvnrepository.com/artifact/androidx.test.espresso/espresso-web
+    androidTestImplementation "androidx.test.espresso:espresso-web:3.1.1"
+
     // https://mvnrepository.com/artifact/androidx.test.uiautomator/uiautomator
     androidTestImplementation "androidx.test.uiautomator:uiautomator:2.2.0"
-
-    // https://mvnrepository.com/artifact/androidx.test.espresso
-    // androidTestImplementation "androidx.test.espresso:espresso-core:3.1.0"
 }

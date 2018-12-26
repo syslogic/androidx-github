@@ -31,7 +31,7 @@ public class TestProfileActivity extends TestSuite {
 
     @Test
     public void WebView() {
-        UiObject2 layout = this.mDevice.findObject(By.res(this.packageName, "webview_preview"));
+        UiObject2 layout = this.mDevice.findObject(By.res(this.packageName, "webview"));
         Assert.assertThat(true, is(equalTo(true)));
     }
 }

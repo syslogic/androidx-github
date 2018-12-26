@@ -32,7 +32,7 @@ before_install:
 
 before_script:
   - echo no | android create avd --force -n test -t android-25 --abi google_apis/armeabi-v7a
-  - emulator -avd test -no-boot-anim -no-window -verbose &
+  - $ANDROID_HOME/emulator/emulator -avd test -no-window -verbose &
   - android-wait-for-emulator
   - adb shell input keyevent 82 &
 

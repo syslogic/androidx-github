@@ -5,7 +5,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 
 import org.junit.Assert;
 import org.junit.runner.RunWith;
@@ -17,7 +19,10 @@ import androidx.test.uiautomator.By;
 import androidx.test.uiautomator.Direction;
 import androidx.test.uiautomator.StaleObjectException;
 import androidx.test.uiautomator.UiDevice;
+import androidx.test.uiautomator.UiObject;
 import androidx.test.uiautomator.UiObject2;
+import androidx.test.uiautomator.UiObjectNotFoundException;
+import androidx.test.uiautomator.UiSelector;
 import androidx.test.uiautomator.Until;
 
 import io.syslogic.github.constants.Constants;
@@ -135,7 +140,20 @@ public class TestSuite {
         sleep(2000);
     }
 
-    protected void sleep(int ms){
+    void grantPermission()  {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            UiObject textAllow = this.mDevice.findObject(new UiSelector().text("Allow"));
+            if (textAllow.exists()) {
+                try {
+                    textAllow.click();
+                } catch (UiObjectNotFoundException e) {
+                    Log.e("", "no permissions dialog", e);
+                }
+            }
+        }
+    }
+
+    void sleep(int ms){
         try {
             Thread.sleep(ms);
         } catch (InterruptedException e) {
