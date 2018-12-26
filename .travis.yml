@@ -9,9 +9,11 @@ env:
 
 android:
   components:
-    - android-25
+    - tools
     - build-tools-25.0.3
+    - android-25
     - sys-img-armeabi-v7a-google_apis-25
+    - addon-google_apis-google-25
 
 before_cache:
   - rm -f  ~/.gradle/caches/modules-2/modules-2.lock
