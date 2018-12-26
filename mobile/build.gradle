@@ -29,6 +29,11 @@ android {
         showAll false
     }
 
+    adbOptions {
+        timeOutInMs 20 * 60 * 1000 // 20 minutes
+        installOptions "-d","-t"
+    }
+
     dexOptions {
         javaMaxHeapSize '4572M'
         dexInProcess = true
