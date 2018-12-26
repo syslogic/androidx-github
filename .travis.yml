@@ -27,10 +27,12 @@ cache:
 
 before_install:
   - export PATH=${ANDROID_SDK_ROOT}/tools/bin:$PATH
+  - touch ~/.android/emu-update-last-check.ini
   - mkdir -p ~/.AndroidStudio/config/options
   - touch ~/.AndroidStudio/config/options/updates.xml
   - touch ~/.AndroidStudio/options.xml
-  - touch ~/.android/emu-update-last-check.ini
+  - mkdir -p ~/build/syslogic/androidx-github
+  - touch ~/build/syslogic/androidx-github/token.properties
 
 before_script:
   - echo no | android create avd --force -n test -t android-25 --abi google_apis/armeabi-v7a
