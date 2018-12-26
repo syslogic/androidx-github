@@ -27,16 +27,18 @@ cache:
 
 before_install:
   - export PATH=${ANDROID_SDK_ROOT}/tools/bin:$PATH
+  - export QEMU_AUDIO_DRV=none
   - touch ~/.android/emu-update-last-check.ini
+  - mkdir -p ~/build/syslogic/androidx-github
+  - touch ~/build/syslogic/androidx-github/token.properties
   - mkdir -p ~/.AndroidStudio/config/options
   - touch ~/.AndroidStudio/config/options/updates.xml
   - touch ~/.AndroidStudio/options.xml
-  - mkdir -p ~/build/syslogic/androidx-github
-  - touch ~/build/syslogic/androidx-github/token.properties
+  - ./gradlew dependencies || true
 
 before_script:
   - echo no | android create avd --force -n test -t android-25 --abi google_apis/armeabi-v7a
-  - emulator -engine classic -avd test -no-audio -no-window -verbose -show-kernel &
+  - emulator -engine classic -avd test -no-window -verbose -show-kernel &
   - android-wait-for-emulator
   - adb shell input keyevent 82 &
 
