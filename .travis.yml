@@ -9,7 +9,6 @@ env:
 
 android:
   components:
-    - tools
     - build-tools-25.0.3
     - sys-img-armeabi-v7a-google_apis-25
     - android-25
@@ -29,7 +28,7 @@ before_install:
   - export QEMU_AUDIO_DRV=none
   - mkdir -p ~/build/syslogic/androidx-github
   - touch ~/build/syslogic/androidx-github/token.properties
-  - echo "_version.3D25.3.1.0.26coreVersion.3Dqemu2.25202.7.0 = 1490625965" >> $ANDROID_HOME/emu-update-last-check.ini
+  - touch $ANDROID_HOME/emu-update-last-check.ini
 
 before_script:
   - echo no | android create avd --force -n test -t android-25 --abi google_apis/armeabi-v7a
