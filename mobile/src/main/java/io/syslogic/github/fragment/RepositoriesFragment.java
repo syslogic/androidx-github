@@ -8,14 +8,16 @@ import android.widget.AdapterView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
+import androidx.appcompat.widget.AppCompatSpinner;
 import androidx.databinding.ViewDataBinding;
+
 import io.syslogic.github.model.PagerState;
 import io.syslogic.github.model.SpinnerItem;
 import io.syslogic.github.adapter.TopicAdapter;
 import io.syslogic.github.databinding.RepositoriesFragmentBinding;
 import io.syslogic.github.model.User;
 import io.syslogic.github.recyclerview.RepositoriesAdapter;
+import io.syslogic.github.recyclerview.RepositoriesLinearView;
 import io.syslogic.github.recyclerview.ScrollListener;
 
 /**
@@ -30,6 +32,8 @@ public class RepositoriesFragment extends BaseFragment {
 
     /** Data Binding */
     private RepositoriesFragmentBinding mDataBinding;
+
+    private RepositoriesLinearView mRecyclerView;
 
     public RepositoriesFragment() {
 
@@ -56,21 +60,24 @@ public class RepositoriesFragment extends BaseFragment {
 
             this.mDataBinding.setPager(new PagerState());
 
-            this.mDataBinding.toolbarQuery.spinnerTopic.setAdapter(new TopicAdapter(this.getContext()));
-            this.mDataBinding.toolbarQuery.spinnerTopic.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            this.mRecyclerView = this.mDataBinding.recyclerviewRepositories;
+            AppCompatSpinner spinner = this.mDataBinding.toolbarQuery.spinnerTopic;
+
+            spinner.setAdapter(new TopicAdapter(this.getContext()));
+            spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 int count = 0;
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long resId) {
                     if (count > 0) {
                         SpinnerItem item = (SpinnerItem) view.getTag();
                         ScrollListener.setPageNumber(1);
-                        getDataBinding().recyclerview.setQueryString(item.getValue());
-                        if (getDataBinding().recyclerview.getAdapter() != null) {
-                            getDataBinding().recyclerview.clearAdapter();
-                            ((RepositoriesAdapter) getDataBinding().recyclerview.getAdapter()).fetchPage(1);
+                        mRecyclerView.setQueryString(item.getValue());
+                        if (mRecyclerView.getAdapter() != null) {
+                            mRecyclerView.clearAdapter();
+                            ((RepositoriesAdapter) mRecyclerView.getAdapter()).fetchPage(1);
                         }
                         if(mDebug) {
-                            String text = getDataBinding().recyclerview.getQueryString();
+                            String text = mRecyclerView.getQueryString();
                             getDataBinding().toolbarPager.textQueryString.setText(text);
                         }
                     }
@@ -80,11 +87,11 @@ public class RepositoriesFragment extends BaseFragment {
                 public void onNothingSelected(AdapterView<?> parent) {}
             });
 
-            if (this.mDataBinding.recyclerview.getAdapter() == null) {
+            if (this.mRecyclerView.getAdapter() == null) {
                 if(isNetworkAvailable(this.getContext())) {
-                    this.mDataBinding.recyclerview.setAdapter(new RepositoriesAdapter(this.getContext(), 1));
+                    this.mRecyclerView.setAdapter(new RepositoriesAdapter(this.getContext(), 1));
                     if(mDebug) {
-                        String text = this.mDataBinding.recyclerview.getQueryString();
+                        String text = this.mRecyclerView.getQueryString();
                         this.mDataBinding.toolbarPager.textQueryString.setText(text);
                     }
                 } else {
@@ -121,9 +128,9 @@ public class RepositoriesFragment extends BaseFragment {
                 this.mDataBinding.toolbarPager.setPager(state);
             }
 
-            if(this.mDataBinding.recyclerview != null) {
+            if(this.mDataBinding.recyclerviewRepositories != null) {
 
-                RepositoriesAdapter adapter = ((RepositoriesAdapter) this.mDataBinding.recyclerview.getAdapter());
+                RepositoriesAdapter adapter = ((RepositoriesAdapter) this.mDataBinding.recyclerviewRepositories.getAdapter());
 
                 /* when online for the first time */
                 if(adapter == null) {
@@ -133,7 +140,7 @@ public class RepositoriesFragment extends BaseFragment {
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                getDataBinding().recyclerview.setAdapter(new RepositoriesAdapter(getContext(), 1));
+                                getDataBinding().recyclerviewRepositories.setAdapter(new RepositoriesAdapter(getContext(), 1));
                             }
                         });
                     }

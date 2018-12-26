@@ -33,7 +33,7 @@
             android:visibility="gone"/>
 
         <io.syslogic.github.recyclerview.RepositoriesLinearView
-            android:id="@+id/recyclerview"
+            android:id="@+id/recyclerview_repositories"
             tools:listitem="@layout/cardview_repository"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             android:layout_height="match_parent"
