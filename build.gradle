@@ -18,20 +18,20 @@ project.ext.set('retrofitVersion',     version['retrofitVersion'])
 project.ext.set('okhttpVersion',       version['okhttpVersion'])
 project.ext.set('gsonVersion',         version['gsonVersion'])
 
-// Access Token, loaded from token.properties
-def apikeys = new Properties()
-apikeys.load(new FileInputStream(rootProject.file('token.properties')))
-project.ext.set('accessToken', apikeys['accessToken'])
+// load access-token from token.properties
+if(rootProject.file('token.properties').exists()) {
+    def apikeys = new Properties()
+    apikeys.load(new FileInputStream(rootProject.file('token.properties')))
+    project.ext.set('accessToken', apikeys['accessToken'])
+}
 
 buildscript {
     repositories {
         google()
         jcenter()
-        maven { url "https://plugins.gradle.org/m2/" }
     }
     dependencies {
         classpath "com.android.tools.build:gradle:3.2.1"
-        classpath "org.jacoco:org.jacoco.core:0.8.2"
     }
 }
 

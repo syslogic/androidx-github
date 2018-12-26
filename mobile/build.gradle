@@ -1,6 +1,5 @@
 // :mobile build.gradle
 apply plugin: "com.android.application"
-apply from: "../jacoco.gradle"
 
 android {
 
@@ -27,11 +26,6 @@ android {
         warningsAsErrors true
         abortOnError false
         showAll false
-    }
-
-    adbOptions {
-        timeOutInMs 20 * 60 * 1000 // 20 minutes
-        installOptions "-d","-t"
     }
 
     dexOptions {
