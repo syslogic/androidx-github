@@ -9,9 +9,11 @@ env:
 
 android:
   components:
-    - build-tools-25.0.3
-    - sys-img-armeabi-v7a-google_apis-25
-    - android-25
+    - tools
+    - tools # Running this twice get's the latest build tools
+    - build-tools-28.0.3
+    - sys-img-armeabi-v7a-google_apis-28
+    - android-28
 
 before_cache:
   - rm -f  ~/.gradle/caches/modules-2/modules-2.lock
