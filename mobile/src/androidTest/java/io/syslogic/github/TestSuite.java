@@ -11,6 +11,7 @@ import android.util.Log;
 
 import org.junit.Assert;
 import org.junit.runner.RunWith;
+import org.junit.runners.Suite.SuiteClasses;
 
 import java.util.List;
 
@@ -38,7 +39,7 @@ import static org.hamcrest.CoreMatchers.not;
  * @version 1.0.0
 **/
 @RunWith(org.junit.runners.Suite.class)
-@org.junit.runners.Suite.SuiteClasses({
+@SuiteClasses({
     TestRepositoriesActivity.class,
     TestRepositoryActivity.class,
     TestProfileActivity.class

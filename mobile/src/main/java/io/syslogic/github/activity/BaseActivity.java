@@ -13,7 +13,6 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.fragment.app.Fragment;
 
 import io.syslogic.github.fragment.BaseFragment;
-import io.syslogic.github.model.User;
 
 /**
  * Base Activity
