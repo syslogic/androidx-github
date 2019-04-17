@@ -124,8 +124,12 @@ public class RepositoriesFragment extends BaseFragment {
 
             if(this.mDataBinding.toolbarPager != null) {
                 PagerState state = this.mDataBinding.toolbarPager.getPager();
-                state.setIsOffline(false);
-                this.mDataBinding.toolbarPager.setPager(state);
+                if(state != null) {
+                    state.setIsOffline(false);
+                    this.mDataBinding.toolbarPager.setPager(state);
+                } else {
+                    /* this happens on LOLLIPOP_MR1 */
+                }
             }
 
             if(this.mDataBinding.recyclerviewRepositories != null) {
