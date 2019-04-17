@@ -60,6 +60,13 @@ task clean(type: Delete) {
     delete rootProject.buildDir
     delete project.buildDir
 
+    // delete HTML coverage reports
+    def covReport = rootProject.file("results/jacoco")
+    if(covReport.exists()) {
+        delete covReport.listFiles()
+        delete covReport
+    }
+
     // when task clean has finished
     doLast {
 
