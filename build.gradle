@@ -1,5 +1,8 @@
 // root build.gradle
 
+// Build Configurations
+project.ext.set('archiveBuildTypes', ['debug', 'release'])
+
 // Version Settings, loaded from version.properties
 def version = new Properties()
 version.load(new FileInputStream(rootProject.file('version.properties')))
@@ -13,6 +16,7 @@ project.ext.set('androidxTestVersion', version['androidxTestVersion'])
 project.ext.set('androidxTestRunner',  version['androidxTestRunner'])
 project.ext.set('androidxVersion',     version['androidxVersion'])
 project.ext.set('materialVersion',     version['materialVersion'])
+project.ext.set('jacocoVersion',       version['jacocoVersion'])
 project.ext.set('lottieVersion',       version['lottieVersion'])
 project.ext.set('retrofitVersion',     version['retrofitVersion'])
 project.ext.set('okhttpVersion',       version['okhttpVersion'])
@@ -31,7 +35,8 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.3.2'
+        classpath "com.android.tools.build:gradle:3.3.2"
+        classpath "org.jacoco:org.jacoco.core:0.8.3"
     }
 }
 

@@ -5,6 +5,7 @@ ext {
     testRunner      = rootProject.ext.get('androidxTestRunner')
     androidxVersion = rootProject.ext.get('androidxVersion')
     materialVersion = rootProject.ext.get('materialVersion')
+    jacocoVersion   = rootProject.ext.get('jacocoVersion')
     lottieVersion   = rootProject.ext.get('lottieVersion')
     retrofitVersion = rootProject.ext.get('retrofitVersion')
     okhttpVersion   = rootProject.ext.get('okhttpVersion')
@@ -43,6 +44,9 @@ dependencies {
     testImplementation ("junit:junit:4.12") {
         exclude group: "com.android.support.test"
     }
+
+    // JaCoCo Agent
+    testImplementation "org.jacoco:org.jacoco.agent:${jacocoVersion}"
 
     // https://mvnrepository.com/artifact/androidx.test.ext
     androidTestImplementation "androidx.test.ext:junit:${testVersion}"

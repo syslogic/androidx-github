@@ -51,14 +51,14 @@ android {
             applicationIdSuffix ".debug"
             signingConfig signingConfigs.debug
             manifestPlaceholders = [accessToken: "${accessToken}"]
-            testCoverageEnabled false
-            minifyEnabled false
-            debuggable true
-            jniDebuggable true
-            zipAlignEnabled true
             renderscriptDebuggable true
             pseudoLocalesEnabled false
+            testCoverageEnabled true
             shrinkResources false
+            zipAlignEnabled true
+            minifyEnabled false
+            jniDebuggable true
+            debuggable true
         }
         release {
             signingConfig signingConfigs.release
@@ -81,6 +81,9 @@ android {
 
 // apply script: dependencies
 apply from: "dependencies.gradle"
+
+// apply script: jacoco tasks
+apply from: "../jacoco.gradle"
 
 // apply script: build tasks
 apply from: "tasks.gradle"
