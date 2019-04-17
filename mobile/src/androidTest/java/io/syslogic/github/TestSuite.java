@@ -9,12 +9,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 
-import org.junit.Assert;
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite.SuiteClasses;
-
-import java.util.List;
-
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.uiautomator.By;
 import androidx.test.uiautomator.Direction;
@@ -26,17 +20,23 @@ import androidx.test.uiautomator.UiObjectNotFoundException;
 import androidx.test.uiautomator.UiSelector;
 import androidx.test.uiautomator.Until;
 
-import io.syslogic.github.constants.Constants;
+import org.junit.Assert;
+import org.junit.runners.Suite.SuiteClasses;
+import org.junit.runner.RunWith;
 
 import static org.hamcrest.core.IsNull.notNullValue;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
 
+import java.util.List;
+
+import io.syslogic.github.constants.Constants;
+
 /**
- * Test Suite
+ * Application Test Suite
  * @author Martin Zeitler
- * @version 1.0.0
+ * @version 1.0.1
 **/
 @RunWith(org.junit.runners.Suite.class)
 @SuiteClasses({
