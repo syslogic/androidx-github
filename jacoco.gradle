@@ -42,7 +42,10 @@ project.afterEvaluate {
                         '**/BR.*',
                         '**/*Binding.*',
                         '**/*BindingImpl.*',
-                        '**/DataBinderMapperImpl.*',
+                        '**/databinding/*',
+                        '**/DataBindingInfo.class',
+                        '**/DataBinderMapperImpl.class',
+                        '**/DataBinderMapperImpl$*.class',
                         '**/*$ViewInjector*.*',
                         '**/*$ViewBinder*.*',
                         '**/BuildConfig.*',
@@ -50,6 +53,7 @@ project.afterEvaluate {
                     ]
                 )
 
+                println("*** JaCoCo uses build/intermediates/javac/${sourceName}/compile${sourceName.capitalize()}JavaWithJavac/classes")
                 def coverageSourceDirs = [
                     "src/main/java",
                     "src/$productFlavorName/java",
@@ -58,7 +62,6 @@ project.afterEvaluate {
                 additionalSourceDirs = files(coverageSourceDirs)
                 sourceDirectories = files(coverageSourceDirs)
                 executionData = files("${project.buildDir}/jacoco/${testTaskName}.exec")
-
                 reports {
                     html.destination rootProject.file("results/jacoco")
                     html.enabled true

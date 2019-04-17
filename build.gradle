@@ -76,4 +76,3 @@ task clean(type: Delete) {
         mkdir("${project.buildDir}/outputs/apk/release")
     }
 }
-
