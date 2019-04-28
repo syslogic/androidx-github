@@ -15,28 +15,28 @@ ext {
 dependencies {
 
     // https://developer.android.com/jetpack/androidx/
-    api "androidx.appcompat:appcompat:1.0.2"
-    api "androidx.recyclerview:recyclerview:${androidxVersion}"
-    api "androidx.annotation:annotation:${androidxVersion}"
-    api "androidx.cardview:cardview:${androidxVersion}"
+    implementation "androidx.appcompat:appcompat:1.0.2"
+    implementation "androidx.recyclerview:recyclerview:${androidxVersion}"
+    implementation "androidx.annotation:annotation:${androidxVersion}"
+    implementation "androidx.cardview:cardview:${androidxVersion}"
 
     // https://mvnrepository.com/artifact/com.google.android.material/material
-    api "com.google.android.material:material:${materialVersion}"
+    implementation "com.google.android.material:material:${materialVersion}"
 
     // https://mvnrepository.com/artifact/com.airbnb.android/lottie
-    api "com.airbnb.android:lottie:${lottieVersion}"
+    implementation "com.airbnb.android:lottie:${lottieVersion}"
 
     // https://mvnrepository.com/artifact/com.squareup.okhttp3/okhttp
-    api "com.squareup.okhttp3:okhttp:${okhttpVersion}"
+    implementation "com.squareup.okhttp3:okhttp:${okhttpVersion}"
 
     // https://mvnrepository.com/artifact/com.google.code.gson/gson
-    api "com.google.code.gson:gson:${gsonVersion}"
+    implementation "com.google.code.gson:gson:${gsonVersion}"
 
     // https://mvnrepository.com/artifact/com.squareup.retrofit2
-    api ("com.squareup.retrofit2:retrofit:${retrofitVersion}") {
+    implementation ("com.squareup.retrofit2:retrofit:${retrofitVersion}") {
         exclude group: "com.squareup.okhttp3"
     }
-    api ("com.squareup.retrofit2:converter-gson:${retrofitVersion}") {
+    implementation ("com.squareup.retrofit2:converter-gson:${retrofitVersion}") {
         exclude group: "com.google.code.gson"
     }
 
