@@ -60,7 +60,6 @@ public interface GithubService {
         @NonNull @Path(value = "repo")  String repo
     );
 
-
     /** one branch of a repository. */
     @NonNull
     @GET("/repos/{owner}/{repo}/branches/{repo}")
@@ -108,5 +107,4 @@ public interface GithubService {
     Call<Repositories> getRepositories(
         @NonNull @Query(value = "access_token") String accessToken
     );
-
 }

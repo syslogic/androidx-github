@@ -14,7 +14,7 @@ import androidx.annotation.Nullable;
 import androidx.databinding.ViewDataBinding;
 
 import io.syslogic.github.constants.Constants;
-import io.syslogic.github.databinding.ProfileFragmentBinding;
+import io.syslogic.github.databinding.FragmentProfileBinding;
 import io.syslogic.github.model.User;
 
 /**
@@ -28,7 +28,7 @@ public class ProfileFragment extends BaseFragment {
     private static final String LOG_TAG = ProfileFragment.class.getSimpleName();
 
     /** Data Binding */
-    private ProfileFragmentBinding mDataBinding;
+    private FragmentProfileBinding mDataBinding;
 
     private Long itemId = 0L;
 
@@ -57,7 +57,7 @@ public class ProfileFragment extends BaseFragment {
     @SuppressLint("SetJavaScriptEnabled")
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        this.setDataBinding(ProfileFragmentBinding.inflate(inflater, container, false));
+        this.setDataBinding(FragmentProfileBinding.inflate(inflater, container, false));
         View layout = this.mDataBinding.getRoot();
 
         if(this.getContext() != null) {
@@ -66,17 +66,11 @@ public class ProfileFragment extends BaseFragment {
                 this.onNetworkLost();
             } else {
 
-                this.mDataBinding.layoutLottieLoading.lottieLoading.enableMergePathsForKitKatAndAbove(true);
-                this.mDataBinding.layoutLottieLoading.lottieError.enableMergePathsForKitKatAndAbove(true);
-
                 this.mDataBinding.webview.getSettings().setJavaScriptEnabled(true);
                 this.mDataBinding.webview.setWebViewClient(new WebViewClient() {
                     @Override
                     public void onPageCommitVisible (WebView view, String url) {
-                        if(! contentLoaded) {
-                            getDataBinding().viewflipperContent.showNext();
-                            contentLoaded = true;
-                        }
+                        if(! contentLoaded) {contentLoaded = true;}
                     }
                 });
 
@@ -99,13 +93,13 @@ public class ProfileFragment extends BaseFragment {
     }
 
     @NonNull
-    public ProfileFragmentBinding getDataBinding() {
+    public FragmentProfileBinding getDataBinding() {
         return this.mDataBinding;
     }
 
     @Override
-    public void setDataBinding(@NonNull ViewDataBinding dataBinding) {
-        this.mDataBinding = (ProfileFragmentBinding) dataBinding;
+    public void setDataBinding(@NonNull ViewDataBinding binding) {
+        this.mDataBinding = (FragmentProfileBinding) binding;
     }
 
     @Override

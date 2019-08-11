@@ -4,8 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <!--suppress AndroidUnknownAttribute -->
-    <data class=".databinding.ToolbarProfileBinding">
+    <data>
         <variable name="profile" type="io.syslogic.github.model.User"/>
     </data>
 

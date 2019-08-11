@@ -34,7 +34,7 @@ import androidx.databinding.ViewDataBinding;
 
 import io.syslogic.github.R;
 import io.syslogic.github.constants.Constants;
-import io.syslogic.github.databinding.RepositoryFragmentBinding;
+import io.syslogic.github.databinding.FragmentRepositoryBinding;
 import io.syslogic.github.model.User;
 import io.syslogic.github.task.DownloadListener;
 import io.syslogic.github.retrofit.GithubClient;
@@ -62,7 +62,7 @@ public class RepositoryFragment extends BaseFragment implements DownloadListener
     private static final String LOG_TAG = RepositoryFragment.class.getSimpleName();
 
     /** Data Binding */
-    private RepositoryFragmentBinding mDataBinding;
+    private FragmentRepositoryBinding mDataBinding;
 
     private Long itemId = 0L;
 
@@ -91,7 +91,7 @@ public class RepositoryFragment extends BaseFragment implements DownloadListener
     @SuppressLint("SetJavaScriptEnabled")
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        this.setDataBinding(RepositoryFragmentBinding.inflate(inflater, container, false));
+        this.setDataBinding(FragmentRepositoryBinding.inflate(inflater, container, false));
         View layout = this.mDataBinding.getRoot();
 
         if(this.getContext() != null) {
@@ -100,17 +100,14 @@ public class RepositoryFragment extends BaseFragment implements DownloadListener
                 this.onNetworkLost();
             } else {
 
-                this.mDataBinding.layoutLottieLoading.lottieLoading.enableMergePathsForKitKatAndAbove(true);
-                this.mDataBinding.layoutLottieLoading.lottieError.enableMergePathsForKitKatAndAbove(true);
-
                 this.mDataBinding.webview.getSettings().setJavaScriptEnabled(true);
                 this.mDataBinding.webview.setWebViewClient(new WebViewClient() {
                     @Override
                     public void onPageCommitVisible (WebView view, String url) {
+                        contentLoaded = true;
                         if(getDataBinding().viewflipperContent.getDisplayedChild() == 0) {
                             getDataBinding().viewflipperContent.showNext();
                         }
-                        contentLoaded = true;
                     }
                 });
 
@@ -185,13 +182,13 @@ public class RepositoryFragment extends BaseFragment implements DownloadListener
     }
 
     @NonNull
-    public RepositoryFragmentBinding getDataBinding() {
+    public FragmentRepositoryBinding getDataBinding() {
         return this.mDataBinding;
     }
 
     @Override
-    public void setDataBinding(@NonNull ViewDataBinding dataBinding) {
-        this.mDataBinding = (RepositoryFragmentBinding) dataBinding;
+    public void setDataBinding(@NonNull ViewDataBinding binding) {
+        this.mDataBinding = (FragmentRepositoryBinding) binding;
     }
 
     @Override
@@ -204,7 +201,7 @@ public class RepositoryFragment extends BaseFragment implements DownloadListener
                 this.setUser(token, this);
             }
 
-            if(this.mDataBinding != null && this.mDataBinding.webview != null && !this.contentLoaded) {
+            if(this.mDataBinding != null && !this.contentLoaded) {
                 setRepository();
             }
         }
@@ -280,14 +277,16 @@ public class RepositoryFragment extends BaseFragment implements DownloadListener
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
+                    if(getActivity() != null) {
 
-                    String text = String.format(Locale.getDefault(), getActivity().getResources().getString(R.string.text_file_size_known), fileSize);
-                    getDataBinding().toolbarDownload.textDownloadFilename.setText(fileName);
-                    getDataBinding().toolbarDownload.textDownloadStatus.setText(text);
-                    if (mDebug) {Log.d(LOG_TAG, text);}
+                        String text = String.format(Locale.getDefault(), getActivity().getResources().getString(R.string.text_file_size_known), fileSize);
+                        getDataBinding().toolbarDownload.textDownloadFilename.setText(fileName);
+                        getDataBinding().toolbarDownload.textDownloadStatus.setText(text);
+                        if (mDebug) {Log.d(LOG_TAG, text);}
 
-                    /* would need to be delayed */
-                    switchToolbarView(0);
+                        /* would need to be delayed */
+                        switchToolbarView(0);
+                    }
                 }
             });
         }
@@ -316,8 +315,7 @@ public class RepositoryFragment extends BaseFragment implements DownloadListener
     public void OnException(@NonNull String fileName, @NonNull final Exception e) {
         if (mDebug) {Log.e(LOG_TAG, "failed to save " + fileName + ".");}
         if(getActivity() != null) {
-
-            if(e.getMessage().equals("write failed: ENOSPC (No space left on device)")) {
+            if(("" + e.getMessage()).equals("write failed: ENOSPC (No space left on device)")) {
                 String text = getActivity().getResources().getString(R.string.text_out_of_space);
                 mDataBinding.toolbarDownload.textDownloadStatus.setText(text);
             } else {
@@ -362,13 +360,12 @@ public class RepositoryFragment extends BaseFragment implements DownloadListener
                                     String errors = response.errorBody().string();
                                     JsonObject jsonObject = (new JsonParser()).parse(errors).getAsJsonObject();
                                     String message = jsonObject.get("message").toString();
-                                    getDataBinding().layoutLottieLoading.viewflipperLottie.showNext();
                                     if(mDebug) {
                                         Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
                                         Log.e(LOG_TAG, message);
                                     }
                                 } catch (IOException e) {
-                                    if(mDebug) {Log.e(LOG_TAG, e.getMessage());}
+                                    if(mDebug) {Log.e(LOG_TAG, "" + e.getMessage());}
                                 }
                             }
                             break;
@@ -378,7 +375,7 @@ public class RepositoryFragment extends BaseFragment implements DownloadListener
 
                 @Override
                 public void onFailure(@NonNull Call<Repository> call, @NonNull Throwable t) {
-                    if (mDebug) {Log.e(LOG_TAG, t.getMessage());}
+                    if (mDebug) {Log.e(LOG_TAG, "" + t.getMessage());}
                 }
             });
         }
@@ -446,13 +443,12 @@ public class RepositoryFragment extends BaseFragment implements DownloadListener
                                 String errors = response.errorBody().string();
                                 JsonObject jsonObject = (new JsonParser()).parse(errors).getAsJsonObject();
                                 String message = jsonObject.get("message").toString();
-                                getDataBinding().layoutLottieLoading.viewflipperLottie.showNext();
                                 if(mDebug) {
                                     Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
                                     Log.e(LOG_TAG, message);
                                 }
                             } catch (IOException e) {
-                                if(mDebug) {Log.e(LOG_TAG, e.getMessage());}
+                                if(mDebug) {Log.e(LOG_TAG, "" + e.getMessage());}
                             }
                         }
                         break;
@@ -462,7 +458,7 @@ public class RepositoryFragment extends BaseFragment implements DownloadListener
 
             @Override
             public void onFailure(@NonNull Call<ArrayList<Branch>> call, @NonNull Throwable t) {
-                if (mDebug) {Log.e(LOG_TAG, t.getMessage());}
+                if (mDebug) {Log.e(LOG_TAG, "" + t.getMessage());}
             }
         });
     }
@@ -490,8 +486,8 @@ public class RepositoryFragment extends BaseFragment implements DownloadListener
             }
 
             @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                if (mDebug) {Log.e(LOG_TAG, t.getMessage());}
+            public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
+                if (mDebug) {Log.e(LOG_TAG, "" + t.getMessage());}
             }
         });
     }
@@ -504,7 +500,7 @@ public class RepositoryFragment extends BaseFragment implements DownloadListener
         downloadRepository(item, "tarball", branch);
     }
 
-    void switchToolbarView(Integer childIndex) {
+    private void switchToolbarView(Integer childIndex) {
         ViewFlipper view = mDataBinding.toolbarDownload.viewflipperDownload;
         int index = view.getDisplayedChild();
         switch(childIndex) {

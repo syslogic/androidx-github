@@ -37,8 +37,8 @@ import io.syslogic.github.BuildConfig;
 import io.syslogic.github.activity.BaseActivity;
 import io.syslogic.github.activity.RepositoryActivity;
 import io.syslogic.github.constants.Constants;
-import io.syslogic.github.databinding.RepositoriesFragmentBinding;
-import io.syslogic.github.databinding.RepositoryViewHolderBinding;
+import io.syslogic.github.databinding.FragmentRepositoriesBinding;
+import io.syslogic.github.databinding.CardviewRepositoryBinding;
 import io.syslogic.github.model.PagerState;
 import io.syslogic.github.model.RateLimit;
 import io.syslogic.github.model.RateLimits;
@@ -92,7 +92,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter {
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        RepositoryViewHolderBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.cardview_repository, parent, false);
+        CardviewRepositoryBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.cardview_repository, parent, false);
         binding.getRoot().setLayoutParams(new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         return new ViewHolder(binding);
     }
@@ -216,7 +216,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter {
     }
 
     protected void setPagerState(int pageNumber, boolean isLoading, @Nullable Long itemCount) {
-        RepositoriesFragmentBinding databinding = (RepositoriesFragmentBinding) ((BaseActivity) mContext).getFragmentDataBinding();
+        FragmentRepositoriesBinding databinding = (FragmentRepositoriesBinding) ((BaseActivity) mContext).getFragmentDataBinding();
         PagerState state = databinding.getPager();
         state.setIsLoading(isLoading);
         state.setPageNumber(pageNumber);
@@ -290,7 +290,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter {
     /** {@link RecyclerView.ViewHolder} for {@link CardView} of type {@link Repository}. */
     private static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        private RepositoryViewHolderBinding mDataBinding;
+        private CardviewRepositoryBinding mDataBinding;
         private RepositoriesLinearView mRecyclerView;
         private CardView cardView;
         private long itemId;
@@ -299,7 +299,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter {
          * ViewHolder Constructor
          * @param binding the item's data-binding
         **/
-        ViewHolder(RepositoryViewHolderBinding binding) {
+        ViewHolder(CardviewRepositoryBinding binding) {
 
             super(binding.getRoot());
             this.mDataBinding = binding;
@@ -318,7 +318,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter {
 
             if(activity.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
 
-                RepositoriesFragmentBinding databinding = (RepositoriesFragmentBinding) activity.getFragmentDataBinding();
+                FragmentRepositoriesBinding databinding = (FragmentRepositoriesBinding) activity.getFragmentDataBinding();
                 if (databinding.layoutRepository.getRepository() == null || !Objects.equals(databinding.layoutRepository.getRepository().getId(), item.getId())) {
                     databinding.layoutRepository.setRepository(item);
                 }
@@ -347,7 +347,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter {
         public long getId() {
             return this.itemId;
         }
-        RepositoryViewHolderBinding getDataBinding() {
+        CardviewRepositoryBinding getDataBinding() {
             return this.mDataBinding;
         }
     }

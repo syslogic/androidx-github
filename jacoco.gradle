@@ -4,7 +4,7 @@ apply plugin: 'jacoco'
 
 jacoco {
     reportsDir = file("${project.buildDir}/results")
-    toolVersion = rootProject.ext.get('jacocoVersion')
+    toolVersion = "0.8.3"
 }
 
 project.afterEvaluate {

@@ -3,8 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <!--suppress AndroidUnknownAttribute -->
-    <data class=".databinding.RepositoryViewHolderBinding">
+    <data>
         <variable name="repository" type="io.syslogic.github.model.Repository"/>
     </data>
 
@@ -20,7 +19,8 @@
             android:layout_height="wrap_content"
             android:foreground="?android:attr/selectableItemBackground"
             android:orientation="horizontal"
-            android:padding="2dp">
+            android:padding="2dp"
+            tools:ignore="UnusedAttribute">
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/fullName"

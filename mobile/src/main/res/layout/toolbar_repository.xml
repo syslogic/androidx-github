@@ -4,8 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <!--suppress AndroidUnknownAttribute -->
-    <data class=".databinding.ToolbarRepositoryBinding">
+    <data>
         <variable name="repository" type="io.syslogic.github.model.Repository"/>
         <import type="android.view.View"/>
     </data>

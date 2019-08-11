@@ -1,42 +1,27 @@
 // :mobile dependencies.gradle
 
-ext {
-    testVersion     = rootProject.ext.get('androidxTestVersion')
-    testRunner      = rootProject.ext.get('androidxTestRunner')
-    androidxVersion = rootProject.ext.get('androidxVersion')
-    materialVersion = rootProject.ext.get('materialVersion')
-    jacocoVersion   = rootProject.ext.get('jacocoVersion')
-    lottieVersion   = rootProject.ext.get('lottieVersion')
-    retrofitVersion = rootProject.ext.get('retrofitVersion')
-    okhttpVersion   = rootProject.ext.get('okhttpVersion')
-    gsonVersion     = rootProject.ext.get('gsonVersion')
-}
-
 dependencies {
 
     // https://developer.android.com/jetpack/androidx/
     implementation "androidx.appcompat:appcompat:1.0.2"
-    implementation "androidx.recyclerview:recyclerview:${androidxVersion}"
-    implementation "androidx.annotation:annotation:${androidxVersion}"
-    implementation "androidx.cardview:cardview:${androidxVersion}"
+    implementation "androidx.recyclerview:recyclerview:1.0.0"
+    implementation "androidx.annotation:annotation:1.1.0"
+    implementation "androidx.cardview:cardview:1.0.0"
 
     // https://mvnrepository.com/artifact/com.google.android.material/material
-    implementation "com.google.android.material:material:${materialVersion}"
-
-    // https://mvnrepository.com/artifact/com.airbnb.android/lottie
-    implementation "com.airbnb.android:lottie:${lottieVersion}"
+    implementation "com.google.android.material:material:1.0.0"
 
     // https://mvnrepository.com/artifact/com.squareup.okhttp3/okhttp
-    implementation "com.squareup.okhttp3:okhttp:${okhttpVersion}"
+    implementation "com.squareup.okhttp3:okhttp:3.12.1"
 
     // https://mvnrepository.com/artifact/com.google.code.gson/gson
-    implementation "com.google.code.gson:gson:${gsonVersion}"
+    implementation "com.google.code.gson:gson:2.8.5"
 
     // https://mvnrepository.com/artifact/com.squareup.retrofit2
-    implementation ("com.squareup.retrofit2:retrofit:${retrofitVersion}") {
+    implementation ("com.squareup.retrofit2:retrofit:2.5.0") {
         exclude group: "com.squareup.okhttp3"
     }
-    implementation ("com.squareup.retrofit2:converter-gson:${retrofitVersion}") {
+    implementation ("com.squareup.retrofit2:converter-gson:2.5.0") {
         exclude group: "com.google.code.gson"
     }
 
@@ -46,21 +31,21 @@ dependencies {
     }
 
     // JaCoCo Agent
-    testImplementation "org.jacoco:org.jacoco.agent:${jacocoVersion}"
+    testImplementation "org.jacoco:org.jacoco.agent:0.8.3"
 
     // https://mvnrepository.com/artifact/androidx.test.ext
-    androidTestImplementation "androidx.test.ext:junit:${testVersion}"
+    androidTestImplementation "androidx.test.ext:junit:1.1.1"
 
     // https://mvnrepository.com/artifact/androidx.test
-    androidTestImplementation "androidx.test:core:${testVersion}"
-    androidTestImplementation "androidx.test:runner:${testRunner}"
-    androidTestImplementation "androidx.test:rules:${testRunner}"
+    androidTestImplementation "androidx.test:core:1.2.0"
+    androidTestImplementation "androidx.test:runner:1.2.0"
+    androidTestImplementation "androidx.test:rules:1.2.0"
 
     // https://mvnrepository.com/artifact/androidx.test.espresso
-    androidTestImplementation "androidx.test.espresso:espresso-core:3.1.1"
+    androidTestImplementation "androidx.test.espresso:espresso-core:3.2.0"
 
     // https://mvnrepository.com/artifact/androidx.test.espresso/espresso-web
-    androidTestImplementation "androidx.test.espresso:espresso-web:3.1.1"
+    androidTestImplementation "androidx.test.espresso:espresso-web:3.2.0"
 
     // https://mvnrepository.com/artifact/androidx.test.uiautomator/uiautomator
     androidTestImplementation "androidx.test.uiautomator:uiautomator:2.2.0"

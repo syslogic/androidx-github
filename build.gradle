@@ -12,15 +12,6 @@ project.ext.set('versionCode',         new Integer(version['versionCode']))
 project.ext.set('compileSdkVersion',   new Integer(version['compileSdkVersion']))
 project.ext.set('targetSdkVersion',    new Integer(version['targetSdkVersion']))
 project.ext.set('minSdkVersion',       new Integer(version['minSdkVersion']))
-project.ext.set('androidxTestVersion', version['androidxTestVersion'])
-project.ext.set('androidxTestRunner',  version['androidxTestRunner'])
-project.ext.set('androidxVersion',     version['androidxVersion'])
-project.ext.set('materialVersion',     version['materialVersion'])
-project.ext.set('jacocoVersion',       version['jacocoVersion'])
-project.ext.set('lottieVersion',       version['lottieVersion'])
-project.ext.set('retrofitVersion',     version['retrofitVersion'])
-project.ext.set('okhttpVersion',       version['okhttpVersion'])
-project.ext.set('gsonVersion',         version['gsonVersion'])
 
 // load access-token from token.properties
 if(rootProject.file('token.properties').exists()) {
@@ -35,7 +26,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath "com.android.tools.build:gradle:3.3.2"
+        classpath 'com.android.tools.build:gradle:3.4.2'
         classpath "org.jacoco:org.jacoco.core:0.8.3"
     }
 }

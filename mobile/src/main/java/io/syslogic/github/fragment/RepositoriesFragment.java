@@ -14,7 +14,7 @@ import androidx.databinding.ViewDataBinding;
 import io.syslogic.github.model.PagerState;
 import io.syslogic.github.model.SpinnerItem;
 import io.syslogic.github.adapter.TopicAdapter;
-import io.syslogic.github.databinding.RepositoriesFragmentBinding;
+import io.syslogic.github.databinding.FragmentRepositoriesBinding;
 import io.syslogic.github.model.User;
 import io.syslogic.github.recyclerview.RepositoriesAdapter;
 import io.syslogic.github.recyclerview.RepositoriesLinearView;
@@ -31,7 +31,7 @@ public class RepositoriesFragment extends BaseFragment {
     private static final String LOG_TAG = RepositoriesFragment.class.getSimpleName();
 
     /** Data Binding */
-    private RepositoriesFragmentBinding mDataBinding;
+    private FragmentRepositoriesBinding mDataBinding;
 
     private RepositoriesLinearView mRecyclerView;
 
@@ -53,7 +53,7 @@ public class RepositoriesFragment extends BaseFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        this.setDataBinding(RepositoriesFragmentBinding.inflate(inflater, container, false));
+        this.setDataBinding(FragmentRepositoriesBinding.inflate(inflater, container, false));
         View layout = this.getDataBinding().getRoot();
 
         if(this.getContext() != null) {
@@ -103,13 +103,13 @@ public class RepositoriesFragment extends BaseFragment {
     }
 
     @NonNull
-    public RepositoriesFragmentBinding getDataBinding() {
+    public FragmentRepositoriesBinding getDataBinding() {
         return this.mDataBinding;
     }
 
     @Override
-    public void setDataBinding(@NonNull ViewDataBinding dataBinding) {
-        this.mDataBinding = (RepositoriesFragmentBinding) dataBinding;
+    public void setDataBinding(@NonNull ViewDataBinding binding) {
+        this.mDataBinding = (FragmentRepositoriesBinding) binding;
     }
 
     @Override
@@ -122,37 +122,31 @@ public class RepositoriesFragment extends BaseFragment {
                 this.setUser(token, this);
             }
 
-            if(this.mDataBinding.toolbarPager != null) {
-                PagerState state = this.mDataBinding.toolbarPager.getPager();
-                if(state != null) {
-                    state.setIsOffline(false);
-                    this.mDataBinding.toolbarPager.setPager(state);
-                } else {
-                    /* this happens on LOLLIPOP_MR1 */
-                }
+            PagerState state = this.mDataBinding.toolbarPager.getPager();
+            if(state != null) {
+                state.setIsOffline(false);
+                this.mDataBinding.toolbarPager.setPager(state);
+            } else {
+                /* this happens on LOLLIPOP_MR1 */
             }
 
-            if(this.mDataBinding.recyclerviewRepositories != null) {
+            /* when online for the first time */
+            RepositoriesAdapter adapter = ((RepositoriesAdapter) this.mDataBinding.recyclerviewRepositories.getAdapter());
+            if(adapter == null) {
 
-                RepositoriesAdapter adapter = ((RepositoriesAdapter) this.mDataBinding.recyclerviewRepositories.getAdapter());
-
-                /* when online for the first time */
-                if(adapter == null) {
-
-                    /* needs to run on UiThread */
-                    if(getActivity() != null) {
-                        getActivity().runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                getDataBinding().recyclerviewRepositories.setAdapter(new RepositoriesAdapter(getContext(), 1));
-                            }
-                        });
-                    }
+                /* needs to run on UiThread */
+                if(getActivity() != null) {
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            getDataBinding().recyclerviewRepositories.setAdapter(new RepositoriesAdapter(getContext(), 1));
+                        }
+                    });
+                }
 
                 /* if required, fetch page 1 */
-                } else if (adapter.getItemCount() == 0) {
-                    adapter.fetchPage(1);
-                }
+            } else if (adapter.getItemCount() == 0) {
+                adapter.fetchPage(1);
             }
         }
     }
@@ -161,20 +155,16 @@ public class RepositoriesFragment extends BaseFragment {
     public void onNetworkLost() {
         super.onNetworkLost();
         if(this.getContext() != null && this.mDataBinding != null) {
-
-            if(this.mDataBinding.toolbarPager != null) {
-                PagerState state;
-                if(this.mDataBinding.toolbarPager.getPager() == null) {
-                    state = new PagerState();
-                    state.setIsOffline(true);
-                    this.mDataBinding.toolbarPager.setPager(state);
-                } else {
-                    state = this.mDataBinding.toolbarPager.getPager();
-                    state.setIsOffline(true);
-                }
+            PagerState state;
+            if(this.mDataBinding.toolbarPager.getPager() == null) {
+                state = new PagerState();
+                state.setIsOffline(true);
                 this.mDataBinding.toolbarPager.setPager(state);
+            } else {
+                state = this.mDataBinding.toolbarPager.getPager();
+                state.setIsOffline(true);
             }
-
+            this.mDataBinding.toolbarPager.setPager(state);
         }
     }
 

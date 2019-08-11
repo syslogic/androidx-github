@@ -4,8 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <!--suppress AndroidUnknownAttribute -->
-    <data class=".databinding.ToolbarPagerBinding">
+    <data>
         <variable name="pager" type="io.syslogic.github.model.PagerState"/>
         <import type="io.syslogic.github.BuildConfig"/>
         <import type="android.view.View"/>

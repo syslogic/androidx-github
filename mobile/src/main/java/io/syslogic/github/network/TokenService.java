@@ -12,6 +12,7 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import io.syslogic.github.BuildConfig;
 
 /**
  * Token Service
@@ -20,7 +21,11 @@ import androidx.annotation.Nullable;
 **/
 public class TokenService extends Service {
 
-    private final String LOG_TAG = TokenService.class.getSimpleName();
+    /** {@link Log} Tag */
+    private static final String LOG_TAG = TokenService.class.getSimpleName();
+
+    /** Debug Output */
+    private static final boolean mDebug = BuildConfig.DEBUG;
 
     private Authenticator mAuthenticator;
 
@@ -31,13 +36,13 @@ public class TokenService extends Service {
 
     @Override
     public void onCreate() {
-        Log.i(LOG_TAG, "Service created");
-        mAuthenticator = new Authenticator(this);
+        if(mDebug) {Log.i(LOG_TAG, "Service created");}
+        this.mAuthenticator = new Authenticator(this);
     }
 
     @Override
     public void onDestroy() {
-        Log.i(LOG_TAG, "Service destroyed");
+        if(mDebug) {Log.i(LOG_TAG, "Service destroyed");}
     }
 
     @NonNull

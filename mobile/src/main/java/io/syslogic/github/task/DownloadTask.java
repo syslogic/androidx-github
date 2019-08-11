@@ -144,6 +144,7 @@ public class DownloadTask extends AsyncTask<ResponseBody, Pair<Integer, Long>, B
         }
     }
 
+    @SuppressWarnings("deprecation")
     private File getDestination() {
         return new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), this.fileName);
     }

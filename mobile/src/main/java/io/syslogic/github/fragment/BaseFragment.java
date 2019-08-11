@@ -95,6 +95,7 @@ abstract public class BaseFragment extends Fragment implements ConnectivityListe
         return Objects.requireNonNull(cm);
     }
 
+    @SuppressWarnings("deprecation")
     public boolean isNetworkAvailable(@NonNull Context context) {
         ConnectivityManager cm = getConnectivityManager(context);
         NetworkInfo info = cm.getActiveNetworkInfo();
@@ -107,18 +108,18 @@ abstract public class BaseFragment extends Fragment implements ConnectivityListe
         ConnectivityManager cm = getConnectivityManager(context);
         cm.registerDefaultNetworkCallback(new ConnectivityManager.NetworkCallback() {
             @Override
-            public void onLost(Network network) {
+            public void onLost(@NonNull Network network) {
                 listener.onNetworkLost();
             }
             @Override
-            public void onAvailable(Network network) {
+            public void onAvailable(@NonNull Network network) {
                 listener.onNetworkAvailable();
             }
         });
     }
 
     /** required < API 24 Nougat */
-    @SuppressWarnings("deprecation")
+    @SuppressWarnings(value = "deprecation")
     private void registerBroadcastReceiver(Context context) {
         IntentFilter intentFilter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
         ConnectivityReceiver mReceiver = new ConnectivityReceiver(context);
@@ -132,7 +133,14 @@ abstract public class BaseFragment extends Fragment implements ConnectivityListe
         }
     }
 
-    public void setUser(@NonNull String accessToken, @Nullable final TokenCallback listener) {
+    @Override
+    public void onNetworkLost() {
+        if(mDebug && this.getContext() != null) {
+            Log.w(LOG_TAG, this.getContext().getResources().getString(R.string.debug_network_absent));
+        }
+    }
+
+    void setUser(@NonNull String accessToken, @Nullable final TokenCallback listener) {
 
         Call<User> api = GithubClient.getUser(accessToken);
         if (mDebug) {Log.w(LOG_TAG, api.request().url() + "");}
@@ -164,7 +172,7 @@ abstract public class BaseFragment extends Fragment implements ConnectivityListe
                                     Log.e(LOG_TAG, message);
                                 }
                             } catch (IOException e) {
-                                if(mDebug) {Log.e(LOG_TAG, e.getMessage());}
+                                if(mDebug) {Log.e(LOG_TAG, "" + e.getMessage());}
                             }
                         }
                         break;
@@ -177,13 +185,6 @@ abstract public class BaseFragment extends Fragment implements ConnectivityListe
                 // if (mDebug) {Log.e(LOG_TAG, t.getMessage());}
             }
         });
-    }
-
-    @Override
-    public void onNetworkLost() {
-        if(mDebug && this.getContext() != null) {
-            Log.w(LOG_TAG, this.getContext().getResources().getString(R.string.debug_network_absent));
-        }
     }
 
     @Override
@@ -203,14 +204,14 @@ abstract public class BaseFragment extends Fragment implements ConnectivityListe
         return TokenHelper.getAccessToken(context);
     }
 
-    public void setCurrentUser(@Nullable User value) {
+    private void setCurrentUser(@Nullable User value) {
         currentUser = value;
     }
 
     @Nullable
-    public User getCurrentUser() {
+    User getCurrentUser() {
         return currentUser;
     }
 
-    abstract public void setDataBinding(@NonNull ViewDataBinding dataBinding);
+    abstract public void setDataBinding(@NonNull ViewDataBinding binding);
 }

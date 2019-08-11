@@ -6,8 +6,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".activity.RepositoriesActivity">
 
-    <!--suppress AndroidUnknownAttribute -->
-    <data class=".databinding.RepositoriesFragmentBinding">
+    <data>
         <variable name="user" type="io.syslogic.github.model.User"/>
         <variable name="repositories" type="io.syslogic.github.model.Repositories"/>
         <variable name="pager" type="io.syslogic.github.model.PagerState"/>
@@ -27,7 +26,7 @@
 
         <include
             android:id="@+id/layout_repository"
-            layout="@layout/layout_repository"
+            layout="@layout/fragment_repository"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1.00"/>
