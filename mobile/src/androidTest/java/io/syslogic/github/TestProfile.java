@@ -16,12 +16,12 @@ import static org.hamcrest.CoreMatchers.is;
 /**
  * Profile Test Case
  * @author Martin Zeitler
- * @version 1.0.1
+ * @version 1.0.2
 **/
 @RunWith(AndroidJUnit4.class)
-public class TestProfileActivity extends TestSuite {
+public class TestProfile extends TestSuite {
 
-    private String className = TestProfileActivity.class.getSimpleName().replace("Test", "");
+    private String className = TestProfile.class.getSimpleName().concat("Activity").replace("Test", "");
 
     @Before
     public void startActivityFromHomeScreen() {

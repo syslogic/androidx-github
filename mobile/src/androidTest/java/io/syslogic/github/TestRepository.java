@@ -16,12 +16,12 @@ import static org.hamcrest.CoreMatchers.is;
 /**
  * Repository Test Case
  * @author Martin Zeitler
- * @version 1.0.1
+ * @version 1.0.2
 **/
 @RunWith(AndroidJUnit4.class)
-public class TestRepositoryActivity extends TestSuite {
+public class TestRepository extends TestSuite {
 
-    private String className = TestRepositoryActivity.class.getSimpleName().replace("Test", "");
+    private String className = TestRepository.class.getSimpleName().concat("Activity").replace("Test", "");
 
     @Before
     public void startActivityFromHomeScreen() {

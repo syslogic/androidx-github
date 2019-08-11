@@ -36,13 +36,13 @@ import io.syslogic.github.constants.Constants;
 /**
  * Application Test Suite
  * @author Martin Zeitler
- * @version 1.0.1
+ * @version 1.0.2
 **/
 @RunWith(org.junit.runners.Suite.class)
 @SuiteClasses({
-    TestRepositoriesActivity.class,
-    TestRepositoryActivity.class,
-    TestProfileActivity.class
+    TestRepositories.class,
+    TestRepository.class,
+    TestProfile.class
 })
 public class TestSuite {
 
