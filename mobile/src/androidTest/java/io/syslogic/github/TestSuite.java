@@ -46,20 +46,18 @@ import io.syslogic.github.constants.Constants;
 })
 public class TestSuite {
 
-    protected static final int LAUNCH_TIMEOUT = 5000;
+    private static final int LAUNCH_TIMEOUT = 5000;
 
-    protected String packageName;
-
-    protected Context mContext;
-
-    protected UiDevice mDevice;
+    String packageName;
+    Context mContext;
+    UiDevice mDevice;
 
     /**
      * uses package manager to find the package name of the device launcher.
      * usually this package is "com.android.launcher" but can be different at times.
      * this is a generic solution which works on all platforms.`
     **/
-    protected String getLauncherPackageName() {
+    private String getLauncherPackageName() {
 
         /* create a launcher Intent */
         final Intent intent = new Intent(Intent.ACTION_MAIN);
@@ -70,11 +68,15 @@ public class TestSuite {
         PackageManager pm = context.getPackageManager();
         ResolveInfo resolveInfo = pm.resolveActivity(intent, PackageManager.MATCH_DEFAULT_ONLY);
 
-        return resolveInfo.activityInfo.name;
+        if (resolveInfo != null) {
+            return resolveInfo.activityInfo.name;
+        } else {
+            return null;
+        }
     }
 
-    /* launch the blueprint application */
-    protected void startTestActivity(Context context, String className){
+    /** launches the blueprint application */
+    void startTestActivity(Context context, String className){
 
         /* initialize UiDevice */
         this.mDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
@@ -143,13 +145,13 @@ public class TestSuite {
 
     void grantPermission()  {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            UiObject textAllow = this.mDevice.findObject(new UiSelector().text("Allow"));
-            if (textAllow.exists()) {
-                try {
+            UiObject textAllow = this.mDevice.findObject(new UiSelector().text("ALLOW"));
+            try {
+                if (textAllow.exists() && textAllow.isClickable()) {
                     textAllow.click();
-                } catch (UiObjectNotFoundException e) {
-                    Log.e("", "no permissions dialog", e);
                 }
+            } catch (UiObjectNotFoundException e) {
+                Log.e("", "no permissions dialog", e);
             }
         }
     }
