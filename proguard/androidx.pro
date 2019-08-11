@@ -17,13 +17,13 @@
 -keep class androidx.core.provider.FontsContractCompat$FontInfo
 -keep class androidx.core.provider.FontRequest
 
--keep,includedescriptorclass class androidx.appcompat.widget.ViewUtils
--keep,includedescriptorclass class androidx.versionedparcelable.VersionedParcel
--keep,includedescriptorclass class androidx.fragment.app.FragmentTransition { *; }
--keep,includedescriptorclass class androidx.core.app.NotificationCompatJellybean
--keep,includedescriptorclass class androidx.core.text.ICUCompat { *; }
--keep,includedescriptorclass class androidx.core.graphics.** { *; }
--keep,includedescriptorclass class androidx.transition.** { *; }
+-keep,includedescriptorclasses class androidx.appcompat.widget.ViewUtils
+-keep,includedescriptorclasses class androidx.versionedparcelable.VersionedParcel
+-keep,includedescriptorclasses class androidx.fragment.app.FragmentTransition { *; }
+-keep,includedescriptorclasses class androidx.core.app.NotificationCompatJellybean
+-keep,includedescriptorclasses class androidx.core.text.ICUCompat { *; }
+-keep,includedescriptorclasses class androidx.core.graphics.** { *; }
+-keep,includedescriptorclasses class androidx.transition.** { *; }
 -dontnote androidx.transition.**
 
 -dontnote androidx.core.graphics.TypefaceCompatApi24Impl
