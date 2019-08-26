@@ -12,16 +12,16 @@ dependencies {
     implementation "com.google.android.material:material:1.0.0"
 
     // https://mvnrepository.com/artifact/com.squareup.okhttp3/okhttp
-    implementation "com.squareup.okhttp3:okhttp:3.12.1"
+    implementation "com.squareup.okhttp3:okhttp:4.1.0"
 
     // https://mvnrepository.com/artifact/com.google.code.gson/gson
     implementation "com.google.code.gson:gson:2.8.5"
 
     // https://mvnrepository.com/artifact/com.squareup.retrofit2
-    implementation ("com.squareup.retrofit2:retrofit:2.5.0") {
+    implementation ("com.squareup.retrofit2:retrofit:2.6.1") {
         exclude group: "com.squareup.okhttp3"
     }
-    implementation ("com.squareup.retrofit2:converter-gson:2.5.0") {
+    implementation('com.squareup.retrofit2:converter-gson:2.6.1') {
         exclude group: "com.google.code.gson"
     }
 
@@ -31,7 +31,7 @@ dependencies {
     }
 
     // JaCoCo Agent
-    testImplementation "org.jacoco:org.jacoco.agent:0.8.3"
+    testImplementation 'org.jacoco:org.jacoco.agent:0.8.4'
 
     // https://mvnrepository.com/artifact/androidx.test.ext
     androidTestImplementation "androidx.test.ext:junit:1.1.1"
