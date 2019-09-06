@@ -22,4 +22,9 @@
         <ignore regexp="LOG_TAG" />
     </issue>
 
+    <!-- deprecation warnings -->
+    <issue id="Deprecated" severity="informational">
+        <ignore regexp="android.net.NetworkInfo"/>
+    </issue>
+
 </lint>
