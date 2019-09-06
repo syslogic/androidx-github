@@ -117,16 +117,7 @@ public class TestSuite {
         return this.mDevice.findObject(By.res(this.packageName, resourceId));
     }
 
-    protected void flingUp(UiObject2 view, int speed, int pause) {
-        Assert.assertThat(view, not(equalTo(null)));
-        try {
-            view.fling(Direction.DOWN, speed);
-        } catch (StaleObjectException e) {
-            Assert.fail();
-        }
-        sleep(pause);
-    }
-
+    /** it clicks spinner items by index */
     public void clickSpinnerItem(String spinnerName, int itemIndex) {
 
         UiObject2 spinner = this.mDevice.findObject(By.res(this.packageName, spinnerName));
@@ -143,9 +134,10 @@ public class TestSuite {
         sleep(2000);
     }
 
+    /** it clicks the "Allow" button on a permission request dialog */
     void grantPermission()  {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            UiObject textAllow = this.mDevice.findObject(new UiSelector().text("ALLOW"));
+            UiObject textAllow = this.mDevice.findObject(new UiSelector().text("Allow"));
             try {
                 if (textAllow.exists() && textAllow.isClickable()) {
                     textAllow.click();
@@ -154,6 +146,16 @@ public class TestSuite {
                 Log.e("", "no permissions dialog", e);
             }
         }
+    }
+    
+    void flingUp(UiObject2 view, int speed, int pause) {
+        Assert.assertThat(view, not(equalTo(null)));
+        try {
+            view.fling(Direction.DOWN, speed);
+        } catch (StaleObjectException e) {
+            Assert.fail();
+        }
+        sleep(pause);
     }
 
     void sleep(int ms){
