@@ -27,7 +27,6 @@ import java.util.Objects;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
 import androidx.cardview.widget.CardView;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
@@ -319,9 +318,9 @@ public class RepositoriesAdapter extends RecyclerView.Adapter {
             if(activity.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
 
                 FragmentRepositoriesBinding databinding = (FragmentRepositoriesBinding) activity.getFragmentDataBinding();
-                if (databinding.layoutRepository.getRepository() == null || !Objects.equals(databinding.layoutRepository.getRepository().getId(), item.getId())) {
-                    databinding.layoutRepository.setRepository(item);
-                }
+                //if (databinding.layoutRepository.getRepository() == null || !Objects.equals(databinding.layoutRepository.getRepository().getId(), item.getId())) {
+                //    databinding.layoutRepository.setRepository(item);
+                //}
 
             } else {
                 Bundle extras = new Bundle();

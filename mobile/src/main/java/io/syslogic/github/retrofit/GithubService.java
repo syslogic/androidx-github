@@ -9,8 +9,8 @@ import io.syslogic.github.model.Branch;
 import io.syslogic.github.model.RateLimits;
 import io.syslogic.github.model.Repositories;
 import io.syslogic.github.model.Repository;
-
 import io.syslogic.github.model.User;
+
 import okhttp3.ResponseBody;
 
 import retrofit2.Call;
@@ -34,7 +34,7 @@ public interface GithubService {
     @GET("rate_limit")
     Call<RateLimits> getRateLimits();
 
-    /** all repositories. */
+    /** all repositories */
     @NonNull
     @GET("search/repositories")
     Call<Repositories> getRepositories(
@@ -45,14 +45,14 @@ public interface GithubService {
         @Nullable @Query(value = "access_token")     String token
     );
 
-    /** one repository. */
+    /** one repository */
     @NonNull
     @GET("repositories/{id}")
     Call<Repository> getRepository(
         @NonNull @Path(value = "id") Long id
     );
 
-    /** all branches of a repository. */
+    /** all branches of a repository */
     @NonNull
     @GET("/repos/{owner}/{repo}/branches")
     Call<ArrayList<Branch>> getBranches(
@@ -60,7 +60,7 @@ public interface GithubService {
         @NonNull @Path(value = "repo")  String repo
     );
 
-    /** one branch of a repository. */
+    /** one branch of a repository */
     @NonNull
     @GET("/repos/{owner}/{repo}/branches/{repo}")
     Call<Branch> getBranch(
@@ -86,14 +86,14 @@ public interface GithubService {
         @Nullable @Path(value = "branch") String branch
     );
 
-    /** one user. */
+    /** one user */
     @NonNull
     @GET("user")
     Call<User> getUser(
         @NonNull @Query(value = "access_token") String token
     );
 
-    /** one user. */
+    /** one user */
     @NonNull
     @GET("user/{username}")
     Call<User> getUser(
@@ -101,7 +101,7 @@ public interface GithubService {
         @NonNull @Query(value = "access_token") String accessToken
     );
 
-    /** one user. */
+    /** one user */
     @NonNull
     @GET("/user/repos")
     Call<Repositories> getRepositories(
