@@ -1,7 +1,7 @@
 # androidx-github
 
-One can browse Android/Kotlin/Gradle projects with it.
+One currently can browse Android/Kotlin/Gradle projects with it.
 
-It just needs a GitHub access token added, else it will be rate limited,
+File `token.properties` needs to be created and have a GitHub access token defined with `accesstoken=...`,
 
-after having loaded the first 10 pages in quick succession.
+else the API will be rate limited, after having loaded the first 10 pages in quick succession.
