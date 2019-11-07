@@ -7,9 +7,9 @@
     tools:context=".activity.RepositoryActivity">
 
     <data>
+        <import type="java.util.ArrayList"/>
         <variable name="preview" type="io.syslogic.github.model.WebView"/>
         <variable name="repository" type="io.syslogic.github.model.Repository"/>
-        <import type="java.util.ArrayList"/>
         <variable name="branches" type="ArrayList&lt;io.syslogic.github.model.Branch&gt;"/>
     </data>
 
