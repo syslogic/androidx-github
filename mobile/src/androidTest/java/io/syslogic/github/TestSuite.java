@@ -147,7 +147,7 @@ public class TestSuite {
             }
         }
     }
-    
+
     void flingUp(UiObject2 view, int speed, int pause) {
         Assert.assertThat(view, not(equalTo(null)));
         try {

@@ -71,10 +71,4 @@ public abstract class ScrollListener extends RecyclerView.OnScrollListener {
     void setIsLoading(boolean value) {
         state.setIsLoading(value);
     }
-
-    /* getters */
-    @NonNull
-    public static PagerState getPagerState() {
-        return state;
-    }
 }
