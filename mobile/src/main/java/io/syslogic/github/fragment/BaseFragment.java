@@ -55,7 +55,7 @@ abstract public class BaseFragment extends Fragment implements ConnectivityListe
     @NonNull
     Boolean contentLoaded = false;
 
-    private static User currentUser = null;
+    User currentUser = null;
 
     private String accessToken = null;
 
@@ -204,14 +204,12 @@ abstract public class BaseFragment extends Fragment implements ConnectivityListe
         return TokenHelper.getAccessToken(context);
     }
 
-    private void setCurrentUser(@Nullable User value) {
-        currentUser = value;
-    }
-
     @Nullable
     User getCurrentUser() {
         return currentUser;
     }
 
-    abstract public void setDataBinding(@NonNull ViewDataBinding binding);
+    abstract protected void setDataBinding(@NonNull ViewDataBinding binding);
+
+    abstract protected void setCurrentUser(@NonNull User value);
 }

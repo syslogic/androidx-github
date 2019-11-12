@@ -49,7 +49,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static io.syslogic.github.constants.Constants.REQUESTCODE_DOWNLOAD_ZIPBALL;
+import io.syslogic.github.constants.Constants;
 
 /**
  * Repository Fragment
@@ -154,7 +154,7 @@ public class RepositoryFragment extends BaseFragment implements DownloadListener
                                 if (activity.checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
                                     downloadBranchAsZip(branch);
                                 } else {
-                                    activity.requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUESTCODE_DOWNLOAD_ZIPBALL);
+                                    activity.requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, Constants.REQUESTCODE_DOWNLOAD_ZIPBALL);
                                 }
                             } else {
                                 downloadBranchAsZip(branch);
@@ -167,13 +167,13 @@ public class RepositoryFragment extends BaseFragment implements DownloadListener
         return layout;
     }
 
-    public void downloadBranchAsZip(@Nullable String branch) {
+    private void downloadBranchAsZip(@Nullable String branch) {
         if(branch == null) {branch ="master";}
         downloadZipball(this.getDataBinding().getRepository(), branch);
     }
 
     @NonNull
-    public Long getItemId() {
+    private Long getItemId() {
         return this.itemId;
     }
 
@@ -187,8 +187,13 @@ public class RepositoryFragment extends BaseFragment implements DownloadListener
     }
 
     @Override
-    public void setDataBinding(@NonNull ViewDataBinding binding) {
+    protected void setDataBinding(@NonNull ViewDataBinding binding) {
         this.mDataBinding = (FragmentRepositoryBinding) binding;
+    }
+
+    @Override
+    protected void setCurrentUser(@Nullable User value) {
+        this.currentUser = value;
     }
 
     @Override
@@ -238,18 +243,21 @@ public class RepositoryFragment extends BaseFragment implements DownloadListener
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
+                    if(getActivity() != null) {
 
-                    String text;
-                    if(fileSize > 0) {
-                        text = String.format(Locale.getDefault(), getActivity().getResources().getString(R.string.text_file_size_known), fileSize);
-                    } else {
-                        text = getActivity().getResources().getString(R.string.text_file_size_unknown);
+                        String text;
+                        if (fileSize > 0) {
+                            text = String.format(Locale.getDefault(), getActivity().getResources().getString(R.string.text_file_size_known), fileSize);
+                        } else {
+                            text = getActivity().getResources().getString(R.string.text_file_size_unknown);
+                        }
+
+                        getDataBinding().toolbarDownload.textDownloadFilename.setText(fileName);
+                        getDataBinding().toolbarDownload.textDownloadStatus.setText(text);
+                        if (mDebug) {
+                            Log.d(LOG_TAG, text);
+                        }
                     }
-
-                    getDataBinding().toolbarDownload.textDownloadFilename.setText(fileName);
-                    getDataBinding().toolbarDownload.textDownloadStatus.setText(text);
-                    if (mDebug) {Log.d(LOG_TAG, text);}
-
                     switchToolbarView(1);
                 }
             });
@@ -347,8 +355,8 @@ public class RepositoryFragment extends BaseFragment implements DownloadListener
                         case 200: {
                             if (response.body() != null) {
                                 Repository item = response.body();
-                                getDataBinding().setRepository(item);
-                                getDataBinding().notifyChange();
+                                mDataBinding.setRepository(item);
+                                mDataBinding.layoutRepository.notify();
                                 setBranches(item);
                             }
                             break;

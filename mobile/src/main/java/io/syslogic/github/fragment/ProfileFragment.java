@@ -98,8 +98,13 @@ public class ProfileFragment extends BaseFragment {
     }
 
     @Override
-    public void setDataBinding(@NonNull ViewDataBinding binding) {
+    protected void setDataBinding(@NonNull ViewDataBinding binding) {
         this.mDataBinding = (FragmentProfileBinding) binding;
+    }
+
+    @Override
+    protected void setCurrentUser(@Nullable User value) {
+        this.currentUser = value;
     }
 
     @Override
