@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import androidx.annotation.NonNull;
 import io.syslogic.github.model.SpinnerItem;
 
-
 /**
  * String Array Adapter
  * @author Martin Zeitler

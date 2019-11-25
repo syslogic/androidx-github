@@ -49,8 +49,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import io.syslogic.github.constants.Constants;
-
 /**
  * Repository Fragment
  * @author Martin Zeitler
@@ -356,7 +354,6 @@ public class RepositoryFragment extends BaseFragment implements DownloadListener
                             if (response.body() != null) {
                                 Repository item = response.body();
                                 mDataBinding.setRepository(item);
-                                mDataBinding.layoutRepository.notify();
                                 setBranches(item);
                             }
                             break;
