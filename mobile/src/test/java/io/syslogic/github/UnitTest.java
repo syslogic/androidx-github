@@ -7,8 +7,13 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
+import androidx.annotation.NonNull;
+import io.syslogic.github.activity.BaseActivity;
+import io.syslogic.github.activity.RepositoriesActivity;
+import io.syslogic.github.constants.Constants;
+
 /**
- * jUnit Test Suite
+ * jUnit Test Case
  * @author Martin Zeitler
  * @version 1.0.0
 **/
@@ -23,7 +28,7 @@ public class UnitTest extends TestCase {
     }
 
     @Test
-    public void WebView() {
-
+    public void testConstants() {
+        assertTrue(Constants.PARAMETER_PUSHED_WITHIN_LAST_DAYS > 0);
     }
-} 
+}

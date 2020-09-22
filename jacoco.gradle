@@ -29,13 +29,14 @@ project.afterEvaluate {
             def testTaskName = "test${sourceName.capitalize()}UnitTest"
 
             // Create coverage task of form 'testFlavorTypeCoverage' depending on 'testFlavorTypeUnitTest'
-            task "${testTaskName}Coverage" (type:JacocoReport, dependsOn: "$testTaskName") {
+            task "${testTaskName}Coverage" (type: JacocoReport, dependsOn: "$testTaskName") {
 
                 group = "Reporting"
                 description = "Generate Jacoco coverage reports on the ${sourceName.capitalize()} build."
+                println("*** JaCoCo uses build/intermediates/javac/${buildTypeName}/classes")
 
-                getClassDirectories().from = fileTree(
-                    dir: "${project.buildDir}/intermediates/javac/${sourceName}/compileDebugJavaWithJavac/classes",
+                def classTree = fileTree(
+                    dir: "${project.buildDir}/intermediates/javac/${buildTypeName}/classes",
                     excludes: [
                         '**/R.class',
                         '**/R$*.class',
@@ -52,16 +53,12 @@ project.afterEvaluate {
                         '**/Manifest*.*'
                     ]
                 )
-
-                println("*** JaCoCo uses build/intermediates/javac/${sourceName}/compile${sourceName.capitalize()}JavaWithJavac/classes")
-                def coverageSourceDirs = [
-                    "src/main/java",
-                    "src/$productFlavorName/java",
-                    "src/$buildTypeName/java"
-                ]
+                classDirectories.from = files([classTree])
+                def coverageSourceDirs = ["src/main/java", "src/$buildTypeName/java"]
+                executionData.from = file("${project.buildDir}/jacoco/${testTaskName}.exec")
                 additionalSourceDirs.from = files(coverageSourceDirs)
                 sourceDirectories.from = files(coverageSourceDirs)
-                executionData.from = files("${project.buildDir}/jacoco/${testTaskName}.exec")
+
                 reports {
                     html.destination rootProject.file("results/jacoco")
                     html.enabled true
