@@ -18,42 +18,49 @@
         android:orientation="vertical">
 
         <androidx.appcompat.widget.LinearLayoutCompat
-        android:id="@+id/layout_repositories"
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1.00">
-
-        <include
-            android:id="@+id/layout_repository"
-            layout="@layout/fragment_repository"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1.00"/>
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_gravity="bottom|fill_horizontal"
+            android:background="@color/colorAccent"
+            android:orientation="vertical"
+            android:padding="0dp"/>
 
         <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_width="240dp"
+            android:id="@+id/layout_repositories"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_gravity="end"
-            android:orientation="vertical">
+            android:layout_weight="1.00">
 
-            <include android:id="@+id/toolbar_query"
-                layout="@layout/toolbar_query"
-                android:layout_width="match_parent"
-                android:layout_height="?android:attr/actionBarSize"
-                android:layout_margin="0dp"/>
-
-            <io.syslogic.github.recyclerview.RepositoriesLinearView
-                android:id="@+id/recyclerview_repositories"
-                tools:listitem="@layout/cardview_repository"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            <include
+                android:id="@+id/layout_repository"
+                layout="@layout/fragment_repository"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_width="match_parent"
                 android:layout_weight="1.00"/>
 
-        </androidx.appcompat.widget.LinearLayoutCompat>
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="240dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="end"
+                android:orientation="vertical">
 
-    </androidx.appcompat.widget.LinearLayoutCompat>
+                <include android:id="@+id/toolbar_query"
+                    layout="@layout/toolbar_query"
+                    android:layout_width="match_parent"
+                    android:layout_height="?android:attr/actionBarSize"
+                    android:layout_margin="0dp"/>
+
+                <io.syslogic.github.recyclerview.RepositoriesLinearView
+                    android:id="@+id/recyclerview_repositories"
+                    tools:listitem="@layout/cardview_repository"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    android:layout_height="match_parent"
+                    android:layout_width="match_parent"
+                    android:layout_weight="1.00"/>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
         <include layout="@layout/toolbar_pager"
              android:id="@+id/toolbar_pager"

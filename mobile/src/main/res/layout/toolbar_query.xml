@@ -23,50 +23,34 @@
             style="?android:attr/buttonBarStyle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="horizontal">
 
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1.00"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@android:id/home"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|start"
+                android:layout_marginEnd="8dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:padding="15dp"
+                android:src="?attr/homeAsUpIndicator"
+                android:visibility="invisible"/>
 
-                <androidx.appcompat.widget.AppCompatImageButton
-                    android:id="@android:id/home"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical|start"
-                    android:layout_marginEnd="8dp"
-                    android:background="?attr/selectableItemBackgroundBorderless"
-                    android:padding="15dp"
-                    android:src="?attr/homeAsUpIndicator"/>
+            <androidx.appcompat.widget.AppCompatSpinner
+                android:id="@+id/spinner_topic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|end"
 
-                <androidx.appcompat.widget.AppCompatSpinner
-                    android:id="@+id/spinner_topic"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical|end"
+                tools:entries="@array/topic_keys"/>
 
-                    tools:entries="@array/topic_keys"/>
-
-                <androidx.appcompat.widget.AppCompatImageButton
-                    android:id="@+id/button_sort_order"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
-                    android:background="@android:drawable/ic_menu_sort_by_size"
-                    android:visibility="gone"/>
-
-            </androidx.appcompat.widget.LinearLayoutCompat>
-
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_gravity="bottom"
-                android:background="@color/colorAccent"
-                android:orientation="vertical"
-                android:padding="0dp"/>
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/button_sort_order"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:background="@android:drawable/ic_menu_sort_by_size"
+                android:visibility="gone"/>
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 

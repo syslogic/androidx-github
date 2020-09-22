@@ -3,6 +3,8 @@
 
     <string name="app_name">GitHub Client</string>
 
+    <string name="menu_action_settings">Settings</string>
+
     <string name="text_forks">forks</string>
     <string name="text_stargazers">stargazers</string>
     <string name="text_watchers">watchers</string>
@@ -21,6 +23,7 @@
     <string name="text_file_size_unknown">content-length is unknown</string>
     <string name="text_out_of_space">no space left on device</string>
 
+    <string name="debug_token_auth" formatted="false">authenticated with token as user %s.</string>
     <string name="debug_branch_list" formatted="false">%s has %d branches: %s</string>
     <string name="debug_branch_master" formatted="false">%s master branch index: %d</string>
     <string name="debug_network_present">network connection is present</string>
