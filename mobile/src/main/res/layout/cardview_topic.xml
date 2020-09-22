@@ -23,7 +23,7 @@
             tools:ignore="UnusedAttribute">
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/fullName"
+                android:id="@+id/queryString"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.9"
@@ -33,7 +33,8 @@
                 android:padding="8dp"
                 android:text="@{topic.queryString}"
                 android:textColor="@color/colorText"
-                android:textSize="14sp"/>
+                android:textSize="14sp"
+                tools:text="topic:android"/>
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 

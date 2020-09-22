@@ -66,7 +66,7 @@ public class RepositoriesFragment extends BaseFragment {
                 @Override
                 public boolean onMenuItemClick(MenuItem item) {
                     switch(item.getItemId()) {
-                        case R.id.menu_action_settings:
+                        case R.id.menu_action_topics:
 
 
                             return true;
