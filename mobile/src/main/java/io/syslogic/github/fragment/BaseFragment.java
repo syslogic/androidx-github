@@ -1,13 +1,13 @@
 package io.syslogic.github.fragment;
 
 import android.Manifest;
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.Network;
+import android.net.NetworkCapabilities;
 import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
@@ -58,8 +58,6 @@ abstract public class BaseFragment extends Fragment implements ConnectivityListe
 
     User currentUser = null;
 
-    private String accessToken = null;
-
     public BaseFragment() {
 
     }
@@ -79,15 +77,15 @@ abstract public class BaseFragment extends Fragment implements ConnectivityListe
             Activity activity = (Activity) getContext();
 
             /* for testing purposes only: */
-            this.accessToken = this.getAccessToken(this.getContext());
+            // this.accessToken = this.getAccessToken(this.getContext());
 
             if (activity.checkSelfPermission(Manifest.permission.ACCOUNT_MANAGER) != PackageManager.PERMISSION_GRANTED) {
                 activity.requestPermissions(new String[]{Manifest.permission.ACCOUNT_MANAGER}, Constants.REQUESTCODE_ADD_ACCESS_TOKEN);
             } else {
-                this.accessToken = this.getAccessToken(this.getContext());
+                // this.accessToken = this.getAccessToken(this.getContext());
             }
         } else {
-            this.accessToken = this.getAccessToken(this.getContext());
+            // this.accessToken = this.getAccessToken(this.getContext());
         }
     }
 
@@ -96,11 +94,35 @@ abstract public class BaseFragment extends Fragment implements ConnectivityListe
         return Objects.requireNonNull(cm);
     }
 
-    @TargetApi(28)
-    public boolean isNetworkAvailable(@NonNull Context context) {
-        ConnectivityManager cm = getConnectivityManager(context);
-        NetworkInfo info = cm.getActiveNetworkInfo();
-        return info != null;
+    public static boolean isNetworkAvailable(Context context) {
+        if(context == null)  {return false;}
+        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (connectivityManager != null) {
+            if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                NetworkCapabilities capabilities = connectivityManager.getNetworkCapabilities(connectivityManager.getActiveNetwork());
+                if (capabilities != null) {
+                    if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)) {
+                        return true;
+                    } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)) {
+                        return true;
+                    }  else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)){
+                        return true;
+                    }
+                }
+            } else {
+                try {
+                    NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+                    if (activeNetworkInfo != null && activeNetworkInfo.isConnected()) {
+                        Log.i("", "network available");
+                        return true;
+                    }
+                } catch (Exception e) {
+                    Log.i("", "" + e.getMessage());
+                }
+            }
+        }
+        Log.i("update_statut","Network is available : FALSE ");
+        return false;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
