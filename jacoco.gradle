@@ -30,11 +30,9 @@ project.afterEvaluate {
 
             // Create coverage task of form 'testFlavorTypeCoverage' depending on 'testFlavorTypeUnitTest'
             task "${testTaskName}Coverage" (type: JacocoReport, dependsOn: "$testTaskName") {
-
                 group = "Reporting"
                 description = "Generate Jacoco coverage reports on the ${sourceName.capitalize()} build."
                 println("*** JaCoCo uses build/intermediates/javac/${buildTypeName}/classes")
-
                 def classTree = fileTree(
                     dir: "${project.buildDir}/intermediates/javac/${buildTypeName}/classes",
                     excludes: [
@@ -58,7 +56,6 @@ project.afterEvaluate {
                 executionData.from = file("${project.buildDir}/jacoco/${testTaskName}.exec")
                 additionalSourceDirs.from = files(coverageSourceDirs)
                 sourceDirectories.from = files(coverageSourceDirs)
-
                 reports {
                     html.destination rootProject.file("results/jacoco")
                     html.enabled true
