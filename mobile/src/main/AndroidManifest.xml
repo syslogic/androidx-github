@@ -54,6 +54,14 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name="io.syslogic.github.activity.NavHostActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.VIEW"/>
+            </intent-filter>
+        </activity>
+
         <service
             android:name="io.syslogic.github.network.TokenService"
             tools:ignore="ExportedService">
