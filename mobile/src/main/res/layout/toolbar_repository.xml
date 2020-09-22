@@ -55,7 +55,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:fontFamily="sans-serif-medium"
-                            android:gravity="start"
                             android:maxLines="1"
                             android:text='@{""+repository.forkCount}'
                             android:textAlignment="center"
@@ -67,7 +66,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:fontFamily="sans-serif-medium"
-                            android:gravity="start"
                             android:labelFor="@id/forkCount"
                             android:maxLines="1"
                             android:text="@string/text_forks"
@@ -88,7 +86,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:fontFamily="sans-serif-medium"
-                            android:gravity="start"
                             android:maxLines="1"
                             android:text='@{""+repository.watcherCount}'
                             android:textAlignment="center"
@@ -100,7 +97,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:fontFamily="sans-serif-medium"
-                            android:gravity="start"
                             android:labelFor="@id/watcherCount"
                             android:maxLines="1"
                             android:text="@string/text_watchers"
@@ -121,7 +117,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:fontFamily="sans-serif-medium"
-                            android:gravity="start"
                             android:maxLines="1"
                             android:text='@{""+repository.subscriberCount}'
                             android:textAlignment="center"
@@ -133,7 +128,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:fontFamily="sans-serif-medium"
-                            android:gravity="start"
                             android:labelFor="@id/watcherCount"
                             android:maxLines="1"
                             android:text="@string/text_subscribers"
@@ -154,7 +148,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:fontFamily="sans-serif-medium"
-                            android:gravity="start"
                             android:maxLines="1"
                             android:text='@{""+repository.networkCount}'
                             android:textAlignment="center"
@@ -166,7 +159,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:fontFamily="sans-serif-medium"
-                            android:gravity="start"
                             android:labelFor="@id/networkCount"
                             android:maxLines="1"
                             android:text="@string/text_networks"
