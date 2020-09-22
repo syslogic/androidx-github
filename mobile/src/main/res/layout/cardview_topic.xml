@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable name="topic" type="io.syslogic.github.model.Topic"/>
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:id="@+id/cardview"
+        android:clickable="true"
+        android:focusable="true">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:orientation="horizontal"
+            android:padding="2dp"
+            tools:ignore="UnusedAttribute">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/fullName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.9"
+                android:color="?android:colorControlHighlight"
+                android:fontFamily="sans-serif-medium"
+                android:gravity="center_vertical|start"
+                android:padding="8dp"
+                android:text="@{topic.queryString}"
+                android:textColor="@color/colorText"
+                android:textSize="14sp"/>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </androidx.cardview.widget.CardView>
+
+</layout>

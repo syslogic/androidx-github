@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".activity.NavHostActivity">
+
+    <data>
+        <variable name="topics" type="io.syslogic.github.model.Topic"/>
+    </data>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/layout_topics"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include layout="@layout/toolbar_topic"
+            android:id="@+id/toolbar_topic"
+            android:layout_width="match_parent"
+            android:layout_height="?android:attr/actionBarSize"
+            android:layout_margin="0dp"/>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_gravity="bottom|fill_horizontal"
+            android:background="@color/colorAccent"
+            android:orientation="vertical"
+            android:padding="0dp"/>
+
+        <io.syslogic.github.recyclerview.TopicsLinearView
+            android:id="@+id/recyclerview_topics"
+            tools:listitem="@layout/cardview_topic"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_weight="1.00"/>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</layout>

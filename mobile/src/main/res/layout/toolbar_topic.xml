@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data />
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_topic"
+        android:layout_width="match_parent"
+        android:layout_height="24dp"
+        android:layout_gravity="bottom"
+        android:contentInsetStart="0dp"
+        android:elevation="4dp"
+        android:gravity="top"
+        android:padding="0dp"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:contentInsetStart="0dp">
+
+    </androidx.appcompat.widget.Toolbar>
+
+</layout>
