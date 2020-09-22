@@ -27,9 +27,4 @@
         <ignore regexp="is available: .*[alpha|beta]" />
     </issue>
 
-    <!-- ignore deprecation warnings (not working). -->
-    <issue id="Deprecated" severity="informational">
-        <ignore regexp="android.net.NetworkInfo"/>
-    </issue>
-
 </lint>
