@@ -2,6 +2,7 @@ package io.syslogic.github.fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -9,8 +10,12 @@ import android.widget.AdapterView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatSpinner;
+import androidx.appcompat.widget.Toolbar;
 import androidx.databinding.ViewDataBinding;
 
+import io.syslogic.github.R;
+import io.syslogic.github.activity.BaseActivity;
+import io.syslogic.github.databinding.ToolbarPagerBinding;
 import io.syslogic.github.model.PagerState;
 import io.syslogic.github.model.SpinnerItem;
 import io.syslogic.github.adapter.TopicAdapter;
@@ -51,9 +56,24 @@ public class RepositoriesFragment extends BaseFragment {
         this.setDataBinding(FragmentRepositoriesBinding.inflate(inflater, container, false));
         View layout = this.getDataBinding().getRoot();
 
-        if(this.getContext() != null) {
+        if(this.getContext() != null && this.getActivity() != null) {
 
-            this.mDataBinding.setPager(new PagerState());
+            this.getDataBinding().setPager(new PagerState());
+
+            /* Setting up the toolbar required in order to show the settings menu. */
+            ((BaseActivity) this.getActivity()).setSupportActionBar(this.getDataBinding().toolbarQuery.toolbarQuery);
+            this.getDataBinding().toolbarQuery.toolbarQuery.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem item) {
+                    switch(item.getItemId()) {
+                        case R.id.menu_action_settings:
+
+
+                            return true;
+                    }
+                    return false;
+                }
+            });
 
             AppCompatSpinner spinner = this.getDataBinding().toolbarQuery.spinnerTopic;
             spinner.setAdapter(new TopicAdapter(this.getContext()));
@@ -112,7 +132,9 @@ public class RepositoriesFragment extends BaseFragment {
 
     @Override
     public void onNetworkAvailable() {
+
         super.onNetworkAvailable();
+
         if(this.getContext() != null) {
 
             String token = this.getAccessToken(this.getContext());
@@ -120,33 +142,36 @@ public class RepositoriesFragment extends BaseFragment {
                 this.setUser(token, this);
             }
 
-            PagerState state = this.getDataBinding().toolbarPager.getPager();
-            if(state != null) {
-                state.setIsOffline(false);
-                this.getDataBinding().toolbarPager.setPager(state);
-            } else {
-                /* this happens on LOLLIPOP_MR1 */
-            }
+            if(this.mDataBinding != null) {
 
-            /* when online for the first time */
-            RepositoriesAdapter adapter = ((RepositoriesAdapter) this.mDataBinding.recyclerviewRepositories.getAdapter());
-            if(adapter == null) {
-
-                /* needs to run on UiThread */
-                if(getActivity() != null) {
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            if(getActivity() != null) {
-                                getDataBinding().recyclerviewRepositories.setAdapter(new RepositoriesAdapter(getActivity(), 1));
-                            }
-                        }
-                    });
+                PagerState pagerState = this.getDataBinding().toolbarPager.getPager();
+                if (pagerState != null) {
+                    pagerState.setIsOffline(false);
+                    this.getDataBinding().toolbarPager.setPager(pagerState);
+                } else {
+                    /* this happens on LOLLIPOP_MR1 */
                 }
 
-                /* if required, fetch page 1 */
-            } else if (adapter.getItemCount() == 0) {
-                adapter.fetchPage(1);
+                /* when online for the first time */
+                RepositoriesAdapter adapter = ((RepositoriesAdapter) this.getDataBinding().recyclerviewRepositories.getAdapter());
+                if(adapter == null) {
+
+                    /* needs to run on UiThread */
+                    if(getActivity() != null) {
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                if(getActivity() != null) {
+                                    getDataBinding().recyclerviewRepositories.setAdapter(new RepositoriesAdapter(getActivity(), 1));
+                                }
+                            }
+                        });
+                    }
+
+                    /* if required, fetch page 1 */
+                } else if (adapter.getItemCount() == 0) {
+                    adapter.fetchPage(1);
+                }
             }
         }
     }
@@ -154,17 +179,17 @@ public class RepositoriesFragment extends BaseFragment {
     @Override
     public void onNetworkLost() {
         super.onNetworkLost();
-        if(this.getContext() != null && this.mDataBinding != null) {
+        if(this.getContext() != null) {
+            ToolbarPagerBinding pager = this.getDataBinding().toolbarPager;
             PagerState state;
-            if(this.mDataBinding.toolbarPager.getPager() == null) {
+            if(pager.getPager() == null) {
                 state = new PagerState();
                 state.setIsOffline(true);
-                this.mDataBinding.toolbarPager.setPager(state);
             } else {
-                state = this.mDataBinding.toolbarPager.getPager();
+                state = pager.getPager();
                 state.setIsOffline(true);
             }
-            this.mDataBinding.toolbarPager.setPager(state);
+            pager.setPager(state);
         }
     }
 

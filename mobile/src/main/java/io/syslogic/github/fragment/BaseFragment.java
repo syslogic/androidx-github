@@ -96,7 +96,6 @@ abstract public class BaseFragment extends Fragment implements ConnectivityListe
         return Objects.requireNonNull(cm);
     }
 
-    @SuppressWarnings("deprecation")
     @TargetApi(28)
     public boolean isNetworkAvailable(@NonNull Context context) {
         ConnectivityManager cm = getConnectivityManager(context);
@@ -121,7 +120,6 @@ abstract public class BaseFragment extends Fragment implements ConnectivityListe
     }
 
     /** required < API 24 Nougat */
-    @SuppressWarnings(value = "deprecation")
     private void registerBroadcastReceiver(Context context) {
         IntentFilter intentFilter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
         ConnectivityReceiver mReceiver = new ConnectivityReceiver(context);
@@ -156,7 +154,10 @@ abstract public class BaseFragment extends Fragment implements ConnectivityListe
                     case 200: {
                         if (response.body() != null) {
                             User item = response.body();
-                            if(mDebug) {Log.w(LOG_TAG, "logged in as: " + item.getLogin());}
+                            if (mDebug && getContext() != null) {
+                                String message = String.format(getContext().getResources().getString(R.string.debug_token_auth), item.getLogin());
+                                Log.d("Github API", message);
+                            }
                             if(listener != null) {listener.onLogin(item);}
                             setCurrentUser(item);
                         }
@@ -175,7 +176,7 @@ abstract public class BaseFragment extends Fragment implements ConnectivityListe
                                     Log.e(LOG_TAG, message);
                                 }
                             } catch (IOException e) {
-                                if(mDebug) {Log.e(LOG_TAG, "" + e.getMessage());}
+                                if (mDebug) {Log.e(LOG_TAG, "" + e.getMessage());}
                             }
                         }
                         break;

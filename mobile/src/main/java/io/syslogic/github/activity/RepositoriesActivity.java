@@ -1,6 +1,7 @@
 package io.syslogic.github.activity;
 
 import android.os.Bundle;
+import android.view.Menu;
 
 import androidx.annotation.Nullable;
 
@@ -18,5 +19,11 @@ public class RepositoriesActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         addFragment(savedInstanceState, R.id.layout_repositories, RepositoriesFragment.newInstance());
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.settings, menu);
+        return true;
     }
 }
