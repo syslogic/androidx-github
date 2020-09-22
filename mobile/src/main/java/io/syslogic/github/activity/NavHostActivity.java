@@ -6,7 +6,6 @@ import android.view.Menu;
 import androidx.annotation.Nullable;
 
 import io.syslogic.github.R;
-import io.syslogic.github.fragment.NavHostFragment;
 
 /**
  * Main NavHost Activity
@@ -18,7 +17,7 @@ public class NavHostActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        addFragment(savedInstanceState, R.id.fragment_navhost, new NavHostFragment());
+        this.setContentView(R.layout.fragment_navhost);
     }
 
     @Override

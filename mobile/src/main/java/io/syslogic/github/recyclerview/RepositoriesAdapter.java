@@ -217,14 +217,16 @@ public class RepositoriesAdapter extends RecyclerView.Adapter {
 
     protected void setPagerState(int pageNumber, boolean isLoading, @Nullable Long itemCount) {
         FragmentRepositoriesBinding databinding = (FragmentRepositoriesBinding) ((BaseActivity) mContext).getFragmentDataBinding();
-        PagerState state = databinding.getPager();
-        state.setIsLoading(isLoading);
-        state.setPageNumber(pageNumber);
-        if(itemCount != null) {
-            state.setPageCount((int) Math.ceil(itemCount / state.getItemsPerPage()));
-            state.setItemCount(itemCount);
+        if(databinding != null) {
+            PagerState state = databinding.getPager();
+            state.setIsLoading(isLoading);
+            state.setPageNumber(pageNumber);
+            if (itemCount != null) {
+                state.setPageCount((int) Math.ceil(itemCount / state.getItemsPerPage()));
+                state.setItemCount(itemCount);
+            }
+            databinding.setPager(state);
         }
-        databinding.setPager(state);
     }
 
     protected void getRateLimit(@NonNull final String resourceName) {

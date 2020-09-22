@@ -24,10 +24,14 @@ abstract public class BaseActivity extends AppCompatActivity {
     @Nullable
     protected Fragment currentFragment = null;
 
-    @NonNull
+    @Nullable
     public ViewDataBinding getFragmentDataBinding() {
-        BaseFragment fragment = (BaseFragment) this.getSupportFragmentManager().getFragments().get(0);
-        return fragment.getDataBinding();
+        if(this.getSupportFragmentManager().getFragments().get(0) instanceof BaseFragment) {
+            BaseFragment fragment = (BaseFragment) this.getSupportFragmentManager().getFragments().get(0);
+            return fragment.getDataBinding();
+        } else {
+            return null;
+        }
     }
 
     @TargetApi(23)
