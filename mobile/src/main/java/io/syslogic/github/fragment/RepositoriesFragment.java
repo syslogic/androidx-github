@@ -55,7 +55,7 @@ public class RepositoriesFragment extends BaseFragment {
 
             this.mDataBinding.setPager(new PagerState());
 
-            AppCompatSpinner spinner = this.mDataBinding.toolbarQuery.spinnerTopic;
+            AppCompatSpinner spinner = this.getDataBinding().toolbarQuery.spinnerTopic;
             spinner.setAdapter(new TopicAdapter(this.getContext()));
             spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 int count = 0;
@@ -64,13 +64,13 @@ public class RepositoriesFragment extends BaseFragment {
                     if (count > 0) {
                         SpinnerItem item = (SpinnerItem) view.getTag();
                         ScrollListener.setPageNumber(1);
-                        mDataBinding.recyclerviewRepositories.setQueryString(item.getValue());
-                        if (mDataBinding.recyclerviewRepositories.getAdapter() != null) {
-                            mDataBinding.recyclerviewRepositories.clearAdapter();
-                            ((RepositoriesAdapter) mDataBinding.recyclerviewRepositories.getAdapter()).fetchPage(1);
+                        getDataBinding().recyclerviewRepositories.setQueryString(item.getValue());
+                        if (getDataBinding().recyclerviewRepositories.getAdapter() != null) {
+                            getDataBinding().recyclerviewRepositories.clearAdapter();
+                            ((RepositoriesAdapter) getDataBinding().recyclerviewRepositories.getAdapter()).fetchPage(1);
                         }
                         if(mDebug) {
-                            String text = mDataBinding.recyclerviewRepositories.getQueryString();
+                            String text = getDataBinding().recyclerviewRepositories.getQueryString();
                             getDataBinding().toolbarPager.textQueryString.setText(text);
                         }
                     }
@@ -80,12 +80,12 @@ public class RepositoriesFragment extends BaseFragment {
                 public void onNothingSelected(AdapterView<?> parent) {}
             });
 
-            if (this.mDataBinding.recyclerviewRepositories.getAdapter() == null) {
+            if (this.getDataBinding().recyclerviewRepositories.getAdapter() == null) {
                 if(isNetworkAvailable(this.getContext())) {
-                    this.mDataBinding.recyclerviewRepositories.setAdapter(new RepositoriesAdapter(this.getContext(), 1));
+                    this.getDataBinding().recyclerviewRepositories.setAdapter(new RepositoriesAdapter(this.getContext(), 1));
                     if(mDebug) {
-                        String text = this.mDataBinding.recyclerviewRepositories.getQueryString();
-                        this.mDataBinding.toolbarPager.textQueryString.setText(text);
+                        String text = this.getDataBinding().recyclerviewRepositories.getQueryString();
+                        this.getDataBinding().toolbarPager.textQueryString.setText(text);
                     }
                 } else {
                     // this.onNetworkLost();
@@ -113,17 +113,17 @@ public class RepositoriesFragment extends BaseFragment {
     @Override
     public void onNetworkAvailable() {
         super.onNetworkAvailable();
-        if(this.getContext() != null && this.mDataBinding != null) {
+        if(this.getContext() != null) {
 
             String token = this.getAccessToken(this.getContext());
             if(getCurrentUser() == null && token != null) {
                 this.setUser(token, this);
             }
 
-            PagerState state = this.mDataBinding.toolbarPager.getPager();
+            PagerState state = this.getDataBinding().toolbarPager.getPager();
             if(state != null) {
                 state.setIsOffline(false);
-                this.mDataBinding.toolbarPager.setPager(state);
+                this.getDataBinding().toolbarPager.setPager(state);
             } else {
                 /* this happens on LOLLIPOP_MR1 */
             }
