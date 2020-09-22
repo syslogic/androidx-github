@@ -33,10 +33,6 @@ android {
         dexInProcess = true
     }
 
-    dataBinding {
-        enabled = true
-    }
-
     signingConfigs {
         debug {
 
@@ -44,6 +40,10 @@ android {
         release {
 
         }
+    }
+
+    buildFeatures {
+        dataBinding = true
     }
 
     buildTypes {
