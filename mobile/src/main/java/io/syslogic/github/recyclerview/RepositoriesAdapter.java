@@ -159,6 +159,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter {
                             try {
                                 String errors = response.errorBody().string();
                                 JsonObject jsonObject = (new JsonParser()).parse(errors).getAsJsonObject();
+                                // JsonObject jsonObject = JsonParser.parseString(errors).getAsJsonObject();
                                 if(BuildConfig.DEBUG) {Log.e(LOG_TAG, jsonObject.get("message").toString());}
                             } catch (IOException e) {
                                 if(BuildConfig.DEBUG) {Log.e(LOG_TAG, e.getMessage());}

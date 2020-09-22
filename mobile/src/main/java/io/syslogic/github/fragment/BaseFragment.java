@@ -1,6 +1,7 @@
 package io.syslogic.github.fragment;
 
 import android.Manifest;
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.IntentFilter;
@@ -96,6 +97,7 @@ abstract public class BaseFragment extends Fragment implements ConnectivityListe
     }
 
     @SuppressWarnings("deprecation")
+    @TargetApi(28)
     public boolean isNetworkAvailable(@NonNull Context context) {
         ConnectivityManager cm = getConnectivityManager(context);
         NetworkInfo info = cm.getActiveNetworkInfo();
@@ -166,6 +168,7 @@ abstract public class BaseFragment extends Fragment implements ConnectivityListe
                             try {
                                 String errors = response.errorBody().string();
                                 JsonObject jsonObject = (new JsonParser()).parse(errors).getAsJsonObject();
+                                // JsonObject jsonObject = JsonParser.parseString(errors).getAsJsonObject();
                                 String message = jsonObject.get("message").toString();
                                 if(mDebug) {
                                     Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();

@@ -36,7 +36,7 @@ public class ConnectivityReceiver extends android.content.BroadcastReceiver {
 
         BaseActivity activity = ((BaseActivity) context);
         BaseFragment fragment = (BaseFragment) activity.getSupportFragmentManager().getFragments().get(0);
-        if(fragment != null) {
+        if (fragment != null) {
             if (fragment.isNetworkAvailable(context)) {
                 fragment.onNetworkAvailable();
             } else {
