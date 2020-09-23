@@ -15,6 +15,7 @@ import okhttp3.ResponseBody;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
+import retrofit2.http.HEAD;
 import retrofit2.http.Header;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
@@ -92,8 +93,8 @@ public interface GithubService {
 
     /* Provide the DownloadManager with a proper (instead of a guessed) filename. */
     @NonNull
-    @GET
-    Call<ResponseBody> fetchExternalUrl(@Url String url);
+    @HEAD
+    Call<Void> getHead(@Url String url);
 
     /** One user */
     @NonNull

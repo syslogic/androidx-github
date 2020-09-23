@@ -418,13 +418,13 @@ public class RepositoryFragment extends BaseFragment {
     /* The DownloadManager needs the filename from the Content-Disposition. */
     private void inspectDownload(final String url, final String archiveFormat) {
 
-        Call<ResponseBody> api = GithubClient.fetchExternalUrl(url);
+        Call<Void> api = GithubClient.getHead(url);
         if (mDebug) {Log.d(LOG_TAG, api.request().url() + "");}
 
-        api.enqueue(new Callback<ResponseBody>() {
+        api.enqueue(new Callback<Void>() {
 
             @Override
-            public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
+            public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
                 switch(response.raw().code()) {
 
                     case 200:
@@ -440,7 +440,7 @@ public class RepositoryFragment extends BaseFragment {
             }
 
             @Override
-            public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
                 if (mDebug) {Log.e(LOG_TAG, "" + t.getMessage());}
             }
         });

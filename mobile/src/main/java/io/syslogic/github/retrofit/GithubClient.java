@@ -85,7 +85,7 @@ public class GithubClient {
         return getService().getArchiveLink("token " + token, owner, repo, format, ref);
     }
 
-    public static @NonNull Call<ResponseBody> fetchExternalUrl(@NonNull String url) {
-        return getService().fetchExternalUrl(url);
+    public static @NonNull Call<Void> getHead(@NonNull String url) {
+        return getService().getHead(url);
     }
 }
