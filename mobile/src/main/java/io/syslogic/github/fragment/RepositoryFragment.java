@@ -463,12 +463,6 @@ public class RepositoryFragment extends BaseFragment {
         }
     }
 
-    public void showDownloads() {
-        Intent intent = new Intent();
-        intent.setAction(DownloadManager.ACTION_VIEW_DOWNLOADS);
-        startActivity(intent);
-    }
-
     private void registerBroadcastReceiver() {
         BroadcastReceiver receiver = new BroadcastReceiver() {
             @Override
@@ -498,6 +492,12 @@ public class RepositoryFragment extends BaseFragment {
         if(getActivity() != null) {
             getActivity().registerReceiver(receiver, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
         }
+    }
+
+    public void showDownloads() {
+        Intent intent = new Intent();
+        intent.setAction(DownloadManager.ACTION_VIEW_DOWNLOADS);
+        startActivity(intent);
     }
 
     private void switchToolbarView(Integer childIndex) {
