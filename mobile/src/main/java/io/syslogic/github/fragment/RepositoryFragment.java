@@ -463,6 +463,12 @@ public class RepositoryFragment extends BaseFragment {
         }
     }
 
+    public void showDownloads() {
+        Intent intent = new Intent();
+        intent.setAction(DownloadManager.ACTION_VIEW_DOWNLOADS);
+        startActivity(intent);
+    }
+
     private void registerBroadcastReceiver() {
         BroadcastReceiver receiver = new BroadcastReceiver() {
             @Override
