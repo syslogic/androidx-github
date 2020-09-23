@@ -31,7 +31,6 @@ import com.google.gson.JsonParser;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Objects;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -384,7 +383,6 @@ public class RepositoryFragment extends BaseFragment {
 
     private void downloadRepository(final Repository item, final String archiveFormat, String branch) {
 
-        final RepositoryFragment fragment = this;
         Call<ResponseBody> api = GithubClient.getArchiveLink(getAccessToken(getContext()), item.getOwner().getLogin(), item.getName(), archiveFormat, branch);
         if (mDebug) {Log.d(LOG_TAG, api.request().url() + "");}
 
@@ -429,7 +427,8 @@ public class RepositoryFragment extends BaseFragment {
 
                     case 200:
                         Headers headers = response.headers();
-                        String filename = Objects.requireNonNull(headers.get("Content-Disposition")).split("=")[1];
+                        String mimeType = "application/" + (archiveFormat.equals("zipball") ? "zip" : "tar+gzip");
+                        String filename = URLUtil.guessFileName(url, headers.get("Content-Disposition"), mimeType);
                         enqueueDownload(url, filename, archiveFormat);
                         break;
 
@@ -447,9 +446,8 @@ public class RepositoryFragment extends BaseFragment {
     }
 
     /* The DownloadManager will deliver a Broadcast. */
-    private void enqueueDownload(final String url, final String filename, final String archiveFormat) {
+    private void enqueueDownload(final String url, final String filename, final String mimeType) {
 
-        String mimeType = "application/" + (archiveFormat.equals("zipball") ? "zip" : "tar+gzip");
         DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url))
             .setTitle(filename)
             .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
