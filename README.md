@@ -1,8 +1,8 @@
-# androidx-github
+## androidx-github
 
-This is an Android client for GitHub, which merely utilizes AndroidX & Retrofit2.
+This is an unofficial Android client for GitHub, which merely utilizes AndroidX & Retrofit2.
 
-One can browse Android/Kotlin/Gradle projects (working on an editor for the topics to browse).
+Currently one can browse Android/Kotlin/Gradle projects (working on an editor for dynamic topics).
 
 File `token.properties` needs to be created and have a GitHub access token defined with `accesstoken=...`,
 
