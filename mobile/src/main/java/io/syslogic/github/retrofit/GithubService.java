@@ -15,12 +15,14 @@ import okhttp3.ResponseBody;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 import retrofit2.http.Streaming;
+import retrofit2.http.Url;
 
 /**
- * Github Service
+ * GitHub Service
  * @see <a href="https://developer.github.com/v3/">api v3</>
  * @see <a href="https://developer.github.com/v3/rate_limit/">rate limit</>
  * @see <a href="https://developer.github.com/v3/search/#search-repositories">search</>
@@ -34,25 +36,25 @@ public interface GithubService {
     @GET("rate_limit")
     Call<RateLimits> getRateLimits();
 
-    /** all repositories */
+    /** All repositories */
     @NonNull
     @GET("search/repositories")
     Call<Repositories> getRepositories(
+        @NonNull @Header("Authorization")            String token,
         @NonNull @Query(value = "q", encoded = true) String queryString,
         @NonNull @Query(value = "sort")              String sortField,
         @NonNull @Query(value = "order")             String sortOrder,
-        @NonNull @Query(value = "page")              Integer pageNumber,
-        @Nullable @Query(value = "access_token")     String token
+        @NonNull @Query(value = "page")              Integer pageNumber
     );
 
-    /** one repository */
+    /** One repository */
     @NonNull
     @GET("repositories/{id}")
     Call<Repository> getRepository(
         @NonNull @Path(value = "id") Long id
     );
 
-    /** all branches of a repository */
+    /** All branches of a repository */
     @NonNull
     @GET("/repos/{owner}/{repo}/branches")
     Call<ArrayList<Branch>> getBranches(
@@ -60,7 +62,7 @@ public interface GithubService {
         @NonNull @Path(value = "repo")  String repo
     );
 
-    /** one branch of a repository */
+    /** One branch of a repository */
     @NonNull
     @GET("/repos/{owner}/{repo}/branches/{repo}")
     Call<Branch> getBranch(
@@ -70,41 +72,48 @@ public interface GithubService {
     );
 
     /**
-     * gets the redirect URL to download an archive for a repository.
-     * the :archive_format can be either "tarball" or "zipball".
-     * the :branch must be a valid Git reference.
-     * if you omit :branch, the repository’s default branch (usually master) will be used.
-     * note: for private repositories, these links are temporary and expire after five minutes.
+     * Obtain the redirect URL to download an archive for a repository.
+     * The :archive_format can be either "tarball" or "zipball".
+     * The :branch must be a valid Git reference.
+     *
+     * If you omit :branch, the repository’s default branch (usually master) will be used.
+     * Note: for private repositories, the links are temporary and expire after five minutes.
     **/
     @NonNull
     @Streaming
     @GET("/repos/{owner}/{repo}/{format}/{branch}")
     Call<ResponseBody> getArchiveLink(
+        @NonNull @Header("Authorization") String token,
         @NonNull  @Path(value = "owner")  String owner,
         @NonNull  @Path(value = "repo")   String repo,
         @NonNull  @Path(value = "format") String format,
         @Nullable @Path(value = "branch") String branch
     );
 
-    /** one user */
+    /* Provide the DownloadManager with a proper (instead of a guessed) filename. */
+    @NonNull
+    @GET
+    Call<ResponseBody> fetchExternalUrl(@Url String url);
+
+    /** One user */
     @NonNull
     @GET("user")
     Call<User> getUser(
-        @NonNull @Query(value = "access_token") String token
+        @NonNull @Header("Authorization") String token
     );
 
-    /** one user */
+    /** One user */
     @NonNull
     @GET("user/{username}")
     Call<User> getUser(
-        @NonNull @Path(value = "name")          String username,
-        @NonNull @Query(value = "access_token") String accessToken
+        @NonNull @Header("Authorization") String token,
+        @NonNull @Path(value = "name")    String username
     );
 
-    /** one user */
+    /** One user */
     @NonNull
     @GET("/user/repos")
     Call<Repositories> getRepositories(
-        @NonNull @Query(value = "access_token") String accessToken
+        @NonNull @Header("Authorization") String token
     );
 }

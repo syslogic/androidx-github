@@ -3,16 +3,23 @@ package io.syslogic.github.fragment;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.DownloadManager;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
-import android.content.res.Resources;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.webkit.URLUtil;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.AdapterView;
@@ -24,7 +31,6 @@ import com.google.gson.JsonParser;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Locale;
 import java.util.Objects;
 
 import androidx.annotation.NonNull;
@@ -36,11 +42,9 @@ import io.syslogic.github.R;
 import io.syslogic.github.constants.Constants;
 import io.syslogic.github.databinding.FragmentRepositoryBinding;
 import io.syslogic.github.model.User;
-import io.syslogic.github.task.DownloadListener;
 import io.syslogic.github.retrofit.GithubClient;
 import io.syslogic.github.model.Branch;
 import io.syslogic.github.model.Repository;
-import io.syslogic.github.task.DownloadTask;
 
 import okhttp3.Headers;
 import okhttp3.ResponseBody;
@@ -54,7 +58,7 @@ import retrofit2.Response;
  * @author Martin Zeitler
  * @version 1.0.0
 **/
-public class RepositoryFragment extends BaseFragment implements DownloadListener {
+public class RepositoryFragment extends BaseFragment {
 
     /** Log Tag */
     private static final String LOG_TAG = RepositoryFragment.class.getSimpleName();
@@ -77,7 +81,10 @@ public class RepositoryFragment extends BaseFragment implements DownloadListener
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
+        this.registerBroadcastReceiver();
+
         Bundle args = this.getArguments();
         if(itemId == 0 && args != null) {
             this.setItemId(args.getLong(Constants.ARGUMENT_ITEM_ID));
@@ -234,109 +241,6 @@ public class RepositoryFragment extends BaseFragment implements DownloadListener
         }
     }
 
-    /** needs to run on UiThread */
-    @Override
-    public void OnFileSize(@NonNull final String fileName, @NonNull final Long fileSize) {
-        if(getActivity() != null) {
-            getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    if(getActivity() != null) {
-
-                        String text;
-                        if (fileSize > 0) {
-                            text = String.format(Locale.getDefault(), getActivity().getResources().getString(R.string.text_file_size_known), fileSize);
-                        } else {
-                            text = getActivity().getResources().getString(R.string.text_file_size_unknown);
-                        }
-
-                        getDataBinding().toolbarDownload.textDownloadFilename.setText(fileName);
-                        getDataBinding().toolbarDownload.textDownloadStatus.setText(text);
-                        if (mDebug) {
-                            Log.d(LOG_TAG, text);
-                        }
-                    }
-                    switchToolbarView(1);
-                }
-            });
-        }
-    }
-
-    @Override
-    public void OnProgress(@NonNull final String fileName, @NonNull final Integer progress, @NonNull final Long fileSize) {
-        if(getActivity() != null) {
-            String text;
-            if(fileSize > 0) {
-                text = String.format(Locale.getDefault(), getActivity().getResources().getString(R.string.text_file_progress), progress, fileSize);
-            } else {
-                text = String.format(Locale.getDefault(), getActivity().getResources().getString(R.string.text_file_size_known), progress);
-            }
-            mDataBinding.toolbarDownload.textDownloadStatus.setText(text);
-            // if (mDebug) {Log.d(LOG_TAG, text);}
-        }
-    }
-
-    /** needs to run on UiThread */
-    @Override
-    public void OnFileExists(@NonNull final String fileName, @NonNull final Long fileSize) {
-        if(getActivity() != null) {
-            getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    if(getActivity() != null) {
-
-                        String text = String.format(Locale.getDefault(), getActivity().getResources().getString(R.string.text_file_size_known), fileSize);
-                        getDataBinding().toolbarDownload.textDownloadFilename.setText(fileName);
-                        getDataBinding().toolbarDownload.textDownloadStatus.setText(text);
-                        if (mDebug) {Log.d(LOG_TAG, text);}
-
-                        /* would need to be delayed */
-                        switchToolbarView(0);
-                    }
-                }
-            });
-        }
-    }
-
-    @Override
-    public void OnComplete(@NonNull final String fileName, @NonNull final Long fileSize, @NonNull Boolean success) {
-        if(getActivity() != null ) {
-            Resources res = getActivity().getResources();
-            String text;
-            if(success) {
-                text = res.getString(R.string.text_download_complete);
-            } else {
-                text = res.getString(R.string.text_download_failed);
-            }
-
-            mDataBinding.toolbarDownload.textDownloadStatus.setText(text);
-            if (mDebug) {Log.d(LOG_TAG, text);}
-
-            /* would need to be delayed */
-            switchToolbarView(0);
-        }
-    }
-
-    @Override
-    public void OnException(@NonNull String fileName, @NonNull final Exception e) {
-        if (mDebug) {Log.e(LOG_TAG, "failed to save " + fileName + ".");}
-        if(getActivity() != null) {
-            if(("" + e.getMessage()).equals("write failed: ENOSPC (No space left on device)")) {
-                String text = getActivity().getResources().getString(R.string.text_out_of_space);
-                mDataBinding.toolbarDownload.textDownloadStatus.setText(text);
-            } else {
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-
-                        /* would need to be delayed */
-                        switchToolbarView(0);
-                    }
-                });
-            }
-        }
-    }
-
     private void setRepository() {
 
         if(this.itemId != 0) {
@@ -470,25 +374,37 @@ public class RepositoryFragment extends BaseFragment implements DownloadListener
         });
     }
 
-    private void downloadRepository(final Repository item, String archiveFormat, String branch) {
+    private void downloadZipball(Repository item, String branch) {
+        downloadRepository(item, "zipball", branch);
+    }
+
+    private void downloadTarball(Repository item, String branch) {
+        downloadRepository(item, "tarball", branch);
+    }
+
+    private void downloadRepository(final Repository item, final String archiveFormat, String branch) {
+
         final RepositoryFragment fragment = this;
-        Call<ResponseBody> api = GithubClient.getArchiveLink(item.getOwner().getLogin(), item.getName(), archiveFormat, branch);
-        if (mDebug) {Log.w(LOG_TAG, api.request().url() + "");}
+        Call<ResponseBody> api = GithubClient.getArchiveLink(getAccessToken(getContext()), item.getOwner().getLogin(), item.getName(), archiveFormat, branch);
+        if (mDebug) {Log.d(LOG_TAG, api.request().url() + "");}
 
         api.enqueue(new Callback<ResponseBody>() {
 
             @Override
             public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
-                if (response.raw().code() == 200) {
+                Headers headers = response.headers();
+                switch(response.raw().code()) {
 
-                    Headers headers = response.headers();
-                    String hostname = headers.get("Access-Control-Allow-Origin");
-                    String filename = Objects.requireNonNull(headers.get("Content-Disposition")).split("=")[1];
-                    Uri uri = Uri.parse(hostname + "/" + filename);
+                    case 200: /* OkHttp will only enter this branch with redirects enabled (useless for the DownloadManager). */
+                        break;
 
-                    if (mDebug) {Log.w(LOG_TAG, uri.toString());}
-                    DownloadTask task = new DownloadTask(filename, fragment);
-                    task.execute(response.body());
+                    case 302: /* OkHttp needs redirects disabled, in order to enter this branch (as it should be). */
+                        inspectDownload(headers.get("location"), archiveFormat);
+                        break;
+
+                    default:
+                        if (mDebug) {Log.e(LOG_TAG, response.raw().code() + " " + response.raw().message());}
+                        break;
                 }
             }
 
@@ -499,16 +415,87 @@ public class RepositoryFragment extends BaseFragment implements DownloadListener
         });
     }
 
-    private void downloadZipball(Repository item, String branch) {
-        downloadRepository(item, "zipball", branch);
+    /* The DownloadManager needs the filename from the Content-Disposition. */
+    private void inspectDownload(final String url, final String archiveFormat) {
+
+        Call<ResponseBody> api = GithubClient.fetchExternalUrl(url);
+        if (mDebug) {Log.d(LOG_TAG, api.request().url() + "");}
+
+        api.enqueue(new Callback<ResponseBody>() {
+
+            @Override
+            public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
+                switch(response.raw().code()) {
+
+                    case 200:
+                        Headers headers = response.headers();
+                        String filename = Objects.requireNonNull(headers.get("Content-Disposition")).split("=")[1];
+                        enqueueDownload(url, filename, archiveFormat);
+                        break;
+
+                    default:
+                        if (mDebug) {Log.e(LOG_TAG, response.raw().code() + " " + response.raw().message());}
+                        break;
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
+                if (mDebug) {Log.e(LOG_TAG, "" + t.getMessage());}
+            }
+        });
     }
 
-    private void downloadTarball(Repository item, String branch) {
-        downloadRepository(item, "tarball", branch);
+    /* The DownloadManager will deliver a Broadcast. */
+    private void enqueueDownload(final String url, final String filename, final String archiveFormat) {
+
+        String mimeType = "application/" + (archiveFormat.equals("zipball") ? "zip" : "tar+gzip");
+        DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url))
+            .setTitle(filename)
+            .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
+            .setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, filename)
+            .addRequestHeader("Accept", mimeType)
+            .setMimeType(mimeType);
+
+        if (getActivity() != null) {
+            DownloadManager downloadManager = (DownloadManager) getActivity().getSystemService(Context.DOWNLOAD_SERVICE);
+            if (downloadManager != null) {downloadManager.enqueue(request);}
+        }
+    }
+
+    private void registerBroadcastReceiver() {
+        BroadcastReceiver receiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                String action = intent.getAction();
+                if (DownloadManager.ACTION_DOWNLOAD_COMPLETE.equals(action)) {
+
+                    long downloadId = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, 0);
+                    DownloadManager.Query query = new DownloadManager.Query();
+                    query.setFilterById(downloadId);
+                    if(getActivity() != null) {
+                        DownloadManager downloadManager = (DownloadManager) getActivity().getSystemService(Context.DOWNLOAD_SERVICE);
+                        if(downloadManager != null) {
+                            Cursor c = downloadManager.query(query);
+                            if (c.moveToFirst()) {
+                                if (DownloadManager.STATUS_SUCCESSFUL == c.getInt(c.getColumnIndex(DownloadManager.COLUMN_STATUS))) {
+                                    String uri = c.getString(c.getColumnIndex(DownloadManager.COLUMN_LOCAL_URI));
+                                    if (mDebug) {Log.d(LOG_TAG, "" + uri);                                   }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        };
+
+        if(getActivity() != null) {
+            getActivity().registerReceiver(receiver, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
+        }
     }
 
     private void switchToolbarView(Integer childIndex) {
-        ViewFlipper view = mDataBinding.toolbarDownload.viewflipperDownload;
+        ViewFlipper view = this.mDataBinding.toolbarDownload.viewflipperDownload;
         int index = view.getDisplayedChild();
         switch(childIndex) {
             case 0: if(index != childIndex) {view.showPrevious();} break;

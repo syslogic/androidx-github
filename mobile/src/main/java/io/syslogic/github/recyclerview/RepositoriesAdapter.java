@@ -23,7 +23,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
-import java.util.Objects;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -126,7 +125,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter {
         final int pageSize = 30;
         String accessToken = getAccessToken();
 
-        Call<Repositories> api = GithubClient.getRepositories(getQueryString(),"stars","desc", pageNumber, accessToken);
+        Call<Repositories> api = GithubClient.getRepositories(accessToken, getQueryString(),"stars","desc", pageNumber);
         if(BuildConfig.DEBUG) {Log.w(LOG_TAG, api.request().url() + "");}
 
         /* updating the pager data-binding */
@@ -162,7 +161,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter {
                                 // JsonObject jsonObject = JsonParser.parseString(errors).getAsJsonObject();
                                 if(BuildConfig.DEBUG) {Log.e(LOG_TAG, jsonObject.get("message").toString());}
                             } catch (IOException e) {
-                                if(BuildConfig.DEBUG) {Log.e(LOG_TAG, e.getMessage());}
+                                if(BuildConfig.DEBUG) {Log.e(LOG_TAG, "" + e.getMessage());}
                             }
 
                             /* updating the pager data-binding */
@@ -178,7 +177,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter {
 
             @Override
             public void onFailure(@NonNull Call<Repositories> call, @NonNull Throwable t) {
-                if(BuildConfig.DEBUG) {Log.e(LOG_TAG, t.getMessage());}
+                if(BuildConfig.DEBUG) {Log.e(LOG_TAG, "" + t.getMessage());}
             }
         });
     }
@@ -266,7 +265,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter {
 
             @Override
             public void onFailure(@NonNull Call<RateLimits> call, @NonNull Throwable t) {
-                if (BuildConfig.DEBUG) {Log.e(LOG_TAG, t.getMessage());}
+                if (BuildConfig.DEBUG) {Log.e(LOG_TAG, "" + t.getMessage());}
             }
         });
     }
