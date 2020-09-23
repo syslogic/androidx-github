@@ -13,6 +13,9 @@
 # Ignore JSR 305 annotations for embedding nullability information.
 -dontwarn javax.annotation.**
 
+# AGPBI: {"kind":"warning","text":"Missing class: org.conscrypt.ConscryptHostnameVerifier","sources":[{}],"tool":"R8"}
+-dontwarn org.conscrypt.ConscryptHostnameVerifier
+
 # Guarded by a NoClassDefFoundError try/catch and only used when on the classpath.
 #-dontwarn kotlin.Unit
 
