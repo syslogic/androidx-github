@@ -3,7 +3,7 @@
 // Build Configurations
 project.ext.set('archiveBuildTypes', ['debug', 'release'])
 
-// Version Settings, loaded from version.properties
+// Version Settings, loaded from file `version.properties`
 def version = new Properties()
 version.load(new FileInputStream(rootProject.file('version.properties')))
 project.ext.set('applicationId',       version['applicationId'])
@@ -13,11 +13,14 @@ project.ext.set('compileSdkVersion',   new Integer(version['compileSdkVersion'])
 project.ext.set('targetSdkVersion',    new Integer(version['targetSdkVersion']))
 project.ext.set('minSdkVersion',       new Integer(version['minSdkVersion']))
 
-// load access-token from token.properties
+// Load API access-token from file `token.properties`
 if(rootProject.file('token.properties').exists()) {
     def apikeys = new Properties()
     apikeys.load(new FileInputStream(rootProject.file('token.properties')))
     project.ext.set('accessToken', apikeys['accessToken'])
+} else {
+    println "*** File `token.properties` is absent, the API will be rate-limited."
+    project.ext.set('accessToken', "")
 }
 
 buildscript {
