@@ -1,6 +1,6 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="Unit Test" type="AndroidJUnit" factoryName="Android JUnit">
-    <module name="mobile" />
+    <module name="androidx-github.mobile" />
     <useClassPathOnly />
     <option name="PACKAGE_NAME" value="io.syslogic.github" />
     <option name="MAIN_CLASS_NAME" value="io.syslogic.github.UnitTest" />
