@@ -65,7 +65,7 @@ public interface GithubService {
 
     /** One branch of a repository */
     @NonNull
-    @GET("/repos/{owner}/{repo}/branches/{repo}")
+    @GET("/repos/{owner}/{repo}/branches/{branch}")
     Call<Branch> getBranch(
         @NonNull @Path(value = "owner")  String owner,
         @NonNull @Path(value = "repo")   String repo,
