@@ -82,8 +82,5 @@ android {
 // apply script: dependencies
 apply from: "dependencies.gradle"
 
-// apply script: jacoco tasks
-apply from: "../jacoco.gradle"
-
 // apply script: build tasks
 apply from: "tasks.gradle"

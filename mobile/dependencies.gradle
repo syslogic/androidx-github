@@ -31,9 +31,6 @@ dependencies {
     // jUnit Tests
     testImplementation "junit:junit:4.13.1"
 
-    // JaCoCo Agent
-    testImplementation "org.jacoco:org.jacoco.agent:0.8.5"
-
     // https://mvnrepository.com/artifact/androidx.test.ext
     androidTestImplementation "androidx.test.ext:junit:1.1.2"
 
