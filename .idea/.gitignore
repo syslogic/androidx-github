@@ -1,9 +1,4 @@
 /misc.xml
-/jarRepositories.xml
-/caches/
-/dictionaries/
-/inspectionProfiles/
-/codeStyles/
-/gradle.xml
-/navEditor.xml
 /compiler.xml
+/jarRepositories.xml
+/gradle.xml
