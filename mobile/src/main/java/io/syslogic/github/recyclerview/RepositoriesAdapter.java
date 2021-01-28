@@ -153,12 +153,29 @@ public class RepositoriesAdapter extends RecyclerView.Adapter {
                         break;
                     }
 
+                    case 401: {
+                        /* "bad credentials" means that the provided access-token is invalid. */
+                        if (response.errorBody() != null) {
+                            try {
+                                String errors = response.errorBody().string();
+                                JsonObject jsonObject = JsonParser.parseString(errors).getAsJsonObject();
+                                if(BuildConfig.DEBUG) {Log.e(LOG_TAG, jsonObject.get("message").toString());}
+                            } catch (IOException e) {
+                                if(BuildConfig.DEBUG) {Log.e(LOG_TAG, "" + e.getMessage());}
+                            }
+                        }
+
+                        /* updating the pager data-binding */
+                        setPagerState(pageNumber, false, null);
+
+                        break;
+                    }
+
                     case 403: {
                         if (response.errorBody() != null) {
                             try {
                                 String errors = response.errorBody().string();
-                                JsonObject jsonObject = (new JsonParser()).parse(errors).getAsJsonObject();
-                                // JsonObject jsonObject = JsonParser.parseString(errors).getAsJsonObject();
+                                JsonObject jsonObject = JsonParser.parseString(errors).getAsJsonObject();
                                 if(BuildConfig.DEBUG) {Log.e(LOG_TAG, jsonObject.get("message").toString());}
                             } catch (IOException e) {
                                 if(BuildConfig.DEBUG) {Log.e(LOG_TAG, "" + e.getMessage());}
