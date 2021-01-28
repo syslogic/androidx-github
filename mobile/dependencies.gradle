@@ -3,7 +3,7 @@
 dependencies {
 
     // https://developer.android.com/jetpack/androidx/
-    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation "androidx.appcompat:appcompat:1.2.0"
     implementation "androidx.recyclerview:recyclerview:1.1.0"
     implementation "androidx.annotation:annotation:1.1.0"
     implementation "androidx.cardview:cardview:1.0.0"
@@ -18,8 +18,7 @@ dependencies {
     implementation "com.squareup.okhttp3:okhttp:4.1.0"
 
     // https://mvnrepository.com/artifact/com.google.code.gson/gson
-    //noinspection GradleDependency
-    implementation "com.google.code.gson:gson:2.8.5"
+    implementation "com.google.code.gson:gson:2.8.6"
 
     // https://mvnrepository.com/artifact/com.squareup.retrofit2
     implementation ("com.squareup.retrofit2:retrofit:2.6.1") {
@@ -30,7 +29,7 @@ dependencies {
     }
 
     // jUnit Tests
-    testImplementation "junit:junit:4.13"
+    testImplementation "junit:junit:4.13.1"
 
     // JaCoCo Agent
     testImplementation "org.jacoco:org.jacoco.agent:0.8.5"
