@@ -3,11 +3,9 @@
 /local.properties
 /keystore.properties
 /token.properties
-/.idea/caches/build_file_checksums.ser
+/.idea/caches
 /.idea/libraries
 /.idea/modules.xml
 /.idea/workspace.xml
 /build
 /captures
-.externalNativeBuild
-

@@ -68,7 +68,6 @@ public class RepositoriesFragment extends BaseFragment {
                     switch(item.getItemId()) {
                         case R.id.menu_action_topics:
 
-
                             return true;
                     }
                     return false;
