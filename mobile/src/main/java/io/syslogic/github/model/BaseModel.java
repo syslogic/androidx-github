@@ -1,17 +1,15 @@
 package io.syslogic.github.model;
 
-import androidx.annotation.NonNull;
-import androidx.databinding.Observable;
+import java.io.Serializable;
+
+import androidx.databinding.BaseObservable;
 
 /**
  * Base Model
  * @author Martin Zeitler
  */
-abstract public class BaseModel implements Observable {
+abstract public class BaseModel extends BaseObservable implements Serializable {
 
-    @Override
-    public void addOnPropertyChangedCallback(@NonNull OnPropertyChangedCallback callback) {}
-
-    @Override
-    public void removeOnPropertyChangedCallback(@NonNull OnPropertyChangedCallback callback) {}
+    /** Constructor */
+    public BaseModel() {}
 }
