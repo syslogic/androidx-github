@@ -5,8 +5,7 @@ import androidx.annotation.NonNull;
 /**
  * Constants
  * @author Martin Zeitler
- * @version 1.0.0
-**/
+ */
 public final class Constants {
 
     @NonNull

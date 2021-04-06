@@ -3,6 +3,10 @@ package io.syslogic.github.model;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+/**
+ * Model: Topic
+ * @author Martin Zeitler
+ */
 public class Topic {
 
     private long id;

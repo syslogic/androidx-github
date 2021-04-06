@@ -5,8 +5,10 @@ import com.google.gson.annotations.SerializedName;
 import androidx.annotation.NonNull;
 
 /**
- * https://developer.github.com/v3/repos/#get
-**/
+ * Model: Owner
+ * @see <a href="https://developer.github.com/v3/repos/#get">repos/#get</>
+ * @author Martin Zeitler
+ */
 public class Owner {
 
     @SerializedName("login")

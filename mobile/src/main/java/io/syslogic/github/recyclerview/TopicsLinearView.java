@@ -10,9 +10,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 /**
- * Topics RecyclerView
+ * Topics RecyclerView Linear
  * @author Martin Zeitler
- * @version 1.0.0
 **/
 public class TopicsLinearView extends RecyclerView {
 

@@ -17,7 +17,6 @@ import android.os.Environment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.webkit.URLUtil;
 import android.webkit.WebView;
@@ -55,8 +54,7 @@ import retrofit2.Response;
 /**
  * Repository Fragment
  * @author Martin Zeitler
- * @version 1.0.0
-**/
+ */
 public class RepositoryFragment extends BaseFragment {
 
     /** Log Tag */

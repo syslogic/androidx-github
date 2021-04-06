@@ -11,14 +11,15 @@ import androidx.databinding.ViewDataBinding;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.fragment.NavHostFragment;
 
+import io.syslogic.github.R;
 import io.syslogic.github.fragment.BaseFragment;
 
 /**
  * Base Activity
  * @author Martin Zeitler
- * @version 1.0.0
-**/
+ */
 abstract public class BaseActivity extends AppCompatActivity {
 
     @Nullable
@@ -26,12 +27,21 @@ abstract public class BaseActivity extends AppCompatActivity {
 
     @Nullable
     public ViewDataBinding getFragmentDataBinding() {
-        if(this.getSupportFragmentManager().getFragments().get(0) instanceof BaseFragment) {
-            BaseFragment fragment = (BaseFragment) this.getSupportFragmentManager().getFragments().get(0);
-            return fragment.getDataBinding();
+        if(this.getCurrentFragment() instanceof BaseFragment) {
+            return ((BaseFragment) this.getCurrentFragment()).getDataBinding();
         } else {
             return null;
         }
+    }
+
+    public NavHostFragment getNavhostFragment() {
+        return (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_navhost);
+    }
+
+    @Nullable
+    public Fragment getCurrentFragment() {
+        NavHostFragment navHostFragment = getNavhostFragment();
+        return navHostFragment == null ? null : navHostFragment.getChildFragmentManager().getFragments().get(0);
     }
 
     @TargetApi(23)

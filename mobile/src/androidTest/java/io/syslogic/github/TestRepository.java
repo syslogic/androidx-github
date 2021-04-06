@@ -16,8 +16,7 @@ import static org.hamcrest.CoreMatchers.is;
 /**
  * Repository Test Case
  * @author Martin Zeitler
- * @version 1.0.2
-**/
+ */
 @RunWith(AndroidJUnit4.class)
 public class TestRepository extends TestSuite {
 

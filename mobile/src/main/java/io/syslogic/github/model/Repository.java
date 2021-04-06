@@ -5,6 +5,10 @@ import com.google.gson.annotations.SerializedName;
 import androidx.annotation.NonNull;
 import androidx.databinding.Bindable;
 
+/**
+ * Model: Repository
+ * @author Martin Zeitler
+ */
 public class Repository extends BaseModel {
 
     @SerializedName("id")

@@ -4,6 +4,10 @@ import com.google.gson.annotations.SerializedName;
 
 import androidx.annotation.NonNull;
 
+/**
+ * Model: Branch
+ * @author Martin Zeitler
+ */
 public class Branch {
 
     @SerializedName("name")

@@ -20,8 +20,7 @@ import io.syslogic.github.model.User;
 /**
  * Profile Fragment
  * @author Martin Zeitler
- * @version 1.0.0
-**/
+ */
 public class ProfileFragment extends BaseFragment {
 
     /** Log Tag */

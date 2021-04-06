@@ -2,6 +2,10 @@ package io.syslogic.github.model;
 
 import com.google.gson.annotations.SerializedName;
 
+/**
+ * Model: Rate Limit
+ * @author Martin Zeitler
+ */
 public class RateLimit {
 
     @SerializedName("limit")

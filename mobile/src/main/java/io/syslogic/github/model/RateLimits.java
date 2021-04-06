@@ -4,6 +4,10 @@ import com.google.gson.annotations.SerializedName;
 
 import androidx.annotation.NonNull;
 
+/**
+ * Model: Rate Limits
+ * @author Martin Zeitler
+ */
 public class RateLimits {
 
     @SerializedName("resources")

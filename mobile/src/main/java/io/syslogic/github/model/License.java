@@ -4,6 +4,10 @@ import com.google.gson.annotations.SerializedName;
 
 import androidx.annotation.NonNull;
 
+/**
+ * Model: License
+ * @author Martin Zeitler
+ */
 public class License {
 
     @SerializedName("node_id")
@@ -20,7 +24,6 @@ public class License {
 
     @SerializedName("url")
     private String url;
-
 
     @NonNull
     public String getNodeId() {
@@ -42,7 +45,6 @@ public class License {
     public String getUrl() {
         return this.url;
     }
-
 
     public void setSpdxId(@NonNull String value) {
         this.spdxId = value;

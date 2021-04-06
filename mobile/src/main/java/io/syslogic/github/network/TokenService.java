@@ -18,8 +18,7 @@ import io.syslogic.github.BuildConfig;
 /**
  * Token Service
  * @author Martin Zeitler
- * @version 1.0.0
-**/
+ */
 public class TokenService extends Service {
 
     /** {@link Log} Tag */

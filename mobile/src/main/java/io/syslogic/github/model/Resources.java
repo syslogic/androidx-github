@@ -4,6 +4,10 @@ import com.google.gson.annotations.SerializedName;
 
 import androidx.annotation.NonNull;
 
+/**
+ * Model: Resources
+ * @author Martin Zeitler
+ */
 public class Resources {
 
     @SerializedName("core")

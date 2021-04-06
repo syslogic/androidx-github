@@ -2,7 +2,6 @@ package io.syslogic.github.fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -10,7 +9,6 @@ import android.widget.AdapterView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatSpinner;
-import androidx.appcompat.widget.Toolbar;
 import androidx.databinding.ViewDataBinding;
 
 import io.syslogic.github.R;
@@ -27,8 +25,7 @@ import io.syslogic.github.recyclerview.ScrollListener;
 /**
  * Repositories Fragment
  * @author Martin Zeitler
- * @version 1.0.0
-**/
+ */
 public class RepositoriesFragment extends BaseFragment {
 
     /** Log Tag */

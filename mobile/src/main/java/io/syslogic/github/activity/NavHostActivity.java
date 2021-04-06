@@ -11,8 +11,7 @@ import io.syslogic.github.R;
 /**
  * Main NavHost Activity
  * @author Martin Zeitler
- * @version 1.0.0
-**/
+ */
 public class NavHostActivity extends BaseActivity {
 
     @Override

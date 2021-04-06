@@ -43,8 +43,7 @@ import retrofit2.Response;
 /**
  * Base Fragment
  * @author Martin Zeitler
- * @version 1.0.0
-**/
+ */
 abstract public class BaseFragment extends Fragment implements ConnectivityListener, TokenCallback {
 
     /** {@link Log} Tag */
@@ -144,7 +143,7 @@ abstract public class BaseFragment extends Fragment implements ConnectivityListe
     /** required < API 24 Nougat */
     private void registerBroadcastReceiver(Context context) {
         IntentFilter intentFilter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
-        ConnectivityReceiver mReceiver = new ConnectivityReceiver(context);
+        ConnectivityReceiver mReceiver = new ConnectivityReceiver();
         context.registerReceiver(mReceiver, intentFilter);
     }
 

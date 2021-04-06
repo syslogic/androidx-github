@@ -7,6 +7,10 @@ import java.util.ArrayList;
 import androidx.annotation.NonNull;
 import androidx.databinding.Bindable;
 
+/**
+ * Model: Repositories
+ * @author Martin Zeitler
+ */
 public class Repositories extends BaseModel {
 
     @SerializedName("items")

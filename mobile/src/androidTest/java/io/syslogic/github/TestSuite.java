@@ -36,8 +36,7 @@ import io.syslogic.github.constants.Constants;
 /**
  * Application Test Suite
  * @author Martin Zeitler
- * @version 1.0.2
-**/
+ */
 @RunWith(org.junit.runners.Suite.class)
 @SuiteClasses({
     TestRepositories.class,

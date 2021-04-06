@@ -2,6 +2,10 @@ package io.syslogic.github.model;
 
 import androidx.annotation.NonNull;
 
+/**
+ * Model: Spinner Item
+ * @author Martin Zeitler
+ */
 public class SpinnerItem {
 
     private Integer id;

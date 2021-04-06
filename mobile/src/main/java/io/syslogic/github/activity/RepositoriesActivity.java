@@ -12,8 +12,7 @@ import io.syslogic.github.fragment.RepositoriesFragment;
 /**
  * Main Repositories Activity
  * @author Martin Zeitler
- * @version 1.0.0
-**/
+ */
 public class RepositoriesActivity extends BaseActivity {
 
     @Override

@@ -16,8 +16,7 @@ import io.syslogic.github.BuildConfig;
 /**
  * Token Helper
  * @author Martin Zeitler
- * @version 1.0.0
-**/
+ */
 public class TokenHelper {
 
     /** {@link Log} Tag */

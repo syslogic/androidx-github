@@ -4,7 +4,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TimePicker;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -26,9 +25,8 @@ import io.syslogic.github.model.Topic;
 /**
  * Topics RecyclerView Adapter
  * @author Martin Zeitler
- * @version 1.0.0
-**/
-public class TopicsAdapter extends RecyclerView.Adapter {
+ */
+public class TopicsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     /** Log Tag */
     @NonNull

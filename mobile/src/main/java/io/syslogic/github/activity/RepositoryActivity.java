@@ -12,8 +12,7 @@ import io.syslogic.github.constants.Constants;
 /**
  * Detail Repository Activity
  * @author Martin Zeitler
- * @version 1.0.0
-**/
+ */
 public class RepositoryActivity extends BaseActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
 
     protected long itemId = -1;

@@ -4,6 +4,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.Bindable;
 
+/**
+ * Model: Pager State
+ * @author Martin Zeitler
+ */
 public class PagerState extends BaseModel {
 
     private Long itemCount = 0L;

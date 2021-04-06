@@ -24,10 +24,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import io.syslogic.github.constants.Constants;
 
 /**
- * GitHub Client
+ * GitHub Retrofit Client
  * @author Martin Zeitler
- * @version 1.0.0
-**/
+ */
 public class GithubClient {
 
     private static Retrofit retrofit;

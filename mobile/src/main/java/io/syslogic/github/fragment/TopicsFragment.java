@@ -15,8 +15,7 @@ import io.syslogic.github.recyclerview.TopicsAdapter;
 /**
  * Topics Fragment
  * @author Martin Zeitler
- * @version 1.0.0
-**/
+ */
 public class TopicsFragment extends BaseFragment {
 
     /** Log Tag */

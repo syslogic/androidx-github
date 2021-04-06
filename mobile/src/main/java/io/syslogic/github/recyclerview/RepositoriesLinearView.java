@@ -12,8 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 /**
  * Repositories RecyclerView
  * @author Martin Zeitler
- * @version 1.0.0
-**/
+ */
 public class RepositoriesLinearView extends RecyclerView {
 
     LinearLayoutManager mLinearLayoutManager;

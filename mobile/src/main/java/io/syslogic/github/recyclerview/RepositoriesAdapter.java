@@ -53,8 +53,7 @@ import io.syslogic.github.network.TokenHelper;
 /**
  * Repositories RecyclerView Adapter
  * @author Martin Zeitler
- * @version 1.0.0
-**/
+ */
 public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     /** Log Tag */

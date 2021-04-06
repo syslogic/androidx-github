@@ -11,10 +11,9 @@ import androidx.annotation.Nullable;
 import io.syslogic.github.R;
 
 /**
- * The {@link NavHostFragment}.
+ * {@link NavHostFragment}
  * @author Martin Zeitler
- * @version 1.0.0
-**/
+ */
 public class NavHostFragment extends androidx.navigation.fragment.NavHostFragment {
 
     public NavHostFragment() {}

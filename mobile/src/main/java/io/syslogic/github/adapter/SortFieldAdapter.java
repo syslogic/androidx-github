@@ -9,8 +9,7 @@ import io.syslogic.github.R;
 /**
  * Sort-Field Adapter
  * @author Martin Zeitler
- * @version 1.0.0
-**/
+ */
 public class SortFieldAdapter extends BaseArrayAdapter {
 
     public SortFieldAdapter(@NonNull Context context) {

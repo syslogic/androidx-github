@@ -16,8 +16,7 @@ import static org.hamcrest.CoreMatchers.is;
 /**
  * Profile Test Case
  * @author Martin Zeitler
- * @version 1.0.2
-**/
+ */
 @RunWith(AndroidJUnit4.class)
 public class TestProfile extends TestSuite {
 
