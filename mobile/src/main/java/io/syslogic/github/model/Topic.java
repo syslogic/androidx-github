@@ -1,5 +1,7 @@
 package io.syslogic.github.model;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 public class Topic {
 
@@ -9,7 +11,7 @@ public class Topic {
 
     public Topic() {}
 
-    public Topic(long id, String value) {
+    public Topic(long id, @NonNull String value) {
         this.setId(id);
         this.setQueryString(value);
     }
@@ -18,11 +20,11 @@ public class Topic {
         return this.id;
     }
 
-    public String getQueryString() {
+    @Nullable public String getQueryString() {
         return this.queryString;
     }
 
-    public void setQueryString(String value) {
+    public void setQueryString(@Nullable String value) {
         this.queryString = value;
     }
 

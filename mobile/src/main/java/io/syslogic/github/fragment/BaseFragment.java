@@ -89,12 +89,12 @@ abstract public class BaseFragment extends Fragment implements ConnectivityListe
         }
     }
 
-    private static ConnectivityManager getConnectivityManager(Context context) {
+    private static ConnectivityManager getConnectivityManager(@NonNull Context context) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         return Objects.requireNonNull(cm);
     }
 
-    public static boolean isNetworkAvailable(Context context) {
+    public static boolean isNetworkAvailable(@Nullable Context context) {
         if(context == null)  {return false;}
         ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         if (connectivityManager != null) {

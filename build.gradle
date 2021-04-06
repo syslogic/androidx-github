@@ -29,7 +29,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.1.0'
+        classpath 'com.android.tools.build:gradle:4.1.1'
     }
 }
 
@@ -52,13 +52,6 @@ task clean(type: Delete) {
     // delete build directories
     delete rootProject.buildDir
     delete project.buildDir
-
-    // delete HTML coverage reports
-    def covReport = rootProject.file("results/jacoco")
-    if(covReport.exists()) {
-        delete covReport.listFiles()
-        delete covReport
-    }
 
     // when task clean has finished
     doLast {

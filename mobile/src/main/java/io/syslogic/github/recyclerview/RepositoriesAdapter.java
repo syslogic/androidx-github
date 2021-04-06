@@ -70,7 +70,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter {
 
     private long totalItemCount = 0;
 
-    private Context mContext;
+    private final Context mContext;
 
     private String queryString = "topic:android";
 
@@ -137,6 +137,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter {
             public void onResponse(@NonNull Call<Repositories> call, @NonNull Response<Repositories> response) {
                 switch(response.code()) {
 
+                    // OK
                     case 200: {
                         if (response.body() != null) {
 

@@ -62,16 +62,13 @@ public class RepositoriesFragment extends BaseFragment {
 
             /* Setting up the toolbar required in order to show the settings menu. */
             ((BaseActivity) this.getActivity()).setSupportActionBar(this.getDataBinding().toolbarQuery.toolbarQuery);
-            this.getDataBinding().toolbarQuery.toolbarQuery.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-                @Override
-                public boolean onMenuItemClick(MenuItem item) {
-                    switch(item.getItemId()) {
-                        case R.id.menu_action_topics:
+            this.getDataBinding().toolbarQuery.toolbarQuery.setOnMenuItemClickListener(item -> {
+                if(item.getItemId() == R.id.menu_action_topics) {
 
-                            return true;
-                    }
-                    return false;
+
+                    return true;
                 }
+                return false;
             });
 
             AppCompatSpinner spinner = this.getDataBinding().toolbarQuery.spinnerTopic;

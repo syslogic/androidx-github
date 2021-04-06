@@ -3,6 +3,7 @@ package io.syslogic.github.activity;
 import android.os.Bundle;
 import android.view.Menu;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import io.syslogic.github.R;
@@ -22,7 +23,7 @@ public class RepositoriesActivity extends BaseActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(@NonNull Menu menu) {
         getMenuInflater().inflate(R.menu.settings, menu);
         return true;
     }

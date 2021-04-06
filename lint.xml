@@ -7,8 +7,15 @@
         <ignore regexp="com.airbnb.lottie.LottieAnimationView" />
     </issue>
 
+    <issue id="UnusedIds">
+        <ignore regexp="R.id.nav_graph"/>
+    </issue>
+
+    <issue id="SyntheticAccessor">
+        <ignore regexp="LOG_TAG" />
+    </issue>
+
     <issue id="UnusedResources">
-        <ignore regexp="R.raw.*" />
         <ignore regexp="R.layout.*" />
         <ignore regexp="R.string.tools_*" />
         <ignore regexp="R.string.text_pager_*" />
@@ -16,10 +23,6 @@
         <ignore regexp="R.string.text_subscribers" />
         <ignore regexp="R.string.text_networks" />
         <ignore regexp="R.drawable.baseline_cloud_download_*" />
-    </issue>
-
-    <issue id="SyntheticAccessor">
-        <ignore regexp="LOG_TAG" />
     </issue>
 
     <!-- don't notice about available alpha/beta versions -->

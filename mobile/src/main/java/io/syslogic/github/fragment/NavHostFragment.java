@@ -11,7 +11,7 @@ import androidx.annotation.Nullable;
 import io.syslogic.github.R;
 
 /**
- * The Main {@link NavHostFragment}.
+ * The {@link NavHostFragment}.
  * @author Martin Zeitler
  * @version 1.0.0
 **/
@@ -19,6 +19,7 @@ public class NavHostFragment extends androidx.navigation.fragment.NavHostFragmen
 
     public NavHostFragment() {}
 
+    @NonNull
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_navhost, container, false);

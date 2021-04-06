@@ -94,7 +94,7 @@ public interface GithubService {
     /* Provide the DownloadManager with a proper (instead of a guessed) filename. */
     @NonNull
     @HEAD
-    Call<Void> getHead(@Url String url);
+    Call<Void> getHead(@NonNull @Url String url);
 
     /** One user */
     @NonNull

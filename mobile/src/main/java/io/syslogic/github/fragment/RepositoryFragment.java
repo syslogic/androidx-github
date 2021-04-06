@@ -63,7 +63,7 @@ public class RepositoryFragment extends BaseFragment {
     private static final String LOG_TAG = RepositoryFragment.class.getSimpleName();
 
     /** Data Binding */
-    private FragmentRepositoryBinding mDataBinding;
+    FragmentRepositoryBinding mDataBinding;
 
     private Long itemId = 0L;
 
@@ -148,21 +148,19 @@ public class RepositoryFragment extends BaseFragment {
                 });
 
                 /* the download button; TODO: consider tarball. */
-                this.mDataBinding.toolbarDownload.buttonDownload.setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Activity activity = getActivity();
-                        if (activity != null) {
-                            String branch = getDataBinding().toolbarDownload.spinnerBranch.getSelectedItem().toString();
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                                if (activity.checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                                    downloadBranchAsZip(branch);
-                                } else {
-                                    activity.requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, Constants.REQUESTCODE_DOWNLOAD_ZIPBALL);
-                                }
-                            } else {
+                this.mDataBinding.toolbarDownload.buttonDownload.setOnClickListener(view -> {
+
+                    Activity activity = getActivity();
+                    if (activity != null) {
+                        String branch = getDataBinding().toolbarDownload.spinnerBranch.getSelectedItem().toString();
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                            if (activity.checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
                                 downloadBranchAsZip(branch);
+                            } else {
+                                activity.requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, Constants.REQUESTCODE_DOWNLOAD_ZIPBALL);
                             }
+                        } else {
+                            downloadBranchAsZip(branch);
                         }
                     }
                 });
@@ -171,7 +169,7 @@ public class RepositoryFragment extends BaseFragment {
         return layout;
     }
 
-    private void downloadBranchAsZip(@Nullable String branch) {
+    void downloadBranchAsZip(@Nullable String branch) {
         if(branch == null) {branch ="master";}
         downloadZipball(this.getDataBinding().getRepository(), branch);
     }
@@ -371,15 +369,15 @@ public class RepositoryFragment extends BaseFragment {
         });
     }
 
-    private void downloadZipball(Repository item, String branch) {
+    void downloadZipball(Repository item, String branch) {
         downloadRepository(item, "zipball", branch);
     }
 
-    private void downloadTarball(Repository item, String branch) {
+    void downloadTarball(Repository item, String branch) {
         downloadRepository(item, "tarball", branch);
     }
 
-    private void downloadRepository(final Repository item, final String archiveFormat, String branch) {
+    void downloadRepository(final Repository item, final String archiveFormat, String branch) {
 
         Call<ResponseBody> api = GithubClient.getArchiveLink(getAccessToken(getContext()), item.getOwner().getLogin(), item.getName(), archiveFormat, branch);
         if (mDebug) {Log.d(LOG_TAG, api.request().url() + "");}
@@ -412,7 +410,7 @@ public class RepositoryFragment extends BaseFragment {
     }
 
     /* The DownloadManager needs the filename from the Content-Disposition. */
-    private void inspectDownload(final String url, final String archiveFormat) {
+    void inspectDownload(final String url, final String archiveFormat) {
 
         Call<Void> api = GithubClient.getHead(url);
         if (mDebug) {Log.d(LOG_TAG, api.request().url() + "");}
@@ -444,7 +442,7 @@ public class RepositoryFragment extends BaseFragment {
     }
 
     /* The DownloadManager will deliver a Broadcast. */
-    private void enqueueDownload(final String url, final String filename, final String mimeType) {
+    void enqueueDownload(final String url, final String filename, final String mimeType) {
 
         DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url))
             .setTitle(filename)
@@ -459,7 +457,7 @@ public class RepositoryFragment extends BaseFragment {
         }
     }
 
-    private void registerBroadcastReceiver() {
+    void registerBroadcastReceiver() {
         BroadcastReceiver receiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
