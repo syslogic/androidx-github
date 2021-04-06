@@ -55,7 +55,7 @@ import io.syslogic.github.network.TokenHelper;
  * @author Martin Zeitler
  * @version 1.0.0
 **/
-public class RepositoriesAdapter extends RecyclerView.Adapter {
+public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     /** Log Tag */
     @NonNull
@@ -159,7 +159,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter {
                         if (response.errorBody() != null) {
                             try {
                                 String errors = response.errorBody().string();
-                                JsonObject jsonObject = JsonParser.parseString(errors).getAsJsonObject();
+                                JsonObject jsonObject = new JsonParser().parse(errors).getAsJsonObject();
                                 if(BuildConfig.DEBUG) {Log.e(LOG_TAG, jsonObject.get("message").toString());}
                             } catch (IOException e) {
                                 if(BuildConfig.DEBUG) {Log.e(LOG_TAG, "" + e.getMessage());}
@@ -176,7 +176,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter {
                         if (response.errorBody() != null) {
                             try {
                                 String errors = response.errorBody().string();
-                                JsonObject jsonObject = JsonParser.parseString(errors).getAsJsonObject();
+                                JsonObject jsonObject = new JsonParser().parse(errors).getAsJsonObject();
                                 if(BuildConfig.DEBUG) {Log.e(LOG_TAG, jsonObject.get("message").toString());}
                             } catch (IOException e) {
                                 if(BuildConfig.DEBUG) {Log.e(LOG_TAG, "" + e.getMessage());}

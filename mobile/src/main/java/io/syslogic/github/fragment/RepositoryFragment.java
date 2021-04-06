@@ -264,7 +264,7 @@ public class RepositoryFragment extends BaseFragment {
                             if (response.errorBody() != null) {
                                 try {
                                     String errors = response.errorBody().string();
-                                    JsonObject jsonObject = JsonParser.parseString(errors).getAsJsonObject();
+                                    JsonObject jsonObject = new JsonParser().parse(errors).getAsJsonObject();
                                     String message = jsonObject.get("message").toString();
                                     if(mDebug) {
                                         Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
@@ -347,7 +347,7 @@ public class RepositoryFragment extends BaseFragment {
                         if (response.errorBody() != null) {
                             try {
                                 String errors = response.errorBody().string();
-                                JsonObject jsonObject = JsonParser.parseString(errors).getAsJsonObject();
+                                JsonObject jsonObject = new JsonParser().parse(errors).getAsJsonObject();
                                 String message = jsonObject.get("message").toString();
                                 if(mDebug) {
                                     Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
