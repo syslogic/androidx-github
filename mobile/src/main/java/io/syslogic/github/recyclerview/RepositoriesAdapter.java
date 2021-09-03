@@ -159,6 +159,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                             try {
                                 String errors = response.errorBody().string();
                                 JsonObject jsonObject = new JsonParser().parse(errors).getAsJsonObject();
+                                  Toast.makeText(mContext, jsonObject.get("message").toString(), Toast.LENGTH_LONG).show();
                                 if(BuildConfig.DEBUG) {Log.e(LOG_TAG, jsonObject.get("message").toString());}
                             } catch (IOException e) {
                                 if(BuildConfig.DEBUG) {Log.e(LOG_TAG, "" + e.getMessage());}
@@ -167,7 +168,6 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
                         /* updating the pager data-binding */
                         setPagerState(pageNumber, false, null);
-
                         break;
                     }
 
