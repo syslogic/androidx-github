@@ -14,7 +14,7 @@ import androidx.annotation.Nullable;
 import io.syslogic.github.BuildConfig;
 
 /**
- * Token Helper
+ * Access Token Helper
  * @author Martin Zeitler
  */
 public class TokenHelper {
@@ -34,17 +34,14 @@ public class TokenHelper {
         String accessToken = null;
 
         if (mDebug) {
-
             try {
                 ApplicationInfo app = context.getPackageManager().getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA);
                 accessToken = app.metaData.getString("com.github.ACCESS_TOKEN");
                 // Log.d(LOG_TAG, "com.github.ACCESS_TOKEN: " + accessToken);
                 addAccount(accountManager, accessToken);
-
             } catch (NullPointerException | PackageManager.NameNotFoundException e) {
                 e.printStackTrace();
             }
-
         } else {
             Account account = getAccount(accountManager);
             if(account == null) {
@@ -57,14 +54,12 @@ public class TokenHelper {
     }
 
     private static Account getAccount(AccountManager accountManager) {
-
         Account[] accounts = accountManager.getAccountsByType(accountType);
-
         if (accounts.length == 0) {
-            Log.d(LOG_TAG, "no device tokens");
+            if (mDebug) {Log.d(LOG_TAG, "no device tokens");}
             return  null;
         } else {
-            Log.d(LOG_TAG, "device tokens: " + accounts.length);
+            if (mDebug) {Log.d(LOG_TAG, "device tokens: " + accounts.length);}
             return accounts[0];
         }
     }

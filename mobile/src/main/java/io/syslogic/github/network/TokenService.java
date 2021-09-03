@@ -51,7 +51,7 @@ public class TokenService extends Service {
         return mAuthenticator.getIBinder();
     }
 
-    public class Authenticator extends AbstractAccountAuthenticator {
+    public static class Authenticator extends AbstractAccountAuthenticator {
 
         Authenticator(@NonNull Context context) {
             super(context);
