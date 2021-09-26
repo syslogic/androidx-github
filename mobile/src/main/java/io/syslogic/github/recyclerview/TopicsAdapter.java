@@ -1,6 +1,7 @@
 package io.syslogic.github.recyclerview;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +15,11 @@ import java.util.Locale;
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.databinding.DataBindingUtil;
+import androidx.databinding.ViewDataBinding;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
+
 import io.syslogic.github.BuildConfig;
 import io.syslogic.github.R;
 import io.syslogic.github.activity.BaseActivity;
@@ -47,9 +52,12 @@ public class TopicsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     public TopicsAdapter(@NonNull Context context) {
         this.mContext = context;
+
+        /* TODO: load topics from Room instead */
         String[] topics = context.getResources().getStringArray(R.array.topic_values);
-        for(int i=0; i > topics.length; i++) {
-            this.mItems.add(new Topic(i+1, topics[i]));
+
+        for(int i=0; i < topics.length; i++) {
+            this.mItems.add(new Topic((long) i+1, null, topics[i]));
         }
     }
 
@@ -62,7 +70,7 @@ public class TopicsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        CardviewTopicBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.cardview_repository, parent, false);
+        CardviewTopicBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.cardview_topic, parent, false);
         binding.getRoot().setLayoutParams(new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         return new ViewHolder(binding);
     }
@@ -122,7 +130,7 @@ public class TopicsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     /** {@link RecyclerView.ViewHolder} for {@link CardView} of type {@link Topic}. */
     private static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        private CardviewTopicBinding mDataBinding;
+        private final CardviewTopicBinding mDataBinding;
         private TopicsLinearView mRecyclerView;
         private CardView cardView;
         private long itemId;
@@ -131,7 +139,7 @@ public class TopicsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
          * ViewHolder Constructor
          * @param binding the item's data-binding
         **/
-        ViewHolder(CardviewTopicBinding binding) {
+        ViewHolder(@NonNull CardviewTopicBinding binding) {
 
             super(binding.getRoot());
             this.mDataBinding = binding;
@@ -142,11 +150,19 @@ public class TopicsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
 
         @Override
-        public void onClick(View viewHolder) {
-
+        public void onClick(@NonNull View viewHolder) {
             this.mRecyclerView = (TopicsLinearView) viewHolder.getParent();
-            BaseActivity activity = (BaseActivity) this.mRecyclerView.getContext();
             Topic item = (Topic) viewHolder.getTag();
+            BaseActivity activity = (BaseActivity) this.mRecyclerView.getContext();
+            ViewDataBinding databinding = activity.getFragmentDataBinding();
+            if (databinding != null) {
+                View Layout = databinding.getRoot();
+                Bundle args = new Bundle();
+                args.putLong(Constants.ARGUMENT_ITEM_ID, item.getId());
+                NavController controller = Navigation.findNavController(Layout);
+                controller.navigate(R.id.action_topicsFragment_to_topicFragment, args);
+            }
+
         }
 
         /** Setters */

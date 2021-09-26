@@ -25,7 +25,7 @@ abstract public class BaseArrayAdapter extends BaseAdapter {
 
     private ArrayList<SpinnerItem> mItems;
 
-    private LayoutInflater layoutInflater;
+    private final LayoutInflater layoutInflater;
 
     BaseArrayAdapter(@NonNull Context context) {
         this.layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);

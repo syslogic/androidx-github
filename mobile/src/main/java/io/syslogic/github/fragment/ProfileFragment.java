@@ -33,13 +33,6 @@ public class ProfileFragment extends BaseFragment {
 
     public ProfileFragment() {}
 
-    @NonNull
-    public static ProfileFragment newInstance(@NonNull Long itemId) {
-        ProfileFragment fragment = new ProfileFragment();
-        fragment.setItemId(itemId);
-        return fragment;
-    }
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

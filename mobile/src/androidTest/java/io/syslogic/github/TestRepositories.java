@@ -20,7 +20,7 @@ import static org.hamcrest.CoreMatchers.is;
 @RunWith(AndroidJUnit4.class)
 public class TestRepositories extends TestSuite {
 
-    private String className = TestRepositories.class.getSimpleName().concat("Activity").replace("Test", "");
+    private final String className = TestRepositories.class.getSimpleName().concat("Activity").replace("Test", "");
 
     @Before
     public void setPackageName() {

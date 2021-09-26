@@ -1,5 +1,6 @@
 // :mobile build.gradle
 apply plugin: "com.android.application"
+apply plugin: "androidx.navigation.safeargs"
 
 android {
 
@@ -15,12 +16,10 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         testBuildType "debug"
         multiDexEnabled true
-
         compileOptions {
             sourceCompatibility JavaVersion.VERSION_1_8
             targetCompatibility JavaVersion.VERSION_1_8
         }
-
         javaCompileOptions {
             annotationProcessorOptions {
                 arguments = ["room.schemaLocation": "$rootDir/schema".toString()]
@@ -32,6 +31,19 @@ android {
         resultsDir = "${project.buildDir}/results"
     }
 
+    signingConfigs {
+        debug {}
+        release {}
+    }
+
+    sourceSets {
+        main {
+            androidTest.assets.srcDirs += files("$projectDir/schemas".toString())
+        }
+    }
+    buildFeatures {
+        dataBinding = true
+    }
     lintOptions {
         lintConfig rootProject.file('lint.xml')
         checkAllWarnings true
@@ -39,16 +51,6 @@ android {
         abortOnError false
         showAll false
     }
-
-    signingConfigs {
-        debug {}
-        release {}
-    }
-
-    buildFeatures {
-        dataBinding = true
-    }
-
     buildTypes {
         debug {
             applicationIdSuffix ".debug"
@@ -91,10 +93,8 @@ dependencies {
     implementation "androidx.cardview:cardview:1.0.0"
     implementation "androidx.preference:preference:1.1.1"
     implementation "androidx.navigation:navigation-fragment:2.3.5"
-    implementation "androidx.navigation:navigation-ui:2.3.5"
 
     // Room
-    testImplementation "androidx.room:room-testing:2.3.0"
     annotationProcessor "androidx.room:room-compiler:2.3.0"
     implementation "androidx.room:room-runtime:2.3.0"
 
@@ -107,6 +107,9 @@ dependencies {
 
     // jUnit
     testImplementation "junit:junit:4.13.2"
+
+    // Room
+    testImplementation "androidx.room:room-testing:2.3.0"
 
     // https://mvnrepository.com/artifact/androidx.test.ext
     androidTestImplementation "androidx.test.ext:junit:1.1.3"

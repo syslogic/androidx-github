@@ -1,5 +1,6 @@
 package io.syslogic.github.recyclerview;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.AttributeSet;
 
@@ -30,6 +31,7 @@ public class TopicsLinearView extends RecyclerView {
         this.addItemDecoration(new DividerItemDecoration(context, DividerItemDecoration.VERTICAL));
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     public void clearAdapter() {
         TopicsAdapter adapter = ((TopicsAdapter) getAdapter());
         if (adapter != null) {

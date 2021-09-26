@@ -1,5 +1,6 @@
 package io.syslogic.github.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -23,6 +24,7 @@ import io.syslogic.github.model.SpinnerItem;
 import io.syslogic.github.adapter.TopicAdapter;
 import io.syslogic.github.databinding.FragmentRepositoriesBinding;
 import io.syslogic.github.model.User;
+import io.syslogic.github.network.TokenCallback;
 import io.syslogic.github.recyclerview.RepositoriesAdapter;
 import io.syslogic.github.recyclerview.ScrollListener;
 
@@ -30,7 +32,7 @@ import io.syslogic.github.recyclerview.ScrollListener;
  * Repositories Fragment
  * @author Martin Zeitler
  */
-public class RepositoriesFragment extends BaseFragment {
+public class RepositoriesFragment extends BaseFragment implements TokenCallback {
 
     /** Log Tag */
     private static final String LOG_TAG = RepositoriesFragment.class.getSimpleName();
@@ -39,16 +41,6 @@ public class RepositoriesFragment extends BaseFragment {
     private FragmentRepositoriesBinding mDataBinding;
 
     public RepositoriesFragment() {}
-
-    @NonNull
-    public static RepositoriesFragment newInstance() {
-        return new RepositoriesFragment();
-    }
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
 
     @NonNull
     @Override
@@ -67,7 +59,7 @@ public class RepositoriesFragment extends BaseFragment {
             this.getDataBinding().toolbarQuery.toolbarQuery.setOnMenuItemClickListener(item -> {
             if (item.getItemId() == R.id.menu_action_topics) {
                 NavController controller = Navigation.findNavController(this.getDataBinding().getRoot());
-                controller.navigate(R.id.action_global_to_topicsFragment);
+                controller.navigate(R.id.action_repositoriesFragment_to_topicsFragment);
                 return false;
             }  else {
                 return super.onOptionsItemSelected(item);
@@ -127,11 +119,6 @@ public class RepositoriesFragment extends BaseFragment {
     @Override
     protected void setDataBinding(@NonNull ViewDataBinding binding) {
         this.mDataBinding = (FragmentRepositoriesBinding) binding;
-    }
-
-    @Override
-    protected void setCurrentUser(@Nullable User value) {
-        this.currentUser = value;
     }
 
     @Override

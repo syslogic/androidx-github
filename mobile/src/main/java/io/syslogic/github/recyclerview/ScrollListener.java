@@ -12,9 +12,9 @@ import io.syslogic.github.model.PagerState;
  */
 public abstract class ScrollListener extends RecyclerView.OnScrollListener {
 
-    private LinearLayoutManager layoutManager;
+    private final LinearLayoutManager layoutManager;
 
-    private int visibleThreshold = 12;
+    private final int visibleThreshold = 12;
 
     private int previousTotalItemCount = 0;
 

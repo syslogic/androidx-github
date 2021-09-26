@@ -3,9 +3,7 @@ package io.syslogic.github.recyclerview;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -204,6 +202,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         return this.mItems;
     }
 
+    @Nullable
     private String getAccessToken() {
         Activity activity = (Activity) getContext();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -239,7 +238,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             state.setIsLoading(isLoading);
             state.setPageNumber(pageNumber);
             if (itemCount != null) {
-                state.setPageCount((int) Math.ceil(itemCount / state.getItemsPerPage()));
+                state.setPageCount((int) Math.ceil((float) itemCount / state.getItemsPerPage()));
                 state.setItemCount(itemCount);
             }
             databinding.setPager(state);
@@ -265,14 +264,14 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                                 case "search": limit = items.getResources().getSearch(); break;
                                 case "core": limit = items.getResources().getCore(); break;
                             }
-                            if(limit != null && BuildConfig.DEBUG) {
+                            if (limit != null && BuildConfig.DEBUG) {
                                 long seconds = (long) Math.ceil((new Date(limit.getReset() * 1000).getTime() - new Date().getTime()) / 1000);
                                 String text = String.format(Locale.getDefault(), "%s quota: %d / %d. reset in %d seconds.", resourceName, limit.getRemaining(), limit.getLimit(), seconds);
                                 Toast.makeText(getContext(), text, Toast.LENGTH_SHORT).show();
                             }
 
                             /* possible border-case: */
-                            if(limit != null && limit.getRemaining() > 0) {
+                            if (limit != null && limit.getRemaining() > 0) {
                                 Toast.makeText(getContext(), "the " + resourceName + " quota was reset already", Toast.LENGTH_SHORT).show();
                             }
                         }
@@ -309,7 +308,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     /** {@link RecyclerView.ViewHolder} for {@link CardView} of type {@link Repository}. */
     private static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        private CardviewRepositoryBinding mDataBinding;
+        private final CardviewRepositoryBinding mDataBinding;
         private RepositoriesLinearView mRecyclerView;
         private CardView cardView;
         private long itemId;
@@ -318,7 +317,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
          * ViewHolder Constructor
          * @param binding the item's data-binding
         **/
-        ViewHolder(CardviewRepositoryBinding binding) {
+        ViewHolder(@NonNull CardviewRepositoryBinding binding) {
 
             super(binding.getRoot());
             this.mDataBinding = binding;

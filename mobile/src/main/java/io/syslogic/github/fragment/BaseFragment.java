@@ -1,6 +1,7 @@
 package io.syslogic.github.fragment;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.IntentFilter;
@@ -12,9 +13,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-
 import java.io.IOException;
 import java.util.Objects;
 
@@ -24,6 +22,9 @@ import androidx.annotation.RequiresApi;
 import androidx.databinding.ViewDataBinding;
 import androidx.fragment.app.Fragment;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
 import io.syslogic.github.BuildConfig;
 import io.syslogic.github.R;
 import io.syslogic.github.constants.Constants;
@@ -31,8 +32,8 @@ import io.syslogic.github.model.User;
 import io.syslogic.github.network.ConnectivityReceiver;
 import io.syslogic.github.network.ConnectivityListener;
 import io.syslogic.github.network.TokenCallback;
-import io.syslogic.github.retrofit.GithubClient;
 import io.syslogic.github.network.TokenHelper;
+import io.syslogic.github.retrofit.GithubClient;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -57,19 +58,20 @@ abstract public class BaseFragment extends Fragment implements ConnectivityListe
 
     public BaseFragment() {}
 
+    @SuppressLint("NewApi")
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            this.registerNetworkCallback(this.getContext(), this);
+            this.registerNetworkCallback(requireContext(), this);
         } else {
-            this.registerBroadcastReceiver(this.getContext());
+            this.registerBroadcastReceiver(requireContext());
         }
 
         if (getContext() != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            Activity activity = (Activity) getContext();
+            Activity activity = (Activity) requireContext();
 
             /* for testing purposes only: */
             // this.accessToken = this.getAccessToken(this.getContext());
@@ -84,11 +86,13 @@ abstract public class BaseFragment extends Fragment implements ConnectivityListe
         }
     }
 
+    @NonNull
     private static ConnectivityManager getConnectivityManager(@NonNull Context context) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         return Objects.requireNonNull(cm);
     }
 
+    @SuppressWarnings("deprecation")
     public static boolean isNetworkAvailable(@Nullable Context context) {
         if(context == null)  {return false;}
         ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -137,8 +141,9 @@ abstract public class BaseFragment extends Fragment implements ConnectivityListe
     }
 
     /** required < API 24 Nougat */
-    private void registerBroadcastReceiver(Context context) {
-        IntentFilter intentFilter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private void registerBroadcastReceiver(@NonNull Context context) {
+        IntentFilter intentFilter = new IntentFilter(Constants.CONNECTIVITY_ACTION);
         ConnectivityReceiver mReceiver = new ConnectivityReceiver();
         context.registerReceiver(mReceiver, intentFilter);
     }
@@ -157,10 +162,40 @@ abstract public class BaseFragment extends Fragment implements ConnectivityListe
         }
     }
 
-    void setUser(@NonNull String accessToken, @Nullable final TokenCallback listener) {
+    @Override
+    @SuppressWarnings("deprecation")
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            if(requestCode == Constants.REQUESTCODE_ADD_ACCESS_TOKEN) {
+                //this.setUser(this.accessToken, this);
+            }
+        }
+    }
+
+    @NonNull
+    abstract public ViewDataBinding getDataBinding();
+
+    abstract protected void setDataBinding(@NonNull ViewDataBinding binding);
+
+    protected String getAccessToken(Context context) {
+        return TokenHelper.getAccessToken(context);
+    }
+
+    @Nullable
+    protected User getCurrentUser() {
+        return currentUser;
+    }
+
+    protected void setCurrentUser(@Nullable User value) {
+        this.currentUser = value;
+    }
+
+    protected void setUser(@NonNull String accessToken, @Nullable final TokenCallback listener) {
 
         Call<User> api = GithubClient.getUser(accessToken);
-        if (mDebug) {Log.w(LOG_TAG, api.request().url() + "");}
+        if (mDebug) {
+            Log.w(LOG_TAG, api.request().url() + "");}
 
         api.enqueue(new Callback<User>() {
 
@@ -206,31 +241,4 @@ abstract public class BaseFragment extends Fragment implements ConnectivityListe
             }
         });
     }
-
-    @Override
-    @SuppressWarnings("deprecation")
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            if(requestCode == Constants.REQUESTCODE_ADD_ACCESS_TOKEN) {
-                //this.setUser(this.accessToken, this);
-            }
-        }
-    }
-
-    @NonNull
-    abstract public ViewDataBinding getDataBinding();
-
-    String getAccessToken(Context context) {
-        return TokenHelper.getAccessToken(context);
-    }
-
-    @Nullable
-    User getCurrentUser() {
-        return currentUser;
-    }
-
-    abstract protected void setDataBinding(@NonNull ViewDataBinding binding);
-
-    abstract protected void setCurrentUser(@NonNull User value);
 }

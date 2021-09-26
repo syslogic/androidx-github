@@ -28,16 +28,6 @@ public class TopicsFragment extends BaseFragment {
     public TopicsFragment() {}
 
     @NonNull
-    public static TopicsFragment newInstance() {
-        return new TopicsFragment();
-    }
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @NonNull
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
@@ -63,12 +53,7 @@ public class TopicsFragment extends BaseFragment {
     }
 
     @Override
-    protected void setCurrentUser(@Nullable User value) {
-        this.currentUser = value;
-    }
-
-    @Override
     public void onLogin(@NonNull User item) {
-
+        
     }
 }

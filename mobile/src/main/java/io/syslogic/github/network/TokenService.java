@@ -36,13 +36,7 @@ public class TokenService extends Service {
 
     @Override
     public void onCreate() {
-        if(mDebug) {Log.i(LOG_TAG, "Service created");}
         this.mAuthenticator = new Authenticator(this);
-    }
-
-    @Override
-    public void onDestroy() {
-        if(mDebug) {Log.i(LOG_TAG, "Service destroyed");}
     }
 
     @NonNull

@@ -16,7 +16,7 @@ import io.syslogic.github.constants.Constants;
 @RunWith(JUnit4.class)
 public class UnitTest extends TestCase {
 
-    private String className = UnitTest.class.getSimpleName().replace("Suite", "");
+    private final String className = UnitTest.class.getSimpleName().replace("Suite", "");
 
     @Before
     public void setup() {

@@ -23,10 +23,39 @@
             tools:ignore="UnusedAttribute">
 
             <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/id"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.1"
+                android:color="?android:colorControlHighlight"
+                android:fontFamily="sans-serif-medium"
+                android:gravity="center_vertical|center"
+                android:padding="8dp"
+                android:text='@{"" + topic.id}'
+                android:textColor="@color/colorText"
+                android:textSize="14sp"
+                tools:text="23"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.2"
+                android:color="?android:colorControlHighlight"
+                android:fontFamily="sans-serif-medium"
+                android:gravity="center_vertical|center"
+                android:padding="8dp"
+                android:text='@{"" + topic.title}'
+                android:textColor="@color/colorText"
+                android:textSize="14sp"
+                tools:text="Android"/>
+
+            <!-- TODO: this should stay a generated string. -->
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/queryString"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.9"
+                android:layout_weight="0.7"
                 android:color="?android:colorControlHighlight"
                 android:fontFamily="sans-serif-medium"
                 android:gravity="center_vertical|start"

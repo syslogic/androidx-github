@@ -67,19 +67,10 @@ public class RepositoryFragment extends BaseFragment {
 
     public RepositoryFragment() {}
 
-    @NonNull
-    public static RepositoryFragment newInstance(@NonNull Long itemId) {
-        RepositoryFragment fragment = new RepositoryFragment();
-        fragment.setItemId(itemId);
-        return fragment;
-    }
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         this.registerBroadcastReceiver();
-
         Bundle args = this.getArguments();
         if(itemId == 0 && args != null) {
             this.setItemId(args.getLong(Constants.ARGUMENT_ITEM_ID));
@@ -328,12 +319,10 @@ public class RepositoryFragment extends BaseFragment {
 
                             if(getActivity() != null && defaultIndex > 0) {
                                 final int index = defaultIndex;
-                                getDataBinding().toolbarDownload.spinnerBranch.postDelayed(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        getDataBinding().toolbarDownload.spinnerBranch.setSelection(index, false);
-                                    }
-                                }, 100);
+                                getDataBinding().toolbarDownload.spinnerBranch.postDelayed(() ->
+                                    getDataBinding().toolbarDownload.spinnerBranch.setSelection(index, false),
+                                   100
+                                );
                             }
                         }
                         break;
@@ -373,7 +362,7 @@ public class RepositoryFragment extends BaseFragment {
         downloadRepository(item, "tarball", branch);
     }
 
-    void downloadRepository(final Repository item, final String archiveFormat, String branch) {
+    void downloadRepository(@NonNull final Repository item, final String archiveFormat, String branch) {
 
         Call<ResponseBody> api = GithubClient.getArchiveLink(getAccessToken(getContext()), item.getOwner().getLogin(), item.getName(), archiveFormat, branch);
         if (mDebug) {Log.d(LOG_TAG, api.request().url() + "");}
@@ -456,10 +445,9 @@ public class RepositoryFragment extends BaseFragment {
     void registerBroadcastReceiver() {
         BroadcastReceiver receiver = new BroadcastReceiver() {
             @Override
-            public void onReceive(Context context, Intent intent) {
+            public void onReceive(Context context, @NonNull Intent intent) {
                 String action = intent.getAction();
                 if (DownloadManager.ACTION_DOWNLOAD_COMPLETE.equals(action)) {
-
                     long downloadId = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, 0);
                     DownloadManager.Query query = new DownloadManager.Query();
                     query.setFilterById(downloadId);
@@ -490,7 +478,7 @@ public class RepositoryFragment extends BaseFragment {
         startActivity(intent);
     }
 
-    private void switchToolbarView(Integer childIndex) {
+    private void switchToolbarView(@NonNull Integer childIndex) {
         ViewFlipper view = this.mDataBinding.toolbarDownload.viewflipperDownload;
         int index = view.getDisplayedChild();
         switch(childIndex) {

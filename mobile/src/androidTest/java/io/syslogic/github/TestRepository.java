@@ -20,7 +20,7 @@ import static org.hamcrest.CoreMatchers.is;
 @RunWith(AndroidJUnit4.class)
 public class TestRepository extends TestSuite {
 
-    private String className = TestRepository.class.getSimpleName().concat("Activity").replace("Test", "");
+    private final String className = TestRepository.class.getSimpleName().concat("Activity").replace("Test", "");
 
     @Before
     public void startActivityFromHomeScreen() {

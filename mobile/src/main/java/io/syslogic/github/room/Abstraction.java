@@ -42,7 +42,6 @@ public abstract class Abstraction extends RoomDatabase {
     @NonNull
     public static Abstraction getInstance(@NonNull Context context) {
         if (sInstance == null) {
-
             Builder<Abstraction> builder = Room
                 .databaseBuilder(context.getApplicationContext(), Abstraction.class, fileName)
                 .addCallback(new Callback() {
@@ -52,7 +51,7 @@ public abstract class Abstraction extends RoomDatabase {
                     }
                 });
 
-            /* Asset `src/staging/assets/room.db` must match the current schema! */
+            /* Asset `src/main/assets/room.db` must match the current schema! */
             // if (mDebug) {builder.createFromAsset(fileName);}
             sInstance = builder.build();
         }

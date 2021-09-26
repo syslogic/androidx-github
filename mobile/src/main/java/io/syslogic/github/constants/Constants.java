@@ -39,6 +39,9 @@ public final class Constants {
     public static final String ARGUMENT_TASK_SUCCESS = "taskSuccess";
 
     @NonNull
+    public static final String CONNECTIVITY_ACTION = "android.net.conn.CONNECTIVITY_CHANGE";
+
+    @NonNull
     public static final String TABLE_REPOSITORIES = "repositories";
 
     @NonNull
