@@ -6,9 +6,7 @@ import android.content.Context;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
-import android.net.Network;
 import android.net.NetworkCapabilities;
-import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -110,7 +108,7 @@ abstract public class BaseFragment extends Fragment implements ConnectivityListe
                 }
             } else {
                 try {
-                    NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+                    android.net.NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
                     if (activeNetworkInfo != null && activeNetworkInfo.isConnected()) {
                         Log.i("", "network available");
                         return true;
@@ -130,11 +128,11 @@ abstract public class BaseFragment extends Fragment implements ConnectivityListe
         ConnectivityManager cm = getConnectivityManager(context);
         cm.registerDefaultNetworkCallback(new ConnectivityManager.NetworkCallback() {
             @Override
-            public void onLost(@NonNull Network network) {
+            public void onLost(@NonNull android.net.Network network) {
                 listener.onNetworkLost();
             }
             @Override
-            public void onAvailable(@NonNull Network network) {
+            public void onAvailable(@NonNull android.net.Network network) {
                 listener.onNetworkAvailable();
             }
         });
@@ -212,6 +210,7 @@ abstract public class BaseFragment extends Fragment implements ConnectivityListe
     }
 
     @Override
+    @SuppressWarnings("deprecation")
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {

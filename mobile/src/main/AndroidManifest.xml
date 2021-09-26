@@ -30,34 +30,14 @@
         android:theme="@style/AppTheme"
         android:allowBackup="false"
         android:supportsRtl="true"
-        tools:ignore="UnusedAttribute">
+        tools:targetApi="n">
 
         <activity
-            android:name="io.syslogic.github.activity.ProfileActivity">
+            android:name="io.syslogic.github.activity.NavHostActivity"
+            android:exported="true">
             <intent-filter>
                 <category android:name="android.intent.category.LAUNCHER"/>
-                <action android:name="android.intent.action.MAIN"/>
-            </intent-filter>
-        </activity>
-
-        <activity
-            android:name="io.syslogic.github.activity.RepositoriesActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-            </intent-filter>
-        </activity>
-
-        <activity
-            android:name="io.syslogic.github.activity.RepositoryActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <action android:name="android.intent.action.VIEW"/>
-            </intent-filter>
-        </activity>
-
-        <activity
-            android:name="io.syslogic.github.activity.NavHostActivity">
-            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT"/>
                 <action android:name="android.intent.action.MAIN"/>
                 <action android:name="android.intent.action.VIEW"/>
             </intent-filter>
@@ -65,7 +45,8 @@
 
         <service
             android:name="io.syslogic.github.network.TokenService"
-            tools:ignore="ExportedService">
+            tools:ignore="ExportedService"
+            android:exported="false">
             <intent-filter>
                 <action android:name="android.accounts.AccountAuthenticator" />
             </intent-filter>

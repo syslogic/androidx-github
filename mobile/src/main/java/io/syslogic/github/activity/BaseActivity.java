@@ -1,6 +1,5 @@
 package io.syslogic.github.activity;
 
-import android.annotation.TargetApi;
 import android.os.Bundle;
 import android.widget.FrameLayout;
 
@@ -44,10 +43,11 @@ abstract public class BaseActivity extends AppCompatActivity {
         return navHostFragment == null ? null : navHostFragment.getChildFragmentManager().getFragments().get(0);
     }
 
-    @TargetApi(23)
     @Override
+    @SuppressWarnings("deprecation")
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if(this.currentFragment != null) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (this.currentFragment != null) {
             this.currentFragment.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
     }

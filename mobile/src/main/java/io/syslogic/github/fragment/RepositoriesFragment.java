@@ -2,6 +2,8 @@ package io.syslogic.github.fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -10,6 +12,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatSpinner;
 import androidx.databinding.ViewDataBinding;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import io.syslogic.github.R;
 import io.syslogic.github.activity.BaseActivity;
@@ -50,6 +54,7 @@ public class RepositoriesFragment extends BaseFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
+        this.setHasOptionsMenu(true);
         this.setDataBinding(FragmentRepositoriesBinding.inflate(inflater, container, false));
         View layout = this.getDataBinding().getRoot();
 
@@ -60,13 +65,13 @@ public class RepositoriesFragment extends BaseFragment {
             /* Setting up the toolbar required in order to show the settings menu. */
             ((BaseActivity) this.getActivity()).setSupportActionBar(this.getDataBinding().toolbarQuery.toolbarQuery);
             this.getDataBinding().toolbarQuery.toolbarQuery.setOnMenuItemClickListener(item -> {
-                if(item.getItemId() == R.id.menu_action_topics) {
-
-
-                    return true;
-                }
-                return false;
-            });
+            if (item.getItemId() == R.id.menu_action_topics) {
+                NavController controller = Navigation.findNavController(this.getDataBinding().getRoot());
+                controller.navigate(R.id.action_global_to_topicsFragment);
+                return true;
+            }  else {
+                return super.onOptionsItemSelected(item);
+            }});
 
             AppCompatSpinner spinner = this.getDataBinding().toolbarQuery.spinnerTopic;
             spinner.setAdapter(new TopicAdapter(this.getContext()));
@@ -106,6 +111,12 @@ public class RepositoriesFragment extends BaseFragment {
             }
         }
         return layout;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.settings, menu);
     }
 
     @NonNull

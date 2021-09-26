@@ -6,6 +6,10 @@
     app:startDestination="@id/repositoriesFragment"
     android:id="@+id/nav_graph">
 
+    <action
+        android:id="@+id/action_global_to_topicsFragment"
+        app:destination="@id/topicsFragment"/>
+
     <fragment
         android:id="@+id/repositoriesFragment"
         android:label="fragment_repositories"
@@ -40,8 +44,6 @@
         android:id="@+id/topicsFragment"
         android:label="fragment_topics"
         android:name="io.syslogic.github.fragment.TopicsFragment"
-        tools:layout="@layout/fragment_topics">
-
-    </fragment>
+        tools:layout="@layout/fragment_topics"/>
 
 </navigation>
