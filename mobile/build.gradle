@@ -20,6 +20,12 @@ android {
             sourceCompatibility JavaVersion.VERSION_1_8
             targetCompatibility JavaVersion.VERSION_1_8
         }
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = ["room.schemaLocation": "$rootDir/schema".toString()]
+            }
+        }
     }
 
     testOptions {
@@ -86,6 +92,11 @@ dependencies {
     implementation "androidx.preference:preference:1.1.1"
     implementation "androidx.navigation:navigation-fragment:2.3.5"
     implementation "androidx.navigation:navigation-ui:2.3.5"
+
+    // Room
+    testImplementation "androidx.room:room-testing:2.3.0"
+    annotationProcessor "androidx.room:room-compiler:2.3.0"
+    implementation "androidx.room:room-runtime:2.3.0"
 
     // https://mvnrepository.com/artifact/com.google.android.material/material
     implementation "com.google.android.material:material:1.4.0"
