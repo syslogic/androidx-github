@@ -4,13 +4,23 @@ import com.google.gson.annotations.SerializedName;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.Bindable;
+import androidx.room.ColumnInfo;
+import androidx.room.Embedded;
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
+
+import io.syslogic.github.constants.Constants;
 
 /**
  * Model: Repository
  * @author Martin Zeitler
  */
+@Entity(tableName = Constants.TABLE_REPOSITORIES)
 public class Repository extends BaseModel {
 
+    @PrimaryKey(autoGenerate = false)
+    @ColumnInfo(name = "id")
     @SerializedName("id")
     private Long id;
 
@@ -31,9 +41,11 @@ public class Repository extends BaseModel {
     @SerializedName("html_url")
     private String htmlUrl;
 
+    @Embedded(prefix = "owner_")
     @SerializedName("owner")
     private Owner owner;
 
+    @Embedded(prefix = "license_")
     @SerializedName("license")
     private License license;
 
@@ -52,6 +64,11 @@ public class Repository extends BaseModel {
     @SerializedName("network_count")
     private Long networkCount = 0L;
 
+    /** Constructor */
+    public Repository() {}
+
+    /** Constructor */
+    @Ignore
     public Repository(@NonNull Long id, @NonNull String name, @NonNull String url) {
         this.setId(id);
         this.setName(name);

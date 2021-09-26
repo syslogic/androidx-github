@@ -38,4 +38,16 @@ public final class Constants {
     @NonNull
     public static final String ARGUMENT_TASK_SUCCESS = "taskSuccess";
 
+    @NonNull
+    public static final String TABLE_REPOSITORIES = "repositories";
+
+    @NonNull
+    public static final String TABLE_LICENSES = "licenses";
+
+    @NonNull
+    public static final String TABLE_OWNERS = "owners";
+
+    @NonNull
+    public static final String TABLE_TOPICS = "topics";
+
 }

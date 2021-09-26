@@ -3,19 +3,23 @@ package io.syslogic.github.model;
 import com.google.gson.annotations.SerializedName;
 
 import androidx.annotation.NonNull;
+import androidx.room.Entity;
+
+import io.syslogic.github.constants.Constants;
 
 /**
  * Model: Owner
  * @see <a href="https://developer.github.com/v3/repos/#get">repos/#get</>
  * @author Martin Zeitler
  */
+@Entity(tableName = Constants.TABLE_OWNERS)
 public class Owner {
 
     @SerializedName("login")
     private String login;
 
     @SerializedName("id")
-    private long id;
+    private Long id;
 
     @SerializedName("node_id")
     private String nodeId;

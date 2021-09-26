@@ -31,9 +31,7 @@ public class ProfileFragment extends BaseFragment {
 
     private Long itemId = 0L;
 
-    public ProfileFragment() {
-
-    }
+    public ProfileFragment() {}
 
     @NonNull
     public static ProfileFragment newInstance(@NonNull Long itemId) {

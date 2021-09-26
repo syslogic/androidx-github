@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.ViewDataBinding;
+
 import io.syslogic.github.databinding.FragmentTopicsBinding;
 import io.syslogic.github.model.User;
 import io.syslogic.github.recyclerview.TopicsAdapter;

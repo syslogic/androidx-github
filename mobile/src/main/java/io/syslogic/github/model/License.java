@@ -3,11 +3,15 @@ package io.syslogic.github.model;
 import com.google.gson.annotations.SerializedName;
 
 import androidx.annotation.NonNull;
+import androidx.room.Entity;
+
+import io.syslogic.github.constants.Constants;
 
 /**
  * Model: License
  * @author Martin Zeitler
  */
+@Entity(tableName = Constants.TABLE_LICENSES)
 public class License {
 
     @SerializedName("node_id")

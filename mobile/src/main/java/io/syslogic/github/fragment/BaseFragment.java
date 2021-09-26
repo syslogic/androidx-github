@@ -55,9 +55,7 @@ abstract public class BaseFragment extends Fragment implements ConnectivityListe
 
     User currentUser = null;
 
-    public BaseFragment() {
-
-    }
+    public BaseFragment() {}
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {

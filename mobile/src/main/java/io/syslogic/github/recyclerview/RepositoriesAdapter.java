@@ -28,6 +28,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.databinding.DataBindingUtil;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import io.syslogic.github.R;
@@ -327,28 +329,19 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
 
         @Override
-        public void onClick(View viewHolder) {
+        public void onClick(@NonNull View viewHolder) {
 
             this.mRecyclerView = (RepositoriesLinearView) viewHolder.getParent();
             BaseActivity activity = (BaseActivity) this.mRecyclerView.getContext();
             Repository item = (Repository) viewHolder.getTag();
 
-            if(activity.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-
-                FragmentRepositoriesBinding databinding = (FragmentRepositoriesBinding) activity.getFragmentDataBinding();
-                //if (databinding.layoutRepository.getRepository() == null || !Objects.equals(databinding.layoutRepository.getRepository().getId(), item.getId())) {
-                //    databinding.layoutRepository.setRepository(item);
-                //}
-
-            } else {
-
-                Bundle extras = new Bundle();
-                extras.putLong(Constants.ARGUMENT_ITEM_ID, item.getId());
-
-                // TODO: fragment navigation.
-                // Intent intent = new Intent(activity, RepositoryActivity.class);
-                // intent.putExtras(extras);
-                // activity.startActivity(intent);
+            FragmentRepositoriesBinding databinding = (FragmentRepositoriesBinding) activity.getFragmentDataBinding();
+            if(databinding != null) {
+                View layout = databinding.getRoot();
+                Bundle args = new Bundle();
+                args.putLong(Constants.ARGUMENT_ITEM_ID, item.getId());
+                NavController controller = Navigation.findNavController(layout);
+                controller.navigate(R.id.action_repositoriesFragment_to_repositoryFragment, args);
             }
         }
 

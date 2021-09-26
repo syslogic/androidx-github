@@ -65,9 +65,7 @@ public class RepositoryFragment extends BaseFragment {
 
     private Long itemId = 0L;
 
-    public RepositoryFragment() {
-
-    }
+    public RepositoryFragment() {}
 
     @NonNull
     public static RepositoryFragment newInstance(@NonNull Long itemId) {

@@ -62,13 +62,13 @@ public class RepositoriesFragment extends BaseFragment {
 
             this.getDataBinding().setPager(new PagerState());
 
-            /* Setting up the toolbar required in order to show the settings menu. */
+            /* Setting up the toolbar, in order to show the topics editor. */
             ((BaseActivity) this.getActivity()).setSupportActionBar(this.getDataBinding().toolbarQuery.toolbarQuery);
             this.getDataBinding().toolbarQuery.toolbarQuery.setOnMenuItemClickListener(item -> {
             if (item.getItemId() == R.id.menu_action_topics) {
                 NavController controller = Navigation.findNavController(this.getDataBinding().getRoot());
                 controller.navigate(R.id.action_global_to_topicsFragment);
-                return true;
+                return false;
             }  else {
                 return super.onOptionsItemSelected(item);
             }});
@@ -99,7 +99,7 @@ public class RepositoriesFragment extends BaseFragment {
             });
 
             if (this.getDataBinding().recyclerviewRepositories.getAdapter() == null) {
-                if(isNetworkAvailable(this.getContext())) {
+                if (isNetworkAvailable(this.getContext())) {
                     this.getDataBinding().recyclerviewRepositories.setAdapter(new RepositoriesAdapter(this.getContext(), 1));
                     if(mDebug) {
                         String text = this.getDataBinding().recyclerviewRepositories.getQueryString();
