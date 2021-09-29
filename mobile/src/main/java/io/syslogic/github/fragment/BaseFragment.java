@@ -178,7 +178,8 @@ abstract public class BaseFragment extends Fragment implements ConnectivityListe
 
     abstract protected void setDataBinding(@NonNull ViewDataBinding binding);
 
-    protected String getAccessToken(Context context) {
+    @Nullable
+    protected String getAccessToken(@NonNull Context context) {
         return TokenHelper.getAccessToken(context);
     }
 
@@ -194,8 +195,7 @@ abstract public class BaseFragment extends Fragment implements ConnectivityListe
     protected void setUser(@NonNull String accessToken, @Nullable final TokenCallback listener) {
 
         Call<User> api = GithubClient.getUser(accessToken);
-        if (mDebug) {
-            Log.w(LOG_TAG, api.request().url() + "");}
+        if (mDebug) {Log.w(LOG_TAG, api.request().url() + "");}
 
         api.enqueue(new Callback<User>() {
 
@@ -207,7 +207,8 @@ abstract public class BaseFragment extends Fragment implements ConnectivityListe
                         if (response.body() != null) {
                             User item = response.body();
                             if (mDebug && getContext() != null) {
-                                String message = String.format(getContext().getResources().getString(R.string.debug_token_auth), item.getLogin());
+                                String formatString = getContext().getResources().getString(R.string.debug_token_auth);
+                                String message = String.format(formatString, item.getLogin());
                                 Log.d("Github API", message);
                             }
                             if(listener != null) {listener.onLogin(item);}

@@ -135,4 +135,3 @@ tasks.whenTaskAdded { task ->
         task.finalizedBy "lintRelease"
     }
 }
-

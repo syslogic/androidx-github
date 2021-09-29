@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <lint>
 
+    <issue id="PluralsCandidate" severity="ignore" />
+    <issue id="ConvertToWebp" severity="ignore" />
+
     <issue id="MissingRegistered">
         <ignore regexp="androidx.*.widget.*" />
         <ignore regexp="com.google.android.material.appbar.AppBarLayout" />
@@ -23,6 +26,13 @@
         <ignore regexp="R.string.text_subscribers" />
         <ignore regexp="R.string.text_networks" />
         <ignore regexp="R.drawable.baseline_cloud_download_*" />
+    </issue>
+
+    <!-- JaCoCo, from Gradle cache ... -->
+    <issue id="InvalidPackage">
+        <ignore regexp="java.lang.instrument" />
+        <ignore regexp="java.lang.management" />
+        <ignore regexp="javax.management" />
     </issue>
 
     <!-- don't notice about available alpha/beta versions -->

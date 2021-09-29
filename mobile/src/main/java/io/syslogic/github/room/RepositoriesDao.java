@@ -1,5 +1,6 @@
 package io.syslogic.github.room;
 
+import androidx.annotation.NonNull;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
@@ -17,10 +18,10 @@ import io.syslogic.github.model.Repository;
 public interface RepositoriesDao {
 
     @Query("SELECT * FROM " + Constants.TABLE_REPOSITORIES)
-    List<Repository> getItems();
+    @NonNull List<Repository> getItems();
 
     @Insert()
-    Long insert(Repository item);
+    @NonNull Long insert(@NonNull Repository item);
 
     @Query("DELETE FROM " + Constants.TABLE_REPOSITORIES)
     void clear();

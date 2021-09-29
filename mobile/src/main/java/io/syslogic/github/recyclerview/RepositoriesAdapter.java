@@ -68,7 +68,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     private long totalItemCount = 0;
 
-    private final Context mContext;
+    final Context mContext;
 
     private String queryString = "topic:android";
 

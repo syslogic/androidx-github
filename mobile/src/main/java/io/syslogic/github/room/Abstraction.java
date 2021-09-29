@@ -35,8 +35,10 @@ public abstract class Abstraction extends RoomDatabase {
 
     public static final ExecutorService executorService = Executors.newFixedThreadPool(NUMBER_OF_THREADS);
 
+    @NonNull
     public abstract RepositoriesDao repositoriesDao();
 
+    @NonNull
     public abstract TopicsDao topicsDao();
 
     @NonNull

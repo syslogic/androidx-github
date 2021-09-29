@@ -300,14 +300,18 @@ public class RepositoryFragment extends BaseFragment {
                                     String name = items.get(i).getName();
                                     elements.add(i, name);
                                 }
-                                Log.d(LOG_TAG, String.format(getContext().getResources().getString(R.string.debug_branch_list), repoName, items.size(), String.join(", ", elements)));
+                                String formatString = getContext().getResources().getString(R.string.debug_branch_list);
+                                Log.d(LOG_TAG, String.format(formatString, repoName, items.size(), String.join(", ", elements)));
                             }
 
                             /* attempting to select branch master */
                             int defaultIndex = -1;
                             for(int i=0; i < items.size(); i++) {
                                 if( items.get(i).getName().equals("master")) {
-                                    if (mDebug) {Log.d(LOG_TAG, String.format(getContext().getResources().getString(R.string.debug_branch_master), repoName, i));}
+                                    if (mDebug) {
+                                        String formatString = getContext().getResources().getString(R.string.debug_branch_master);
+                                        Log.d(LOG_TAG, String.format(formatString, repoName, i));
+                                    }
                                     defaultIndex=i;
                                 }
                             }

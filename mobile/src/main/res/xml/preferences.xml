@@ -1,18 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.preference.PreferenceScreen
-    xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <androidx.preference.PreferenceCategory
-        android:title="@string/title_preferences_general"
-        android:summary="@string/summary_preferences_general"
-        android:fontFamily="sans-serif-condensed"
-        android:typeface="serif">
-
-    <androidx.preference.Preference
-        android:title="@string/title_preferences_github_queries"
-        android:summary="@string/summary_preferences_github_queries"
-        android:key="editQueryList"/>
-
-    </androidx.preference.PreferenceCategory>
+<androidx.preference.PreferenceScreen>
 
 </androidx.preference.PreferenceScreen>
