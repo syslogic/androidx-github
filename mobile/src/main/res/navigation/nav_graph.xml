@@ -20,8 +20,8 @@
             android:id="@+id/action_repositoriesFragment_to_profileFragment"
             app:destination="@id/profileFragment"/>
         <action
-            android:id="@+id/action_repositoriesFragment_to_topicsFragment"
-            app:destination="@id/topicsFragment" />
+            android:id="@+id/action_repositoriesFragment_to_topicsGraph"
+            app:destination="@id/topicsGraph" />
     </fragment>
 
     <fragment
@@ -40,21 +40,23 @@
 
     </fragment>
 
-    <fragment
-        android:id="@+id/topicsFragment"
-        android:label="fragment_topics"
-        android:name="io.syslogic.github.fragment.TopicsFragment"
-        tools:layout="@layout/fragment_topics">
-        <action
-            android:id="@+id/action_topicsFragment_to_topicFragment"
-            app:destination="@id/topicFragment"/>
-
-    </fragment>
-
-    <fragment
-        android:id="@+id/topicFragment"
-        android:label="fragment_topic"
-        android:name="io.syslogic.github.fragment.TopicFragment"
-        tools:layout="@layout/fragment_topic"/>
+    <navigation
+        android:id="@+id/topicsGraph"
+        app:startDestination="@id/topicsFragment">
+        <fragment
+            android:id="@+id/topicsFragment"
+            android:name="io.syslogic.github.fragment.TopicsFragment"
+            android:label="fragment_topics"
+            tools:layout="@layout/fragment_topics">
+            <action
+                android:id="@+id/action_topicsFragment_to_topicFragment"
+                app:destination="@id/topicFragment" />
+        </fragment>
+        <fragment
+            android:id="@+id/topicFragment"
+            android:name="io.syslogic.github.fragment.TopicFragment"
+            android:label="fragment_topic"
+            tools:layout="@layout/fragment_topic" />
+    </navigation>
 
 </navigation>

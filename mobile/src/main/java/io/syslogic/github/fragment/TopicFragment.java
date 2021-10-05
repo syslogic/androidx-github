@@ -10,7 +10,6 @@ import androidx.annotation.Nullable;
 import androidx.databinding.ViewDataBinding;
 
 import io.syslogic.github.databinding.FragmentTopicBinding;
-import io.syslogic.github.model.User;
 
 /**
  * Topic Fragment
@@ -41,15 +40,5 @@ public class TopicFragment extends BaseFragment {
     @Override
     protected void setDataBinding(@NonNull ViewDataBinding binding) {
         this.mDataBinding = (FragmentTopicBinding) binding;
-    }
-
-    @Override
-    protected void setCurrentUser(@NonNull User value) {
-
-    }
-
-    @Override
-    public void onLogin(@NonNull User item) {
-
     }
 }

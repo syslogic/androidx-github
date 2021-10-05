@@ -58,7 +58,7 @@ public class RepositoriesFragment extends BaseFragment implements TokenCallback 
             this.getDataBinding().toolbarQuery.toolbarQuery.setOnMenuItemClickListener(item -> {
             if (item.getItemId() == R.id.menu_action_topics) {
                 NavController controller = Navigation.findNavController(this.getDataBinding().getRoot());
-                controller.navigate(R.id.action_repositoriesFragment_to_topicsFragment);
+                controller.navigate(R.id.action_repositoriesFragment_to_topicsGraph);
                 return false;
             }  else {
                 return super.onOptionsItemSelected(item);
@@ -148,12 +148,9 @@ public class RepositoriesFragment extends BaseFragment implements TokenCallback 
 
                     /* needs to run on UiThread */
                     if(getActivity() != null) {
-                        getActivity().runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                if(getActivity() != null) {
-                                    getDataBinding().recyclerviewRepositories.setAdapter(new RepositoriesAdapter(getActivity(), 1));
-                                }
+                        getActivity().runOnUiThread(() -> {
+                            if(getActivity() != null) {
+                                getDataBinding().recyclerviewRepositories.setAdapter(new RepositoriesAdapter(getActivity(), 1));
                             }
                         });
                     }

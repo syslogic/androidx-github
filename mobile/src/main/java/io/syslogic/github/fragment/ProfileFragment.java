@@ -16,12 +16,13 @@ import androidx.databinding.ViewDataBinding;
 import io.syslogic.github.constants.Constants;
 import io.syslogic.github.databinding.FragmentProfileBinding;
 import io.syslogic.github.model.User;
+import io.syslogic.github.network.TokenCallback;
 
 /**
  * Profile Fragment
  * @author Martin Zeitler
  */
-public class ProfileFragment extends BaseFragment {
+public class ProfileFragment extends BaseFragment implements TokenCallback {
 
     /** Log Tag */
     private static final String LOG_TAG = ProfileFragment.class.getSimpleName();

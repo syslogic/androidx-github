@@ -28,6 +28,11 @@
         <ignore regexp="R.drawable.baseline_cloud_download_*" />
     </issue>
 
+    <!-- NotifyDataSetChanged is fine when clearing the adapter. -->
+    <issue id="NotifyDataSetChanged">
+        <ignore regexp="io.syslogic.github.recyclerview.RepositoriesLinearView" />
+    </issue>
+
     <!-- JaCoCo, from Gradle cache ... -->
     <issue id="InvalidPackage">
         <ignore regexp="java.lang.instrument" />

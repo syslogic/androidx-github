@@ -10,7 +10,6 @@ import androidx.annotation.Nullable;
 import androidx.databinding.ViewDataBinding;
 
 import io.syslogic.github.databinding.FragmentTopicsBinding;
-import io.syslogic.github.model.User;
 import io.syslogic.github.recyclerview.TopicsAdapter;
 
 /**
@@ -30,10 +29,8 @@ public class TopicsFragment extends BaseFragment {
     @NonNull
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
         this.setDataBinding(FragmentTopicsBinding.inflate(inflater, container, false));
         View layout = this.getDataBinding().getRoot();
-
         if(this.getContext() != null && this.getActivity() != null) {
             if (this.getDataBinding().recyclerviewTopics.getAdapter() == null) {
                 this.getDataBinding().recyclerviewTopics.setAdapter(new TopicsAdapter(this.getContext()));
@@ -50,10 +47,5 @@ public class TopicsFragment extends BaseFragment {
     @Override
     protected void setDataBinding(@NonNull ViewDataBinding binding) {
         this.mDataBinding = (FragmentTopicsBinding) binding;
-    }
-
-    @Override
-    public void onLogin(@NonNull User item) {
-        
     }
 }

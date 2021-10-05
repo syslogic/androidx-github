@@ -40,6 +40,7 @@ import io.syslogic.github.R;
 import io.syslogic.github.constants.Constants;
 import io.syslogic.github.databinding.FragmentRepositoryBinding;
 import io.syslogic.github.model.User;
+import io.syslogic.github.network.TokenCallback;
 import io.syslogic.github.retrofit.GithubClient;
 import io.syslogic.github.model.Branch;
 import io.syslogic.github.model.Repository;
@@ -55,7 +56,7 @@ import retrofit2.Response;
  * Repository Fragment
  * @author Martin Zeitler
  */
-public class RepositoryFragment extends BaseFragment {
+public class RepositoryFragment extends BaseFragment implements TokenCallback {
 
     /** Log Tag */
     private static final String LOG_TAG = RepositoryFragment.class.getSimpleName();

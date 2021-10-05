@@ -43,7 +43,7 @@ import retrofit2.Response;
  * Base Fragment
  * @author Martin Zeitler
  */
-abstract public class BaseFragment extends Fragment implements ConnectivityListener, TokenCallback {
+abstract public class BaseFragment extends Fragment implements ConnectivityListener {
 
     /** {@link Log} Tag */
     private final String LOG_TAG = BaseFragment.class.getSimpleName();
