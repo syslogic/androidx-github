@@ -448,31 +448,30 @@ public class RepositoryFragment extends BaseFragment implements TokenCallback {
     }
 
     void registerBroadcastReceiver() {
-        BroadcastReceiver receiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, @NonNull Intent intent) {
-                String action = intent.getAction();
-                if (DownloadManager.ACTION_DOWNLOAD_COMPLETE.equals(action)) {
-                    long downloadId = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, 0);
-                    DownloadManager.Query query = new DownloadManager.Query();
-                    query.setFilterById(downloadId);
-                    if(getActivity() != null) {
-                        DownloadManager downloadManager = (DownloadManager) getActivity().getSystemService(Context.DOWNLOAD_SERVICE);
-                        if(downloadManager != null) {
-                            Cursor c = downloadManager.query(query);
-                            if (c.moveToFirst()) {
-                                if (DownloadManager.STATUS_SUCCESSFUL == c.getInt(c.getColumnIndex(DownloadManager.COLUMN_STATUS))) {
-                                    String uri = c.getString(c.getColumnIndex(DownloadManager.COLUMN_LOCAL_URI));
-                                    if (mDebug) {Log.d(LOG_TAG, "" + uri);                                   }
+        if(getActivity() != null) {
+            BroadcastReceiver receiver = new BroadcastReceiver() {
+                @Override
+                public void onReceive(Context context, @NonNull Intent intent) {
+                    String action = intent.getAction();
+                    if (DownloadManager.ACTION_DOWNLOAD_COMPLETE.equals(action)) {
+                        long downloadId = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, 0);
+                        DownloadManager.Query query = new DownloadManager.Query();
+                        query.setFilterById(downloadId);
+                        if(getActivity() != null) {
+                            DownloadManager downloadManager = (DownloadManager) getActivity().getSystemService(Context.DOWNLOAD_SERVICE);
+                            if(downloadManager != null) {
+                                Cursor c = downloadManager.query(query);
+                                if (c.moveToFirst()) {
+                                    if (DownloadManager.STATUS_SUCCESSFUL == c.getInt(c.getColumnIndex(DownloadManager.COLUMN_STATUS))) {
+                                        String uri = c.getString(c.getColumnIndex(DownloadManager.COLUMN_LOCAL_URI));
+                                        if (mDebug) {Log.d(LOG_TAG, "" + uri);                                   }
+                                    }
                                 }
                             }
                         }
                     }
                 }
-            }
-        };
-
-        if(getActivity() != null) {
+            };
             getActivity().registerReceiver(receiver, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
         }
     }
