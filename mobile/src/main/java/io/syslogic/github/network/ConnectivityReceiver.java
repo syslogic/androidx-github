@@ -29,7 +29,7 @@ public class ConnectivityReceiver extends android.content.BroadcastReceiver {
     @Override
     public void onReceive(@NonNull Context context, @NonNull Intent intent) {
 
-        if(mDebug) {Log.d(LOG_TAG, "onReceive: "+ intent.getAction());}
+        if (mDebug) {Log.d(LOG_TAG, "onReceive: "+ intent.getAction());}
 
         BaseActivity activity = ((BaseActivity) context);
         BaseFragment fragment = (BaseFragment) activity.getCurrentFragment();

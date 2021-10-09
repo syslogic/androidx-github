@@ -94,7 +94,7 @@ abstract public class BaseFragment extends Fragment implements ConnectivityListe
 
     @SuppressWarnings("deprecation")
     public static boolean isNetworkAvailable(@Nullable Context context) {
-        if(context == null)  {return false;}
+        if (context == null)  {return false;}
         ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         if (connectivityManager != null) {
             if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
@@ -150,14 +150,14 @@ abstract public class BaseFragment extends Fragment implements ConnectivityListe
 
     @Override
     public void onNetworkAvailable() {
-        if(mDebug && this.getContext() != null) {
+        if (mDebug && this.getContext() != null) {
             Log.w(LOG_TAG, this.getContext().getResources().getString(R.string.debug_network_present));
         }
     }
 
     @Override
     public void onNetworkLost() {
-        if(mDebug && this.getContext() != null) {
+        if (mDebug && this.getContext() != null) {
             Log.w(LOG_TAG, this.getContext().getResources().getString(R.string.debug_network_absent));
         }
     }
@@ -166,8 +166,8 @@ abstract public class BaseFragment extends Fragment implements ConnectivityListe
     @SuppressWarnings("deprecation")
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            if(requestCode == Constants.REQUESTCODE_ADD_ACCESS_TOKEN) {
+        if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            if (requestCode == Constants.REQUESTCODE_ADD_ACCESS_TOKEN) {
                 //this.setUser(this.accessToken, this);
             }
         }
@@ -211,7 +211,7 @@ abstract public class BaseFragment extends Fragment implements ConnectivityListe
                                 String message = String.format(formatString, item.getLogin());
                                 Log.d("Github API", message);
                             }
-                            if(listener != null) {listener.onLogin(item);}
+                            if (listener != null) {listener.onLogin(item);}
                             setCurrentUser(item);
                         }
                         break;
@@ -223,7 +223,7 @@ abstract public class BaseFragment extends Fragment implements ConnectivityListe
                                 String errors = response.errorBody().string();
                                 JsonObject jsonObject = new JsonParser().parse(errors).getAsJsonObject();
                                 String message = jsonObject.get("message").toString();
-                                if(mDebug) {
+                                if (mDebug) {
                                     Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
                                     Log.e(LOG_TAG, message);
                                 }

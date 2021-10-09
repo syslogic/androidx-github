@@ -31,7 +31,7 @@ public class TopicsFragment extends BaseFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         this.setDataBinding(FragmentTopicsBinding.inflate(inflater, container, false));
         View layout = this.getDataBinding().getRoot();
-        if(this.getContext() != null && this.getActivity() != null) {
+        if (this.getContext() != null && this.getActivity() != null) {
             if (this.getDataBinding().recyclerviewTopics.getAdapter() == null) {
                 this.getDataBinding().recyclerviewTopics.setAdapter(new TopicsAdapter(this.getContext()));
             }

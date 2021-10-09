@@ -73,7 +73,7 @@ public class RepositoryFragment extends BaseFragment implements TokenCallback {
         super.onCreate(savedInstanceState);
         this.registerBroadcastReceiver();
         Bundle args = this.getArguments();
-        if(itemId == 0 && args != null) {
+        if (itemId == 0 && args != null) {
             this.setItemId(args.getLong(Constants.ARGUMENT_ITEM_ID));
         }
     }
@@ -86,9 +86,9 @@ public class RepositoryFragment extends BaseFragment implements TokenCallback {
         this.setDataBinding(FragmentRepositoryBinding.inflate(inflater, container, false));
         View layout = this.mDataBinding.getRoot();
 
-        if(this.getContext() != null) {
+        if (this.getContext() != null) {
 
-            if(! isNetworkAvailable(this.getContext())) {
+            if (! isNetworkAvailable(this.getContext())) {
                 this.onNetworkLost();
             } else {
 
@@ -97,7 +97,7 @@ public class RepositoryFragment extends BaseFragment implements TokenCallback {
                     @Override
                     public void onPageCommitVisible (WebView view, String url) {
                         contentLoaded = true;
-                        if(getDataBinding().viewflipperContent.getDisplayedChild() == 0) {
+                        if (getDataBinding().viewflipperContent.getDisplayedChild() == 0) {
                             getDataBinding().viewflipperContent.showNext();
                         }
                     }
@@ -116,12 +116,12 @@ public class RepositoryFragment extends BaseFragment implements TokenCallback {
                             String branch = spinner.getSelectedItem().toString();
 
                             String url = webview.getUrl();
-                            if(url.equals("https://github.com/" + getDataBinding().getRepository().getFullName())) {
+                            if (url.equals("https://github.com/" + getDataBinding().getRepository().getFullName())) {
                                 url += "/tree/" + branch;
                             } else {
                                 Uri uri = Uri.parse(url);
                                 String token = uri.getLastPathSegment();
-                                if(token != null) {
+                                if (token != null) {
                                     url = url.replace(token, branch);
                                 }
                             }
@@ -158,7 +158,7 @@ public class RepositoryFragment extends BaseFragment implements TokenCallback {
     }
 
     void downloadBranchAsZip(@Nullable String branch) {
-        if(branch == null) {branch ="master";}
+        if (branch == null) {branch ="master";}
         downloadZipball(this.getDataBinding().getRepository(), branch);
     }
 
@@ -189,14 +189,14 @@ public class RepositoryFragment extends BaseFragment implements TokenCallback {
     @Override
     public void onNetworkAvailable() {
         super.onNetworkAvailable();
-        if(this.getContext() != null) {
+        if (this.getContext() != null) {
 
             String token = this.getAccessToken(this.getContext());
             if (getCurrentUser() == null && token != null) {
                 this.setUser(token, this);
             }
 
-            if(this.mDataBinding != null && !this.contentLoaded) {
+            if (this.mDataBinding != null && !this.contentLoaded) {
                 setRepository();
             }
         }
@@ -210,13 +210,13 @@ public class RepositoryFragment extends BaseFragment implements TokenCallback {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if(grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+        if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
             AppCompatSpinner spinner = getDataBinding().toolbarDownload.spinnerBranch;
             Repository repo = getDataBinding().getRepository();
             String branch = "master";
 
-            if(spinner.getAdapter().getCount() > 0) {
+            if (spinner.getAdapter().getCount() > 0) {
                 branch = spinner.getSelectedItem().toString();
             }
             switch(requestCode) {
@@ -228,7 +228,7 @@ public class RepositoryFragment extends BaseFragment implements TokenCallback {
 
     private void setRepository() {
 
-        if(this.itemId != 0) {
+        if (this.itemId != 0) {
 
             Call<Repository> api = GithubClient.getRepository(this.itemId);
             if (mDebug) {Log.w(LOG_TAG, api.request().url() + "");}
@@ -254,12 +254,12 @@ public class RepositoryFragment extends BaseFragment implements TokenCallback {
                                     String errors = response.errorBody().string();
                                     JsonObject jsonObject = new JsonParser().parse(errors).getAsJsonObject();
                                     String message = jsonObject.get("message").toString();
-                                    if(mDebug) {
+                                    if (mDebug) {
                                         Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
                                         Log.e(LOG_TAG, message);
                                     }
                                 } catch (IOException e) {
-                                    if(mDebug) {Log.e(LOG_TAG, "" + e.getMessage());}
+                                    if (mDebug) {Log.e(LOG_TAG, "" + e.getMessage());}
                                 }
                             }
                             break;
@@ -308,7 +308,7 @@ public class RepositoryFragment extends BaseFragment implements TokenCallback {
                             /* attempting to select branch master */
                             int defaultIndex = -1;
                             for(int i=0; i < items.size(); i++) {
-                                if( items.get(i).getName().equals("master")) {
+                                if (items.get(i).getName().equals("master")) {
                                     if (mDebug) {
                                         String formatString = getContext().getResources().getString(R.string.debug_branch_master);
                                         Log.d(LOG_TAG, String.format(formatString, repoName, i));
@@ -318,11 +318,11 @@ public class RepositoryFragment extends BaseFragment implements TokenCallback {
                             }
 
                             /* debug output */
-                            if(mDebug && defaultIndex == -1) {
+                            if (mDebug && defaultIndex == -1) {
                                 Log.d(LOG_TAG, repoName + " has no master branch.");
                             }
 
-                            if(getActivity() != null && defaultIndex > 0) {
+                            if (getActivity() != null && defaultIndex > 0) {
                                 final int index = defaultIndex;
                                 getDataBinding().toolbarDownload.spinnerBranch.postDelayed(() ->
                                     getDataBinding().toolbarDownload.spinnerBranch.setSelection(index, false),
@@ -339,12 +339,12 @@ public class RepositoryFragment extends BaseFragment implements TokenCallback {
                                 String errors = response.errorBody().string();
                                 JsonObject jsonObject = new JsonParser().parse(errors).getAsJsonObject();
                                 String message = jsonObject.get("message").toString();
-                                if(mDebug) {
+                                if (mDebug) {
                                     Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
                                     Log.e(LOG_TAG, message);
                                 }
                             } catch (IOException e) {
-                                if(mDebug) {Log.e(LOG_TAG, "" + e.getMessage());}
+                                if (mDebug) {Log.e(LOG_TAG, "" + e.getMessage());}
                             }
                         }
                         break;
@@ -448,7 +448,7 @@ public class RepositoryFragment extends BaseFragment implements TokenCallback {
     }
 
     void registerBroadcastReceiver() {
-        if(getActivity() != null) {
+        if (getActivity() != null) {
             BroadcastReceiver receiver = new BroadcastReceiver() {
                 @Override
                 public void onReceive(Context context, @NonNull Intent intent) {
@@ -457,9 +457,9 @@ public class RepositoryFragment extends BaseFragment implements TokenCallback {
                         long downloadId = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, 0);
                         DownloadManager.Query query = new DownloadManager.Query();
                         query.setFilterById(downloadId);
-                        if(getActivity() != null) {
+                        if (getActivity() != null) {
                             DownloadManager downloadManager = (DownloadManager) getActivity().getSystemService(Context.DOWNLOAD_SERVICE);
-                            if(downloadManager != null) {
+                            if (downloadManager != null) {
                                 Cursor c = downloadManager.query(query);
                                 if (c.moveToFirst()) {
                                     if (DownloadManager.STATUS_SUCCESSFUL == c.getInt(c.getColumnIndex(DownloadManager.COLUMN_STATUS))) {
@@ -486,8 +486,8 @@ public class RepositoryFragment extends BaseFragment implements TokenCallback {
         ViewFlipper view = this.mDataBinding.toolbarDownload.viewflipperDownload;
         int index = view.getDisplayedChild();
         switch(childIndex) {
-            case 0: if(index != childIndex) {view.showPrevious();} break;
-            case 1: if(index != childIndex) {view.showNext();} break;
+            case 0: if (index != childIndex) {view.showPrevious();} break;
+            case 1: if (index != childIndex) {view.showNext();} break;
         }
     }
 

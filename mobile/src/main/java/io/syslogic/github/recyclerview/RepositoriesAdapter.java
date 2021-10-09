@@ -110,6 +110,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         return this.mItems.size();
     }
 
+    /** @deprecated */
     String getQueryString() {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(new Date());
@@ -124,7 +125,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         String accessToken = getAccessToken();
 
         Call<Repositories> api = GithubClient.getRepositories(accessToken, getQueryString(),"stars","desc", pageNumber);
-        if(BuildConfig.DEBUG) {Log.w(LOG_TAG, api.request().url() + "");}
+        if (BuildConfig.DEBUG) {Log.w(LOG_TAG, api.request().url() + "");}
 
         /* updating the pager data-binding */
         setPagerState(pageNumber, true, null);
@@ -159,9 +160,9 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                                 String errors = response.errorBody().string();
                                 JsonObject jsonObject = new JsonParser().parse(errors).getAsJsonObject();
                                   Toast.makeText(mContext, jsonObject.get("message").toString(), Toast.LENGTH_LONG).show();
-                                if(BuildConfig.DEBUG) {Log.e(LOG_TAG, jsonObject.get("message").toString());}
+                                if (BuildConfig.DEBUG) {Log.e(LOG_TAG, jsonObject.get("message").toString());}
                             } catch (IOException e) {
-                                if(BuildConfig.DEBUG) {Log.e(LOG_TAG, "" + e.getMessage());}
+                                if (BuildConfig.DEBUG) {Log.e(LOG_TAG, "" + e.getMessage());}
                             }
                         }
 
@@ -175,9 +176,9 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                             try {
                                 String errors = response.errorBody().string();
                                 JsonObject jsonObject = new JsonParser().parse(errors).getAsJsonObject();
-                                if(BuildConfig.DEBUG) {Log.e(LOG_TAG, jsonObject.get("message").toString());}
+                                if (BuildConfig.DEBUG) {Log.e(LOG_TAG, jsonObject.get("message").toString());}
                             } catch (IOException e) {
-                                if(BuildConfig.DEBUG) {Log.e(LOG_TAG, "" + e.getMessage());}
+                                if (BuildConfig.DEBUG) {Log.e(LOG_TAG, "" + e.getMessage());}
                             }
 
                             /* updating the pager data-binding */
@@ -193,7 +194,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
             @Override
             public void onFailure(@NonNull Call<Repositories> call, @NonNull Throwable t) {
-                if(BuildConfig.DEBUG) {Log.e(LOG_TAG, "" + t.getMessage());}
+                if (BuildConfig.DEBUG) {Log.e(LOG_TAG, "" + t.getMessage());}
             }
         });
     }
@@ -210,7 +211,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 return TokenHelper.getAccessToken(activity);
             } else {
                 /* for testing purposes only: */
-                if(mDebug) {return TokenHelper.getAccessToken(activity);}
+                if (mDebug) {return TokenHelper.getAccessToken(activity);}
                 else {return null;}
             }
         } else {
@@ -225,7 +226,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     /** reset the scroll listener. */
     protected void resetOnScrollListener() {
-        if(this.mRecyclerView.getAdapter() != null) {
+        if (this.mRecyclerView.getAdapter() != null) {
             ScrollListener listener = ((RepositoriesLinearView) mRecyclerView).getOnScrollListener();
             listener.setIsLoading(false);
         }
@@ -233,7 +234,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     protected void setPagerState(int pageNumber, boolean isLoading, @Nullable Long itemCount) {
         FragmentRepositoriesBinding databinding = (FragmentRepositoriesBinding) ((BaseActivity) mContext).getFragmentDataBinding();
-        if(databinding != null) {
+        if (databinding != null) {
             PagerState state = databinding.getPager();
             state.setIsLoading(isLoading);
             state.setPageNumber(pageNumber);
@@ -335,7 +336,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             Repository item = (Repository) viewHolder.getTag();
 
             FragmentRepositoriesBinding databinding = (FragmentRepositoriesBinding) activity.getFragmentDataBinding();
-            if(databinding != null) {
+            if (databinding != null) {
                 View layout = databinding.getRoot();
                 Bundle args = new Bundle();
                 args.putLong(Constants.ARGUMENT_ITEM_ID, item.getId());

@@ -38,7 +38,7 @@ public class ProfileFragment extends BaseFragment implements TokenCallback {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle args = this.getArguments();
-        if(itemId == 0 && args != null) {
+        if (itemId == 0 && args != null) {
             this.setItemId(args.getLong(Constants.ARGUMENT_ITEM_ID));
         }
     }
@@ -51,9 +51,9 @@ public class ProfileFragment extends BaseFragment implements TokenCallback {
         this.setDataBinding(FragmentProfileBinding.inflate(inflater, container, false));
         View layout = this.mDataBinding.getRoot();
 
-        if(this.getContext() != null) {
+        if (this.getContext() != null) {
 
-            if(! isNetworkAvailable(this.getContext())) {
+            if (! isNetworkAvailable(this.getContext())) {
                 this.onNetworkLost();
             } else {
 
@@ -61,7 +61,7 @@ public class ProfileFragment extends BaseFragment implements TokenCallback {
                 this.mDataBinding.webview.setWebViewClient(new WebViewClient() {
                     @Override
                     public void onPageCommitVisible (WebView view, String url) {
-                        if(! contentLoaded) {contentLoaded = true;}
+                        if (! contentLoaded) {contentLoaded = true;}
                     }
                 });
 
@@ -111,14 +111,14 @@ public class ProfileFragment extends BaseFragment implements TokenCallback {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if(grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+        if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
         }
     }
 
     @Override
     public void onLogin(@NonNull User item) {
-        if(this.mDataBinding != null && !this.contentLoaded) {
+        if (this.mDataBinding != null && !this.contentLoaded) {
             this.mDataBinding.setProfile(item);
         }
     }

@@ -32,7 +32,7 @@ abstract public class BaseActivity extends AppCompatActivity {
 
     @Nullable
     public ViewDataBinding getFragmentDataBinding() {
-        if(this.getCurrentFragment() instanceof BaseFragment) {
+        if (this.getCurrentFragment() instanceof BaseFragment) {
             return ((BaseFragment) this.getCurrentFragment()).getDataBinding();
         } else {
             return null;

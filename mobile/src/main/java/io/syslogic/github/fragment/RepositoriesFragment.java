@@ -49,7 +49,7 @@ public class RepositoriesFragment extends BaseFragment implements TokenCallback 
         this.setDataBinding(FragmentRepositoriesBinding.inflate(inflater, container, false));
         View layout = this.getDataBinding().getRoot();
 
-        if(this.getContext() != null && this.getActivity() != null) {
+        if (this.getContext() != null && this.getActivity() != null) {
 
             this.getDataBinding().setPager(new PagerState());
 
@@ -73,14 +73,14 @@ public class RepositoriesFragment extends BaseFragment implements TokenCallback 
                     if (count > 0) {
                         SpinnerItem item = (SpinnerItem) view.getTag();
                         ScrollListener.setPageNumber(1);
+
+                        // the SpinnerItem has the same ID as the Topic.
                         getDataBinding().recyclerviewRepositories.setQueryString(item.getValue());
+                        getDataBinding().toolbarPager.textQueryString.setText( getDataBinding().recyclerviewRepositories.getQueryString());
+
                         if (getDataBinding().recyclerviewRepositories.getAdapter() != null) {
                             getDataBinding().recyclerviewRepositories.clearAdapter();
                             ((RepositoriesAdapter) getDataBinding().recyclerviewRepositories.getAdapter()).fetchPage(1);
-                        }
-                        if(mDebug) {
-                            String text = getDataBinding().recyclerviewRepositories.getQueryString();
-                            getDataBinding().toolbarPager.textQueryString.setText(text);
                         }
                     }
                     count++;
@@ -92,7 +92,7 @@ public class RepositoriesFragment extends BaseFragment implements TokenCallback 
             if (this.getDataBinding().recyclerviewRepositories.getAdapter() == null) {
                 if (isNetworkAvailable(this.getContext())) {
                     this.getDataBinding().recyclerviewRepositories.setAdapter(new RepositoriesAdapter(this.getContext(), 1));
-                    if(mDebug) {
+                    if (mDebug) {
                         String text = this.getDataBinding().recyclerviewRepositories.getQueryString();
                         this.getDataBinding().toolbarPager.textQueryString.setText(text);
                     }
@@ -125,14 +125,14 @@ public class RepositoriesFragment extends BaseFragment implements TokenCallback 
 
         super.onNetworkAvailable();
 
-        if(this.getContext() != null) {
+        if (this.getContext() != null) {
 
             String token = this.getAccessToken(this.getContext());
-            if(getCurrentUser() == null && token != null) {
+            if (getCurrentUser() == null && token != null) {
                 this.setUser(token, this);
             }
 
-            if(this.mDataBinding != null) {
+            if (this.mDataBinding != null) {
 
                 PagerState pagerState = this.getDataBinding().toolbarPager.getPager();
                 if (pagerState != null) {
@@ -144,12 +144,12 @@ public class RepositoriesFragment extends BaseFragment implements TokenCallback 
 
                 /* when online for the first time */
                 RepositoriesAdapter adapter = ((RepositoriesAdapter) this.getDataBinding().recyclerviewRepositories.getAdapter());
-                if(adapter == null) {
+                if (adapter == null) {
 
                     /* needs to run on UiThread */
-                    if(getActivity() != null) {
+                    if (getActivity() != null) {
                         getActivity().runOnUiThread(() -> {
-                            if(getActivity() != null) {
+                            if (getActivity() != null) {
                                 getDataBinding().recyclerviewRepositories.setAdapter(new RepositoriesAdapter(getActivity(), 1));
                             }
                         });
@@ -166,16 +166,15 @@ public class RepositoriesFragment extends BaseFragment implements TokenCallback 
     @Override
     public void onNetworkLost() {
         super.onNetworkLost();
-        if(this.getContext() != null) {
+        if (this.getContext() != null) {
             ToolbarPagerBinding pager = this.getDataBinding().toolbarPager;
             PagerState state;
-            if(pager.getPager() == null) {
+            if (pager.getPager() == null) {
                 state = new PagerState();
-                state.setIsOffline(true);
             } else {
                 state = pager.getPager();
-                state.setIsOffline(true);
             }
+            state.setIsOffline(true);
             pager.setPager(state);
         }
     }

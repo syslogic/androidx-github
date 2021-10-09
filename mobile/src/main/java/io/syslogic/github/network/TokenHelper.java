@@ -44,7 +44,7 @@ public class TokenHelper {
             }
         } else {
             Account account = getAccount(accountManager);
-            if(account == null) {
+            if (account == null) {
                 Log.d(LOG_TAG, "account not found: " + accountType);
             } else {
                 accessToken = accountManager.getUserData(account, "accessToken");
