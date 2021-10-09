@@ -21,7 +21,7 @@
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
-            android:layout_height="1dp"
+            android:layout_height="2dp"
             android:layout_gravity="bottom|fill_horizontal"
             android:background="@color/colorAccent"
             android:orientation="vertical"
