@@ -37,6 +37,7 @@ public class ProfileFragment extends BaseFragment implements TokenCallback {
 
     private Long itemId = 0L;
 
+    /** Constructor */
     public ProfileFragment() {}
 
     @Override

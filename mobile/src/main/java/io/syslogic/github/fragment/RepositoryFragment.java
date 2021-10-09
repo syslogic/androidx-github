@@ -70,6 +70,7 @@ public class RepositoryFragment extends BaseFragment implements TokenCallback {
 
     private Long itemId = 0L;
 
+    /** Constructor */
     public RepositoryFragment() {}
 
     @Override

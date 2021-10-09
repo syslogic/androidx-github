@@ -16,6 +16,7 @@ import io.syslogic.github.R;
  */
 public class NavHostFragment extends androidx.navigation.fragment.NavHostFragment {
 
+    /** Constructor */
     public NavHostFragment() {}
 
     @NonNull

@@ -17,7 +17,7 @@ import io.syslogic.github.fragment.BaseFragment;
 abstract public class BaseActivity extends AppCompatActivity {
 
     @Nullable
-    protected Fragment currentFragment = null;
+    protected BaseFragment currentFragment = null;
 
     @Nullable
     public NavHostFragment getNavhostFragment() {
@@ -40,7 +40,7 @@ abstract public class BaseActivity extends AppCompatActivity {
     }
 
     @Override
-    @SuppressWarnings("deprecation")
+    @SuppressWarnings({"deprecation", "RedundantSuppression"})
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (this.currentFragment != null) {

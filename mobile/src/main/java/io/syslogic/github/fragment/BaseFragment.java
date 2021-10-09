@@ -45,7 +45,7 @@ import retrofit2.Response;
  */
 abstract public class BaseFragment extends Fragment implements ConnectivityListener {
 
-    /** {@link Log} Tag */
+    /** Log Tag */
     private final String LOG_TAG = BaseFragment.class.getSimpleName();
 
     /** Debug Output */
@@ -56,6 +56,7 @@ abstract public class BaseFragment extends Fragment implements ConnectivityListe
 
     User currentUser = null;
 
+    /** Constructor */
     public BaseFragment() {}
 
     @SuppressLint("NewApi")
@@ -163,7 +164,7 @@ abstract public class BaseFragment extends Fragment implements ConnectivityListe
     }
 
     @Override
-    @SuppressWarnings("deprecation")
+    @SuppressWarnings({"deprecation", "RedundantSuppression"})
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {

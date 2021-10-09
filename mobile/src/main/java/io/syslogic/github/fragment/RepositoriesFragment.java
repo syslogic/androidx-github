@@ -43,6 +43,7 @@ public class RepositoriesFragment extends BaseFragment implements TokenCallback 
     /** Data Binding */
     private FragmentRepositoriesBinding mDataBinding;
 
+    /** Constructor */
     public RepositoriesFragment() {}
 
     @NonNull

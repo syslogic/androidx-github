@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.Toolbar;
 import androidx.databinding.ViewDataBinding;
 import androidx.navigation.NavController;
@@ -36,6 +37,7 @@ public class TopicsFragment extends BaseFragment implements Toolbar.OnMenuItemCl
     /** Data Binding */
     private FragmentTopicsBinding mDataBinding;
 
+    /** Constructor */
     public TopicsFragment() {}
 
     @NonNull
@@ -48,14 +50,21 @@ public class TopicsFragment extends BaseFragment implements Toolbar.OnMenuItemCl
 
         BaseActivity activity = ((BaseActivity) this.requireActivity());
         activity.setSupportActionBar(this.getDataBinding().toolbarTopics.toolbarTopics);
-        if (activity.getSupportActionBar() != null) {
-
-            activity.getSupportActionBar().setTitle(R.string.text_topics);
+        ActionBar actionbar = activity.getSupportActionBar();
+        if (actionbar != null) {
             this.getDataBinding().toolbarTopics.toolbarTopics.setOnMenuItemClickListener(this);
+            actionbar.setHomeButtonEnabled(true);
+            actionbar.setTitle(R.string.text_topics);
+        }
 
-            if (this.getDataBinding().recyclerviewTopics.getAdapter() == null) {
-                this.getDataBinding().recyclerviewTopics.setAdapter(new TopicsAdapter(requireContext()));
-            }
+        this.getDataBinding().toolbarTopics.home.setOnClickListener(view -> {
+            NavController controller = Navigation.findNavController(getDataBinding().getRoot());
+            controller.navigateUp();
+        });
+
+
+        if (this.getDataBinding().recyclerviewTopics.getAdapter() == null) {
+            this.getDataBinding().recyclerviewTopics.setAdapter(new TopicsAdapter(requireContext()));
         }
         return layout;
     }
@@ -83,7 +92,7 @@ public class TopicsFragment extends BaseFragment implements Toolbar.OnMenuItemCl
      * @return <code>true</code> if the event was handled, <code>false</code> otherwise.
      */
     @Override
-    public boolean onMenuItemClick(MenuItem item) {
+    public boolean onMenuItemClick(@NonNull MenuItem item) {
         NavController controller = Navigation.findNavController(this.getDataBinding().getRoot());
         if (item.getItemId() == R.id.menu_action_add_topic) {
             controller.navigate(R.id.action_topicsFragment_to_topicFragment);
