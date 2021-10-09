@@ -4,7 +4,7 @@
     xmlns:bind="http://schemas.android.com/apk/res-auto"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".activity.RepositoriesActivity">
+    tools:context=".activity.NavHostActivity">
 
     <data>
         <variable name="user" type="io.syslogic.github.model.User"/>

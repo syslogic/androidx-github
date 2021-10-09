@@ -3,6 +3,7 @@
 
     <string name="app_name">GitHub Client</string>
 
+    <string name="text_topics">Topics</string>
     <string name="menu_action_edit_topics">Edit Topics</string>
     <string name="menu_action_add_topic">Add Topic</string>
 
