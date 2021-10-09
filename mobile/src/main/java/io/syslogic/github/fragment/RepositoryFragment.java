@@ -137,19 +137,16 @@ public class RepositoryFragment extends BaseFragment implements TokenCallback {
 
                 /* the download button; TODO: consider tarball. */
                 this.mDataBinding.toolbarDownload.buttonDownload.setOnClickListener(view -> {
-
-                    Activity activity = getActivity();
-                    if (activity != null) {
-                        String branch = getDataBinding().toolbarDownload.spinnerBranch.getSelectedItem().toString();
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                            if (activity.checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                                downloadBranchAsZip(branch);
-                            } else {
-                                activity.requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, Constants.REQUESTCODE_DOWNLOAD_ZIPBALL);
-                            }
-                        } else {
+                    Activity activity = requireActivity();
+                    String branch = getDataBinding().toolbarDownload.spinnerBranch.getSelectedItem().toString();
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        if (activity.checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
                             downloadBranchAsZip(branch);
+                        } else {
+                            activity.requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, Constants.REQUESTCODE_DOWNLOAD_ZIPBALL);
                         }
+                    } else {
+                        downloadBranchAsZip(branch);
                     }
                 });
             }
