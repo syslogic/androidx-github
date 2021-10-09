@@ -183,7 +183,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                             /* updating the pager data-binding */
                             setPagerState(pageNumber, false, null);
 
-                            resetOnScollListener();
+                            resetOnScrollListener();
                             getRateLimit("search");
                         }
                         break;
@@ -224,7 +224,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
     /** reset the scroll listener. */
-    protected void resetOnScollListener() {
+    protected void resetOnScrollListener() {
         if(this.mRecyclerView.getAdapter() != null) {
             ScrollListener listener = ((RepositoriesLinearView) mRecyclerView).getOnScrollListener();
             listener.setIsLoading(false);
@@ -245,7 +245,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
     }
 
-    protected void getRateLimit(@NonNull final String resourceName) {
+    protected void getRateLimit(@SuppressWarnings("SameParameterValue") @NonNull final String resourceName) {
 
         Call<RateLimits> api = GithubClient.getRateLimits();
         if (BuildConfig.DEBUG) {Log.w(LOG_TAG, api.request().url() + "");}

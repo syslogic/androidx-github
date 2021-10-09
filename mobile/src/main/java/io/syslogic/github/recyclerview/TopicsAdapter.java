@@ -6,10 +6,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.lang.ref.WeakReference;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import androidx.annotation.NonNull;
@@ -26,6 +27,7 @@ import io.syslogic.github.activity.BaseActivity;
 import io.syslogic.github.constants.Constants;
 import io.syslogic.github.databinding.CardviewTopicBinding;
 import io.syslogic.github.model.Topic;
+import io.syslogic.github.room.Abstraction;
 
 /**
  * Topics RecyclerView Adapter
@@ -40,25 +42,19 @@ public class TopicsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     /** Debug Output */
     static final boolean mDebug = BuildConfig.DEBUG;
 
-    private ArrayList<Topic> mItems = new ArrayList<>();
+    private WeakReference<Context> mContext;
 
     private RecyclerView mRecyclerView;
 
     private long totalItemCount = 0;
 
-    private Context mContext;
+    private List<Topic> mItems;
 
     private String queryString = "topic:";
 
     public TopicsAdapter(@NonNull Context context) {
-        this.mContext = context;
-
-        /* TODO: load topics from Room instead */
-        String[] topics = context.getResources().getStringArray(R.array.topic_values);
-
-        for(int i=0; i < topics.length; i++) {
-            this.mItems.add(new Topic((long) i+1, null, topics[i]));
-        }
+        this.mContext = new WeakReference<>(context);
+        Abstraction.executorService.execute(() -> mItems = Abstraction.getInstance(getContext()).topicsDao().getItems());
     }
 
     @Override
@@ -89,6 +85,7 @@ public class TopicsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     @Override
     public int getItemCount() {
+        if (this.mItems == null) {return 0;}
         return this.mItems.size();
     }
 
@@ -100,7 +97,7 @@ public class TopicsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         return queryString + "+pushed:>" + isodate;
     }
 
-    ArrayList<Topic> getItems() {
+    List<Topic> getItems() {
         return this.mItems;
     }
 
@@ -111,7 +108,7 @@ public class TopicsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     @NonNull
     protected Context getContext() {
-        return this.mContext;
+        return this.mContext.get();
     }
 
     /** Setters */
@@ -162,7 +159,6 @@ public class TopicsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 NavController controller = Navigation.findNavController(Layout);
                 controller.navigate(R.id.action_topicsFragment_to_topicFragment, args);
             }
-
         }
 
         /** Setters */

@@ -54,7 +54,7 @@ public abstract class Abstraction extends RoomDatabase {
                 });
 
             /* Asset `src/main/assets/room.db` must match the current schema! */
-            // if (mDebug) {builder.createFromAsset(fileName);}
+            //builder.createFromAsset(fileName);
             sInstance = builder.build();
         }
         return sInstance;

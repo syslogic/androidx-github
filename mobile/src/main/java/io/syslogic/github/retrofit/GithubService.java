@@ -90,7 +90,7 @@ public interface GithubService {
         @Nullable @Path(value = "branch") String branch
     );
 
-    /* Provide the DownloadManager with a proper (instead of a guessed) filename. */
+    /** It determines the filename to use with the DownloadManager. */
     @NonNull
     @HEAD
     Call<Void> getHead(@NonNull @Url String url);
@@ -112,6 +112,7 @@ public interface GithubService {
 
     /** One user */
     @NonNull
+    @SuppressWarnings("unused")
     @GET("/user/repos")
     Call<Repositories> getRepositories(
         @NonNull @Header("Authorization") String token

@@ -60,6 +60,7 @@ public class GithubClient {
         return getService().getUser("token " + token);
     }
 
+    @SuppressWarnings("unused")
     public static @NonNull Call<User> getUser(@NonNull String username, @NonNull String token) {
         return getService().getUser("token " + token, username);
     }
@@ -76,6 +77,7 @@ public class GithubClient {
         return getService().getBranches(owner, repo);
     }
 
+    @SuppressWarnings("unused")
     public static @NonNull Call<Branch> getBranch(@NonNull String owner, @NonNull String repo, @NonNull String branch) {
         return getService().getBranch(owner, repo, branch);
     }
