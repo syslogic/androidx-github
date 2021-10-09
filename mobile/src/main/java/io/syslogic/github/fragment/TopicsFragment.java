@@ -8,7 +8,11 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.ViewDataBinding;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
+import io.syslogic.github.R;
+import io.syslogic.github.activity.BaseActivity;
 import io.syslogic.github.databinding.FragmentTopicsBinding;
 import io.syslogic.github.recyclerview.TopicsAdapter;
 
@@ -18,7 +22,11 @@ import io.syslogic.github.recyclerview.TopicsAdapter;
  */
 public class TopicsFragment extends BaseFragment {
 
+    @SuppressWarnings("unused")
+    private static final int resId = R.layout.fragment_topics;
+
     /** Log Tag */
+    @SuppressWarnings("unused")
     private static final String LOG_TAG = TopicsFragment.class.getSimpleName();
 
     /** Data Binding */
@@ -29,11 +37,32 @@ public class TopicsFragment extends BaseFragment {
     @NonNull
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
+        this.setHasOptionsMenu(true);
         this.setDataBinding(FragmentTopicsBinding.inflate(inflater, container, false));
         View layout = this.getDataBinding().getRoot();
-        if (this.getContext() != null && this.getActivity() != null) {
+
+        BaseActivity activity = ((BaseActivity) this.requireActivity());
+        activity.setSupportActionBar(this.getDataBinding().toolbarTopics.toolbarTopics);
+        if (activity.getSupportActionBar() != null) {
+            activity.getSupportActionBar().setTitle(R.string.text_topics);
+            activity.getSupportActionBar().setDisplayShowHomeEnabled(true);
+            this.getDataBinding().toolbarTopics.toolbarTopics.setOnMenuItemClickListener(item -> {
+                NavController controller = Navigation.findNavController(this.getDataBinding().getRoot());
+                if (item.getItemId() == R.id.menu_action_add_topic) {
+                    controller.navigate(R.id.action_topicsFragment_to_topicFragment);
+                    return false;
+                } else {
+                    return super.onOptionsItemSelected(item);
+                }});
+
+            this.getDataBinding().toolbarTopics.toolbarTopics.setNavigationOnClickListener(view -> {
+                NavController controller = Navigation.findNavController(getDataBinding().getRoot());
+                controller.navigateUp();
+            });
+
             if (this.getDataBinding().recyclerviewTopics.getAdapter() == null) {
-                this.getDataBinding().recyclerviewTopics.setAdapter(new TopicsAdapter(this.getContext()));
+                this.getDataBinding().recyclerviewTopics.setAdapter(new TopicsAdapter(requireContext()));
             }
         }
         return layout;

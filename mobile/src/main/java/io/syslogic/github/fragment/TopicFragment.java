@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.ViewDataBinding;
 
+import io.syslogic.github.R;
 import io.syslogic.github.databinding.FragmentTopicBinding;
 
 /**
@@ -17,7 +18,11 @@ import io.syslogic.github.databinding.FragmentTopicBinding;
  */
 public class TopicFragment extends BaseFragment {
 
+    @SuppressWarnings("unused")
+    private static final int resId = R.layout.fragment_topic;
+
     /** Log Tag */
+    @SuppressWarnings("unused")
     private static final String LOG_TAG = TopicFragment.class.getSimpleName();
 
     /** Data Binding */

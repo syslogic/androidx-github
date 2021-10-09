@@ -21,7 +21,7 @@ public interface TopicsDao {
     @Query("SELECT * FROM " + Constants.TABLE_TOPICS)
     @NonNull List<Topic> getItems();
 
-    @Query("SELECT id, title, query_string FROM " + Constants.TABLE_TOPICS)
+    @Query("SELECT id, title AS name, query_string AS value FROM " + Constants.TABLE_TOPICS)
     @NonNull List<SpinnerItem> getSpinnerItems();
 
     @Insert()

@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.ViewDataBinding;
 
+import io.syslogic.github.R;
 import io.syslogic.github.constants.Constants;
 import io.syslogic.github.databinding.FragmentProfileBinding;
 import io.syslogic.github.model.User;
@@ -24,7 +25,11 @@ import io.syslogic.github.network.TokenCallback;
  */
 public class ProfileFragment extends BaseFragment implements TokenCallback {
 
+    @SuppressWarnings("unused")
+    private static final int resId = R.layout.fragment_profile;
+
     /** Log Tag */
+    @SuppressWarnings("unused")
     private static final String LOG_TAG = ProfileFragment.class.getSimpleName();
 
     /** Data Binding */

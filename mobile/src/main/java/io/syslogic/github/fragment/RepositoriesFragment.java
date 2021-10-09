@@ -33,7 +33,11 @@ import io.syslogic.github.recyclerview.ScrollListener;
  */
 public class RepositoriesFragment extends BaseFragment implements TokenCallback {
 
+    @SuppressWarnings("unused")
+    private static final int resId = R.layout.fragment_repositories;
+
     /** Log Tag */
+    @SuppressWarnings("unused")
     private static final String LOG_TAG = RepositoriesFragment.class.getSimpleName();
 
     /** Data Binding */

@@ -16,6 +16,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import java.io.IOException;
+import java.lang.ref.WeakReference;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -62,18 +63,18 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     /** Debug Output */
     static final boolean mDebug = BuildConfig.DEBUG;
 
+    private WeakReference<Context> mContext;
+
     private ArrayList<Repository> mItems = new ArrayList<>();
 
     private RecyclerView mRecyclerView;
 
     private long totalItemCount = 0;
 
-    final Context mContext;
-
     private String queryString = "topic:android";
 
     public RepositoriesAdapter(@NonNull Context context, @NonNull Integer pageNumber) {
-        this.mContext = context;
+        this.mContext = new WeakReference<>(context);
         String defaultQuery = context.getResources().getStringArray(R.array.topic_values)[0];
         this.setQueryString(defaultQuery);
         this.fetchPage(pageNumber);
@@ -82,7 +83,9 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     @Override
     public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
+        this.mContext = new WeakReference<>(recyclerView.getContext());
         this.mRecyclerView = recyclerView;
+
     }
 
     @NonNull
@@ -159,7 +162,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                             try {
                                 String errors = response.errorBody().string();
                                 JsonObject jsonObject = new JsonParser().parse(errors).getAsJsonObject();
-                                  Toast.makeText(mContext, jsonObject.get("message").toString(), Toast.LENGTH_LONG).show();
+                                  Toast.makeText(getContext(), jsonObject.get("message").toString(), Toast.LENGTH_LONG).show();
                                 if (BuildConfig.DEBUG) {Log.e(LOG_TAG, jsonObject.get("message").toString());}
                             } catch (IOException e) {
                                 if (BuildConfig.DEBUG) {Log.e(LOG_TAG, "" + e.getMessage());}
@@ -233,7 +236,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
     protected void setPagerState(int pageNumber, boolean isLoading, @Nullable Long itemCount) {
-        FragmentRepositoriesBinding databinding = (FragmentRepositoriesBinding) ((BaseActivity) mContext).getFragmentDataBinding();
+         FragmentRepositoriesBinding databinding = (FragmentRepositoriesBinding) ((BaseActivity) getContext()).getFragmentDataBinding();
         if (databinding != null) {
             PagerState state = databinding.getPager();
             state.setIsLoading(isLoading);
@@ -290,7 +293,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @NonNull
     protected Context getContext() {
-        return this.mContext;
+        return this.mContext.get();
     }
 
     /** Setters */
