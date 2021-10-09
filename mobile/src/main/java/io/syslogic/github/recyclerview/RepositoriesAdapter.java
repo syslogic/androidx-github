@@ -37,6 +37,7 @@ import io.syslogic.github.activity.BaseActivity;
 import io.syslogic.github.constants.Constants;
 import io.syslogic.github.databinding.FragmentRepositoriesBinding;
 import io.syslogic.github.databinding.CardviewRepositoryBinding;
+import io.syslogic.github.databinding.FragmentRepositoriesBindingImpl;
 import io.syslogic.github.model.PagerState;
 import io.syslogic.github.model.RateLimit;
 import io.syslogic.github.model.RateLimits;
@@ -75,8 +76,10 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     public RepositoriesAdapter(@NonNull Context context, @NonNull Integer pageNumber) {
         this.mContext = new WeakReference<>(context);
+
         String defaultQuery = context.getResources().getStringArray(R.array.topic_values)[0];
         this.setQueryString(defaultQuery);
+
         this.fetchPage(pageNumber);
     }
 
@@ -230,22 +233,25 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     /** reset the scroll listener. */
     protected void resetOnScrollListener() {
         if (this.mRecyclerView.getAdapter() != null) {
-            ScrollListener listener = ((RepositoriesLinearView) mRecyclerView).getOnScrollListener();
+            ScrollListener listener = ((RepositoriesLinearView) this.mRecyclerView).getOnScrollListener();
             listener.setIsLoading(false);
         }
     }
 
     protected void setPagerState(int pageNumber, boolean isLoading, @Nullable Long itemCount) {
-         FragmentRepositoriesBinding databinding = (FragmentRepositoriesBinding) ((BaseActivity) getContext()).getFragmentDataBinding();
-        if (databinding != null) {
-            PagerState state = databinding.getPager();
-            state.setIsLoading(isLoading);
-            state.setPageNumber(pageNumber);
-            if (itemCount != null) {
-                state.setPageCount((int) Math.ceil((float) itemCount / state.getItemsPerPage()));
-                state.setItemCount(itemCount);
+        /* cannot cast FragmentRepositoriesBindingImpl */
+        if (((BaseActivity) getContext()).getFragmentDataBinding() instanceof FragmentRepositoriesBinding) {
+            FragmentRepositoriesBinding databinding = (FragmentRepositoriesBinding) ((BaseActivity) getContext()).getFragmentDataBinding();
+            if (databinding != null) {
+                PagerState state = databinding.getPager();
+                state.setIsLoading(isLoading);
+                state.setPageNumber(pageNumber);
+                if (itemCount != null) {
+                    state.setPageCount((int) Math.ceil((float) itemCount / state.getItemsPerPage()));
+                    state.setItemCount(itemCount);
+                }
+                databinding.setPager(state);
             }
-            databinding.setPager(state);
         }
     }
 

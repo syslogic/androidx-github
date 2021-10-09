@@ -16,7 +16,8 @@
         android:padding="0dp"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:contentInsetStart="0dp">
+        app:contentInsetStart="0dp"
+        app:menu="@menu/settings">
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/layout_toolbar_query"

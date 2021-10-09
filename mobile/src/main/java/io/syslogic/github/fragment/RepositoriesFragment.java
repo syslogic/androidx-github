@@ -121,14 +121,14 @@ public class RepositoriesFragment extends BaseFragment implements TokenCallback 
 
     @Override
     protected void setDataBinding(@NonNull ViewDataBinding binding) {
-        this.mDataBinding = (FragmentRepositoriesBinding) binding;
+        if (binding instanceof FragmentRepositoriesBinding) {
+            this.mDataBinding = (FragmentRepositoriesBinding) binding;
+        }
     }
 
     @Override
     public void onNetworkAvailable() {
-
         super.onNetworkAvailable();
-
         if (this.getContext() != null) {
 
             String token = this.getAccessToken(this.getContext());
