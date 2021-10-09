@@ -4,9 +4,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/menu_action_edit_topics"
-        android:title="@string/menu_action_edit_topics"
+        android:id="@+id/menu_action_add_topic"
+        android:title="@string/menu_action_add_topic"
         android:orderInCategory="100"
-        app:showAsAction="never"/>
+        app:showAsAction="always"/>
 
 </menu>

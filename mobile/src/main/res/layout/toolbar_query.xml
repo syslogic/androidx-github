@@ -20,7 +20,6 @@
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/layout_toolbar_query"
-            style="?android:attr/buttonBarStyle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal">
