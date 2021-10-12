@@ -27,7 +27,7 @@ import com.google.gson.JsonParser;
 
 import io.syslogic.github.BuildConfig;
 import io.syslogic.github.R;
-import io.syslogic.github.constants.Constants;
+import io.syslogic.github.Constants;
 import io.syslogic.github.model.User;
 import io.syslogic.github.network.ConnectivityReceiver;
 import io.syslogic.github.network.ConnectivityListener;

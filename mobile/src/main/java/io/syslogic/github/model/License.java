@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
 
-import io.syslogic.github.constants.Constants;
+import io.syslogic.github.Constants;
 
 /**
  * Model: License

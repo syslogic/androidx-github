@@ -43,6 +43,8 @@ public class RepositoriesFragment extends BaseFragment implements TokenCallback 
     /** Data Binding */
     private FragmentRepositoriesBinding mDataBinding;
 
+    private String queryString;
+
     /** Constructor */
     public RepositoriesFragment() {}
 
@@ -71,6 +73,7 @@ public class RepositoriesFragment extends BaseFragment implements TokenCallback 
 
             AppCompatSpinner spinner = this.getDataBinding().toolbarQuery.spinnerTopic;
             spinner.setAdapter(new TopicAdapter(this.getContext()));
+
             spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 int count = 0;
                 @Override
@@ -80,7 +83,8 @@ public class RepositoriesFragment extends BaseFragment implements TokenCallback 
                         ScrollListener.setPageNumber(1);
 
                         // the SpinnerItem has the same ID as the Topic.
-                        getDataBinding().recyclerviewRepositories.setQueryString(item.getValue());
+                        queryString = item.getValue();
+                        getDataBinding().recyclerviewRepositories.setQueryString(queryString);
                         getDataBinding().toolbarPager.textQueryString.setText( getDataBinding().recyclerviewRepositories.getQueryString());
 
                         if (getDataBinding().recyclerviewRepositories.getAdapter() != null) {
@@ -96,7 +100,7 @@ public class RepositoriesFragment extends BaseFragment implements TokenCallback 
 
             if (this.getDataBinding().recyclerviewRepositories.getAdapter() == null) {
                 if (isNetworkAvailable(this.getContext())) {
-                    this.getDataBinding().recyclerviewRepositories.setAdapter(new RepositoriesAdapter(this.getContext(), 1));
+                    this.getDataBinding().recyclerviewRepositories.setAdapter(new RepositoriesAdapter(this.getContext(), this.queryString, 1));
                     if (mDebug) {
                         String text = this.getDataBinding().recyclerviewRepositories.getQueryString();
                         this.getDataBinding().toolbarPager.textQueryString.setText(text);
@@ -154,7 +158,9 @@ public class RepositoriesFragment extends BaseFragment implements TokenCallback 
                     /* needs to run on UiThread */
                     if (getActivity() != null) {
                         requireActivity().runOnUiThread(() -> {
-                                getDataBinding().recyclerviewRepositories.setAdapter(new RepositoriesAdapter(requireActivity(), 1));
+                            String queryString = getDataBinding().recyclerviewRepositories.getQueryString();
+                            assert queryString != null;
+                            getDataBinding().recyclerviewRepositories.setAdapter(new RepositoriesAdapter(requireActivity(), queryString,1));
                         });
                     }
 

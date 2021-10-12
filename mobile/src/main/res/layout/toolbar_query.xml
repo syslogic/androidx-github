@@ -40,9 +40,7 @@
                 android:id="@+id/spinner_topic"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical|end"
-
-                tools:entries="@array/topic_keys"/>
+                android:layout_gravity="center_vertical|end"/>
 
             <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/button_sort_order"

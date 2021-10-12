@@ -31,8 +31,6 @@ import static org.hamcrest.CoreMatchers.not;
 
 import java.util.List;
 
-import io.syslogic.github.constants.Constants;
-
 /**
  * Application Test Suite
  * @author Martin Zeitler

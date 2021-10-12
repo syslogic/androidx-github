@@ -10,7 +10,7 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
-import io.syslogic.github.constants.Constants;
+import io.syslogic.github.Constants;
 
 /**
  * Model: Repository

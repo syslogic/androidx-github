@@ -1,4 +1,4 @@
-package io.syslogic.github.constants;
+package io.syslogic.github;
 
 import androidx.annotation.NonNull;
 
@@ -7,9 +7,6 @@ import androidx.annotation.NonNull;
  * @author Martin Zeitler
  */
 public final class Constants {
-
-    @NonNull
-    public static final Integer PARAMETER_PUSHED_WITHIN_LAST_DAYS = 90;
 
     @NonNull
     public static final String GITHUB_API_BASE_URL = "https://api.github.com/";

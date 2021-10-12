@@ -1,6 +1,7 @@
 package io.syslogic.github.model;
 
 import androidx.annotation.NonNull;
+import androidx.room.Ignore;
 
 /**
  * Model: Spinner Item
@@ -12,6 +13,11 @@ public class SpinnerItem {
     private String name;
     private String value;
 
+    /** Constructor */
+    public SpinnerItem() {}
+
+    /** Constructor */
+    @Ignore
     public SpinnerItem(@NonNull Integer id, @NonNull String name, @NonNull String value) {
         this.setId(id);
         this.setName(name);

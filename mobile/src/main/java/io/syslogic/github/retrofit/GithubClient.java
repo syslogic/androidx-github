@@ -21,7 +21,7 @@ import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-import io.syslogic.github.constants.Constants;
+import io.syslogic.github.Constants;
 
 /**
  * GitHub Retrofit Client

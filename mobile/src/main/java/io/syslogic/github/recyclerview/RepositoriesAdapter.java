@@ -34,10 +34,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import io.syslogic.github.R;
 import io.syslogic.github.BuildConfig;
 import io.syslogic.github.activity.BaseActivity;
-import io.syslogic.github.constants.Constants;
+import io.syslogic.github.Constants;
 import io.syslogic.github.databinding.FragmentRepositoriesBinding;
 import io.syslogic.github.databinding.CardviewRepositoryBinding;
-import io.syslogic.github.databinding.FragmentRepositoriesBindingImpl;
 import io.syslogic.github.model.PagerState;
 import io.syslogic.github.model.RateLimit;
 import io.syslogic.github.model.RateLimits;
@@ -74,12 +73,9 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     private String queryString = "topic:android";
 
-    public RepositoriesAdapter(@NonNull Context context, @NonNull Integer pageNumber) {
+    public RepositoriesAdapter(@NonNull Context context, @NonNull String queryString, @NonNull Integer pageNumber) {
         this.mContext = new WeakReference<>(context);
-
-        String defaultQuery = context.getResources().getStringArray(R.array.topic_values)[0];
-        this.setQueryString(defaultQuery);
-
+        this.setQueryString(queryString);
         this.fetchPage(pageNumber);
     }
 
@@ -116,21 +112,12 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         return this.mItems.size();
     }
 
-    /** @deprecated */
-    String getQueryString() {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(new Date());
-        calendar.add(Calendar.DAY_OF_YEAR, -Constants.PARAMETER_PUSHED_WITHIN_LAST_DAYS);
-        String isodate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(calendar.getTime());
-        return queryString + "+pushed:>" + isodate;
-    }
-
     public void fetchPage(final int pageNumber) {
 
         final int pageSize = 30;
         String accessToken = getAccessToken();
 
-        Call<Repositories> api = GithubClient.getRepositories(accessToken, getQueryString(),"stars","desc", pageNumber);
+        Call<Repositories> api = GithubClient.getRepositories(accessToken, queryString,"stars","desc", pageNumber);
         if (BuildConfig.DEBUG) {Log.w(LOG_TAG, api.request().url() + "");}
 
         /* updating the pager data-binding */
@@ -313,6 +300,10 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     /** Getters */
     private long getTotalItemCount() {
         return this.totalItemCount;
+    }
+
+    public String getQueryString() {
+        return this.queryString;
     }
 
     /** {@link RecyclerView.ViewHolder} for {@link CardView} of type {@link Repository}. */

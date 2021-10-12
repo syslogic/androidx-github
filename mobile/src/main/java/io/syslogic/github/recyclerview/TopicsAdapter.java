@@ -24,7 +24,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import io.syslogic.github.BuildConfig;
 import io.syslogic.github.R;
 import io.syslogic.github.activity.BaseActivity;
-import io.syslogic.github.constants.Constants;
+import io.syslogic.github.Constants;
 import io.syslogic.github.databinding.CardviewTopicBinding;
 import io.syslogic.github.model.Topic;
 import io.syslogic.github.room.Abstraction;
@@ -87,14 +87,6 @@ public class TopicsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     public int getItemCount() {
         if (this.mItems == null) {return 0;}
         return this.mItems.size();
-    }
-
-    String getQueryString() {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(new Date());
-        calendar.add(Calendar.DAY_OF_YEAR, -Constants.PARAMETER_PUSHED_WITHIN_LAST_DAYS);
-        String isodate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(calendar.getTime());
-        return queryString + "+pushed:>" + isodate;
     }
 
     List<Topic> getItems() {

@@ -1,18 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string-array name="topic_keys">
-        <item name="android">Android</item>
-        <item name="kotlin">Kotlin</item>
-        <item name="gradle">Gradle</item>
-    </string-array>
-
-    <string-array name="topic_values" translatable="false">
-        <item name="android">topic:android</item>
-        <item name="kotlin">topic:kotlin-android</item>
-        <item name="gradle">topic:gradle</item>
-    </string-array>
-
     <string-array name="sortfield_keys">
         <item name="forks">Forks</item>
         <item name="stargazers">Stargazers</item>

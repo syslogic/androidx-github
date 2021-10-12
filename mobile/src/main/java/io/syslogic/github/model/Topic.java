@@ -13,7 +13,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-import io.syslogic.github.constants.Constants;
+import io.syslogic.github.Constants;
 
 /**
  * Model: Topic

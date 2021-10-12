@@ -1,7 +1,6 @@
 package io.syslogic.github.fragment;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +14,7 @@ import androidx.navigation.Navigation;
 
 import io.syslogic.github.R;
 import io.syslogic.github.activity.BaseActivity;
-import io.syslogic.github.constants.Constants;
+import io.syslogic.github.Constants;
 import io.syslogic.github.databinding.FragmentTopicBinding;
 import io.syslogic.github.model.Topic;
 import io.syslogic.github.room.Abstraction;

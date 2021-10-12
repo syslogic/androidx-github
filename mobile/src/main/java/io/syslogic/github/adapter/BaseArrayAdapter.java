@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import androidx.annotation.ArrayRes;
 import androidx.annotation.NonNull;
@@ -23,7 +24,7 @@ import io.syslogic.github.model.SpinnerItem;
  */
 abstract public class BaseArrayAdapter extends BaseAdapter {
 
-    private ArrayList<SpinnerItem> mItems;
+    protected ArrayList<SpinnerItem> mItems = new ArrayList<>();
 
     private final LayoutInflater layoutInflater;
 
@@ -63,6 +64,11 @@ abstract public class BaseArrayAdapter extends BaseAdapter {
     protected void clearItems() {
         if (this.mItems != null) {this.mItems.clear();}
         else {this.mItems = new ArrayList<>();}
+    }
+
+    void setItems(List<SpinnerItem> items) {
+        this.clearItems();
+        this.mItems.addAll(items);
     }
 
     void setItems(@NonNull Context context, @NonNull @ArrayRes Integer arrayKeys, @NonNull @ArrayRes Integer arrayValues) {

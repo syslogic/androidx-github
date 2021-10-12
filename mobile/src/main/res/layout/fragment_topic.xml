@@ -66,7 +66,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/hint_topic_title"
-                    android:text="@{topic.title}"
+                    android:text="@={topic.title}"
                     android:gravity="start"
                     tools:text="Android"/>
             </com.google.android.material.textfield.TextInputLayout>
@@ -81,7 +81,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/hint_topic_query_string"
-                    android:text="@{topic.queryString}"
+                    android:text="@={topic.queryString}"
                     android:gravity="start"
                     tools:text="topic:android"/>
             </com.google.android.material.textfield.TextInputLayout>
@@ -96,7 +96,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/hint_topic_condition"
-                    android:text="@{topic.condition}"
+                    android:text="@={topic.condition}"
                     android:gravity="start"
                     tools:text="pushed"/>
             </com.google.android.material.textfield.TextInputLayout>
@@ -111,7 +111,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/hint_topic_operator"
-                    android:text="@{topic.operator}"
+                    android:text="@={topic.operator}"
                     android:gravity="start"
                     tools:text=">"/>
             </com.google.android.material.textfield.TextInputLayout>
@@ -126,7 +126,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/hint_topic_days"
-                    android:text='@{"" + topic.days}'
+                    android:text='@={"" + topic.days}'
                     android:gravity="start"
                     tools:text="-90"/>
             </com.google.android.material.textfield.TextInputLayout>
