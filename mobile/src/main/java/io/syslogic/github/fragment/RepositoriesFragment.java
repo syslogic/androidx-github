@@ -25,6 +25,7 @@ import io.syslogic.github.databinding.FragmentRepositoriesBinding;
 import io.syslogic.github.model.User;
 import io.syslogic.github.network.TokenCallback;
 import io.syslogic.github.recyclerview.RepositoriesAdapter;
+import io.syslogic.github.recyclerview.RepositoriesLinearView;
 import io.syslogic.github.recyclerview.ScrollListener;
 
 /**
@@ -84,12 +85,12 @@ public class RepositoriesFragment extends BaseFragment implements TokenCallback 
 
                         // the SpinnerItem has the same ID as the Topic.
                         queryString = item.getValue();
-                        getDataBinding().recyclerviewRepositories.setQueryString(queryString);
-                        getDataBinding().toolbarPager.textQueryString.setText( getDataBinding().recyclerviewRepositories.getQueryString());
-
-                        if (getDataBinding().recyclerviewRepositories.getAdapter() != null) {
-                            getDataBinding().recyclerviewRepositories.clearAdapter();
-                            ((RepositoriesAdapter) getDataBinding().recyclerviewRepositories.getAdapter()).fetchPage(1);
+                        RepositoriesLinearView recyclerview = getDataBinding().recyclerviewRepositories;
+                        recyclerview.setQueryString(queryString);
+                        getDataBinding().toolbarPager.textQueryString.setText( recyclerview.getQueryString());
+                        if (recyclerview.getAdapter() != null) {
+                            recyclerview.clearAdapter();
+                            ((RepositoriesAdapter) recyclerview.getAdapter()).fetchPage(1);
                         }
                     }
                     count++;
@@ -106,7 +107,7 @@ public class RepositoriesFragment extends BaseFragment implements TokenCallback 
                         this.getDataBinding().toolbarPager.textQueryString.setText(text);
                     }
                 } else {
-                    // this.onNetworkLost();
+                    this.onNetworkLost();
                 }
             }
         }
@@ -163,9 +164,8 @@ public class RepositoriesFragment extends BaseFragment implements TokenCallback 
                             getDataBinding().recyclerviewRepositories.setAdapter(new RepositoriesAdapter(requireActivity(), queryString,1));
                         });
                     }
-
-                    /* if required, fetch page 1 */
                 } else if (adapter.getItemCount() == 0) {
+                    /* if required, fetch page 1 */
                     adapter.fetchPage(1);
                 }
             }
