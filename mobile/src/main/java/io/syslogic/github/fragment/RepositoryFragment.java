@@ -207,6 +207,9 @@ public class RepositoryFragment extends BaseFragment implements TokenCallback {
     @Override
     public void onNetworkLost() {
         super.onNetworkLost();
+        if (this.getContext() != null) {
+            Toast.makeText(getContext(), "device is offline", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
@@ -370,8 +373,9 @@ public class RepositoryFragment extends BaseFragment implements TokenCallback {
     }
 
     void downloadRepository(@NonNull final Repository item, final String archiveFormat, String branch) {
-
-        Call<ResponseBody> api = GithubClient.getArchiveLink(getAccessToken(getContext()), item.getOwner().getLogin(), item.getName(), archiveFormat, branch);
+        String token = getAccessToken(requireContext());
+        assert token != null;
+        Call<ResponseBody> api = GithubClient.getArchiveLink(token, item.getOwner().getLogin(), item.getName(), archiveFormat, branch);
         if (mDebug) {Log.d(LOG_TAG, api.request().url() + "");}
 
         api.enqueue(new Callback<ResponseBody>() {

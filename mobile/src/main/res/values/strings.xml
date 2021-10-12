@@ -14,7 +14,7 @@
     <string name="text_subscribers">subscribers</string>
     <string name="text_networks">networks</string>
 
-    <string name="text_pager_offline">device offline</string>
+    <string name="text_pager_offline">device is offline</string>
     <string name="text_pager_loading">loading page %1$d of %2$d</string>
     <string name="text_pager_loaded">loaded page %1$d of %2$d</string>
 
@@ -23,5 +23,12 @@
     <string name="debug_branch_master">%1$s master branch index: %2$d</string>
     <string name="debug_network_present">network connection is present</string>
     <string name="debug_network_absent">network connection is absent</string>
+
+    <string name="hint_auto_id">Auto ID</string>
+    <string name="hint_topic_title">Topic Title</string>
+    <string name="hint_topic_condition">Condition</string>
+    <string name="hint_topic_operator">Operator</string>
+    <string name="hint_topic_query_string">Query String</string>
+    <string name="hint_topic_days">Days</string>
 
 </resources>

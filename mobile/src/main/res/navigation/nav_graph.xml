@@ -6,13 +6,11 @@
     app:startDestination="@id/repositoriesFragment"
     android:id="@+id/nav_graph">
 
-
     <fragment
         android:id="@+id/repositoriesFragment"
         android:label="fragment_repositories"
         android:name="io.syslogic.github.fragment.RepositoriesFragment"
         tools:layout="@layout/fragment_repositories">
-
         <action
             android:id="@+id/action_repositoriesFragment_to_repositoryFragment"
             app:destination="@id/repositoryFragment"/>
@@ -29,16 +27,14 @@
         android:label="fragment_repository"
         android:name="io.syslogic.github.fragment.RepositoryFragment"
         tools:layout="@layout/fragment_repository">
-
+        <argument app:argType="long" android:name="itemId" android:defaultValue="-1L"/>
     </fragment>
 
     <fragment
         android:id="@+id/profileFragment"
         android:label="fragment_profile"
         android:name="io.syslogic.github.fragment.RepositoryFragment"
-        tools:layout="@layout/fragment_profile">
-
-    </fragment>
+        tools:layout="@layout/fragment_profile"/>
 
     <navigation
         android:id="@+id/topicsGraph"
@@ -56,7 +52,9 @@
             android:id="@+id/topicFragment"
             android:name="io.syslogic.github.fragment.TopicFragment"
             android:label="fragment_topic"
-            tools:layout="@layout/fragment_topic" />
+            tools:layout="@layout/fragment_topic">
+            <argument app:argType="long" android:name="itemId" android:defaultValue="-1L"/>
+        </fragment>
     </navigation>
 
 </navigation>

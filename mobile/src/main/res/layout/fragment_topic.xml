@@ -11,101 +11,140 @@
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/layout_topic"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical">
-
-        <include layout="@layout/toolbar_topic"
-            android:id="@+id/toolbar_topic"
-            android:layout_width="match_parent"
-            android:layout_height="?android:attr/actionBarSize"
-            android:layout_margin="0dp"/>
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:background="@color/colorAccent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <include layout="@layout/toolbar_topic"
+                android:id="@+id/toolbar_topic"
+                android:layout_width="match_parent"
+                android:layout_height="?android:attr/actionBarSize"
+                android:layout_margin="0dp"/>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="@color/colorAccent"
+                android:orientation="vertical"
+                android:layout_gravity="top"
+                android:padding="0dp"/>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:orientation="vertical"
-            android:layout_gravity="top"
-            android:padding="0dp"/>
-
-        <androidx.appcompat.widget.AppCompatEditText
-            android:id="@+id/id"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:color="?android:colorControlHighlight"
-            android:fontFamily="sans-serif-medium"
-            android:gravity="center_vertical|center"
-            android:padding="8dp"
-            android:text='@{"" + topic.id}'
-            android:textColor="@color/colorText"
-            android:textSize="14sp"
-            tools:text="23"/>
-
-        <androidx.appcompat.widget.AppCompatEditText
-            android:id="@+id/title"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:color="?android:colorControlHighlight"
-            android:fontFamily="sans-serif-medium"
-            android:gravity="center_vertical|start"
-            android:padding="8dp"
-            android:text="@{topic.title}"
-            android:textColor="@color/colorText"
-            android:textSize="14sp"
-            tools:text="Android"/>
+            android:layout_weight="1.0"
+            android:layout_height="0dp"
+            android:padding="8dp">
 
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/id"
+                    android:inputType="text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/hint_auto_id"
+                    android:text='@{"" + topic.id}'
+                    android:gravity="start"
+                    tools:text="23"/>
+            </com.google.android.material.textfield.TextInputLayout>
+            <Space android:layout_width="match_parent" android:layout_height="8dp"/>
 
-        <androidx.appcompat.widget.AppCompatEditText
-            android:id="@+id/queryString"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:color="?android:colorControlHighlight"
-            android:fontFamily="sans-serif-medium"
-            android:gravity="center_vertical|start"
-            android:padding="8dp"
-            android:text="@{topic.queryString}"
-            android:textColor="@color/colorText"
-            android:textSize="14sp"
-            tools:text="topic:android"/>
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/title"
+                    android:inputType="text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/hint_topic_title"
+                    android:text="@{topic.title}"
+                    android:gravity="start"
+                    tools:text="Android"/>
+            </com.google.android.material.textfield.TextInputLayout>
+            <Space android:layout_width="match_parent" android:layout_height="8dp"/>
 
-        <androidx.appcompat.widget.AppCompatEditText
-            android:id="@+id/condition"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:color="?android:colorControlHighlight"
-            android:fontFamily="sans-serif-medium"
-            android:gravity="center_vertical|start"
-            android:padding="8dp"
-            android:text="@{topic.condition}"
-            android:textColor="@color/colorText"
-            android:textSize="14sp"
-            tools:text="pushed"/>
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/queryString"
+                    android:inputType="text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/hint_topic_query_string"
+                    android:text="@{topic.queryString}"
+                    android:gravity="start"
+                    tools:text="topic:android"/>
+            </com.google.android.material.textfield.TextInputLayout>
+            <Space android:layout_width="match_parent" android:layout_height="8dp"/>
 
-        <androidx.appcompat.widget.AppCompatEditText
-            android:id="@+id/operator"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:color="?android:colorControlHighlight"
-            android:fontFamily="sans-serif-medium"
-            android:gravity="center_vertical|start"
-            android:padding="8dp"
-            android:text="@{topic.operator}"
-            android:textColor="@color/colorText"
-            android:textSize="14sp"
-            tools:text=">"/>
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/condition"
+                    android:inputType="text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/hint_topic_condition"
+                    android:text="@{topic.condition}"
+                    android:gravity="start"
+                    tools:text="pushed"/>
+            </com.google.android.material.textfield.TextInputLayout>
+            <Space android:layout_width="match_parent" android:layout_height="8dp"/>
 
-        <androidx.appcompat.widget.AppCompatEditText
-            android:id="@+id/days"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:color="?android:colorControlHighlight"
-            android:fontFamily="sans-serif-medium"
-            android:gravity="center_vertical|start"
-            android:padding="8dp"
-            android:text='@{"" + topic.days}'
-            android:textColor="@color/colorText"
-            android:textSize="14sp"
-            tools:text="-90"/>
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/operator"
+                    android:inputType="text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/hint_topic_operator"
+                    android:text="@{topic.operator}"
+                    android:gravity="start"
+                    tools:text=">"/>
+            </com.google.android.material.textfield.TextInputLayout>
+            <Space android:layout_width="match_parent" android:layout_height="8dp"/>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/days"
+                    android:inputType="numberSigned"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/hint_topic_days"
+                    android:text='@{"" + topic.days}'
+                    android:gravity="start"
+                    tools:text="-90"/>
+            </com.google.android.material.textfield.TextInputLayout>
+            <Space android:layout_width="match_parent" android:layout_height="8dp"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{topic.toQueryString}"/>
+            <Space android:layout_width="match_parent" android:layout_height="8dp"/>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/button_save"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@android:string/ok" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 

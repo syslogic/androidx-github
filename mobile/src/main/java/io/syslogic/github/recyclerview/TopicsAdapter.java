@@ -153,10 +153,9 @@ public class TopicsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             BaseActivity activity = (BaseActivity) this.mRecyclerView.getContext();
             ViewDataBinding databinding = activity.getFragmentDataBinding();
             if (databinding != null) {
-                View Layout = databinding.getRoot();
                 Bundle args = new Bundle();
                 args.putLong(Constants.ARGUMENT_ITEM_ID, item.getId());
-                NavController controller = Navigation.findNavController(Layout);
+                NavController controller = Navigation.findNavController(databinding.getRoot());
                 controller.navigate(R.id.action_topicsFragment_to_topicFragment, args);
             }
         }

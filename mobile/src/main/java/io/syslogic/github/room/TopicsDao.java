@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.Update;
 
 import java.util.List;
 
@@ -19,13 +20,19 @@ import io.syslogic.github.model.Topic;
 public interface TopicsDao {
 
     @Query("SELECT * FROM " + Constants.TABLE_TOPICS)
-    @NonNull List<Topic> getItems();
+    List<Topic> getItems();
+
+    @Query("SELECT * FROM " + Constants.TABLE_TOPICS + " WHERE id = :itemId")
+    Topic getItem(Long itemId);
 
     @Query("SELECT id, title AS name, query_string AS value FROM " + Constants.TABLE_TOPICS)
-    @NonNull List<SpinnerItem> getSpinnerItems();
+    List<SpinnerItem> getSpinnerItems();
 
     @Insert()
-    @NonNull Long insert(@NonNull Topic item);
+    Long insert(Topic item);
+
+    @Update()
+    void update(Topic item);
 
     @Query("DELETE FROM " + Constants.TABLE_TOPICS)
     void clear();
