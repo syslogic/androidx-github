@@ -257,7 +257,7 @@ public class RepositoryFragment extends BaseFragment implements TokenCallback {
                             if (response.errorBody() != null) {
                                 try {
                                     String errors = response.errorBody().string();
-                                    JsonObject jsonObject = new JsonParser().parse(errors).getAsJsonObject();
+                                    JsonObject jsonObject = JsonParser.parseString(errors).getAsJsonObject();
                                     String message = jsonObject.get("message").toString();
                                     if (mDebug) {
                                         Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
@@ -342,7 +342,7 @@ public class RepositoryFragment extends BaseFragment implements TokenCallback {
                         if (response.errorBody() != null) {
                             try {
                                 String errors = response.errorBody().string();
-                                JsonObject jsonObject = new JsonParser().parse(errors).getAsJsonObject();
+                                JsonObject jsonObject = JsonParser.parseString(errors).getAsJsonObject();
                                 String message = jsonObject.get("message").toString();
                                 if (mDebug) {
                                     Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();

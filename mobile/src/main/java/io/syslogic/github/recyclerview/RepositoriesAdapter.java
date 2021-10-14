@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.google.android.material.chip.Chip;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
@@ -61,9 +62,9 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     /** Debug Output */
     static final boolean mDebug = BuildConfig.DEBUG;
 
-    private WeakReference<Context> mContext;
+    private final ArrayList<Repository> mItems = new ArrayList<>();
 
-    private ArrayList<Repository> mItems = new ArrayList<>();
+    private WeakReference<Context> mContext;
 
     private RecyclerView mRecyclerView;
 
@@ -94,7 +95,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @Override
     public void onBindViewHolder(@NonNull final RecyclerView.ViewHolder viewHolder, int position) {
-        final Repository item = getItem(position);
+        Repository item = getItem(position);
         ((ViewHolder) viewHolder).getDataBinding().setRepository(item);
         ((ViewHolder) viewHolder).setId(item.getId());
         ((ViewHolder) viewHolder).setTag(item);
@@ -131,14 +132,14 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                             if (response.body() != null) {
 
                                 Repositories items = response.body();
-                                if (BuildConfig.DEBUG) {Log.d(LOG_TAG, "loaded " + (getItemCount() + pageSize) + " / " + items.getCount());}
-                                setTotalItemCount(items.getCount());
+                                if (BuildConfig.DEBUG) {Log.d(LOG_TAG, "loaded " + (getItemCount() + pageSize) + " / " + items.getTotalCount());}
+                                setTotalItemCount(items.getTotalCount());
                                 int positionStart = getItemCount();
                                 getItems().addAll(items.getRepositories());
                                 notifyItemRangeChanged(positionStart, getItemCount());
 
                                 /* updating the pager data-binding */
-                                setPagerState(pageNumber, false, items.getCount());
+                                setPagerState(pageNumber, false, items.getTotalCount());
                             }
                             break;
                         }
@@ -148,7 +149,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                             if (response.errorBody() != null) {
                                 try {
                                     String errors = response.errorBody().string();
-                                    JsonObject jsonObject = new JsonParser().parse(errors).getAsJsonObject();
+                                    JsonObject jsonObject = JsonParser.parseString(errors).getAsJsonObject();
                                     Toast.makeText(getContext(), jsonObject.get("message").toString(), Toast.LENGTH_LONG).show();
                                     if (BuildConfig.DEBUG) {Log.e(LOG_TAG, jsonObject.get("message").toString());}
                                 } catch (IOException e) {
@@ -165,7 +166,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                             if (response.errorBody() != null) {
                                 try {
                                     String errors = response.errorBody().string();
-                                    JsonObject jsonObject = new JsonParser().parse(errors).getAsJsonObject();
+                                    JsonObject jsonObject = JsonParser.parseString(errors).getAsJsonObject();
                                     if (BuildConfig.DEBUG) {Log.e(LOG_TAG, jsonObject.get("message").toString());}
                                 } catch (IOException e) {
                                     if (BuildConfig.DEBUG) {Log.e(LOG_TAG, "" + e.getMessage());}
@@ -244,19 +245,15 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 state.setPageCount((int) Math.ceil((float) itemCount / state.getItemsPerPage()));
                 state.setItemCount(itemCount);
             }
-
             FragmentRepositoriesBinding databinding = (FragmentRepositoriesBinding) ((BaseActivity) getContext()).getFragmentDataBinding();
             databinding.setPagerState(state);
         }
     }
 
     protected void getRateLimit(@SuppressWarnings("SameParameterValue") @NonNull final String resourceName) {
-
         Call<RateLimits> api = GithubClient.getRateLimits();
         if (BuildConfig.DEBUG) {Log.w(LOG_TAG, api.request().url() + "");}
-
         api.enqueue(new Callback<RateLimits>() {
-
             @Override
             public void onResponse(@NonNull Call<RateLimits> call, @NonNull Response<RateLimits> response) {
                 switch(response.code()) {
@@ -270,7 +267,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                                 case "core": limit = items.getResources().getCore(); break;
                             }
                             if (limit != null && BuildConfig.DEBUG) {
-                                long seconds = (long) Math.ceil((new Date(limit.getReset() * 1000).getTime() - new Date().getTime()) / 1000);
+                                long seconds = (long) Math.ceil((new Date(limit.getReset() * 1000).getTime() - Math.ceil(new Date().getTime()) / 1000));
                                 String text = String.format(Locale.getDefault(), "%s quota: %d / %d. reset in %d seconds.", resourceName, limit.getRemaining(), limit.getLimit(), seconds);
                                 Toast.makeText(getContext(), text, Toast.LENGTH_SHORT).show();
                             }
@@ -284,10 +281,9 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     }
                 }
             }
-
             @Override
             public void onFailure(@NonNull Call<RateLimits> call, @NonNull Throwable t) {
-                if (BuildConfig.DEBUG) {Log.e(LOG_TAG, "" + t.getMessage());}
+                if (mDebug) {Log.e(LOG_TAG, "" + t.getMessage());}
             }
         });
     }
@@ -332,8 +328,21 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             this.mDataBinding = binding;
 
             View layout = binding.getRoot();
-            this.setCardView((CardView) layout.findViewById(R.id.cardview));
-            if (this.cardView != null) {this.cardView.setOnClickListener(this);}
+            this.setCardView(layout.findViewById(R.id.cardview));
+            if (this.cardView != null) {
+                this.cardView.setOnClickListener(this);
+
+                /* dynamically adding the topics as chips */
+                Repository item = binding.getRepository();
+                if (item != null) {
+                    String[] topics = item.getTopics();
+                    for (String topic : topics) {
+                        Chip chip = new Chip(this.cardView.getContext());
+                        chip.setText(topic);
+                        binding.chipGroup.addView(chip);
+                    }
+                }
+            }
         }
 
         @Override

@@ -1,12 +1,15 @@
 package io.syslogic.github.fragment;
 
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.databinding.ViewDataBinding;
 import androidx.navigation.NavController;
@@ -41,6 +44,7 @@ public class TopicFragment extends BaseFragment {
     /** Constructor */
     public TopicFragment() {}
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,14 +59,13 @@ public class TopicFragment extends BaseFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         this.setDataBinding(FragmentTopicBinding.inflate(inflater, container, false));
+        if (itemId == 0) { this.getDataBinding().setTopic(new Topic());}
         this.getDataBinding().setLifecycleOwner(this);
 
         BaseActivity activity = ((BaseActivity) this.requireActivity());
         activity.setSupportActionBar(this.getDataBinding().toolbarTopic.toolbarTopic);
         ActionBar actionbar = activity.getSupportActionBar();
-        if (actionbar != null) {
-            actionbar.setHomeButtonEnabled(true);
-        }
+        if (actionbar != null) {actionbar.setHomeButtonEnabled(true);}
 
         this.getDataBinding().toolbarTopic.home.setOnClickListener(view -> {
             NavController controller = Navigation.findNavController(getDataBinding().getRoot());
@@ -72,17 +75,18 @@ public class TopicFragment extends BaseFragment {
         this.getDataBinding().buttonSave.setOnClickListener(view -> {
             TopicsDao dao = Abstraction.getInstance(requireContext()).topicsDao();
             Topic item = this.getDataBinding().getTopic();
-            Abstraction.executorService.execute(() -> {
-                if (itemId == -1L) {
-                    itemId = dao.insert(item);
-                } else {
-                    dao.update(item);
-                }
-                requireActivity().runOnUiThread(() -> {
-                    NavController controller = Navigation.findNavController(getDataBinding().getRoot());
-                    controller.navigateUp();
+            if (item != null) {
+                Abstraction.executorService.execute(() -> {
+                    if (itemId == -1L) {itemId = dao.insert(item);}
+                    else {dao.update(item);}
+                    requireActivity().runOnUiThread(() -> {
+                        NavController controller = Navigation.findNavController(getDataBinding().getRoot());
+                        controller.navigateUp();
+                    });
                 });
-            });
+            } else {
+                Log.e(LOG_TAG, "could not get item");
+            }
         });
 
         if (this.itemId == 0) {

@@ -1,8 +1,5 @@
 package io.syslogic.github.fragment;
 
-import android.Manifest;
-import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
@@ -59,31 +56,14 @@ abstract public class BaseFragment extends Fragment implements ConnectivityListe
     /** Constructor */
     public BaseFragment() {}
 
-    @SuppressLint("NewApi")
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            this.registerNetworkCallback(requireContext(), this);
+            this.registerNetworkCallback(requireContext(), BaseFragment.this);
         } else {
             this.registerBroadcastReceiver(requireContext());
-        }
-
-        if (getContext() != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            Activity activity = (Activity) requireContext();
-
-            /* for testing purposes only: */
-            // this.accessToken = this.getAccessToken(this.getContext());
-
-            if (activity.checkSelfPermission(Manifest.permission.ACCOUNT_MANAGER) != PackageManager.PERMISSION_GRANTED) {
-                activity.requestPermissions(new String[]{Manifest.permission.ACCOUNT_MANAGER}, Constants.REQUESTCODE_ADD_ACCESS_TOKEN);
-            } else {
-                // this.accessToken = this.getAccessToken(this.getContext());
-            }
-        } else {
-            // this.accessToken = this.getAccessToken(this.getContext());
         }
     }
 
@@ -93,7 +73,7 @@ abstract public class BaseFragment extends Fragment implements ConnectivityListe
         return Objects.requireNonNull(cm);
     }
 
-    @SuppressWarnings("deprecation")
+    @SuppressWarnings({"deprecation", "RedundantSuppression"})
     public static boolean isNetworkAvailable(@Nullable Context context) {
         if (context == null)  {return false;}
         ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -169,7 +149,7 @@ abstract public class BaseFragment extends Fragment implements ConnectivityListe
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             if (requestCode == Constants.REQUESTCODE_ADD_ACCESS_TOKEN) {
-                //this.setUser(this.accessToken, this);
+                // setUser(this.accessToken, BaseFragment.this);
             }
         }
     }
@@ -222,7 +202,7 @@ abstract public class BaseFragment extends Fragment implements ConnectivityListe
                         if (response.errorBody() != null) {
                             try {
                                 String errors = response.errorBody().string();
-                                JsonObject jsonObject = new JsonParser().parse(errors).getAsJsonObject();
+                                JsonObject jsonObject = JsonParser.parseString(errors).getAsJsonObject();
                                 String message = jsonObject.get("message").toString();
                                 if (mDebug) {
                                     Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();

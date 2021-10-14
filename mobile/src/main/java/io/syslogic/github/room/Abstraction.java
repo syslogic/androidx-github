@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
+import androidx.room.TypeConverters;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import java.util.concurrent.ExecutorService;
@@ -19,6 +20,7 @@ import io.syslogic.github.model.Topic;
  * @author Martin Zeitler
  */
 @Database(version = 1, entities = {Topic.class, Repository.class})
+@TypeConverters(StringArrayConverter.class)
 public abstract class Abstraction extends RoomDatabase {
 
     @NonNull
@@ -36,7 +38,10 @@ public abstract class Abstraction extends RoomDatabase {
 
     public abstract TopicsDao topicsDao();
 
-    /** Asset `src/main/assets/room.db` must match the current schema! */
+    /**
+     * Asset `src/main/assets/room.db` must match the current schema -
+     * else this will result in: "Room cannot verify the data integrity".
+     */
     @NonNull
     public static Abstraction getInstance(@NonNull Context context) {
         if (sInstance == null) {

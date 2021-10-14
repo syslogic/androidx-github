@@ -106,83 +106,91 @@ public class User {
     private Date updatedAt;
 
     /* Getters */
-    @NonNull
-    public String getLogin() {
+    @NonNull public String getLogin() {
         return this.login;
     }
-    @NonNull
-    public Long getId() {
+
+    @NonNull public Long getId() {
         return this.id;
     }
-    @NonNull
-    public String getNodeId() {
+
+    @NonNull public String getNodeId() {
         return this.nodeId;
     }
-    @NonNull
-    public String getAvatarUrl() {
+
+    @NonNull public String getAvatarUrl() {
         return this.avatarUrl;
     }
-    @NonNull
-    public String getGravatarId() {
+
+    @NonNull public String getGravatarId() {
         return this.gravatarId;
     }
-    @NonNull
-    public String getUrl() {
+
+    @NonNull public String getUrl() {
         return this.url;
     }
-    @NonNull
-    public String getHtmlUrl() {
+
+    @NonNull public String getHtmlUrl() {
         return this.htmlUrl;
     }
-    @NonNull
-    public String getReposUrl() {
+
+    @NonNull public String getReposUrl() {
         return this.reposUrl;
     }
-    @NonNull
-    public String getType() {
+
+    @NonNull public String getType() {
         return this.type;
     }
-    @NonNull
-    public Boolean getSiteAdmin() {
+
+    @NonNull public Boolean getSiteAdmin() {
         return this.siteAdmin;
     }
-    @NonNull
-    public String getName() {
+
+    @NonNull public String getName() {
         return this.name;
     }
-
 
     /* Setters */
     public void setLogin(@NonNull String value) {
         this.login = value;
     }
+
     public void setId(@NonNull Long value) {
         this.id = value;
     }
+
     public void setNodeId(@NonNull String value) {
         this.nodeId = value;
     }
+
     public void setAvatarUrl(@NonNull String value) {
         this.avatarUrl = value;
     }
+
     public void setGravatarId(@NonNull String value) {
         this.gravatarId = value;
     }
+
     public void setUrl(@NonNull String value) {
         this.url = value;
     }
+
     public void setHtmlUrl(@NonNull String value) {
         this.htmlUrl = value;
     }
+
     public void setReposUrl(@NonNull String value) {
         this.reposUrl = value;
     }
+
     public void setType(@NonNull String value) {
         this.type = value;
     }
+
     public void setSiteAdmin(@NonNull Boolean value) {
         this.siteAdmin = value;
     }
+
     public void setName(@NonNull String value) {
         this.name = value;
     }

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sync-adapter
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:contentAuthority="io.syslogic.github.content.RepositoryProvider"
+    android:accountType="io.syslogic.github"
+    android:supportsUploading="false"
+    android:allowParallelSyncs="true"
+    android:isAlwaysSyncable="true"
+    android:userVisible="true"/>

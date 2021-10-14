@@ -13,7 +13,7 @@ import io.syslogic.github.R;
  */
 public class PreferencesFragment extends PreferenceFragmentCompat {
 
-    private static final int resId = R.xml.preferences;
+    private static final int resId = R.xml.account_preferences;
 
     /** Log Tag */
     @SuppressWarnings("unused")

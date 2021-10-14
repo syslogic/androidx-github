@@ -17,14 +17,15 @@ public class Repositories extends BaseModel {
     private ArrayList<Repository> mItems;
 
     @SerializedName("total_count")
-    private Long count;
+    private Long totalCount;
 
     public void setRepositories(@NonNull ArrayList<Repository> items) {
         this.mItems = items;
     }
 
-    public void setCount(@NonNull Long value) {
-        this.count = value;
+    @SuppressWarnings("unused")
+    public void setTotalCount(@NonNull Long value) {
+        this.totalCount = value;
     }
 
     @NonNull
@@ -34,8 +35,12 @@ public class Repositories extends BaseModel {
 
     @NonNull
     @Bindable
-    public Long getCount() {
-        return this.count;
+    public Long getTotalCount() {
+        return this.totalCount;
     }
 
+    public Long getPageCount() {
+        Long recordsPerPage = 30L;
+        return (this.totalCount + recordsPerPage -1) / recordsPerPage;
+    }
 }

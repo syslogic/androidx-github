@@ -1,7 +1,6 @@
 package io.syslogic.github.fragment;
 
 import android.annotation.SuppressLint;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -117,9 +116,7 @@ public class ProfileFragment extends BaseFragment implements TokenCallback {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
-        }
+        // if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {}
     }
 
     @Override

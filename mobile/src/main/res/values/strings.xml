@@ -2,6 +2,9 @@
 <resources>
 
     <string name="app_name">GitHub API Client</string>
+    <string name="package_name">io.syslogic.github</string>
+
+    <string name="text_access_token">Personal Access Token</string>
     <string name="title_preferences_token">Access Token Preferences</string>
     <string name="summary_preferences_token">Edit or remove the token</string>
 
@@ -10,6 +13,7 @@
     <string name="menu_action_edit_topics">Edit Topics</string>
     <string name="menu_action_add_topic">Add Topic</string>
 
+    <string name="text_repositories">Repositories</string>
     <string name="text_forks">forks</string>
     <string name="text_stargazers">stargazers</string>
     <string name="text_watchers">watchers</string>

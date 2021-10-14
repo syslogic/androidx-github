@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import io.syslogic.github.BuildConfig;
+import io.syslogic.github.Constants;
 
 /**
  * Access Token Helper
@@ -25,8 +26,6 @@ public class TokenHelper {
     /** Debug Output */
     private static final boolean mDebug = BuildConfig.DEBUG;
 
-    private static final String accountType = "io.syslogic.github";
-
     @Nullable
     public static String getAccessToken(@NonNull Context context) {
         AccountManager accountManager = AccountManager.get(context);
@@ -39,7 +38,7 @@ public class TokenHelper {
             if (account != null) {
                 return accountManager.getUserData(account, "accessToken");
             } else {
-                Log.d(LOG_TAG, "account not found: " + accountType);
+                Log.d(LOG_TAG, "account not found: " + Constants.CLIENT_ACCOUNT_TYPE);
                 return null;
             }
         }
@@ -59,7 +58,7 @@ public class TokenHelper {
 
     @SuppressWarnings("SameParameterValue")
     private static Account getAccount(AccountManager accountManager, int index) {
-        Account[] accounts = accountManager.getAccountsByType(accountType);
+        Account[] accounts = accountManager.getAccountsByType(Constants.CLIENT_ACCOUNT_TYPE);
         if (accounts.length <= index) {return null;}
         else {return accounts[ index ];}
     }
@@ -67,7 +66,7 @@ public class TokenHelper {
     /** It currently adds into the "Personal" accounts (probably depending on the profile). */
     private static void addAccount(AccountManager accountManager, String accessToken) {
         if (getAccount(accountManager, 0) == null) {
-            Account account = new Account("Personal Access Token", accountType);
+            Account account = new Account("GitHub API Client", Constants.CLIENT_ACCOUNT_TYPE);
             Bundle extraData = new Bundle();
             extraData.putString("accessToken", accessToken);
             accountManager.addAccountExplicitly(account, accessToken, extraData);

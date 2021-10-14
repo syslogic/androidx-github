@@ -43,7 +43,11 @@ public class TokenService extends Service {
     @NonNull
     @Override
     public IBinder onBind(@NonNull Intent intent) {
-        return mAuthenticator.getIBinder();
+        return this.mAuthenticator.getIBinder();
+    }
+
+    public IBinder getIBinder() {
+        return this.mAuthenticator.getIBinder();
     }
 
     public static class Authenticator extends AbstractAccountAuthenticator {

@@ -1,5 +1,7 @@
 package io.syslogic.github.model;
 
+import android.content.ContentValues;
+
 import com.google.gson.annotations.SerializedName;
 
 import androidx.annotation.NonNull;
@@ -19,7 +21,7 @@ import io.syslogic.github.Constants;
 @Entity(tableName = Constants.TABLE_REPOSITORIES)
 public class Repository extends BaseModel {
 
-    @PrimaryKey(autoGenerate = false)
+    @PrimaryKey()
     @ColumnInfo(name = "id")
     @SerializedName("id")
     private Long id;
@@ -63,6 +65,10 @@ public class Repository extends BaseModel {
 
     @SerializedName("network_count")
     private Long networkCount = 0L;
+
+    @Ignore
+    @SerializedName("topics")
+    private String[] topics;
 
     /** Constructor */
     public Repository() {}
@@ -130,6 +136,10 @@ public class Repository extends BaseModel {
 
     public void setNetworkCount(@NonNull Long value) {
         this.networkCount = value;
+    }
+
+    public void setTopics(@NonNull String[] value) {
+        this.topics = value;
     }
 
     /* Getters */
@@ -215,5 +225,33 @@ public class Repository extends BaseModel {
     @Bindable
     public Long getNetworkCount() {
         return this.networkCount;
+    }
+
+    @NonNull
+    @Bindable
+    public String[] getTopics() {
+        return this.topics;
+    }
+
+    @SuppressWarnings("unused")
+    public ContentValues toContentValues() {
+        ContentValues values = new ContentValues();
+        values.put("id", this.getId());
+        values.put("node_id", this.getNodeId());
+        values.put("name", this.getName());
+        values.put("full_name", this.getFullName());
+        values.put("url", this.getUrl());
+        values.put("html_url", this.getHtmlUrl());
+        return values;
+    }
+
+    public Repository fromContentValues(ContentValues values) {
+        this.setId(values.getAsLong("id"));
+        this.setNodeId(values.getAsString("node_id"));
+        this.setName(values.getAsString("name"));
+        this.setFullName(values.getAsString("full_name"));
+        this.setUrl(values.getAsString("url"));
+        this.setHtmlUrl(values.getAsString("html_url"));
+        return this;
     }
 }

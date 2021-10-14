@@ -15,6 +15,9 @@ public final class Constants {
     public static final String GITHUB_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss'Z'";
 
     @NonNull
+    public static final String CLIENT_ACCOUNT_TYPE = "io.syslogic.github";
+
+    @NonNull
     public static final String ARGUMENT_ITEM_ID = "itemId";
 
     @NonNull
@@ -27,13 +30,10 @@ public final class Constants {
     public static final Integer REQUESTCODE_DOWNLOAD_TARBALL = 502;
 
     @NonNull
-    public static final String ARGUMENT_FILE_NAME    = "fileName";
+    public static final String PREFERENCE_KEY_DEBUG_LOGGING = "debug_logging";
 
     @NonNull
-    public static final String ARGUMENT_FILE_SIZE    = "fileSize";
-
-    @NonNull
-    public static final String ARGUMENT_TASK_SUCCESS = "taskSuccess";
+    public static final String PREFERENCE_KEY_TOKEN_SETTINGS = "token_settings";
 
     @NonNull
     public static final String CONNECTIVITY_ACTION = "android.net.conn.CONNECTIVITY_CHANGE";

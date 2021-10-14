@@ -4,29 +4,25 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="io.syslogic.github">
 
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
+    <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" android:maxSdkVersion="22"/>
+    <uses-permission android:name="android.permission.READ_SYNC_SETTINGS"/>
     <uses-permission
-        android:name="android.permission.INTERNET"/>
-
-    <uses-permission
-        android:name="android.permission.ACCESS_NETWORK_STATE"/>
-
-    <uses-permission
-        android:name="android.permission.GET_ACCOUNTS"/>
-
-    <uses-permission
-        android:name="android.permission.AUTHENTICATE_ACCOUNTS"
-        android:maxSdkVersion="22"/>
-
+        android:name="android.permission.USE_CREDENTIALS"
+        android:maxSdkVersion="22" />
+    <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS"/>
     <application
         android:label="@string/app_name"
         android:hardwareAccelerated="true"
-        android:networkSecurityConfig="@xml/network"
+        android:networkSecurityConfig="@xml/network_security_config"
         android:roundIcon="@drawable/ic_launcher_round"
         android:icon="@drawable/ic_launcher"
         android:theme="@style/AppTheme"
         android:allowBackup="false"
         android:supportsRtl="true"
-        tools:targetApi="n">
+        tools:targetApi="N">
 
         <activity
             android:name="io.syslogic.github.activity.NavHostActivity"
@@ -39,16 +35,46 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name="io.syslogic.github.activity.AuthenticatorActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="io.syslogic.github.SYNC_SETTINGS"/>
+            </intent-filter>
+        </activity>
+
         <service
             android:name="io.syslogic.github.network.TokenService"
-            tools:ignore="ExportedService"
             android:exported="false">
             <intent-filter>
-                <action android:name="android.accounts.AccountAuthenticator" />
+                <action android:name="android.accounts.AccountAuthenticator"/>
             </intent-filter>
             <meta-data
                 android:name="android.accounts.AccountAuthenticator"
-                android:resource="@xml/authenticator" />
+                android:resource="@xml/account_authenticator"/>
+        </service>
+
+        <provider
+            android:label="@string/text_repositories"
+            android:authorities="io.syslogic.github.content.RepositoryProvider"
+            android:name="io.syslogic.github.content.RepositoryProvider"
+            android:grantUriPermissions="true"
+            android:exported="true"
+            android:syncable="true"
+            tools:ignore="ExportedContentProvider" />
+
+        <service
+            android:name="io.syslogic.github.content.RepositorySyncService"
+            android:exported="true"
+            android:process=":sync"
+            tools:ignore="ExportedService">
+            <intent-filter>
+                <action android:name="android.content.SyncAdapter"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.content.SyncAdapter"
+                android:resource="@xml/sync_adapter"/>
         </service>
 
     </application>

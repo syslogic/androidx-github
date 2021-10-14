@@ -33,18 +33,22 @@ public class License {
     public String getNodeId() {
         return this.nodeId;
     }
+
     @NonNull
     public String getKey() {
         return this.key;
     }
+
     @NonNull
     public String getSpdxId() {
         return this.spdxId;
     }
+
     @NonNull
     public String getName() {
         return this.name;
     }
+
     @NonNull
     public String getUrl() {
         return this.url;
@@ -53,15 +57,19 @@ public class License {
     public void setSpdxId(@NonNull String value) {
         this.spdxId = value;
     }
+
     public void setNodeId(@NonNull String value) {
         this.nodeId = value;
     }
+
     public void setKey(@NonNull String value) {
         this.key = value;
     }
+
     public void setName(@NonNull String value) {
         this.name = value;
     }
+
     public void setUrl(@NonNull String value) {
         this.url = value;
     }

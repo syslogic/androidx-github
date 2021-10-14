@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- These are `android:accountPreferences` (still experimental). -->
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <intent
+        android:targetPackage="io.syslogic.github"
+        android:targetClass=".activity.AuthenticatorActivity.class"/>
+
+    <SwitchPreference
+        android:title="Debug Logging"
+        android:summary="Enable verbose logging"
+        android:key="debug_logging"/>
+
+</PreferenceScreen>
