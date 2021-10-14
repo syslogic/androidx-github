@@ -2,7 +2,7 @@
 <resources>
 
     <string name="app_name">GitHub API Client</string>
-    <string name="title_preferences_token">Personal Access Token Preferences</string>
+    <string name="title_preferences_token">Access Token Preferences</string>
     <string name="summary_preferences_token">Edit or remove the token</string>
 
     <string name="text_topics">Topics</string>
