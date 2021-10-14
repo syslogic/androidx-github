@@ -30,48 +30,44 @@ public class TokenHelper {
     @Nullable
     public static String getAccessToken(@NonNull Context context) {
 
+        /* Attempting to load the personal access token from package meta. */
         AccountManager accountManager = AccountManager.get(context);
-        String accessToken = null;
-        if (mDebug) {
-            try {
-                ApplicationInfo app = context.getPackageManager().getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA);
-                accessToken = app.metaData.getString("com.github.ACCESS_TOKEN");
-                // Log.d(LOG_TAG, "com.github.ACCESS_TOKEN: " + accessToken);
+        if (mDebug) {loadPackageMeta(context, accountManager);}
 
-                addAccount(accountManager, accessToken);
-
-            } catch (NullPointerException | PackageManager.NameNotFoundException e) {
-                e.printStackTrace();
-            }
+        /* Attempting to load the personal access token from AccountManager. */
+        Account account = getAccount(accountManager, 0);
+        if (account == null) {
+            Log.d(LOG_TAG, "account not found: " + accountType);
         } else {
-            Account account = getAccount(accountManager);
-            if (account == null) {
-                Log.d(LOG_TAG, "account not found: " + accountType);
-            } else {
-                accessToken = accountManager.getUserData(account, "accessToken");
-            }
+            return accountManager.getUserData(account, "accessToken");
         }
-        return accessToken;
+        return null;
     }
 
-    private static Account getAccount(AccountManager accountManager) {
+    private static void loadPackageMeta(@NonNull Context context, AccountManager accountManager) {
+        try {
+            ApplicationInfo app = context.getPackageManager().getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA);
+            String accessToken = app.metaData.getString("com.github.ACCESS_TOKEN");
+            if (accessToken != null) {addAccount(accountManager, accessToken);}
+        } catch (NullPointerException | PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @SuppressWarnings("SameParameterValue")
+    private static Account getAccount(AccountManager accountManager, int index) {
         Account[] accounts = accountManager.getAccountsByType(accountType);
-        if (accounts.length == 0) {
-            if (mDebug) {Log.d(LOG_TAG, "no personal access tokens");}
-            return null;
-        } else {
-            if (mDebug) {Log.d(LOG_TAG, "personal access tokens: " + accounts.length);}
-            return accounts[0];
-        }
+        if (accounts.length < index) {return null;}
+        else {return accounts[index];}
     }
 
-    private static boolean addAccount(AccountManager accountManager, String accessToken) {
-        if (getAccount(accountManager) != null) {
-            Account account = new Account("GitHub", accountType);
+    /** It currently adds into the "Personal" accounts (probably depending on the profile). */
+    private static void addAccount(AccountManager accountManager, String accessToken) {
+        if (getAccount(accountManager, 0) == null) {
+            Account account = new Account("Personal Access Token", accountType);
             Bundle extraData = new Bundle();
             extraData.putString("accessToken", accessToken);
-            return accountManager.addAccountExplicitly(account, accessToken, extraData);
+            accountManager.addAccountExplicitly(account, accessToken, extraData);
         }
-        return false;
     }
 }
