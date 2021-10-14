@@ -5,4 +5,6 @@
     <color name="colorAccent">#6746c3</color>
     <color name="colorText">#143D55</color>
     <color name="statusBar">#24292E</color>
+
+    <color name="ic_launcher_background">#465CA4</color>
 </resources>

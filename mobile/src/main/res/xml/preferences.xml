@@ -1,4 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.preference.PreferenceScreen>
-
+<androidx.preference.PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <androidx.preference.PreferenceCategory
+        android:title="@string/app_name">
+        <androidx.preference.Preference
+            android:key="default"
+            android:title="@string/title_preferences_token"
+            android:summary="@string/summary_preferences_token">
+            <intent
+                android:action="key1.ACTION"
+                android:targetPackage="${applicationId}"
+                android:targetClass=".activity/NavHostActivity.class" />
+        </androidx.preference.Preference>
+    </androidx.preference.PreferenceCategory>
 </androidx.preference.PreferenceScreen>

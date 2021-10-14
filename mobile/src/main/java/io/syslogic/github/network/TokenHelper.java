@@ -29,36 +29,39 @@ public class TokenHelper {
 
     @Nullable
     public static String getAccessToken(@NonNull Context context) {
-
-        /* Attempting to load the personal access token from package meta. */
         AccountManager accountManager = AccountManager.get(context);
-        if (mDebug) {loadPackageMeta(context, accountManager);}
-
-        /* Attempting to load the personal access token from AccountManager. */
-        Account account = getAccount(accountManager, 0);
-        if (account == null) {
-            Log.d(LOG_TAG, "account not found: " + accountType);
+        if (mDebug) {
+            /* Attempting to load the personal access token from package meta. */
+            return loadPackageMeta(context, accountManager);
         } else {
-            return accountManager.getUserData(account, "accessToken");
+            /* Attempting to load the personal access token from AccountManager. */
+            Account account = getAccount(accountManager, 0);
+            if (account != null) {
+                return accountManager.getUserData(account, "accessToken");
+            } else {
+                Log.d(LOG_TAG, "account not found: " + accountType);
+                return null;
+            }
         }
-        return null;
     }
 
-    private static void loadPackageMeta(@NonNull Context context, AccountManager accountManager) {
+    private static String loadPackageMeta(@NonNull Context context, AccountManager accountManager) {
+        String accessToken = null;
         try {
             ApplicationInfo app = context.getPackageManager().getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA);
-            String accessToken = app.metaData.getString("com.github.ACCESS_TOKEN");
+            accessToken = app.metaData.getString("com.github.ACCESS_TOKEN");
             if (accessToken != null) {addAccount(accountManager, accessToken);}
         } catch (NullPointerException | PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
+        return accessToken;
     }
 
     @SuppressWarnings("SameParameterValue")
     private static Account getAccount(AccountManager accountManager, int index) {
         Account[] accounts = accountManager.getAccountsByType(accountType);
-        if (accounts.length < index) {return null;}
-        else {return accounts[index];}
+        if (accounts.length <= index) {return null;}
+        else {return accounts[ index ];}
     }
 
     /** It currently adds into the "Personal" accounts (probably depending on the profile). */
