@@ -5,7 +5,8 @@
     package="io.syslogic.github">
 
     <application
-        tools:ignore="GoogleAppIndexingWarning">
+        android:allowBackup="false"
+        tools:ignore="GoogleAppIndexingWarning,MissingApplicationIcon">
 
         <meta-data
             android:name="com.github.ACCESS_TOKEN"
