@@ -8,7 +8,6 @@ else the API will be "rate limited", after having loaded the first 10 pages in q
 
 Make sure to use the new token format - when access fails, the token may need to be regenerated.
 
-
 ### Screenshots
 
-![Repositories](screenshots/repositories.png?raw=true "Repositories")
+![Repositories](screenshots/repositories.png?raw=true&sanitize=true "Repositories")
