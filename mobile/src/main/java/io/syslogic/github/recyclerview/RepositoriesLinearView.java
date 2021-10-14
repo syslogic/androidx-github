@@ -45,7 +45,6 @@ public class RepositoriesLinearView extends RecyclerView {
                 return false;
             }
         };
-
         this.addOnScrollListener(scrollListener);
     }
 

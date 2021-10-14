@@ -1,6 +1,7 @@
 package io.syslogic.github.fragment;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -17,7 +18,6 @@ import androidx.navigation.Navigation;
 
 import io.syslogic.github.R;
 import io.syslogic.github.activity.BaseActivity;
-import io.syslogic.github.databinding.ToolbarPagerBinding;
 import io.syslogic.github.model.PagerState;
 import io.syslogic.github.model.SpinnerItem;
 import io.syslogic.github.adapter.TopicAdapter;
@@ -44,8 +44,6 @@ public class RepositoriesFragment extends BaseFragment implements TokenCallback 
     /** Data Binding */
     private FragmentRepositoriesBinding mDataBinding;
 
-    private String queryString;
-
     /** Constructor */
     public RepositoriesFragment() {}
 
@@ -59,7 +57,7 @@ public class RepositoriesFragment extends BaseFragment implements TokenCallback 
 
         if (this.getContext() != null && this.getActivity() != null) {
 
-            this.getDataBinding().setPager(new PagerState());
+            this.getDataBinding().setPagerState(new PagerState());
 
             /* Setting up the toolbar, in order to show the topics editor. */
             ((BaseActivity) this.requireActivity()).setSupportActionBar(this.getDataBinding().toolbarQuery.toolbarQuery);
@@ -84,10 +82,14 @@ public class RepositoriesFragment extends BaseFragment implements TokenCallback 
                         ScrollListener.setPageNumber(1);
 
                         // the SpinnerItem has the same ID as the Topic.
-                        queryString = item.getValue();
+                        String queryString = item.getValue();
                         RepositoriesLinearView recyclerview = getDataBinding().recyclerviewRepositories;
                         recyclerview.setQueryString(queryString);
-                        getDataBinding().toolbarPager.textQueryString.setText( recyclerview.getQueryString());
+                        PagerState pagerState = getDataBinding().getPagerState();
+                        if (pagerState != null) {
+                            pagerState.setQueryString(queryString);
+                            getDataBinding().setPagerState(pagerState);
+                        }
                         if (recyclerview.getAdapter() != null) {
                             recyclerview.clearAdapter();
                             ((RepositoriesAdapter) recyclerview.getAdapter()).fetchPage(1);
@@ -96,16 +98,34 @@ public class RepositoriesFragment extends BaseFragment implements TokenCallback 
                     count++;
                 }
                 @Override
-                public void onNothingSelected(AdapterView<?> parent) {}
+                public void onNothingSelected(AdapterView<?> parent) {
+
+                }
             });
 
             if (this.getDataBinding().recyclerviewRepositories.getAdapter() == null) {
-                if (isNetworkAvailable(this.getContext())) {
-                    this.getDataBinding().recyclerviewRepositories.setAdapter(new RepositoriesAdapter(this.getContext(), this.queryString, 1));
-                    if (mDebug) {
-                        String text = this.getDataBinding().recyclerviewRepositories.getQueryString();
-                        this.getDataBinding().toolbarPager.textQueryString.setText(text);
+                if (isNetworkAvailable(requireContext())) {
+                    /* The TopicAdapter takes a while to populate. */
+                    TopicAdapter topicAdapter = (TopicAdapter) getDataBinding().toolbarQuery.spinnerTopic.getAdapter();
+                    if (topicAdapter != null) {
+                        if (topicAdapter.getCount() == 0) {
+                            if (mDebug) {Log.w(LOG_TAG, "TopicAdapter.getCount() is 0");}
+                            while (topicAdapter.getCount() == 0) {
+                                if (mDebug) {Log.w(LOG_TAG, "TopicAdapter.getCount() is still 0");}
+                            }
+                            if (mDebug) {Log.w(LOG_TAG, "TopicAdapter.getCount() is now " + topicAdapter.getCount());}
+                        }
+                        String queryString = topicAdapter.getItem(0).getValue();
+                        this.getDataBinding().recyclerviewRepositories.setAdapter(
+                                new RepositoriesAdapter(requireContext(), queryString, 1)
+                        );
+                        PagerState pagerState = this.getDataBinding().getPagerState();
+                        if (pagerState != null) {
+                            pagerState.setQueryString(queryString);
+                            this.getDataBinding().setPagerState(pagerState);
+                        }
                     }
+
                 } else {
                     this.onNetworkLost();
                 }
@@ -134,40 +154,44 @@ public class RepositoriesFragment extends BaseFragment implements TokenCallback 
 
     @Override
     public void onNetworkAvailable() {
-        super.onNetworkAvailable();
-        if (this.getContext() != null) {
 
-            String token = this.getAccessToken(this.getContext());
-            if (getCurrentUser() == null && token != null) {
-                this.setUser(token, this);
+        super.onNetworkAvailable();
+
+        String token = this.getAccessToken(requireContext());
+        if (getCurrentUser() == null && token != null) {
+            this.setUser(token, this);
+        }
+
+        if (mDataBinding == null) {
+            if (mDebug) {Log.e(LOG_TAG, "onNetworkAvailable: data-binding is not yet available, skipping adapter update.");}
+        } else {
+            PagerState pagerState = this.getDataBinding().getPagerState();
+            if (pagerState != null) {
+                pagerState.setIsOffline(false);
+                this.getDataBinding().setPagerState(pagerState);
+            } else {
+                /* this happens on LOLLIPOP_MR1 */
             }
 
-            if (this.mDataBinding != null) {
-
-                PagerState pagerState = this.getDataBinding().toolbarPager.getPager();
-                if (pagerState != null) {
-                    pagerState.setIsOffline(false);
-                    this.getDataBinding().toolbarPager.setPager(pagerState);
-                } else {
-                    /* this happens on LOLLIPOP_MR1 */
-                }
-
-                /* when online for the first time */
-                RepositoriesAdapter adapter = ((RepositoriesAdapter) this.getDataBinding().recyclerviewRepositories.getAdapter());
-                if (adapter == null) {
-
-                    /* needs to run on UiThread */
-                    if (getActivity() != null) {
-                        requireActivity().runOnUiThread(() -> {
-                            String queryString = getDataBinding().recyclerviewRepositories.getQueryString();
-                            assert queryString != null;
-                            getDataBinding().recyclerviewRepositories.setAdapter(new RepositoriesAdapter(requireActivity(), queryString,1));
-                        });
+            /* when being online for the first time, adapter is null. */
+            RepositoriesAdapter adapter = ((RepositoriesAdapter) this.getDataBinding().recyclerviewRepositories.getAdapter());
+            if (adapter == null) {
+                /* needs to run on UiThread */
+                requireActivity().runOnUiThread(() -> {
+                    String queryString = getDataBinding().recyclerviewRepositories.getQueryString();
+                    if (queryString == null) {
+                        TopicAdapter topicAdapter = (TopicAdapter) getDataBinding().toolbarQuery.spinnerTopic.getAdapter();
+                        if (topicAdapter != null && topicAdapter.getCount() > 0) {
+                            queryString = topicAdapter.getItem(0).getValue();
+                        }
                     }
-                } else if (adapter.getItemCount() == 0) {
-                    /* if required, fetch page 1 */
-                    adapter.fetchPage(1);
-                }
+                    if (queryString != null) {
+                        getDataBinding().recyclerviewRepositories.setAdapter(new RepositoriesAdapter(requireActivity(), queryString, 1));
+                    }
+                });
+            } else if (adapter.getItemCount() == 0) {
+                /* if required, fetch page 1 */
+                adapter.fetchPage(1);
             }
         }
     }
@@ -175,16 +199,11 @@ public class RepositoriesFragment extends BaseFragment implements TokenCallback 
     @Override
     public void onNetworkLost() {
         super.onNetworkLost();
-        if (this.getContext() != null) {
-            ToolbarPagerBinding pager = this.getDataBinding().toolbarPager;
-            PagerState state;
-            if (pager.getPager() == null) {
-                state = new PagerState();
-            } else {
-                state = pager.getPager();
-            }
-            state.setIsOffline(true);
-            pager.setPager(state);
+        PagerState pagerState = this.getDataBinding().getPagerState();
+        if (pagerState != null) {
+            pagerState.setIsLoading(false);
+            pagerState.setIsOffline(true);
+            this.getDataBinding().setPagerState(pagerState);
         }
     }
 

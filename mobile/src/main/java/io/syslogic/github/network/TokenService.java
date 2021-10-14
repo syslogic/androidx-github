@@ -3,6 +3,7 @@ package io.syslogic.github.network;
 import android.accounts.AbstractAccountAuthenticator;
 import android.accounts.Account;
 import android.accounts.AccountAuthenticatorResponse;
+import android.accounts.NetworkErrorException;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
@@ -65,7 +66,7 @@ public class TokenService extends Service {
 
         @Nullable
         @Override
-        public Bundle confirmCredentials(@NonNull AccountAuthenticatorResponse accountAuthenticatorResponse, @NonNull Account account, @NonNull Bundle bundle) {
+        public Bundle confirmCredentials(@NonNull AccountAuthenticatorResponse accountAuthenticatorResponse, @NonNull Account account, @NonNull Bundle bundle) throws NetworkErrorException {
             return null;
         }
 

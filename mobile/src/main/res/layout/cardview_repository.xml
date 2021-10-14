@@ -31,7 +31,7 @@
                 android:fontFamily="sans-serif-medium"
                 android:gravity="center_vertical|start"
                 android:padding="8dp"
-                android:text="@{repository.fullName}"
+                android:text="@{ repository.fullName }"
                 android:textColor="@color/colorText"
                 android:textSize="14sp"/>
 
@@ -47,7 +47,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-medium"
-                    android:text='@{""+repository.forkCount}'
+                    android:text='@{"" + repository.forkCount }'
                     android:textAlignment="center"
                     android:textColor="@color/colorText"
                     android:textSize="12sp"
@@ -78,7 +78,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-medium"
-                    android:text='@{""+repository.watcherCount}'
+                    android:text='@{"" + repository.watcherCount }'
                     android:textAlignment="center"
                     android:textColor="@color/colorText"
                     android:textSize="12sp"

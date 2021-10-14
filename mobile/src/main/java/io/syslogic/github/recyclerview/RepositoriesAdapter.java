@@ -17,9 +17,7 @@ import com.google.gson.JsonParser;
 
 import java.io.IOException;
 import java.lang.ref.WeakReference;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
@@ -84,7 +82,6 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         super.onAttachedToRecyclerView(recyclerView);
         this.mContext = new WeakReference<>(recyclerView.getContext());
         this.mRecyclerView = recyclerView;
-
     }
 
     @NonNull
@@ -116,80 +113,81 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
         final int pageSize = 30;
         String accessToken = getAccessToken();
+        if (this.getPagerState() != null && !this.getPagerState().getIsOffline()) {
 
-        Call<Repositories> api = GithubClient.getRepositories(accessToken, queryString,"stars","desc", pageNumber);
-        if (BuildConfig.DEBUG) {Log.w(LOG_TAG, api.request().url() + "");}
+            /* updating the pager data-binding */
+            setPagerState(pageNumber, true, null);
 
-        /* updating the pager data-binding */
-        setPagerState(pageNumber, true, null);
+            Call<Repositories> api = GithubClient.getRepositories(accessToken, this.queryString,"stars","desc", pageNumber);
+            if (BuildConfig.DEBUG) {Log.w(LOG_TAG, api.request().url() + "");}
+            api.enqueue(new Callback<Repositories>() {
 
-        api.enqueue(new Callback<Repositories>() {
+                @Override
+                public void onResponse(@NonNull Call<Repositories> call, @NonNull Response<Repositories> response) {
+                    switch(response.code()) {
 
-            @Override
-            public void onResponse(@NonNull Call<Repositories> call, @NonNull Response<Repositories> response) {
-                switch(response.code()) {
+                        // OK
+                        case 200: {
+                            if (response.body() != null) {
 
-                    // OK
-                    case 200: {
-                        if (response.body() != null) {
+                                Repositories items = response.body();
+                                if (BuildConfig.DEBUG) {Log.d(LOG_TAG, "loaded " + (getItemCount() + pageSize) + " / " + items.getCount());}
+                                setTotalItemCount(items.getCount());
+                                int positionStart = getItemCount();
+                                getItems().addAll(items.getRepositories());
+                                notifyItemRangeChanged(positionStart, getItemCount());
 
-                            Repositories items = response.body();
-                            if (BuildConfig.DEBUG) {Log.d(LOG_TAG, "loaded " + (getItemCount() + pageSize) + " / " + items.getCount());}
-                            setTotalItemCount(items.getCount());
-                            int positionStart = getItemCount();
-                            getItems().addAll(items.getRepositories());
-                            notifyItemRangeChanged(positionStart, getItemCount());
-
-                            /* updating the pager data-binding */
-                            setPagerState(pageNumber, false, items.getCount());
-                        }
-                        break;
-                    }
-
-                    case 401: {
-                        /* "bad credentials" means that the provided access-token is invalid. */
-                        if (response.errorBody() != null) {
-                            try {
-                                String errors = response.errorBody().string();
-                                JsonObject jsonObject = new JsonParser().parse(errors).getAsJsonObject();
-                                  Toast.makeText(getContext(), jsonObject.get("message").toString(), Toast.LENGTH_LONG).show();
-                                if (BuildConfig.DEBUG) {Log.e(LOG_TAG, jsonObject.get("message").toString());}
-                            } catch (IOException e) {
-                                if (BuildConfig.DEBUG) {Log.e(LOG_TAG, "" + e.getMessage());}
+                                /* updating the pager data-binding */
+                                setPagerState(pageNumber, false, items.getCount());
                             }
+                            break;
                         }
 
-                        /* updating the pager data-binding */
-                        setPagerState(pageNumber, false, null);
-                        break;
-                    }
-
-                    case 403: {
-                        if (response.errorBody() != null) {
-                            try {
-                                String errors = response.errorBody().string();
-                                JsonObject jsonObject = new JsonParser().parse(errors).getAsJsonObject();
-                                if (BuildConfig.DEBUG) {Log.e(LOG_TAG, jsonObject.get("message").toString());}
-                            } catch (IOException e) {
-                                if (BuildConfig.DEBUG) {Log.e(LOG_TAG, "" + e.getMessage());}
+                        case 401: {
+                            /* "bad credentials" means that the provided access-token is invalid. */
+                            if (response.errorBody() != null) {
+                                try {
+                                    String errors = response.errorBody().string();
+                                    JsonObject jsonObject = new JsonParser().parse(errors).getAsJsonObject();
+                                    Toast.makeText(getContext(), jsonObject.get("message").toString(), Toast.LENGTH_LONG).show();
+                                    if (BuildConfig.DEBUG) {Log.e(LOG_TAG, jsonObject.get("message").toString());}
+                                } catch (IOException e) {
+                                    if (BuildConfig.DEBUG) {Log.e(LOG_TAG, "" + e.getMessage());}
+                                }
                             }
 
                             /* updating the pager data-binding */
                             setPagerState(pageNumber, false, null);
-
-                            resetOnScrollListener();
-                            getRateLimit("search");
+                            break;
                         }
-                        break;
+
+                        case 403: {
+                            if (response.errorBody() != null) {
+                                try {
+                                    String errors = response.errorBody().string();
+                                    JsonObject jsonObject = new JsonParser().parse(errors).getAsJsonObject();
+                                    if (BuildConfig.DEBUG) {Log.e(LOG_TAG, jsonObject.get("message").toString());}
+                                } catch (IOException e) {
+                                    if (BuildConfig.DEBUG) {Log.e(LOG_TAG, "" + e.getMessage());}
+                                }
+
+                                /* updating the pager data-binding */
+                                setPagerState(pageNumber, false, null);
+
+                                resetOnScrollListener();
+                                getRateLimit("search");
+                            }
+                            break;
+                        }
                     }
                 }
-            }
 
-            @Override
-            public void onFailure(@NonNull Call<Repositories> call, @NonNull Throwable t) {
-                if (BuildConfig.DEBUG) {Log.e(LOG_TAG, "" + t.getMessage());}
-            }
-        });
+                @Override
+                public void onFailure(@NonNull Call<Repositories> call, @NonNull Throwable t) {
+                    if (BuildConfig.DEBUG) {Log.e(LOG_TAG, "" + t.getMessage());}
+                }
+            });
+        }
     }
 
     ArrayList<Repository> getItems() {
@@ -225,20 +223,30 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
     }
 
-    protected void setPagerState(int pageNumber, boolean isLoading, @Nullable Long itemCount) {
+    @Nullable
+    protected PagerState getPagerState() {
         /* cannot cast FragmentRepositoriesBindingImpl */
         if (((BaseActivity) getContext()).getFragmentDataBinding() instanceof FragmentRepositoriesBinding) {
             FragmentRepositoriesBinding databinding = (FragmentRepositoriesBinding) ((BaseActivity) getContext()).getFragmentDataBinding();
             if (databinding != null) {
-                PagerState state = databinding.getPager();
-                state.setIsLoading(isLoading);
-                state.setPageNumber(pageNumber);
-                if (itemCount != null) {
-                    state.setPageCount((int) Math.ceil((float) itemCount / state.getItemsPerPage()));
-                    state.setItemCount(itemCount);
-                }
-                databinding.setPager(state);
+                return databinding.getPagerState();
             }
+        }
+        return null;
+    }
+
+    protected void setPagerState(int pageNumber, boolean isLoading, @Nullable Long itemCount) {
+        if (this.getPagerState() != null) {
+            PagerState state = this.getPagerState();
+            state.setIsLoading(isLoading);
+            state.setPageNumber(pageNumber);
+            if (itemCount != null) {
+                state.setPageCount((int) Math.ceil((float) itemCount / state.getItemsPerPage()));
+                state.setItemCount(itemCount);
+            }
+
+            FragmentRepositoriesBinding databinding = (FragmentRepositoriesBinding) ((BaseActivity) getContext()).getFragmentDataBinding();
+            databinding.setPagerState(state);
         }
     }
 

@@ -32,13 +32,14 @@ public class TokenHelper {
 
         AccountManager accountManager = AccountManager.get(context);
         String accessToken = null;
-
         if (mDebug) {
             try {
                 ApplicationInfo app = context.getPackageManager().getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA);
                 accessToken = app.metaData.getString("com.github.ACCESS_TOKEN");
                 // Log.d(LOG_TAG, "com.github.ACCESS_TOKEN: " + accessToken);
+
                 addAccount(accountManager, accessToken);
+
             } catch (NullPointerException | PackageManager.NameNotFoundException e) {
                 e.printStackTrace();
             }
@@ -56,18 +57,21 @@ public class TokenHelper {
     private static Account getAccount(AccountManager accountManager) {
         Account[] accounts = accountManager.getAccountsByType(accountType);
         if (accounts.length == 0) {
-            if (mDebug) {Log.d(LOG_TAG, "no device tokens");}
-            return  null;
+            if (mDebug) {Log.d(LOG_TAG, "no personal access tokens");}
+            return null;
         } else {
-            if (mDebug) {Log.d(LOG_TAG, "device tokens: " + accounts.length);}
+            if (mDebug) {Log.d(LOG_TAG, "personal access tokens: " + accounts.length);}
             return accounts[0];
         }
     }
 
     private static boolean addAccount(AccountManager accountManager, String accessToken) {
-        Account account = new Account("GitHub", accountType);
-        Bundle extraData = new Bundle();
-        extraData.putString("accessToken", accessToken);
-        return accountManager.addAccountExplicitly(account, accessToken, extraData);
+        if (getAccount(accountManager) != null) {
+            Account account = new Account("GitHub", accountType);
+            Bundle extraData = new Bundle();
+            extraData.putString("accessToken", accessToken);
+            return accountManager.addAccountExplicitly(account, accessToken, extraData);
+        }
+        return false;
     }
 }

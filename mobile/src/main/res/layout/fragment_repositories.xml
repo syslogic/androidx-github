@@ -9,7 +9,7 @@
     <data>
         <variable name="user" type="io.syslogic.github.model.User"/>
         <variable name="repositories" type="io.syslogic.github.model.Repositories"/>
-        <variable name="pager" type="io.syslogic.github.model.PagerState"/>
+        <variable name="pagerState" type="io.syslogic.github.model.PagerState"/>
     </data>
 
     <androidx.appcompat.widget.LinearLayoutCompat
@@ -52,7 +52,7 @@
             android:layout_width="match_parent"
             android:layout_height="24dp"
             android:layout_margin="0dp"
-            bind:pager="@{pager}"/>
+            bind:pagerState="@{pagerState}"/>
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 

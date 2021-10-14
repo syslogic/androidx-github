@@ -1,6 +1,5 @@
 package io.syslogic.github.model;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.Bindable;
 
@@ -10,93 +9,86 @@ import androidx.databinding.Bindable;
  */
 public class PagerState extends BaseModel {
 
-    private Long itemCount = 0L;
+    private long itemCount = 0L;
 
-    private Integer itemsPerPage = 30;
+    private int itemsPerPage = 30;
 
-    private Integer pageCount = 0;
+    private int pageCount = 0;
 
-    private Integer pageNumber = 1;
+    private int pageNumber = 1;
 
-    private Boolean isLoading = true;
+    private String queryString;
 
-    private Boolean isOffline = false;
+    private boolean isLoading = true;
 
-    public PagerState() {
+    private boolean isOffline = false;
 
-    }
+    public PagerState() {}
 
     public PagerState(int pageNumber) {
         this.setPageNumber(pageNumber);
     }
 
-    public void setPagerState(@Nullable PagerState state) {
-
-    }
-
-    public void setItemCount(@NonNull Long value) {
+    public void setItemCount(long value) {
         this.itemCount = value;
     }
 
-    public void setItemsPerPage(@NonNull Integer value) {
+    public void setItemsPerPage(int value) {
         this.itemsPerPage = value;
     }
 
-    public void setPageCount(@NonNull Integer value) {
+    public void setPageCount(int value) {
         this.pageCount = value;
     }
 
-    public void setPageNumber(@NonNull Integer value) {
+    public void setPageNumber(int value) {
         this.pageNumber = value;
     }
 
-    public void setIsLoading(@NonNull Boolean value) {
+    public void setQueryString(String value) {
+        this.queryString = value;
+    }
+
+    public void setIsLoading(boolean value) {
         this.isLoading = value;
     }
 
-    public void setIsOffline(@NonNull Boolean value) {
+    public void setIsOffline(boolean value) {
         this.isOffline = value;
     }
 
-    @NonNull
     @Bindable
-    public PagerState getPagerState() {
-        return this;
-    }
-
-    @NonNull
-    @Bindable
-    public Long getItemCount() {
+    public long getItemCount() {
         return this.itemCount;
     }
 
-    @NonNull
     @Bindable
-    public Integer getItemsPerPage() {
+    public int getItemsPerPage() {
         return this.itemsPerPage;
     }
 
-    @NonNull
     @Bindable
-    public Integer getPageCount() {
+    public int getPageCount() {
         return this.pageCount;
     }
 
-    @NonNull
     @Bindable
-    public Integer getPageNumber() {
+    public int getPageNumber() {
         return this.pageNumber;
     }
 
-    @NonNull
     @Bindable
-    public Boolean getIsLoading() {
+    public String getQueryString() {
+        return this.queryString;
+    }
+
+    @Bindable
+    public boolean getIsLoading() {
         return this.isLoading;
     }
 
-    @NonNull
     @Bindable
-    public Boolean getIsOffline() {
+    public boolean getIsOffline() {
         return this.isOffline;
     }
 }

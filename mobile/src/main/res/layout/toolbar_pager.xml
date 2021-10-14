@@ -5,8 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <variable name="pager" type="io.syslogic.github.model.PagerState"/>
-        <import type="io.syslogic.github.BuildConfig"/>
+        <variable name="pagerState" type="io.syslogic.github.model.PagerState"/>
         <import type="android.view.View"/>
     </data>
 
@@ -45,14 +44,15 @@
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/text_query_string"
-                    tools:text="@string/tools_query_string"
-                    android:visibility="@{BuildConfig.DEBUG ? View.VISIBLE : View.GONE}"
+                    android:text="@{ pagerState.queryString }"
+                    android:visibility="@{ pagerState.isOffline ? View.GONE : View.VISIBLE }"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:gravity="center_vertical|start"
                     android:layout_weight="1.0"
                     android:paddingStart="12dp"
                     android:textSize="12sp"
+                    tools:text="@string/tools_query_string"
                     tools:ignore="RtlSymmetry"/>
 
                 <androidx.appcompat.widget.AppCompatTextView
@@ -62,9 +62,22 @@
                     android:gravity="center_vertical|end"
                     android:paddingEnd="12dp"
                     android:textSize="12sp"
-                    android:text='@{safeUnbox(pager.isOffline) ? @string/text_pager_offline : String.format((safeUnbox(pager.isLoading) ? @string/text_pager_loading : @string/text_pager_loaded), pager.pageNumber, pager.pageCount)}'
+                    android:text="@{ String.format(pagerState.isLoading ? @string/text_pager_loading : @string/text_pager_loaded, pagerState.pageNumber, pagerState.pageCount) }"
+                    android:visibility="@{ pagerState.isOffline ? View.GONE : View.VISIBLE }"
                     tools:text="@string/tools_page_number"
                     tools:ignore="RtlSymmetry"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/text_offline"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical|end"
+                    android:paddingEnd="12dp"
+                    android:textSize="12sp"
+                    android:text="@string/text_pager_offline"
+                    android:visibility="@{ pagerState.isOffline ? View.VISIBLE : View.GONE }"
+                    tools:ignore="RtlSymmetry"
+                    tools:visibility="gone"/>
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
