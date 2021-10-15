@@ -43,6 +43,7 @@ import io.syslogic.github.model.Repositories;
 import io.syslogic.github.model.Repository;
 import io.syslogic.github.retrofit.GithubClient;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -90,15 +91,22 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         CardviewRepositoryBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.cardview_repository, parent, false);
         binding.getRoot().setLayoutParams(new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-        return new ViewHolder(binding);
+        return new RepositoriesAdapter.ViewHolder(binding);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final RecyclerView.ViewHolder viewHolder, int position) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
+
         Repository item = getItem(position);
-        ((ViewHolder) viewHolder).getDataBinding().setRepository(item);
-        ((ViewHolder) viewHolder).setId(item.getId());
-        ((ViewHolder) viewHolder).setTag(item);
+        ((RepositoriesAdapter.ViewHolder) viewHolder).getDataBinding().setItem(item);
+
+        /* dynamically adding the topics as chips */
+        String[] topics = item.getTopics();
+        for (String topic : topics) {
+            Chip chip = new Chip(this.getContext());
+            chip.setText(topic);
+            ((RepositoriesAdapter.ViewHolder) viewHolder).getDataBinding().chipGroup.addView(chip);
+        }
     }
 
     private Repository getItem(int index) {
@@ -153,30 +161,17 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                         case 401: {
                             /* "bad credentials" means that the provided access-token is invalid. */
                             if (response.errorBody() != null) {
-                                try {
-                                    String errors = response.errorBody().string();
-                                    JsonObject jsonObject = JsonParser.parseString(errors).getAsJsonObject();
-                                    Toast.makeText(getContext(), jsonObject.get("message").toString(), Toast.LENGTH_LONG).show();
-                                    if (BuildConfig.DEBUG) {Log.e(LOG_TAG, jsonObject.get("message").toString());}
-                                } catch (IOException e) {
-                                    if (BuildConfig.DEBUG) {Log.e(LOG_TAG, "" + e.getMessage());}
-                                }
-                            }
+                                logError(response.errorBody());
 
-                            /* updating the pager data-binding */
-                            setPagerState(pageNumber, false, null);
+                                /* updating the pager data-binding */
+                                setPagerState(pageNumber, false, null);
+                            }
                             break;
                         }
 
                         case 403: {
                             if (response.errorBody() != null) {
-                                try {
-                                    String errors = response.errorBody().string();
-                                    JsonObject jsonObject = JsonParser.parseString(errors).getAsJsonObject();
-                                    if (BuildConfig.DEBUG) {Log.e(LOG_TAG, jsonObject.get("message").toString());}
-                                } catch (IOException e) {
-                                    if (BuildConfig.DEBUG) {Log.e(LOG_TAG, "" + e.getMessage());}
-                                }
+                                logError(response.errorBody());
 
                                 /* updating the pager data-binding */
                                 setPagerState(pageNumber, false, null);
@@ -312,12 +307,21 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         return this.queryString;
     }
 
+    private void logError(ResponseBody responseBody) {
+        try {
+            String errors = responseBody.string();
+            JsonObject jsonObject = JsonParser.parseString(errors).getAsJsonObject();
+            Toast.makeText(getContext(), jsonObject.get("message").toString(), Toast.LENGTH_LONG).show();
+            if (BuildConfig.DEBUG) {Log.e(LOG_TAG, jsonObject.get("message").toString());}
+        } catch (IOException e) {
+            if (BuildConfig.DEBUG) {Log.e(LOG_TAG, "" + e.getMessage());}
+        }
+    }
+
     /** {@link RecyclerView.ViewHolder} for {@link CardView} of type {@link Repository}. */
     private static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        private final CardviewRepositoryBinding mDataBinding;
-        @SuppressWarnings("FieldCanBeLocal")
-        private RepositoriesLinearView mRecyclerView;
+        private CardviewRepositoryBinding mDataBinding;
         private CardView cardView;
         private long itemId;
 
@@ -334,31 +338,18 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             this.setCardView(layout.findViewById(R.id.cardview));
             if (this.cardView != null) {
                 this.cardView.setOnClickListener(this);
-
-                /* dynamically adding the topics as chips */
-                Repository item = binding.getRepository();
-                if (item != null) {
-                    String[] topics = item.getTopics();
-                    for (String topic : topics) {
-                        Chip chip = new Chip(this.cardView.getContext());
-                        chip.setText(topic);
-                        binding.chipGroup.addView(chip);
-                    }
-                }
             }
         }
 
         @Override
         public void onClick(@NonNull View viewHolder) {
-
-            this.mRecyclerView = (RepositoriesLinearView) viewHolder.getParent();
-            BaseActivity activity = (BaseActivity) this.mRecyclerView.getContext();
-            Repository item = (Repository) viewHolder.getTag();
-
+            RepositoriesLinearView mRecyclerView = (RepositoriesLinearView) viewHolder.getParent();
+            BaseActivity activity = (BaseActivity) mRecyclerView.getContext();
             FragmentRepositoriesBinding databinding = (FragmentRepositoriesBinding) activity.getFragmentDataBinding();
             if (databinding != null) {
                 View layout = databinding.getRoot();
                 Bundle args = new Bundle();
+                Repository item = getDataBinding().getItem();
                 args.putLong(Constants.ARGUMENT_ITEM_ID, item.getId());
                 NavController controller = Navigation.findNavController(layout);
                 controller.navigate(R.id.action_repositoriesFragment_to_repositoryFragment, args);
@@ -366,20 +357,11 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
 
         /** Setters */
-        public void setId(long value) {
-            this.itemId = value;
-        }
         void setCardView(CardView view) {
             this.cardView = view;
         }
-        void setTag(Repository item) {
-            this.cardView.setTag(item);
-        }
 
         /** Getters */
-        public long getId() {
-            return this.itemId;
-        }
         CardviewRepositoryBinding getDataBinding() {
             return this.mDataBinding;
         }

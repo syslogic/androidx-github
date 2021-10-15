@@ -41,8 +41,8 @@ public class QueryString extends BaseModel implements IContentProvider {
     @ColumnInfo(name = "operator")
     private String operator = ">";
 
-    @ColumnInfo(name = "days")
-    private int days = 30;
+    @ColumnInfo(name = "operand")
+    private int operand = 30;
 
     @ColumnInfo(name = "is_raw")
     private boolean isRaw = false;
@@ -60,12 +60,12 @@ public class QueryString extends BaseModel implements IContentProvider {
 
     /** Constructor */
     @Ignore
-    public QueryString(@NonNull Long id, @NonNull String title, @NonNull String condition, @NonNull String operator, int days) {
+    public QueryString(@NonNull Long id, @NonNull String title, @NonNull String condition, @NonNull String operator, int operand) {
         this.setId(id);
         this.setTitle(title);
         this.setCondition(condition);
         this.setOperator(operator);
-        this.setDays(days);
+        this.setOperand(operand);
     }
 
     @Bindable
@@ -98,8 +98,8 @@ public class QueryString extends BaseModel implements IContentProvider {
     }
 
     @Bindable
-    public int getDays() {
-        return this.days;
+    public int getOperand() {
+        return this.operand;
     }
 
     @Bindable
@@ -133,8 +133,8 @@ public class QueryString extends BaseModel implements IContentProvider {
     }
 
     @Bindable
-    public void setDays(int value) {
-        this.days = value;
+    public void setOperand(int value) {
+        this.operand = value;
     }
 
     @Bindable
@@ -148,7 +148,7 @@ public class QueryString extends BaseModel implements IContentProvider {
     public String toQueryString() {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(new Date());
-        calendar.add(Calendar.DAY_OF_YEAR, - this.days);
+        calendar.add(Calendar.DAY_OF_YEAR, - this.operand);
         String isodate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(calendar.getTime());
         return this.topic + "+" + this.condition + ":" + this.operator + isodate;
     }
@@ -160,7 +160,7 @@ public class QueryString extends BaseModel implements IContentProvider {
         values.put("title", this.getTitle());
         values.put("condition", this.getCondition());
         values.put("operator", this.getOperator());
-        values.put("days", this.getDays());
+        values.put("operand", this.getOperand());
         values.put("raw", this.toQueryString());
         return values;
     }
@@ -171,7 +171,7 @@ public class QueryString extends BaseModel implements IContentProvider {
         this.setTitle(values.getAsString("title"));
         this.setCondition(values.getAsString("condition"));
         this.setOperator(values.getAsString("operator"));
-        this.setDays(values.getAsInteger("days"));
+        this.setOperand(values.getAsInteger("operand"));
         return this;
     }
 }

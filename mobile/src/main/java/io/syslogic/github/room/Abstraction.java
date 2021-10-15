@@ -47,7 +47,7 @@ public abstract class Abstraction extends RoomDatabase {
         if (sInstance == null) {
             Builder<Abstraction> builder = Room
                 .databaseBuilder(context.getApplicationContext(), Abstraction.class, fileName)
-                // .createFromAsset(fileName)
+                .createFromAsset(fileName)
                 .addCallback(new Callback() {
                     @Override
                     public void onCreate(@NonNull SupportSQLiteDatabase db) {

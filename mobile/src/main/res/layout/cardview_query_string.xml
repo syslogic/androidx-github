@@ -93,7 +93,7 @@
                 tools:text=">"/>
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/days"
+                android:id="@+id/operand"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.1"
@@ -101,10 +101,10 @@
                 android:fontFamily="sans-serif-medium"
                 android:gravity="center_vertical|center"
                 android:padding="8dp"
-                android:text='@{"" + item.days }'
+                android:text='@{"" + item.operand }'
                 android:textColor="@color/colorText"
                 android:textSize="14sp"
-                tools:text="-90"/>
+                tools:text="30"/>
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
