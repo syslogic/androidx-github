@@ -16,7 +16,7 @@
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:contentInsetStart="0dp"
-        app:menu="@menu/favorites">
+        app:menu="@menu/bookmarks">
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/layout_query_strings"

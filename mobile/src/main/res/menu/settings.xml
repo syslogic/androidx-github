@@ -6,8 +6,8 @@
     tools:context=".activity.NavHostActivity">
 
     <item
-        android:id="@+id/menu_action_edit_query_strings"
-        android:title="@string/menu_action_edit_query_strings"
+        android:id="@+id/menu_action_edit_bookmarks"
+        android:title="@string/menu_action_edit_bookmarks"
         android:orderInCategory="100"
         app:showAsAction="always"/>
 

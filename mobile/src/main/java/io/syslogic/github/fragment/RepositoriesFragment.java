@@ -63,7 +63,7 @@ public class RepositoriesFragment extends BaseFragment implements TokenCallback 
             /* Setting up the toolbar, in order to show the topics editor. */
             ((BaseActivity) this.requireActivity()).setSupportActionBar(this.getDataBinding().toolbarRepositories.toolbarQuery);
             this.getDataBinding().toolbarRepositories.toolbarQuery.setOnMenuItemClickListener(item -> {
-                if (item.getItemId() == R.id.menu_action_edit_query_strings) {
+                if (item.getItemId() == R.id.menu_action_edit_bookmarks) {
                     NavController controller = Navigation.findNavController(this.getDataBinding().getRoot());
                     controller.navigate(R.id.action_repositoriesFragment_to_queryStringsGraph);
                     return false;

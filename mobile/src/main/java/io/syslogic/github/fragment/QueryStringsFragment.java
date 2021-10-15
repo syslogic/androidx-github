@@ -54,7 +54,7 @@ public class QueryStringsFragment extends BaseFragment implements Toolbar.OnMenu
         if (actionbar != null) {
             this.getDataBinding().toolbarQueryStrings.toolbarQueryStrings.setOnMenuItemClickListener(this);
             actionbar.setHomeButtonEnabled(true);
-            actionbar.setTitle(R.string.text_query_strings);
+            actionbar.setTitle(R.string.text_bookmarks);
         }
 
         this.getDataBinding().toolbarQueryStrings.home.setOnClickListener(view -> {
@@ -72,7 +72,7 @@ public class QueryStringsFragment extends BaseFragment implements Toolbar.OnMenu
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.favorites, menu);
+        inflater.inflate(R.menu.bookmarks, menu);
     }
 
     @NonNull
@@ -94,7 +94,7 @@ public class QueryStringsFragment extends BaseFragment implements Toolbar.OnMenu
     @Override
     public boolean onMenuItemClick(@NonNull MenuItem item) {
         NavController controller = Navigation.findNavController(this.getDataBinding().getRoot());
-        if (item.getItemId() == R.id.menu_action_add_query_string) {
+        if (item.getItemId() == R.id.menu_action_add_bookmark) {
             controller.navigate(R.id.action_queryStringsFragment_to_queryStringFragment);
             return false;
         } else {

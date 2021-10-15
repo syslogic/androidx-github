@@ -8,17 +8,17 @@
     <string name="title_preferences_token">Access Token Preferences</string>
     <string name="summary_preferences_token">Edit or remove the token</string>
 
-    <string name="text_query_strings">Topics</string>
-    <string name="text_edit_query_string">Edit Query-String</string>
-    <string name="menu_action_edit_query_strings">Query-Strings</string>
-    <string name="menu_action_add_query_string">Add Query-String</string>
+    <string name="text_bookmarks">Bookmarks</string>
+    <string name="menu_action_edit_bookmarks">Bookmarks</string>
+    <string name="menu_action_add_bookmark">Add Bookmark</string>
+    <string name="text_edit_bookmark">Edit Bookmark</string>
 
     <string name="text_repositories">Repositories</string>
-    <string name="text_forks">forks</string>
-    <string name="text_stargazers">stargazers</string>
-    <string name="text_watchers">watchers</string>
-    <string name="text_subscribers">subscribers</string>
-    <string name="text_networks">networks</string>
+    <string name="text_forks">Forks</string>
+    <string name="text_stargazers">Stargazers</string>
+    <string name="text_watchers">Watchers</string>
+    <string name="text_subscribers">Subscribers</string>
+    <string name="text_networks">Networks</string>
 
     <string name="text_pager_offline">device is offline</string>
     <string name="text_pager_loading">loading page %1$d of %2$d</string>
@@ -32,7 +32,7 @@
 
     <string name="hint_auto_id">Auto ID</string>
     <string name="hint_query_string_title">Display Name</string>
-    <string name="hint_query_string_topic">Topic Parameter</string>
+    <string name="hint_query_string_search">Search Parameter</string>
     <string name="hint_query_string_condition">Condition</string>
     <string name="hint_query_string_operator">Comparison Operator</string>
     <string name="hint_query_string_operand">Comparison Value</string>

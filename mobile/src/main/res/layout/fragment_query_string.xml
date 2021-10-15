@@ -76,12 +76,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/topic"
+                    android:id="@+id/search"
                     android:inputType="textNoSuggestions"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/hint_query_string_topic"
-                    android:text="@={ item.topic }"
+                    android:hint="@string/hint_query_string_search"
+                    android:text="@={ item.search }"
                     android:gravity="start"
                     tools:text="topic:android"/>
             </com.google.android.material.textfield.TextInputLayout>
@@ -121,12 +121,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/operand"
+                    android:id="@+id/parameter"
                     android:inputType="numberSigned"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/hint_query_string_operand"
-                    android:text='@={"" + item.operand }'
+                    android:text='@={"" + item.parameter }'
                     android:gravity="start"
                     tools:text="30"/>
             </com.google.android.material.textfield.TextInputLayout>

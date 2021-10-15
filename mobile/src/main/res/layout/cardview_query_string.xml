@@ -31,7 +31,7 @@
                 android:fontFamily="sans-serif-medium"
                 android:gravity="center_vertical|center"
                 android:padding="8dp"
-                android:text='@{"" + item.id}'
+                android:text='@{"" + item.id }'
                 android:textColor="@color/colorText"
                 android:textSize="14sp"
                 tools:text="23"/>
@@ -51,7 +51,7 @@
                 tools:text="Android"/>
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/queryString"
+                android:id="@+id/search"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.4"
@@ -59,10 +59,10 @@
                 android:fontFamily="sans-serif-medium"
                 android:gravity="center_vertical|start"
                 android:padding="8dp"
-                android:text="@{ item.topic }"
+                android:text="@{ item.search }"
                 android:textColor="@color/colorText"
                 android:textSize="14sp"
-                tools:text="queryString:android"/>
+                tools:text="topic:android"/>
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/condition"
@@ -93,7 +93,7 @@
                 tools:text=">"/>
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/operand"
+                android:id="@+id/parameter"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.1"
@@ -101,7 +101,7 @@
                 android:fontFamily="sans-serif-medium"
                 android:gravity="center_vertical|center"
                 android:padding="8dp"
-                android:text='@{"" + item.operand }'
+                android:text='@{"" + item.parameter }'
                 android:textColor="@color/colorText"
                 android:textSize="14sp"
                 tools:text="30"/>
