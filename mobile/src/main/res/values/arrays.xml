@@ -1,5 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- https://docs.github.com/en/search-github/getting-started-with-searching-on-github/understanding-the-search-syntax -->
 <resources>
+
+    <string-array name="search_operator_keys">
+        <item name="gt">&gt;n</item>
+        <item name="gteq">&gt;=n</item>
+        <item name="lt">&lt;n</item>
+        <item name="lteq">&lt;=n</item>
+    </string-array>
+
+    <string-array name="search_operator_values" translatable="false">
+        <item name="gt">&gt;</item>
+        <item name="gteq">&gt;=</item>
+        <item name="lt">&lt;</item>
+        <item name="lteq">&lt;=</item>
+    </string-array>
 
     <string-array name="sortfield_keys">
         <item name="forks">Forks</item>
