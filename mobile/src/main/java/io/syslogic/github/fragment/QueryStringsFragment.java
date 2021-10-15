@@ -18,53 +18,53 @@ import androidx.navigation.Navigation;
 
 import io.syslogic.github.R;
 import io.syslogic.github.activity.BaseActivity;
-import io.syslogic.github.databinding.FragmentTopicsBinding;
-import io.syslogic.github.recyclerview.TopicsAdapter;
+import io.syslogic.github.databinding.FragmentQueryStringsBinding;
+import io.syslogic.github.recyclerview.QueryStringsAdapter;
 
 /**
- * Topics Fragment
+ * QueryStrings Fragment
  * @author Martin Zeitler
  */
-public class TopicsFragment extends BaseFragment implements Toolbar.OnMenuItemClickListener {
+public class QueryStringsFragment extends BaseFragment implements Toolbar.OnMenuItemClickListener {
 
     @SuppressWarnings("unused")
-    private static final int resId = R.layout.fragment_topics;
+    private static final int resId = R.layout.fragment_query_strings;
 
     /** Log Tag */
     @SuppressWarnings("unused")
-    private static final String LOG_TAG = TopicsFragment.class.getSimpleName();
+    private static final String LOG_TAG = QueryStringsFragment.class.getSimpleName();
 
     /** Data Binding */
-    private FragmentTopicsBinding mDataBinding;
+    private FragmentQueryStringsBinding mDataBinding;
 
     /** Constructor */
-    public TopicsFragment() {}
+    public QueryStringsFragment() {}
 
     @NonNull
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         this.setHasOptionsMenu(true);
-        this.setDataBinding(FragmentTopicsBinding.inflate(inflater, container, false));
+        this.setDataBinding(FragmentQueryStringsBinding.inflate(inflater, container, false));
         View layout = this.getDataBinding().getRoot();
 
         BaseActivity activity = ((BaseActivity) this.requireActivity());
-        activity.setSupportActionBar(this.getDataBinding().toolbarTopics.toolbarTopics);
+        activity.setSupportActionBar(this.getDataBinding().toolbarQueryStrings.toolbarQueryStrings);
         ActionBar actionbar = activity.getSupportActionBar();
         if (actionbar != null) {
-            this.getDataBinding().toolbarTopics.toolbarTopics.setOnMenuItemClickListener(this);
+            this.getDataBinding().toolbarQueryStrings.toolbarQueryStrings.setOnMenuItemClickListener(this);
             actionbar.setHomeButtonEnabled(true);
-            actionbar.setTitle(R.string.text_topics);
+            actionbar.setTitle(R.string.text_query_strings);
         }
 
-        this.getDataBinding().toolbarTopics.home.setOnClickListener(view -> {
+        this.getDataBinding().toolbarQueryStrings.home.setOnClickListener(view -> {
             NavController controller = Navigation.findNavController(getDataBinding().getRoot());
             controller.navigateUp();
         });
 
 
-        if (this.getDataBinding().recyclerviewTopics.getAdapter() == null) {
-            this.getDataBinding().recyclerviewTopics.setAdapter(new TopicsAdapter(requireContext()));
+        if (this.getDataBinding().recyclerviewQueryStrings.getAdapter() == null) {
+            this.getDataBinding().recyclerviewQueryStrings.setAdapter(new QueryStringsAdapter(requireContext()));
         }
         return layout;
     }
@@ -72,17 +72,17 @@ public class TopicsFragment extends BaseFragment implements Toolbar.OnMenuItemCl
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.topics, menu);
+        inflater.inflate(R.menu.favorites, menu);
     }
 
     @NonNull
-    public FragmentTopicsBinding getDataBinding() {
+    public FragmentQueryStringsBinding getDataBinding() {
         return this.mDataBinding;
     }
 
     @Override
     protected void setDataBinding(@NonNull ViewDataBinding binding) {
-        this.mDataBinding = (FragmentTopicsBinding) binding;
+        this.mDataBinding = (FragmentQueryStringsBinding) binding;
     }
 
     /**
@@ -94,8 +94,8 @@ public class TopicsFragment extends BaseFragment implements Toolbar.OnMenuItemCl
     @Override
     public boolean onMenuItemClick(@NonNull MenuItem item) {
         NavController controller = Navigation.findNavController(this.getDataBinding().getRoot());
-        if (item.getItemId() == R.id.menu_action_add_topic) {
-            controller.navigate(R.id.action_topicsFragment_to_topicFragment);
+        if (item.getItemId() == R.id.menu_action_add_query_string) {
+            controller.navigate(R.id.action_queryStringsFragment_to_queryStringFragment);
             return false;
         } else {
             return super.onOptionsItemSelected(item);

@@ -8,13 +8,13 @@
     <data />
 
     <androidx.appcompat.widget.LinearLayoutCompat
-        android:id="@+id/layout_topics"
+        android:id="@+id/layout_query_strings"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <include layout="@layout/toolbar_topics"
-            android:id="@+id/toolbar_topics"
+        <include layout="@layout/toolbar_query_strings"
+            android:id="@+id/toolbar_query_strings"
             android:layout_width="match_parent"
             android:layout_height="?android:attr/actionBarSize"
             android:layout_margin="0dp"/>
@@ -27,9 +27,9 @@
             android:orientation="vertical"
             android:padding="0dp"/>
 
-        <io.syslogic.github.recyclerview.TopicsLinearView
-            android:id="@+id/recyclerview_topics"
-            tools:listitem="@layout/cardview_topic"
+        <io.syslogic.github.recyclerview.QueryStringsLinearView
+            android:id="@+id/recyclerview_query_strings"
+            tools:listitem="@layout/cardview_query_string"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             android:layout_height="match_parent"
             android:layout_width="match_parent"

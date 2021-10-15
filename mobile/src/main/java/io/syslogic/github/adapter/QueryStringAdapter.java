@@ -9,29 +9,29 @@ import androidx.annotation.NonNull;
 import java.util.List;
 
 import io.syslogic.github.model.SpinnerItem;
-import io.syslogic.github.model.Topic;
+import io.syslogic.github.model.QueryString;
 import io.syslogic.github.room.Abstraction;
-import io.syslogic.github.room.TopicsDao;
+import io.syslogic.github.room.QueryStringsDao;
 
 /**
- * Topic Adapter
+ * Query-String Adapter
  * @author Martin Zeitler
  */
-public class TopicAdapter extends BaseArrayAdapter {
+public class QueryStringAdapter extends BaseArrayAdapter {
 
     @NonNull
-    protected static final String LOG_TAG = TopicAdapter.class.getSimpleName();
+    static final String LOG_TAG = QueryStringAdapter.class.getSimpleName();
 
-    public TopicAdapter(@NonNull Context context) {
+    public QueryStringAdapter(@NonNull Context context) {
         super(context);
-        TopicsDao dao = Abstraction.getInstance(context).topicsDao();
+        QueryStringsDao dao = Abstraction.getInstance(context).queryStringsDao();
         Abstraction.executorService.execute(() -> {
             final Activity activity = ((Activity) context);
             try {
-                List<Topic> items = dao.getItems();
-                for (Topic topic : items) {
-                    if (topic.getTitle() != null) {
-                        mItems.add(new SpinnerItem((int) topic.getId(), topic.getTitle(), topic.toQueryString()));
+                List<QueryString> items = dao.getItems();
+                for (QueryString queryString : items) {
+                    if (queryString.getTitle() != null) {
+                        mItems.add(new SpinnerItem((int) queryString.getId(), queryString.getTitle(), queryString.toQueryString()));
                     }
                 }
                 activity.runOnUiThread(this::notifyDataSetChanged);

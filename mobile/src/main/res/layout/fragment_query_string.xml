@@ -5,11 +5,11 @@
     tools:context=".activity.NavHostActivity">
 
     <data>
-        <variable name="topic" type="io.syslogic.github.model.Topic"/>
+        <variable name="item" type="io.syslogic.github.model.QueryString"/>
     </data>
 
     <androidx.appcompat.widget.LinearLayoutCompat
-        android:id="@+id/layout_topic"
+        android:id="@+id/layout_query_string"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -19,8 +19,8 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <include layout="@layout/toolbar_topic"
-                android:id="@+id/toolbar_topic"
+            <include layout="@layout/toolbar_query_string"
+                android:id="@+id/toolbar_query_string"
                 android:layout_width="match_parent"
                 android:layout_height="?android:attr/actionBarSize"
                 android:layout_margin="0dp"/>
@@ -51,7 +51,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/hint_auto_id"
-                    android:text='@{"" + topic.id}'
+                    android:text='@{"" + item.id }'
                     android:gravity="start"
                     tools:text="23"/>
             </com.google.android.material.textfield.TextInputLayout>
@@ -62,11 +62,11 @@
                 android:layout_height="wrap_content">
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/title"
-                    android:inputType="text"
+                    android:inputType="textNoSuggestions"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/hint_topic_title"
-                    android:text="@={topic.title}"
+                    android:hint="@string/hint_query_string_title"
+                    android:text="@={ item.title }"
                     android:gravity="start"
                     tools:text="Android"/>
             </com.google.android.material.textfield.TextInputLayout>
@@ -76,12 +76,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/queryString"
-                    android:inputType="text"
+                    android:id="@+id/topic"
+                    android:inputType="textNoSuggestions"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/hint_topic_query_string"
-                    android:text="@={topic.queryString}"
+                    android:hint="@string/hint_query_string_topic"
+                    android:text="@={ item.topic }"
                     android:gravity="start"
                     tools:text="topic:android"/>
             </com.google.android.material.textfield.TextInputLayout>
@@ -92,11 +92,11 @@
                 android:layout_height="wrap_content">
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/condition"
-                    android:inputType="text"
+                    android:inputType="textNoSuggestions"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/hint_topic_condition"
-                    android:text="@={topic.condition}"
+                    android:hint="@string/hint_query_string_condition"
+                    android:text="@={ item.condition }"
                     android:gravity="start"
                     tools:text="pushed"/>
             </com.google.android.material.textfield.TextInputLayout>
@@ -107,11 +107,11 @@
                 android:layout_height="wrap_content">
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/operator"
-                    android:inputType="text"
+                    android:inputType="textNoSuggestions"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/hint_topic_operator"
-                    android:text="@={topic.operator}"
+                    android:hint="@string/hint_query_string_operator"
+                    android:text="@={ item.operator }"
                     android:gravity="start"
                     tools:text=">"/>
             </com.google.android.material.textfield.TextInputLayout>
@@ -125,17 +125,17 @@
                     android:inputType="numberSigned"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/hint_topic_days"
-                    android:text='@={"" + topic.days}'
+                    android:hint="@string/hint_query_string_days"
+                    android:text='@={"" + item.days }'
                     android:gravity="start"
-                    tools:text="-90"/>
+                    tools:text="30"/>
             </com.google.android.material.textfield.TextInputLayout>
             <Space android:layout_width="match_parent" android:layout_height="8dp"/>
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@{topic.toQueryString}"/>
+                android:text="@{ item.toQueryString }"/>
             <Space android:layout_width="match_parent" android:layout_height="8dp"/>
 
             <androidx.appcompat.widget.AppCompatButton

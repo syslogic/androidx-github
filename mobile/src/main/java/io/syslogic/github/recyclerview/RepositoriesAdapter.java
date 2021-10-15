@@ -112,7 +112,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     public void fetchPage(final int pageNumber) {
 
-        final int pageSize = 30;
+
         String accessToken = getAccessToken();
         if (this.getPagerState() != null && !this.getPagerState().getIsOffline()) {
 
@@ -130,9 +130,15 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                         // OK
                         case 200: {
                             if (response.body() != null) {
-
                                 Repositories items = response.body();
-                                if (BuildConfig.DEBUG) {Log.d(LOG_TAG, "loaded " + (getItemCount() + pageSize) + " / " + items.getTotalCount());}
+                                if (BuildConfig.DEBUG) {
+                                    // RECYCLERVIEW_DEFAULT_PAGE_SIZE = 30
+                                    int currentPageSize = items.getRepositories().size();
+                                    Log.d(LOG_TAG, "loaded " + (getItemCount() + currentPageSize) + " / " + items.getTotalCount());
+                                    if (currentPageSize < Constants.RECYCLERVIEW_DEFAULT_PAGE_SIZE) {
+                                        Log.w(LOG_TAG, "The last page has " + currentPageSize + " / " + Constants.RECYCLERVIEW_DEFAULT_PAGE_SIZE + " items.");
+                                    }
+                                }
                                 setTotalItemCount(items.getTotalCount());
                                 int positionStart = getItemCount();
                                 getItems().addAll(items.getRepositories());

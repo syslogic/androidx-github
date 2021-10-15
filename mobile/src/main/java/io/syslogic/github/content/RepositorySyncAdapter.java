@@ -4,25 +4,29 @@ import android.accounts.Account;
 import android.content.AbstractThreadedSyncAdapter;
 import android.content.ContentProviderClient;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.SyncResult;
 import android.os.Bundle;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.preference.PreferenceManager;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import io.syslogic.github.BuildConfig;
+import io.syslogic.github.Constants;
+import io.syslogic.github.model.QueryString;
 import io.syslogic.github.model.Repositories;
 import io.syslogic.github.model.Repository;
-import io.syslogic.github.model.Topic;
 import io.syslogic.github.model.User;
 import io.syslogic.github.network.TokenHelper;
 import io.syslogic.github.retrofit.GithubClient;
 import io.syslogic.github.room.Abstraction;
+import io.syslogic.github.room.QueryStringsDao;
 import io.syslogic.github.room.RepositoriesDao;
-import io.syslogic.github.room.TopicsDao;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -41,18 +45,24 @@ public class RepositorySyncAdapter extends AbstractThreadedSyncAdapter {
     static final boolean mDebug = BuildConfig.DEBUG;
 
     private final String accessToken;
-    private User user;
-    private List<Topic> topics;
-    private ArrayList<Repository> repositories = new ArrayList<>();
+    private final SharedPreferences prefs;
+    private final QueryStringsDao queryStringsDao;
     private final RepositoriesDao repositoriesDao;
-    private final TopicsDao topicsDao;
+
+    private ArrayList<Repository> repositories = new ArrayList<>();
+    private List<QueryString> queryStrings;
+    private User user;
 
     /** Constructor. */
     public RepositorySyncAdapter(Context context, boolean autoInitialize, boolean allowParallelSyncs) {
         super(context, autoInitialize, allowParallelSyncs);
         this.accessToken = TokenHelper.getAccessToken(context);
+        this.prefs = PreferenceManager.getDefaultSharedPreferences(context);
         this.repositoriesDao = Abstraction.getInstance(context).repositoriesDao();
-        this.topicsDao = Abstraction.getInstance(context).topicsDao();
+        this.queryStringsDao = Abstraction.getInstance(context).queryStringsDao();
+        if (mDebug && this.prefs.getBoolean(Constants.PREFERENCE_KEY_DEBUG_LOGGING, false)) {
+            Log.d(LOG_TAG, "Verbose logging is active.");
+        }
     }
 
     /**
@@ -69,13 +79,13 @@ public class RepositorySyncAdapter extends AbstractThreadedSyncAdapter {
     public void onPerformSync(Account account, Bundle extras, String authority, ContentProviderClient provider, SyncResult syncResult) {
         if (this.accessToken != null) {
             Call<User> api = GithubClient.getUser(this.accessToken);
-            if (mDebug) {Log.d(LOG_TAG, api.request().url() + "");}
+            this.log("" + api.request().url());
             api.enqueue(new Callback<User>() {
                 @Override
                 public void onResponse(@NonNull Call<User> call, @NonNull Response<User> response) {
                     if (response.body() != null) {
                         onUser(response.body());
-                        Abstraction.executorService.execute(() -> onTopics(topicsDao.getItems()));
+                        Abstraction.executorService.execute(() -> onQueryStrings(queryStringsDao.getItems()));
                     }
                 }
                 public void onFailure(@NonNull Call<User> call, @NonNull Throwable t) {
@@ -86,17 +96,17 @@ public class RepositorySyncAdapter extends AbstractThreadedSyncAdapter {
     }
 
     private void onUser(@NonNull User item) {
-        if (mDebug) {Log.d(LOG_TAG, "onUser: " + item.getLogin());}
+        this.log("onUser: " + item.getLogin());
         this.user = item;
     }
 
-    private void onTopics(@NonNull List<Topic> items) {
-        if (mDebug) {Log.d(LOG_TAG, "onTopics: " + items.size());}
-        this.topics = items;
-        for (Topic item: items) {
-            if (mDebug) {Log.d(LOG_TAG, "building content cache for query-string parameter: " + item.toQueryString());}
+    private void onQueryStrings(@NonNull List<QueryString> items) {
+        this.log("onQueryStrings: " + items.size());
+        this.queryStrings = items;
+        for (QueryString item: items) {
             Call<Repositories> api = GithubClient.getRepositories(this.accessToken, item.toQueryString(), "forks", "desc", 1);
-            if (mDebug) {Log.w(LOG_TAG, api.request().url() + "");}
+            this.log("Building content cache for query-string: " + item.toQueryString());
+            this.log("" + api.request().url());
             api.enqueue(new Callback<Repositories>() {
                 @Override
                 public void onResponse(@NonNull Call<Repositories> call, @NonNull Response<Repositories> response) {
@@ -111,14 +121,19 @@ public class RepositorySyncAdapter extends AbstractThreadedSyncAdapter {
     }
 
     private void onRepositories(@NonNull Repositories item) {
+        this.log("onRepositories: " + item.getRepositories().size());
         for (Repository repository: item.getRepositories()) {
-            if (mDebug) {Log.d(LOG_TAG, "Repo: " + repository.getUrl());}
+            this.log("Repo: " + repository.getUrl());
             this.repositories.add(repository);
         }
-        if (mDebug) {
-            Log.d(LOG_TAG, "expected item count: " + item.getTotalCount());
-            Log.d(LOG_TAG, "expected page count: " + item.getPageCount());
-            Log.d(LOG_TAG, "loaded so far: " + this.repositories.size());
+        this.log("expected item count: " + item.getTotalCount());
+        this.log("expected page count: " + item.getPageCount());
+        this.log("loaded so far: " + this.repositories.size());
+    }
+
+    private void log(String message) {
+        if (mDebug && this.prefs.getBoolean(Constants.PREFERENCE_KEY_DEBUG_LOGGING, false)) {
+            Log.d(LOG_TAG, message);
         }
     }
 }

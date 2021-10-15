@@ -13,13 +13,14 @@ import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import io.syslogic.github.Constants;
+import io.syslogic.github.content.IContentProvider;
 
 /**
  * Model: Repository
  * @author Martin Zeitler
  */
 @Entity(tableName = Constants.TABLE_REPOSITORIES)
-public class Repository extends BaseModel {
+public class Repository extends BaseModel implements IContentProvider {
 
     @PrimaryKey()
     @ColumnInfo(name = "id")
@@ -66,7 +67,6 @@ public class Repository extends BaseModel {
     @SerializedName("network_count")
     private Long networkCount = 0L;
 
-    @Ignore
     @SerializedName("topics")
     private String[] topics;
 
@@ -233,7 +233,7 @@ public class Repository extends BaseModel {
         return this.topics;
     }
 
-    @SuppressWarnings("unused")
+    @Override
     public ContentValues toContentValues() {
         ContentValues values = new ContentValues();
         values.put("id", this.getId());
@@ -245,7 +245,8 @@ public class Repository extends BaseModel {
         return values;
     }
 
-    public Repository fromContentValues(ContentValues values) {
+    @Override
+    public Repository fromContentValues(@NonNull ContentValues values) {
         this.setId(values.getAsLong("id"));
         this.setNodeId(values.getAsString("node_id"));
         this.setName(values.getAsString("name"));

@@ -12,14 +12,14 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import io.syslogic.github.model.QueryString;
 import io.syslogic.github.model.Repository;
-import io.syslogic.github.model.Topic;
 
 /**
  * {@link RoomDatabase} Abstraction
  * @author Martin Zeitler
  */
-@Database(version = 1, entities = {Topic.class, Repository.class})
+@Database(version = 1, entities = {QueryString.class, Repository.class})
 @TypeConverters(StringArrayConverter.class)
 public abstract class Abstraction extends RoomDatabase {
 
@@ -36,18 +36,18 @@ public abstract class Abstraction extends RoomDatabase {
 
     public abstract RepositoriesDao repositoriesDao();
 
-    public abstract TopicsDao topicsDao();
+    public abstract QueryStringsDao queryStringsDao();
 
     /**
-     * Asset `src/main/assets/room.db` must match the current schema -
-     * else this will result in: "Room cannot verify the data integrity".
+     * Asset `src/main/assets/room.db` must match the current schema version,
+     * else this will also result in: "Room cannot verify the data integrity".
      */
     @NonNull
     public static Abstraction getInstance(@NonNull Context context) {
         if (sInstance == null) {
             Builder<Abstraction> builder = Room
                 .databaseBuilder(context.getApplicationContext(), Abstraction.class, fileName)
-                .createFromAsset(fileName)
+                // .createFromAsset(fileName)
                 .addCallback(new Callback() {
                     @Override
                     public void onCreate(@NonNull SupportSQLiteDatabase db) {

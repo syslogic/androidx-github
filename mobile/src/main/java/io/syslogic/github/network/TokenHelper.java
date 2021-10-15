@@ -38,7 +38,7 @@ public class TokenHelper {
             if (account != null) {
                 return accountManager.getUserData(account, "accessToken");
             } else {
-                Log.d(LOG_TAG, "account not found: " + Constants.CLIENT_ACCOUNT_TYPE);
+                Log.d(LOG_TAG, "account not found: " + Constants.ACCOUNT_TYPE);
                 return null;
             }
         }
@@ -58,7 +58,7 @@ public class TokenHelper {
 
     @SuppressWarnings("SameParameterValue")
     private static Account getAccount(AccountManager accountManager, int index) {
-        Account[] accounts = accountManager.getAccountsByType(Constants.CLIENT_ACCOUNT_TYPE);
+        Account[] accounts = accountManager.getAccountsByType(Constants.ACCOUNT_TYPE);
         if (accounts.length <= index) {return null;}
         else {return accounts[ index ];}
     }
@@ -66,7 +66,7 @@ public class TokenHelper {
     /** It currently adds into the "Personal" accounts (probably depending on the profile). */
     private static void addAccount(AccountManager accountManager, String accessToken) {
         if (getAccount(accountManager, 0) == null) {
-            Account account = new Account("GitHub API Client", Constants.CLIENT_ACCOUNT_TYPE);
+            Account account = new Account("GitHub API Client", Constants.ACCOUNT_TYPE);
             Bundle extraData = new Bundle();
             extraData.putString("accessToken", accessToken);
             accountManager.addAccountExplicitly(account, accessToken, extraData);

@@ -6,8 +6,8 @@
     tools:context=".activity.NavHostActivity">
 
     <item
-        android:id="@+id/menu_action_add_topic"
-        android:title="@string/menu_action_add_topic"
+        android:id="@+id/menu_action_add_query_string"
+        android:title="@string/menu_action_add_query_string"
         android:orderInCategory="100"
         app:showAsAction="always"/>
 

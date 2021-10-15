@@ -61,16 +61,6 @@ abstract public class BaseArrayAdapter extends BaseAdapter {
         return convertView;
     }
 
-    protected void clearItems() {
-        if (this.mItems != null) {this.mItems.clear();}
-        else {this.mItems = new ArrayList<>();}
-    }
-
-    void setItems(List<SpinnerItem> items) {
-        this.clearItems();
-        this.mItems.addAll(items);
-    }
-
     void setItems(@NonNull Context context, @NonNull @ArrayRes Integer arrayKeys, @NonNull @ArrayRes Integer arrayValues) {
         this.clearItems();
         Resources res = context.getResources();
@@ -79,5 +69,15 @@ abstract public class BaseArrayAdapter extends BaseAdapter {
         for(int i = 0; i < keys.length; i++) {
             this.mItems.add(i, new SpinnerItem(i + 1, keys[i], values[i]));
         }
+    }
+
+    void setItems(List<SpinnerItem> items) {
+        this.clearItems();
+        this.mItems.addAll(items);
+    }
+
+    void clearItems() {
+        if (this.mItems != null) {this.mItems.clear();}
+        else {this.mItems = new ArrayList<>();}
     }
 }

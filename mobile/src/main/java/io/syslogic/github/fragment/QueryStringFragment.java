@@ -2,7 +2,6 @@ package io.syslogic.github.fragment;
 
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,38 +17,38 @@ import androidx.navigation.Navigation;
 import io.syslogic.github.R;
 import io.syslogic.github.activity.BaseActivity;
 import io.syslogic.github.Constants;
-import io.syslogic.github.databinding.FragmentTopicBinding;
-import io.syslogic.github.model.Topic;
+import io.syslogic.github.databinding.FragmentQueryStringBinding;
+import io.syslogic.github.model.QueryString;
 import io.syslogic.github.room.Abstraction;
-import io.syslogic.github.room.TopicsDao;
+import io.syslogic.github.room.QueryStringsDao;
 
 /**
- * Topic Fragment
+ * Query-String Fragment
  * @author Martin Zeitler
  */
-public class TopicFragment extends BaseFragment {
+public class QueryStringFragment extends BaseFragment {
 
     @SuppressWarnings("unused")
-    private static final int resId = R.layout.fragment_topic;
+    private static final int resId = R.layout.fragment_query_string;
 
     /** Log Tag */
     @SuppressWarnings("unused")
-    private static final String LOG_TAG = TopicFragment.class.getSimpleName();
+    private static final String LOG_TAG = QueryStringFragment.class.getSimpleName();
 
     /** Data Binding */
-    private FragmentTopicBinding mDataBinding;
+    private FragmentQueryStringBinding mDataBinding;
 
-    private Long itemId = 0L;
+    private Long itemId = -1L;
 
     /** Constructor */
-    public TopicFragment() {}
+    public QueryStringFragment() {}
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle args = this.getArguments();
-        if (itemId == 0 && args != null) {
+        if (itemId == -1L && args != null) {
             this.setItemId(args.getLong(Constants.ARGUMENT_ITEM_ID));
         }
     }
@@ -58,44 +57,39 @@ public class TopicFragment extends BaseFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        this.setDataBinding(FragmentTopicBinding.inflate(inflater, container, false));
-        if (itemId == 0) { this.getDataBinding().setTopic(new Topic());}
-        this.getDataBinding().setLifecycleOwner(this);
+        this.setDataBinding(FragmentQueryStringBinding.inflate(inflater, container, false));
 
         BaseActivity activity = ((BaseActivity) this.requireActivity());
-        activity.setSupportActionBar(this.getDataBinding().toolbarTopic.toolbarTopic);
+        activity.setSupportActionBar(this.getDataBinding().toolbarQueryString.toolbarQueryString);
         ActionBar actionbar = activity.getSupportActionBar();
         if (actionbar != null) {actionbar.setHomeButtonEnabled(true);}
 
-        this.getDataBinding().toolbarTopic.home.setOnClickListener(view -> {
-            NavController controller = Navigation.findNavController(getDataBinding().getRoot());
+        this.getDataBinding().toolbarQueryString.home.setOnClickListener(view -> {
+            NavController controller = Navigation.findNavController(this.getDataBinding().getRoot());
             controller.navigateUp();
         });
 
         this.getDataBinding().buttonSave.setOnClickListener(view -> {
-            TopicsDao dao = Abstraction.getInstance(requireContext()).topicsDao();
-            Topic item = this.getDataBinding().getTopic();
-            if (item != null) {
-                Abstraction.executorService.execute(() -> {
-                    if (itemId == -1L) {itemId = dao.insert(item);}
-                    else {dao.update(item);}
-                    requireActivity().runOnUiThread(() -> {
-                        NavController controller = Navigation.findNavController(getDataBinding().getRoot());
-                        controller.navigateUp();
-                    });
+            QueryStringsDao dao = Abstraction.getInstance(requireContext()).queryStringsDao();
+            QueryString item = this.getDataBinding().getItem();
+            Abstraction.executorService.execute(() -> {
+                if (itemId == -1L) {itemId = dao.insert(item);}
+                else {dao.update(item);}
+                requireActivity().runOnUiThread(() -> {
+                    NavController controller = Navigation.findNavController(getDataBinding().getRoot());
+                    controller.navigateUp();
                 });
-            } else {
-                Log.e(LOG_TAG, "could not get item");
-            }
+            });
         });
 
-        if (this.itemId == 0) {
-            this.getDataBinding().setTopic(new Topic());
+        if (this.itemId == -1L) {
+            QueryString item = new QueryString();
+            this.getDataBinding().setItem(item);
         } else {
-            TopicsDao dao = Abstraction.getInstance(requireContext()).topicsDao();
+            QueryStringsDao dao = Abstraction.getInstance(requireContext()).queryStringsDao();
             Abstraction.executorService.execute(() -> {
-                Topic item = dao.getItem(this.itemId);
-                this.getDataBinding().setTopic(item);
+                QueryString item = dao.getItem(getItemId());
+                this.getDataBinding().setItem(item);
             });
         }
 
@@ -112,12 +106,12 @@ public class TopicFragment extends BaseFragment {
     }
 
     @NonNull
-    public FragmentTopicBinding getDataBinding() {
+    public FragmentQueryStringBinding getDataBinding() {
         return this.mDataBinding;
     }
 
     @Override
     protected void setDataBinding(@NonNull ViewDataBinding binding) {
-        this.mDataBinding = (FragmentTopicBinding) binding;
+        this.mDataBinding = (FragmentQueryStringBinding) binding;
     }
 }

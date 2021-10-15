@@ -18,8 +18,8 @@
             android:id="@+id/action_repositoriesFragment_to_profileFragment"
             app:destination="@id/profileFragment"/>
         <action
-            android:id="@+id/action_repositoriesFragment_to_topicsGraph"
-            app:destination="@id/topicsGraph" />
+            android:id="@+id/action_repositoriesFragment_to_queryStringsGraph"
+            app:destination="@id/queryStringsGraph" />
     </fragment>
 
     <fragment
@@ -37,22 +37,22 @@
         tools:layout="@layout/fragment_profile"/>
 
     <navigation
-        android:id="@+id/topicsGraph"
-        app:startDestination="@id/topicsFragment">
+        android:id="@+id/queryStringsGraph"
+        app:startDestination="@id/queryStringsFragment">
         <fragment
-            android:id="@+id/topicsFragment"
-            android:name="io.syslogic.github.fragment.TopicsFragment"
-            android:label="fragment_topics"
-            tools:layout="@layout/fragment_topics">
+            android:id="@+id/queryStringsFragment"
+            android:name="io.syslogic.github.fragment.QueryStringsFragment"
+            android:label="fragment_query_strings"
+            tools:layout="@layout/fragment_query_strings">
             <action
-                android:id="@+id/action_topicsFragment_to_topicFragment"
-                app:destination="@id/topicFragment" />
+                android:id="@+id/action_queryStringsFragment_to_queryStringFragment"
+                app:destination="@id/queryStringFragment" />
         </fragment>
         <fragment
-            android:id="@+id/topicFragment"
-            android:name="io.syslogic.github.fragment.TopicFragment"
-            android:label="fragment_topic"
-            tools:layout="@layout/fragment_topic">
+            android:id="@+id/queryStringFragment"
+            android:name="io.syslogic.github.fragment.QueryStringFragment"
+            android:label="fragment_query_string"
+            tools:layout="@layout/fragment_query_string">
             <argument app:argType="long" android:name="itemId" android:defaultValue="-1L"/>
         </fragment>
     </navigation>

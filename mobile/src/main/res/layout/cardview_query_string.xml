@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <variable name="topic" type="io.syslogic.github.model.Topic"/>
+        <variable name="item" type="io.syslogic.github.model.QueryString"/>
     </data>
 
     <androidx.cardview.widget.CardView
@@ -31,7 +31,7 @@
                 android:fontFamily="sans-serif-medium"
                 android:gravity="center_vertical|center"
                 android:padding="8dp"
-                android:text='@{"" + topic.id}'
+                android:text='@{"" + item.id}'
                 android:textColor="@color/colorText"
                 android:textSize="14sp"
                 tools:text="23"/>
@@ -45,7 +45,7 @@
                 android:fontFamily="sans-serif-medium"
                 android:gravity="center_vertical|center"
                 android:padding="8dp"
-                android:text="@{topic.title}"
+                android:text="@{ item.title }"
                 android:textColor="@color/colorText"
                 android:textSize="14sp"
                 tools:text="Android"/>
@@ -59,10 +59,10 @@
                 android:fontFamily="sans-serif-medium"
                 android:gravity="center_vertical|start"
                 android:padding="8dp"
-                android:text="@{topic.queryString}"
+                android:text="@{ item.topic }"
                 android:textColor="@color/colorText"
                 android:textSize="14sp"
-                tools:text="topic:android"/>
+                tools:text="queryString:android"/>
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/condition"
@@ -73,7 +73,7 @@
                 android:fontFamily="sans-serif-medium"
                 android:gravity="center_vertical|center"
                 android:padding="8dp"
-                android:text="@{topic.condition}"
+                android:text="@{ item.condition }"
                 android:textColor="@color/colorText"
                 android:textSize="14sp"
                 tools:text="pushed"/>
@@ -87,7 +87,7 @@
                 android:fontFamily="sans-serif-medium"
                 android:gravity="center_vertical|center"
                 android:padding="8dp"
-                android:text="@{topic.operator}"
+                android:text="@{ item.operator }"
                 android:textColor="@color/colorText"
                 android:textSize="14sp"
                 tools:text=">"/>
@@ -101,7 +101,7 @@
                 android:fontFamily="sans-serif-medium"
                 android:gravity="center_vertical|center"
                 android:padding="8dp"
-                android:text='@{"" + topic.days}'
+                android:text='@{"" + item.days }'
                 android:textColor="@color/colorText"
                 android:textSize="14sp"
                 tools:text="-90"/>

@@ -16,17 +16,23 @@ import androidx.databinding.ViewDataBinding;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
+import java.util.List;
+
+import io.syslogic.github.Constants;
 import io.syslogic.github.R;
 import io.syslogic.github.activity.BaseActivity;
 import io.syslogic.github.model.PagerState;
+import io.syslogic.github.model.QueryString;
 import io.syslogic.github.model.SpinnerItem;
-import io.syslogic.github.adapter.TopicAdapter;
+import io.syslogic.github.adapter.QueryStringAdapter;
 import io.syslogic.github.databinding.FragmentRepositoriesBinding;
 import io.syslogic.github.model.User;
 import io.syslogic.github.network.TokenCallback;
 import io.syslogic.github.recyclerview.RepositoriesAdapter;
 import io.syslogic.github.recyclerview.RepositoriesLinearView;
 import io.syslogic.github.recyclerview.ScrollListener;
+import io.syslogic.github.room.Abstraction;
+import io.syslogic.github.room.QueryStringsDao;
 
 /**
  * Repositories Fragment
@@ -50,29 +56,24 @@ public class RepositoriesFragment extends BaseFragment implements TokenCallback 
     @NonNull
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
-        this.setHasOptionsMenu(true);
-        this.setDataBinding(FragmentRepositoriesBinding.inflate(inflater, container, false));
-        View layout = this.getDataBinding().getRoot();
-
-        if (this.getContext() != null && this.getActivity() != null) {
-
+        if (savedInstanceState == null) {
+            this.setDataBinding(FragmentRepositoriesBinding.inflate(inflater, container, false));
             this.getDataBinding().setPagerState(new PagerState());
-
+            this.setHasOptionsMenu(true);
             /* Setting up the toolbar, in order to show the topics editor. */
-            ((BaseActivity) this.requireActivity()).setSupportActionBar(this.getDataBinding().toolbarQuery.toolbarQuery);
-            this.getDataBinding().toolbarQuery.toolbarQuery.setOnMenuItemClickListener(item -> {
-            if (item.getItemId() == R.id.menu_action_edit_topics) {
-                NavController controller = Navigation.findNavController(this.getDataBinding().getRoot());
-                controller.navigate(R.id.action_repositoriesFragment_to_topicsGraph);
-                return false;
-            }  else {
-                return super.onOptionsItemSelected(item);
-            }});
+            ((BaseActivity) this.requireActivity()).setSupportActionBar(this.getDataBinding().toolbarRepositories.toolbarQuery);
+            this.getDataBinding().toolbarRepositories.toolbarQuery.setOnMenuItemClickListener(item -> {
+                if (item.getItemId() == R.id.menu_action_edit_query_strings) {
+                    NavController controller = Navigation.findNavController(this.getDataBinding().getRoot());
+                    controller.navigate(R.id.action_repositoriesFragment_to_queryStringsGraph);
+                    return false;
+                }  else {
+                    return super.onOptionsItemSelected(item);
+                }});
 
-            AppCompatSpinner spinner = this.getDataBinding().toolbarQuery.spinnerTopic;
-            spinner.setAdapter(new TopicAdapter(this.getContext()));
-
+            // the SpinnerItem has the same ID as the QueryString.
+            AppCompatSpinner spinner = this.getDataBinding().toolbarRepositories.spinnerQueryString;
+            spinner.setAdapter(new QueryStringAdapter(requireContext()));
             spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 int count = 0;
                 @Override
@@ -80,8 +81,6 @@ public class RepositoriesFragment extends BaseFragment implements TokenCallback 
                     if (count > 0) {
                         SpinnerItem item = (SpinnerItem) view.getTag();
                         ScrollListener.setPageNumber(1);
-
-                        // the SpinnerItem has the same ID as the Topic.
                         String queryString = item.getValue();
                         RepositoriesLinearView recyclerview = getDataBinding().recyclerviewRepositories;
                         recyclerview.setQueryString(queryString);
@@ -101,40 +100,38 @@ public class RepositoriesFragment extends BaseFragment implements TokenCallback 
                 public void onNothingSelected(AdapterView<?> parent) {}
             });
 
+            /* It is quicker to query Room, because the QueryStringAdapter is populating too slow. */
             if (this.getDataBinding().recyclerviewRepositories.getAdapter() == null) {
                 if (isNetworkAvailable(requireContext())) {
-                    /* The TopicAdapter takes a while to populate. */
-                    TopicAdapter topicAdapter = (TopicAdapter) getDataBinding().toolbarQuery.spinnerTopic.getAdapter();
-                    if (topicAdapter != null) {
-                        if (topicAdapter.getCount() == 0) {
-                            if (mDebug) {Log.w(LOG_TAG, "TopicAdapter.getCount() is 0");}
-                            while (topicAdapter.getCount() == 0) {
-                                if (mDebug) {Log.w(LOG_TAG, "TopicAdapter.getCount() is still 0");}
+                    QueryStringsDao dao = Abstraction.getInstance(requireContext()).queryStringsDao();
+                    Abstraction.executorService.execute(() -> {
+                        try {
+                            List<QueryString> items = dao.getItems();
+                            if (items.size() > 0) {
+                                String queryString = items.get(0).toQueryString();
+                                requireActivity().runOnUiThread(() -> {
+                                    RepositoriesAdapter adapter = new RepositoriesAdapter(requireContext(), queryString, 1);
+                                    getDataBinding().recyclerviewRepositories.setAdapter(adapter);
+                                    PagerState pagerState = getDataBinding().getPagerState();
+                                    if (pagerState != null) {
+                                        pagerState.setQueryString(queryString);
+                                        getDataBinding().setPagerState(pagerState);
+                                    }
+                                });
+                            } else {
+                                if (mDebug) {Log.e(LOG_TAG, "table `" + Constants.TABLE_QUERY_STRINGS +"` has no records.");}
+                                this.getDataBinding().toolbarRepositories.spinnerQueryString.setVisibility(View.INVISIBLE);
                             }
+                        } catch (IllegalStateException e) {
+                            if (mDebug) {Log.e(LOG_TAG, e.getMessage());}
                         }
-
-                        if (topicAdapter.getCount() > 0) {
-                            String queryString = topicAdapter.getItem(0).getValue();
-                            this.getDataBinding().recyclerviewRepositories.setAdapter(
-                                    new RepositoriesAdapter(requireContext(), queryString, 1)
-                            );
-                            PagerState pagerState = this.getDataBinding().getPagerState();
-                            if (pagerState != null) {
-                                pagerState.setQueryString(queryString);
-                                this.getDataBinding().setPagerState(pagerState);
-                            }
-                        } else {
-                            /* topics would need to be added */
-                            // NavController controller = Navigation.findNavController(layout);
-                            // controller.navigate(R.id.action_repositoriesFragment_to_topicsGraph);
-                        }
-                    }
+                    });
                 } else {
                     this.onNetworkLost();
                 }
             }
         }
-        return layout;
+        return this.getDataBinding().getRoot();
     }
 
     @Override
@@ -179,9 +176,9 @@ public class RepositoriesFragment extends BaseFragment implements TokenCallback 
                 requireActivity().runOnUiThread(() -> {
                     String queryString = getDataBinding().recyclerviewRepositories.getQueryString();
                     if (queryString == null) {
-                        TopicAdapter topicAdapter = (TopicAdapter) getDataBinding().toolbarQuery.spinnerTopic.getAdapter();
-                        if (topicAdapter != null && topicAdapter.getCount() > 0) {
-                            queryString = topicAdapter.getItem(0).getValue();
+                        QueryStringAdapter queryStringArrayAdapter = (QueryStringAdapter) getDataBinding().toolbarRepositories.spinnerQueryString.getAdapter();
+                        if (queryStringArrayAdapter != null && queryStringArrayAdapter.getCount() > 0) {
+                            queryString = queryStringArrayAdapter.getItem(0).getValue();
                         }
                     }
                     if (queryString != null) {

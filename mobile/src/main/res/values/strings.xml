@@ -8,10 +8,10 @@
     <string name="title_preferences_token">Access Token Preferences</string>
     <string name="summary_preferences_token">Edit or remove the token</string>
 
-    <string name="text_topics">Topics</string>
-    <string name="text_edit_topic">Edit Topic</string>
-    <string name="menu_action_edit_topics">Edit Topics</string>
-    <string name="menu_action_add_topic">Add Topic</string>
+    <string name="text_query_strings">Topics</string>
+    <string name="text_edit_query_string">Edit Query-String</string>
+    <string name="menu_action_edit_query_strings">Query-Strings</string>
+    <string name="menu_action_add_query_string">Add Query-String</string>
 
     <string name="text_repositories">Repositories</string>
     <string name="text_forks">forks</string>
@@ -31,10 +31,11 @@
     <string name="debug_network_absent">network connection is absent</string>
 
     <string name="hint_auto_id">Auto ID</string>
-    <string name="hint_topic_title">Topic Title</string>
-    <string name="hint_topic_condition">Condition</string>
-    <string name="hint_topic_operator">Operator</string>
-    <string name="hint_topic_query_string">Query String</string>
-    <string name="hint_topic_days">Days</string>
+    <string name="hint_query_string_title">Display Name</string>
+    <string name="hint_query_string_topic">Topic Parameter</string>
+    <string name="hint_query_string_condition">Condition</string>
+    <string name="hint_query_string_operator">Comparison Operator</string>
+    <string name="hint_query_string_days">Days</string>
+    <string name="hint_query_string_is_raw">Raw</string>
 
 </resources>

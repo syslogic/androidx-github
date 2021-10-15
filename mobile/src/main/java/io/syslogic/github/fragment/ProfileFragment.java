@@ -1,6 +1,7 @@
 package io.syslogic.github.fragment;
 
 import android.annotation.SuppressLint;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.webkit.WebViewClient;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.databinding.ViewDataBinding;
 
 import io.syslogic.github.R;
@@ -34,11 +36,12 @@ public class ProfileFragment extends BaseFragment implements TokenCallback {
     /** Data Binding */
     private FragmentProfileBinding mDataBinding;
 
-    private Long itemId = 0L;
+    private Long itemId = -1L;
 
     /** Constructor */
     public ProfileFragment() {}
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
