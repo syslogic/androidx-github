@@ -50,7 +50,7 @@ import retrofit2.Response;
 import io.syslogic.github.network.TokenHelper;
 
 /**
- * Repositories RecyclerView Adapter
+ * Repositories {@link RecyclerView} Adapter
  * @author Martin Zeitler
  */
 public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -246,7 +246,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 state.setItemCount(itemCount);
             }
             FragmentRepositoriesBinding databinding = (FragmentRepositoriesBinding) ((BaseActivity) getContext()).getFragmentDataBinding();
-            databinding.setPagerState(state);
+            if (databinding != null) {databinding.setPagerState(state);}
         }
     }
 
@@ -256,28 +256,23 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         api.enqueue(new Callback<RateLimits>() {
             @Override
             public void onResponse(@NonNull Call<RateLimits> call, @NonNull Response<RateLimits> response) {
-                switch(response.code()) {
-                    case 200: {
-                        if (response.body() != null) {
-                            RateLimits items = response.body();
-                            RateLimit limit = null;
-                            switch(resourceName) {
-                                case "graphql": limit = items.getResources().getGraphql(); break;
-                                case "search": limit = items.getResources().getSearch(); break;
-                                case "core": limit = items.getResources().getCore(); break;
-                            }
-                            if (limit != null && BuildConfig.DEBUG) {
-                                long seconds = (long) Math.ceil((new Date(limit.getReset() * 1000).getTime() - Math.ceil(new Date().getTime()) / 1000));
-                                String text = String.format(Locale.getDefault(), "%s quota: %d / %d. reset in %d seconds.", resourceName, limit.getRemaining(), limit.getLimit(), seconds);
-                                Toast.makeText(getContext(), text, Toast.LENGTH_SHORT).show();
-                            }
+                if (response.code() == 200 && response.body() != null) {
+                    RateLimits items = response.body();
+                    RateLimit limit = null;
+                    switch(resourceName) {
+                        case "graphql": limit = items.getResources().getGraphql(); break;
+                        case "search": limit = items.getResources().getSearch(); break;
+                        case "core": limit = items.getResources().getCore(); break;
+                    }
+                    if (limit != null && BuildConfig.DEBUG) {
+                        long seconds = (long) Math.ceil((new Date(limit.getReset() * 1000).getTime() - Math.ceil(new Date().getTime()) / 1000));
+                        String text = String.format(Locale.getDefault(), "%s quota: %d / %d. reset in %d seconds.", resourceName, limit.getRemaining(), limit.getLimit(), seconds);
+                        Toast.makeText(getContext(), text, Toast.LENGTH_SHORT).show();
+                    }
 
-                            /* possible border-case: */
-                            if (limit != null && limit.getRemaining() > 0) {
-                                Toast.makeText(getContext(), "the " + resourceName + " quota was reset already", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                        break;
+                    /* possible border-case: */
+                    if (limit != null && limit.getRemaining() > 0) {
+                        Toast.makeText(getContext(), "the " + resourceName + " quota was reset already", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
@@ -302,6 +297,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
     /** Getters */
+    @SuppressWarnings("unused")
     private long getTotalItemCount() {
         return this.totalItemCount;
     }
@@ -314,6 +310,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private final CardviewRepositoryBinding mDataBinding;
+        @SuppressWarnings("FieldCanBeLocal")
         private RepositoriesLinearView mRecyclerView;
         private CardView cardView;
         private long itemId;

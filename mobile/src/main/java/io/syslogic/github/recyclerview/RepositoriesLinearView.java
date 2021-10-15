@@ -16,7 +16,6 @@ import androidx.recyclerview.widget.RecyclerView;
 public class RepositoriesLinearView extends RecyclerView {
 
     LinearLayoutManager mLinearLayoutManager;
-
     ScrollListener scrollListener;
 
     /** Constructor */

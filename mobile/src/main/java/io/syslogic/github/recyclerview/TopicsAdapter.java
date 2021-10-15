@@ -30,7 +30,7 @@ import io.syslogic.github.model.Topic;
 import io.syslogic.github.room.Abstraction;
 
 /**
- * Topics RecyclerView Adapter
+ * Topics {@link RecyclerView} Adapter
  * @author Martin Zeitler
  */
 public class TopicsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {

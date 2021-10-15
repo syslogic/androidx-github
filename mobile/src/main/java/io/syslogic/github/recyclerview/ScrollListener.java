@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import io.syslogic.github.Constants;
 import io.syslogic.github.model.PagerState;
 
 /**
@@ -13,8 +14,6 @@ import io.syslogic.github.model.PagerState;
 public abstract class ScrollListener extends RecyclerView.OnScrollListener {
 
     private final LinearLayoutManager layoutManager;
-
-    private final int visibleThreshold = 12;
 
     private int previousTotalItemCount = 0;
 
@@ -31,32 +30,31 @@ public abstract class ScrollListener extends RecyclerView.OnScrollListener {
      * This callback will also be called if visible item range changes
      * after a layout calculation. In that case, dx and dy will be 0.
      *
+     * {@link Constants#RECYCLERVIEW_SCROLLING_THRESHOLD} defaults to 12 items.
+     *
      * @param recyclerView The RecyclerView which scrolled.
      * @param scrollX The amount of horizontal scroll.
      * @param scrollY The amount of vertical scroll.
     **/
     @Override
     public void onScrolled(@NonNull RecyclerView recyclerView, int scrollX, int scrollY) {
-
         super.onScrolled(recyclerView, scrollX, scrollY);
-
         int totalItemCount   = layoutManager.getItemCount();
         int visibleItemCount = layoutManager.getChildCount();
         int firstVisibleItem = layoutManager.findFirstVisibleItemPosition();
-
         if (totalItemCount < previousTotalItemCount) {
             if (totalItemCount == 0) {this.setIsLoading(true);}
             this.previousTotalItemCount = totalItemCount;
         }
-
         if (state.getIsLoading() && (totalItemCount > previousTotalItemCount)) {
             state.setPageNumber(state.getPageNumber() + 1);
             this.previousTotalItemCount = totalItemCount;
             this.setIsLoading(false);
         }
-
-        if (!recyclerView.isInEditMode() && !state.getIsLoading() && (firstVisibleItem + visibleItemCount + visibleThreshold) >= totalItemCount ) {
-            this.setIsLoading(this.onLoadPage(state.getPageNumber(), totalItemCount));
+        if (! recyclerView.isInEditMode() && ! state.getIsLoading()) {
+            if ((firstVisibleItem + visibleItemCount + Constants.RECYCLERVIEW_SCROLLING_THRESHOLD) >= totalItemCount ) {
+                this.setIsLoading(this.onLoadPage(state.getPageNumber(), totalItemCount));
+            }
         }
     }
 
