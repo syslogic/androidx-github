@@ -1,14 +1,11 @@
 package io.syslogic.github.fragment;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.DownloadManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
@@ -33,6 +30,7 @@ import java.util.ArrayList;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.widget.AppCompatSpinner;
 import androidx.databinding.ViewDataBinding;
 
@@ -74,6 +72,7 @@ public class RepositoryFragment extends BaseFragment implements TokenCallback {
     public RepositoryFragment() {}
 
     @Override
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.registerBroadcastReceiver();
@@ -87,12 +86,9 @@ public class RepositoryFragment extends BaseFragment implements TokenCallback {
     @Override
     @SuppressLint("SetJavaScriptEnabled")
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
         this.setDataBinding(FragmentRepositoryBinding.inflate(inflater, container, false));
         View layout = this.mDataBinding.getRoot();
-
         if (this.getContext() != null) {
-
             if (! isNetworkAvailable(this.getContext())) {
                 this.onNetworkLost();
             } else {
@@ -109,7 +105,6 @@ public class RepositoryFragment extends BaseFragment implements TokenCallback {
                 });
 
                 this.setRepository();
-
                 this.mDataBinding.toolbarDownload.spinnerBranch.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     int count = 0;
                     @Override
@@ -140,19 +135,10 @@ public class RepositoryFragment extends BaseFragment implements TokenCallback {
                     public void onNothingSelected(AdapterView<?> parent) {}
                 });
 
-                /* the download button; TODO: consider tarball. */
+                /* the download button; TODO: consider tarball? */
                 this.mDataBinding.toolbarDownload.buttonDownload.setOnClickListener(view -> {
-                    Activity activity = requireActivity();
                     String branch = getDataBinding().toolbarDownload.spinnerBranch.getSelectedItem().toString();
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                        if (activity.checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                            downloadBranchAsZip(branch);
-                        } else {
-                            activity.requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, Constants.REQUESTCODE_DOWNLOAD_ZIPBALL);
-                        }
-                    } else {
-                        downloadBranchAsZip(branch);
-                    }
+                    downloadBranchAsZip(branch);
                 });
             }
         }
@@ -209,25 +195,6 @@ public class RepositoryFragment extends BaseFragment implements TokenCallback {
         super.onNetworkLost();
         if (this.getContext() != null) {
             Toast.makeText(getContext(), "device is offline", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
-            AppCompatSpinner spinner = getDataBinding().toolbarDownload.spinnerBranch;
-            Repository repo = getDataBinding().getRepository();
-            String branch = "master";
-
-            if (spinner.getAdapter().getCount() > 0) {
-                branch = spinner.getSelectedItem().toString();
-            }
-            switch(requestCode) {
-                case 501: this.downloadZipball(repo, branch); break;
-                case 502: this.downloadTarball(repo, branch);  break;
-            }
         }
     }
 
@@ -313,7 +280,7 @@ public class RepositoryFragment extends BaseFragment implements TokenCallback {
                             /* attempting to select branch master */
                             int defaultIndex = -1;
                             for(int i=0; i < items.size(); i++) {
-                                if (items.get(i).getName().equals("master")) {
+                                if (items.get(i).getName().equals("main") && items.get(i).getName().equals("master")) {
                                     if (mDebug) {
                                         String formatString = getContext().getResources().getString(R.string.debug_branch_master);
                                         Log.d(LOG_TAG, String.format(formatString, repoName, i));
@@ -447,10 +414,8 @@ public class RepositoryFragment extends BaseFragment implements TokenCallback {
             .addRequestHeader("Accept", mimeType)
             .setMimeType(mimeType);
 
-        if (getActivity() != null) {
-            DownloadManager downloadManager = (DownloadManager) getActivity().getSystemService(Context.DOWNLOAD_SERVICE);
-            if (downloadManager != null) {downloadManager.enqueue(request);}
-        }
+        DownloadManager downloadManager = (DownloadManager) requireActivity().getSystemService(Context.DOWNLOAD_SERVICE);
+        if (downloadManager != null) {downloadManager.enqueue(request);}
     }
 
     void registerBroadcastReceiver() {
@@ -498,7 +463,5 @@ public class RepositoryFragment extends BaseFragment implements TokenCallback {
     }
 
     @Override
-    public void onLogin(@NonNull User item) {
-
-    }
+    public void onLogin(@NonNull User item) {}
 }

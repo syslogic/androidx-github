@@ -5,6 +5,7 @@ import com.google.gson.annotations.SerializedName;
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
 
 import io.syslogic.github.Constants;
 
@@ -16,13 +17,13 @@ import io.syslogic.github.Constants;
 @Entity(tableName = Constants.TABLE_OWNERS)
 public class Owner {
 
+    @PrimaryKey
+    @SerializedName("id")
+    private Long id;
+
     @SerializedName("login")
     private String login;
 
-    @SerializedName("id")
-    private Long ownerId;
-
-    @Ignore
     @SerializedName("node_id")
     private String nodeId;
 
@@ -33,10 +34,10 @@ public class Owner {
     private String gravatarId;
 
     @SerializedName("url")
-    private String ownerUrl;
+    private String url;
 
     @SerializedName("html_url")
-    private String ownerHtmlUrl;
+    private String htmlUrl;
 
     @SerializedName("repos_url")
     private String reposUrl;
@@ -54,8 +55,8 @@ public class Owner {
     }
 
     @NonNull
-    public Long getOwnerId() {
-        return this.ownerId;
+    public Long getId() {
+        return this.id;
     }
 
     @NonNull
@@ -74,13 +75,13 @@ public class Owner {
     }
 
     @NonNull
-    public String getOwnerUrl() {
-        return this.ownerUrl;
+    public String getUrl() {
+        return this.url;
     }
 
     @NonNull
-    public String getOwnerHtmlUrl() {
-        return this.ownerHtmlUrl;
+    public String getHtmlUrl() {
+        return this.htmlUrl;
     }
 
     @NonNull
@@ -103,8 +104,8 @@ public class Owner {
         this.login = value;
     }
 
-    public void setOwnerId(@NonNull Long value) {
-        this.ownerId = value;
+    public void setId(@NonNull Long value) {
+        this.id = value;
     }
 
     public void setNodeId(@NonNull String value) {
@@ -119,12 +120,12 @@ public class Owner {
         this.gravatarId = value;
     }
 
-    public void setOwnerUrl(@NonNull String value) {
-        this.ownerUrl= value;
+    public void setUrl(@NonNull String value) {
+        this.url = value;
     }
 
-    public void setOwnerHtmlUrl(@NonNull String value) {
-        this.ownerHtmlUrl = value;
+    public void setHtmlUrl(@NonNull String value) {
+        this.htmlUrl = value;
     }
 
     public void setReposUrl(@NonNull String value) {

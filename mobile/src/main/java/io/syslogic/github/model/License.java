@@ -3,8 +3,10 @@ package io.syslogic.github.model;
 import com.google.gson.annotations.SerializedName;
 
 import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
 
 import io.syslogic.github.Constants;
 
@@ -15,7 +17,10 @@ import io.syslogic.github.Constants;
 @Entity(tableName = Constants.TABLE_LICENSES)
 public class License {
 
-    @Ignore
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "id")
+    private Long id;
+
     @SerializedName("node_id")
     private String nodeId;
 
@@ -29,7 +34,12 @@ public class License {
     private String title;
 
     @SerializedName("url")
-    private String licenseUrl;
+    private String url;
+
+    @NonNull
+    public Long getId() {
+        return this.id;
+    }
 
     @NonNull
     public String getNodeId() {
@@ -52,12 +62,12 @@ public class License {
     }
 
     @NonNull
-    public String getLicenseUrl() {
-        return this.licenseUrl;
+    public String getUrl() {
+        return this.url;
     }
 
-    public void setSpdxId(@NonNull String value) {
-        this.spdxId = value;
+    public void setId(@NonNull Long value) {
+        this.id = value;
     }
 
     public void setNodeId(@NonNull String value) {
@@ -68,11 +78,15 @@ public class License {
         this.key = value;
     }
 
+    public void setSpdxId(@NonNull String value) {
+        this.spdxId = value;
+    }
+
     public void setTitle(@NonNull String value) {
         this.title = value;
     }
 
-    public void setLicenseUrl(@NonNull String value) {
-        this.licenseUrl = value;
+    public void setUrl(@NonNull String value) {
+        this.url = value;
     }
 }

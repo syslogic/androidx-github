@@ -11,6 +11,8 @@ import androidx.room.Embedded;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
+import androidx.room.Relation;
+import androidx.room.RoomWarnings;
 import androidx.room.TypeConverters;
 
 import io.syslogic.github.Constants;
@@ -22,6 +24,7 @@ import io.syslogic.github.room.StringArrayConverter;
  * @author Martin Zeitler
  */
 @Entity(tableName = Constants.TABLE_REPOSITORIES)
+@SuppressWarnings(RoomWarnings.PRIMARY_KEY_FROM_EMBEDDED_IS_DROPPED)
 public class Repository extends BaseModel implements IContentProvider {
 
     @PrimaryKey()
@@ -29,30 +32,42 @@ public class Repository extends BaseModel implements IContentProvider {
     @SerializedName("id")
     private Long id;
 
+    @ColumnInfo(name = "node_id")
     @SerializedName("node_id")
     private String nodeId;
 
+    @ColumnInfo(name = "name")
     @SerializedName("name")
     private String name;
 
+    @ColumnInfo(name = "full_name")
     @SerializedName("full_name")
     private String fullName;
 
+    @Ignore
     private String fileName;
 
+    @ColumnInfo(name = "url")
     @SerializedName("url")
     private String url;
 
+    @ColumnInfo(name = "html_url")
     @SerializedName("html_url")
     private String htmlUrl;
 
-    @Embedded()
+    @Ignore
     @SerializedName("owner")
     private Owner owner;
 
-    @Embedded()
+    @ColumnInfo(name = "owner_id")
+    private Long ownerId = 0L;
+
+    @Ignore
     @SerializedName("license")
     private License license;
+
+    @ColumnInfo(name = "license_id")
+    private Long licenseId = 0L;
 
     @SerializedName("forks_count")
     private Long forkCount = 0L;
@@ -117,8 +132,16 @@ public class Repository extends BaseModel implements IContentProvider {
         this.owner = value;
     }
 
+    public void setOwnerId(@NonNull Long value) {
+        this.ownerId = value;
+    }
+
     public void setLicense(@NonNull License value) {
         this.license = value;
+    }
+
+    public void setLicenseId(@NonNull Long value) {
+        this.licenseId = value;
     }
 
     public void setForkCount(@NonNull Long value) {
@@ -195,9 +218,19 @@ public class Repository extends BaseModel implements IContentProvider {
     }
 
     @NonNull
+    public Long getOwnerId() {
+        return this.ownerId;
+    }
+
+    @NonNull
     @Bindable
     public License getLicense() {
         return this.license;
+    }
+
+    @NonNull
+    public Long getLicenseId() {
+        return this.licenseId;
     }
 
     @NonNull

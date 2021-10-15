@@ -11,6 +11,8 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import io.syslogic.github.model.License;
+import io.syslogic.github.model.Owner;
 import io.syslogic.github.model.QueryString;
 import io.syslogic.github.model.Repository;
 
@@ -18,7 +20,7 @@ import io.syslogic.github.model.Repository;
  * {@link RoomDatabase} Abstraction
  * @author Martin Zeitler
  */
-@Database(version = 1, entities = {QueryString.class, Repository.class})
+@Database(version = 1, entities = {QueryString.class, Repository.class, License.class, Owner.class})
 public abstract class Abstraction extends RoomDatabase {
 
     @NonNull
@@ -32,9 +34,10 @@ public abstract class Abstraction extends RoomDatabase {
 
     public static final ExecutorService executorService = Executors.newFixedThreadPool(NUMBER_OF_THREADS);
 
-    public abstract RepositoriesDao repositoriesDao();
-
     public abstract QueryStringsDao queryStringsDao();
+    public abstract RepositoriesDao repositoriesDao();
+    public abstract LicensesDao licensesDao();
+    public abstract OwnersDao ownersDao();
 
     /**
      * Asset `src/main/assets/room.db` must match the current schema version,
