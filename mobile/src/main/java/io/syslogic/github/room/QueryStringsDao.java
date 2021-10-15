@@ -3,6 +3,7 @@ package io.syslogic.github.room;
 import android.database.Cursor;
 
 import androidx.room.Dao;
+import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
@@ -34,6 +35,9 @@ public interface QueryStringsDao {
 
     @Update()
     void update(QueryString item);
+
+    @Delete()
+    void delete(QueryString item);
 
     @Query("DELETE FROM " + Constants.TABLE_QUERY_STRINGS + " WHERE id = :itemId")
     void deleteById(Long itemId);

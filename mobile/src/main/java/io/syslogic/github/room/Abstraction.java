@@ -6,7 +6,6 @@ import androidx.annotation.NonNull;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
-import androidx.room.TypeConverters;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import java.util.concurrent.ExecutorService;
@@ -20,7 +19,6 @@ import io.syslogic.github.model.Repository;
  * @author Martin Zeitler
  */
 @Database(version = 1, entities = {QueryString.class, Repository.class})
-@TypeConverters(StringArrayConverter.class)
 public abstract class Abstraction extends RoomDatabase {
 
     @NonNull

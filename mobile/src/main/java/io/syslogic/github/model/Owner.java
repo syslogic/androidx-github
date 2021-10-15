@@ -4,6 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 
 import io.syslogic.github.Constants;
 
@@ -19,8 +20,9 @@ public class Owner {
     private String login;
 
     @SerializedName("id")
-    private Long id;
+    private Long ownerId;
 
+    @Ignore
     @SerializedName("node_id")
     private String nodeId;
 
@@ -31,10 +33,10 @@ public class Owner {
     private String gravatarId;
 
     @SerializedName("url")
-    private String url;
+    private String ownerUrl;
 
     @SerializedName("html_url")
-    private String htmlUrl;
+    private String ownerHtmlUrl;
 
     @SerializedName("repos_url")
     private String reposUrl;
@@ -52,8 +54,8 @@ public class Owner {
     }
 
     @NonNull
-    public Long getId() {
-        return this.id;
+    public Long getOwnerId() {
+        return this.ownerId;
     }
 
     @NonNull
@@ -72,13 +74,13 @@ public class Owner {
     }
 
     @NonNull
-    public String getUrl() {
-        return this.url;
+    public String getOwnerUrl() {
+        return this.ownerUrl;
     }
 
     @NonNull
-    public String getHtmlUrl() {
-        return this.htmlUrl;
+    public String getOwnerHtmlUrl() {
+        return this.ownerHtmlUrl;
     }
 
     @NonNull
@@ -101,8 +103,8 @@ public class Owner {
         this.login = value;
     }
 
-    public void setId(@NonNull Long value) {
-        this.id = value;
+    public void setOwnerId(@NonNull Long value) {
+        this.ownerId = value;
     }
 
     public void setNodeId(@NonNull String value) {
@@ -117,12 +119,12 @@ public class Owner {
         this.gravatarId = value;
     }
 
-    public void setUrl(@NonNull String value) {
-        this.url = value;
+    public void setOwnerUrl(@NonNull String value) {
+        this.ownerUrl= value;
     }
 
-    public void setHtmlUrl(@NonNull String value) {
-        this.htmlUrl = value;
+    public void setOwnerHtmlUrl(@NonNull String value) {
+        this.ownerHtmlUrl = value;
     }
 
     public void setReposUrl(@NonNull String value) {

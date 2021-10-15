@@ -11,9 +11,11 @@ import androidx.room.Embedded;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
+import androidx.room.TypeConverters;
 
 import io.syslogic.github.Constants;
 import io.syslogic.github.content.IContentProvider;
+import io.syslogic.github.room.StringArrayConverter;
 
 /**
  * Model: Repository
@@ -44,11 +46,11 @@ public class Repository extends BaseModel implements IContentProvider {
     @SerializedName("html_url")
     private String htmlUrl;
 
-    @Embedded(prefix = "owner_")
+    @Embedded()
     @SerializedName("owner")
     private Owner owner;
 
-    @Embedded(prefix = "license_")
+    @Embedded()
     @SerializedName("license")
     private License license;
 
@@ -68,6 +70,7 @@ public class Repository extends BaseModel implements IContentProvider {
     private Long networkCount = 0L;
 
     @SerializedName("topics")
+    @TypeConverters(StringArrayConverter.class)
     private String[] topics;
 
     /** Constructor */

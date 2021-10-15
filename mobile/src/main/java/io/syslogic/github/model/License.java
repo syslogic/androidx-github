@@ -4,6 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 
 import io.syslogic.github.Constants;
 
@@ -14,6 +15,7 @@ import io.syslogic.github.Constants;
 @Entity(tableName = Constants.TABLE_LICENSES)
 public class License {
 
+    @Ignore
     @SerializedName("node_id")
     private String nodeId;
 
@@ -24,10 +26,10 @@ public class License {
     private String spdxId;
 
     @SerializedName("name")
-    private String name;
+    private String title;
 
     @SerializedName("url")
-    private String url;
+    private String licenseUrl;
 
     @NonNull
     public String getNodeId() {
@@ -45,13 +47,13 @@ public class License {
     }
 
     @NonNull
-    public String getName() {
-        return this.name;
+    public String getTitle() {
+        return this.title;
     }
 
     @NonNull
-    public String getUrl() {
-        return this.url;
+    public String getLicenseUrl() {
+        return this.licenseUrl;
     }
 
     public void setSpdxId(@NonNull String value) {
@@ -66,11 +68,11 @@ public class License {
         this.key = value;
     }
 
-    public void setName(@NonNull String value) {
-        this.name = value;
+    public void setTitle(@NonNull String value) {
+        this.title = value;
     }
 
-    public void setUrl(@NonNull String value) {
-        this.url = value;
+    public void setLicenseUrl(@NonNull String value) {
+        this.licenseUrl = value;
     }
 }
