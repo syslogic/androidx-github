@@ -23,4 +23,18 @@
 
     </style>
 
+    <style name="Theme.AppTheme.SplashScreen" parent="Theme.SplashScreen">
+
+        // Set the splash screen background, animated icon, and animation duration.
+        <item name="windowSplashScreenBackground">@color/cardview_dark_background</item>
+
+        // Use windowSplashScreenAnimatedIcon to add either a drawable or an animated drawable.
+        <item name="windowSplashScreenAnimationDuration">200</item>  # Required for animated icons
+        <!-- <item name="windowSplashScreenAnimatedIcon">@drawable/ic_launcher_round</item> -->
+        <item name="windowSplashScreenAnimatedIcon">@mipmap/ocotocat_round</item>
+
+        // The theme of the Activity that directly follows the splash screen.
+        <item name="postSplashScreenTheme">@style/AppTheme</item> # Required.
+    </style>
+
 </resources>
