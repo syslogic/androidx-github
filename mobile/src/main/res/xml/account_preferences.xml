@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- These are `android:accountPreferences` (still experimental). -->
+<PreferenceCategory
+    xmlns:android="http://schemas.android.com/apk/res/android" />
 <PreferenceScreen
-    xmlns:android="http://schemas.android.com/apk/res/android">
-
+    android:title="Account Settings"
+    android:summary="Open the account settings.">
     <intent
+        android:action="android.intent.action.VIEW"
         android:targetPackage="io.syslogic.github"
         android:targetClass=".activity.AuthenticatorActivity.class"/>
 

@@ -15,6 +15,7 @@ import io.syslogic.github.model.Owner;
 
 /**
  * {@link Owner} {@link Dao} interface
+ *
  * @author Martin Zeitler
  */
 @Dao

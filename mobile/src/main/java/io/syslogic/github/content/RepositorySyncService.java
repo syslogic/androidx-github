@@ -6,6 +6,7 @@ import android.os.IBinder;
 
 /**
  * Repository Sync {@link Service}
+ *
  * @author Martin Zeitler
  */
 public class RepositorySyncService extends Service {

@@ -4,13 +4,13 @@ import com.google.gson.annotations.SerializedName;
 
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
-import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import io.syslogic.github.Constants;
 
 /**
  * Model: Owner
+ *
  * @see <a href="https://developer.github.com/v3/repos/#get">repos/#get</>
  * @author Martin Zeitler
  */

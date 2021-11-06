@@ -13,6 +13,7 @@ import io.syslogic.github.room.RepositoriesDao;
 
 /**
  * Repository {@link ContentProvider}
+ *
  * @author Martin Zeitler
  */
 public class RepositoryProvider extends ContentProvider {

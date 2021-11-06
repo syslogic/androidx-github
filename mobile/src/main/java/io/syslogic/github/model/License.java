@@ -5,13 +5,13 @@ import com.google.gson.annotations.SerializedName;
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
-import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import io.syslogic.github.Constants;
 
 /**
  * Model: License
+ *
  * @author Martin Zeitler
  */
 @Entity(tableName = Constants.TABLE_LICENSES)

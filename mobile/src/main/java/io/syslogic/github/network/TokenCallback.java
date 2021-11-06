@@ -6,6 +6,7 @@ import io.syslogic.github.model.User;
 
 /**
  * Token Callback
+ *
  * @author Martin Zeitler
  */
 public interface TokenCallback {

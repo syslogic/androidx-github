@@ -33,6 +33,7 @@ import java.util.List;
 
 /**
  * Application Test Suite
+ *
  * @author Martin Zeitler
  */
 @RunWith(org.junit.runners.Suite.class)

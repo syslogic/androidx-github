@@ -2,14 +2,18 @@ package io.syslogic.github.fragment;
 
 import android.os.Build;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
+import androidx.databinding.BindingMethod;
+import androidx.databinding.BindingMethods;
 import androidx.databinding.ViewDataBinding;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -24,16 +28,22 @@ import io.syslogic.github.room.QueryStringsDao;
 
 /**
  * Query-String Fragment
+ *
  * @author Martin Zeitler
  */
+@BindingMethods({
+    @BindingMethod(
+            type = com.google.android.material.textfield.TextInputEditText.class,
+            attribute = "android:onEditorAction",
+            method = "setOnEditorActionListener")
+})
 public class QueryStringFragment extends BaseFragment {
-
-    @SuppressWarnings("unused")
-    private static final int resId = R.layout.fragment_query_string;
 
     /** Log Tag */
     @SuppressWarnings("unused")
     private static final String LOG_TAG = QueryStringFragment.class.getSimpleName();
+
+    @SuppressWarnings("unused") private static final int resId = R.layout.fragment_query_string;
 
     /** Data Binding */
     private FragmentQueryStringBinding mDataBinding;
@@ -103,6 +113,10 @@ public class QueryStringFragment extends BaseFragment {
 
     private void setItemId(@NonNull Long value) {
         this.itemId = value;
+    }
+
+    public boolean setOnEditorActionListener(TextView view, int actionId, KeyEvent event) {
+        return true;
     }
 
     @NonNull

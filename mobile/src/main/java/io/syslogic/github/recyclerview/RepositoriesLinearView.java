@@ -10,7 +10,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 /**
- * Repositories RecyclerView
+ * Repositories {@link RecyclerView}
+ *
  * @author Martin Zeitler
  */
 public class RepositoriesLinearView extends RecyclerView {

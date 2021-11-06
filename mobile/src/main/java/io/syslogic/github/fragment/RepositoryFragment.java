@@ -52,16 +52,16 @@ import retrofit2.Response;
 
 /**
  * Repository Fragment
+ *
  * @author Martin Zeitler
  */
 public class RepositoryFragment extends BaseFragment implements TokenCallback {
 
-    @SuppressWarnings("unused")
-    private static final int resId = R.layout.fragment_repository;
-
     /** Log Tag */
     @SuppressWarnings("unused")
     private static final String LOG_TAG = RepositoryFragment.class.getSimpleName();
+
+    @SuppressWarnings("unused") private static final int resId = R.layout.fragment_repository;
 
     /** Data Binding */
     FragmentRepositoryBinding mDataBinding;

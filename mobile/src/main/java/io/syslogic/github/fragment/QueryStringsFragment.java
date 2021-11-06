@@ -23,16 +23,16 @@ import io.syslogic.github.recyclerview.QueryStringsAdapter;
 
 /**
  * QueryStrings Fragment
+ *
  * @author Martin Zeitler
  */
 public class QueryStringsFragment extends BaseFragment implements Toolbar.OnMenuItemClickListener {
 
-    @SuppressWarnings("unused")
-    private static final int resId = R.layout.fragment_query_strings;
-
     /** Log Tag */
     @SuppressWarnings("unused")
     private static final String LOG_TAG = QueryStringsFragment.class.getSimpleName();
+
+    @SuppressWarnings("unused") private static final int resId = R.layout.fragment_query_strings;
 
     /** Data Binding */
     private FragmentQueryStringsBinding mDataBinding;

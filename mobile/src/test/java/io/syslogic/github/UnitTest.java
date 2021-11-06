@@ -9,6 +9,7 @@ import org.junit.runners.JUnit4;
 
 /**
  * jUnit Test Case
+ *
  * @author Martin Zeitler
  */
 @RunWith(JUnit4.class)

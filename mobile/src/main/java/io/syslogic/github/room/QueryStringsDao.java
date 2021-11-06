@@ -15,6 +15,7 @@ import io.syslogic.github.model.QueryString;
 
 /**
  * {@link QueryString} {@link Dao} interface
+ *
  * @author Martin Zeitler
  */
 @Dao

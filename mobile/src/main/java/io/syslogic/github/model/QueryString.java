@@ -20,6 +20,7 @@ import io.syslogic.github.content.IContentProvider;
 
 /**
  * Model: Query-String
+ *
  * @author Martin Zeitler
  */
 @Entity(tableName = Constants.TABLE_QUERY_STRINGS)

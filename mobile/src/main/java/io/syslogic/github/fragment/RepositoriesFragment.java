@@ -36,16 +36,16 @@ import io.syslogic.github.room.QueryStringsDao;
 
 /**
  * Repositories Fragment
+ *
  * @author Martin Zeitler
  */
 public class RepositoriesFragment extends BaseFragment implements TokenCallback {
 
-    @SuppressWarnings("unused")
-    private static final int resId = R.layout.fragment_repositories;
-
     /** Log Tag */
     @SuppressWarnings("unused")
     private static final String LOG_TAG = RepositoriesFragment.class.getSimpleName();
+
+    @SuppressWarnings("unused") private static final int resId = R.layout.fragment_repositories;
 
     /** Data Binding */
     private FragmentRepositoriesBinding mDataBinding;

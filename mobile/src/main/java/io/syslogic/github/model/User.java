@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 
 /**
  * Model: User
+ *
  * @author Martin Zeitler
  */
 public class User {

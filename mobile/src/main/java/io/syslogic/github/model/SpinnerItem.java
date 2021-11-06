@@ -5,6 +5,7 @@ import androidx.room.Ignore;
 
 /**
  * Model: Spinner Item
+ *
  * @author Martin Zeitler
  */
 public class SpinnerItem {

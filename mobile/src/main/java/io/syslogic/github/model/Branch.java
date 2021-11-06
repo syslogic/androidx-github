@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 
 /**
  * Model: Branch
+ *
  * @author Martin Zeitler
  */
 public class Branch {

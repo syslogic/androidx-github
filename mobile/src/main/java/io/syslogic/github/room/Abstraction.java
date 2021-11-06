@@ -18,6 +18,7 @@ import io.syslogic.github.model.Repository;
 
 /**
  * {@link RoomDatabase} Abstraction
+ *
  * @author Martin Zeitler
  */
 @Database(version = 1, entities = {QueryString.class, Repository.class, License.class, Owner.class})
@@ -48,7 +49,7 @@ public abstract class Abstraction extends RoomDatabase {
         if (sInstance == null) {
             Builder<Abstraction> builder = Room
                 .databaseBuilder(context.getApplicationContext(), Abstraction.class, fileName)
-                // .createFromAsset(fileName)
+                .createFromAsset(fileName)
                 .addCallback(new Callback() {
                     @Override
                     public void onCreate(@NonNull SupportSQLiteDatabase db) {

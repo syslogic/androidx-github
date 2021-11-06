@@ -12,6 +12,7 @@ import io.syslogic.github.R;
 
 /**
  * {@link NavHostFragment}
+ *
  * @author Martin Zeitler
  */
 public class NavHostFragment extends androidx.navigation.fragment.NavHostFragment {
@@ -22,6 +23,6 @@ public class NavHostFragment extends androidx.navigation.fragment.NavHostFragmen
     @NonNull
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_navhost, container, false);
+        return inflater.inflate(R.layout.fragment_nav_host, container, false);
     }
 }

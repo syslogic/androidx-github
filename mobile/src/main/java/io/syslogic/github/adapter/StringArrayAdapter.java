@@ -2,13 +2,15 @@ package io.syslogic.github.adapter;
 
 import android.content.Context;
 
-import java.util.ArrayList;
-
 import androidx.annotation.NonNull;
+
 import io.syslogic.github.model.SpinnerItem;
 
+import java.util.ArrayList;
+
 /**
- * String Array Adapter
+ * String[] {@link BaseArrayAdapter}
+ *
  * @author Martin Zeitler
  */
 public class StringArrayAdapter extends BaseArrayAdapter {

@@ -26,12 +26,12 @@ import io.syslogic.github.network.TokenCallback;
  */
 public class ProfileFragment extends BaseFragment implements TokenCallback {
 
-    @SuppressWarnings("unused")
-    private static final int resId = R.layout.fragment_profile;
-
     /** Log Tag */
     @SuppressWarnings("unused")
     private static final String LOG_TAG = ProfileFragment.class.getSimpleName();
+
+    @SuppressWarnings("unused")
+    private static final int resId = R.layout.fragment_profile;
 
     /** Data Binding */
     private FragmentProfileBinding mDataBinding;

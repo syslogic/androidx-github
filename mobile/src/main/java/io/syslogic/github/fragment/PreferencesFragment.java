@@ -9,15 +9,16 @@ import io.syslogic.github.R;
 
 /**
  * Preferences Fragment
+ *
  * @author Martin Zeitler
  */
 public class PreferencesFragment extends PreferenceFragmentCompat {
 
-    private static final int resId = R.xml.account_preferences;
-
     /** Log Tag */
     @SuppressWarnings("unused")
     private static final String LOG_TAG = PreferencesFragment.class.getSimpleName();
+
+    private static final int resId = R.xml.account_preferences;
 
     /** Constructor */
     public PreferencesFragment() {}
@@ -35,8 +36,6 @@ public class PreferencesFragment extends PreferenceFragmentCompat {
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         this.setPreferencesFromResource(resId, rootKey);
-        if (savedInstanceState != null) {
-
-        }
+        // if (savedInstanceState != null) {}
     }
 }

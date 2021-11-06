@@ -6,6 +6,7 @@ import com.google.gson.Gson;
 
 /**
  * String[] {@link TypeConverter}
+ *
  * @author Martin Zeitler
  */
 public class StringArrayConverter {

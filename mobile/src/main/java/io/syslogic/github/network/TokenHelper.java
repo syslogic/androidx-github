@@ -16,6 +16,7 @@ import io.syslogic.github.Constants;
 
 /**
  * Access Token Helper
+ *
  * @author Martin Zeitler
  */
 public class TokenHelper {

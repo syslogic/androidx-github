@@ -44,6 +44,7 @@ import io.syslogic.github.model.Repository;
 import io.syslogic.github.retrofit.GithubClient;
 
 import okhttp3.ResponseBody;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -51,7 +52,8 @@ import retrofit2.Response;
 import io.syslogic.github.network.TokenHelper;
 
 /**
- * Repositories {@link RecyclerView} Adapter
+ * Repositories {@link RecyclerView.Adapter}
+ *
  * @author Martin Zeitler
  */
 public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {

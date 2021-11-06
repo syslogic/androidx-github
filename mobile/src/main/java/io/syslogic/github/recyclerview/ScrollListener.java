@@ -8,7 +8,8 @@ import io.syslogic.github.Constants;
 import io.syslogic.github.model.PagerState;
 
 /**
- * RecyclerView Scroll-Listener
+ * {@link RecyclerView.OnScrollListener}
+ *
  * @author Martin Zeitler
  */
 public abstract class ScrollListener extends RecyclerView.OnScrollListener {

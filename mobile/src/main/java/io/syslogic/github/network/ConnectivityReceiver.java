@@ -14,6 +14,7 @@ import io.syslogic.github.fragment.BaseFragment;
  * Apps targeting Android 7.0 (API level 24) and higher do not receive CONNECTIVITY_ACTION broadcasts
  * if they declare the broadcast receiver in their manifest. Apps will still receive CONNECTIVITY_ACTION broadcasts
  * if they register their BroadcastReceiver with Context.registerReceiver() and that context is still valid.
+ *
  * @author Martin Zeitler
  */
 public class ConnectivityReceiver extends android.content.BroadcastReceiver {

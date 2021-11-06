@@ -7,7 +7,8 @@ import androidx.annotation.NonNull;
 import io.syslogic.github.R;
 
 /**
- * Sort-Field Adapter
+ * Sort-Field {@link BaseArrayAdapter}
+ *
  * @author Martin Zeitler
  */
 public class SortFieldAdapter extends BaseArrayAdapter {

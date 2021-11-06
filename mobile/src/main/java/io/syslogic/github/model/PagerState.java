@@ -1,10 +1,10 @@
 package io.syslogic.github.model;
 
-import androidx.annotation.Nullable;
 import androidx.databinding.Bindable;
 
 /**
  * Model: Pager State
+ *
  * @author Martin Zeitler
  */
 public class PagerState extends BaseModel {

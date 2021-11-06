@@ -1,5 +1,6 @@
 package io.syslogic.github.fragment;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
@@ -37,7 +38,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 /**
- * Base Fragment
+ * Base {@link Fragment}
+ *
  * @author Martin Zeitler
  */
 abstract public class BaseFragment extends Fragment implements ConnectivityListener {
@@ -48,16 +50,14 @@ abstract public class BaseFragment extends Fragment implements ConnectivityListe
     /** Debug Output */
     static final boolean mDebug = BuildConfig.DEBUG;
 
-    @NonNull
-    Boolean contentLoaded = false;
-
-    User currentUser = null;
+    @NonNull Boolean contentLoaded = false;
+    @Nullable User currentUser = null;
 
     /** Constructor */
     public BaseFragment() {}
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
+    @SuppressLint("NewApi")
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -93,15 +93,15 @@ abstract public class BaseFragment extends Fragment implements ConnectivityListe
                 try {
                     android.net.NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
                     if (activeNetworkInfo != null && activeNetworkInfo.isConnected()) {
-                        Log.i("", "network available");
+                        Log.d("", "network available");
                         return true;
                     }
                 } catch (Exception e) {
-                    Log.i("", "" + e.getMessage());
+                    Log.e("", "" + e.getMessage());
                 }
             }
         }
-        Log.i("update_statut","Network is available : FALSE ");
+        Log.i("update_status","Network is available : FALSE ");
         return false;
     }
 
@@ -110,12 +110,10 @@ abstract public class BaseFragment extends Fragment implements ConnectivityListe
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {return;}
         ConnectivityManager cm = getConnectivityManager(context);
         cm.registerDefaultNetworkCallback(new ConnectivityManager.NetworkCallback() {
-            @Override
-            public void onLost(@NonNull android.net.Network network) {
+            @Override public void onLost(@NonNull android.net.Network network) {
                 listener.onNetworkLost();
             }
-            @Override
-            public void onAvailable(@NonNull android.net.Network network) {
+            @Override public void onAvailable(@NonNull android.net.Network network) {
                 listener.onNetworkAvailable();
             }
         });
@@ -132,14 +130,14 @@ abstract public class BaseFragment extends Fragment implements ConnectivityListe
     @Override
     public void onNetworkAvailable() {
         if (mDebug && this.getContext() != null) {
-            Log.w(LOG_TAG, this.getContext().getResources().getString(R.string.debug_network_present));
+            Log.d(LOG_TAG, this.getContext().getResources().getString(R.string.debug_network_present));
         }
     }
 
     @Override
     public void onNetworkLost() {
         if (mDebug && this.getContext() != null) {
-            Log.w(LOG_TAG, this.getContext().getResources().getString(R.string.debug_network_absent));
+            Log.d(LOG_TAG, this.getContext().getResources().getString(R.string.debug_network_absent));
         }
     }
 

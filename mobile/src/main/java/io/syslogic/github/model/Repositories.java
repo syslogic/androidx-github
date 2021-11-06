@@ -9,6 +9,7 @@ import androidx.databinding.Bindable;
 
 /**
  * Model: Repositories
+ *
  * @author Martin Zeitler
  */
 public class Repositories extends BaseModel {

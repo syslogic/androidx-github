@@ -33,6 +33,7 @@ import retrofit2.Response;
 
 /**
  * Repository {@link AbstractThreadedSyncAdapter}
+ *
  * @author Martin Zeitler
  */
 public class RepositorySyncAdapter extends AbstractThreadedSyncAdapter {

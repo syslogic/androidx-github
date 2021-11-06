@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 
 /**
  * Model: Resources
+ *
  * @author Martin Zeitler
  */
 public class Resources {

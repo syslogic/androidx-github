@@ -6,15 +6,16 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
-import java.util.List;
-
 import io.syslogic.github.model.SpinnerItem;
 import io.syslogic.github.model.QueryString;
 import io.syslogic.github.room.Abstraction;
 import io.syslogic.github.room.QueryStringsDao;
 
+import java.util.List;
+
 /**
- * Query-String Adapter
+ * Query-String {@link BaseArrayAdapter}
+ *
  * @author Martin Zeitler
  */
 public class QueryStringAdapter extends BaseArrayAdapter {

@@ -7,11 +7,9 @@ import com.google.gson.annotations.SerializedName;
 import androidx.annotation.NonNull;
 import androidx.databinding.Bindable;
 import androidx.room.ColumnInfo;
-import androidx.room.Embedded;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
-import androidx.room.Relation;
 import androidx.room.RoomWarnings;
 import androidx.room.TypeConverters;
 
@@ -21,6 +19,7 @@ import io.syslogic.github.room.StringArrayConverter;
 
 /**
  * Model: Repository
+ *
  * @author Martin Zeitler
  */
 @Entity(tableName = Constants.TABLE_REPOSITORIES)
@@ -66,22 +65,28 @@ public class Repository extends BaseModel implements IContentProvider {
     @SerializedName("license")
     private License license;
 
+    @SerializedName("license_id")
     @ColumnInfo(name = "license_id")
     private Long licenseId = 0L;
 
     @SerializedName("forks_count")
+    @ColumnInfo(name = "forks")
     private Long forkCount = 0L;
 
     @SerializedName("stargazers_count")
+    @ColumnInfo(name = "stargazers")
     private Long stargazerCount = 0L;
 
     @SerializedName("watchers_count")
+    @ColumnInfo(name = "watchers")
     private Long watcherCount = 0L;
 
     @SerializedName("subscribers_count")
+    @ColumnInfo(name = "subscribers")
     private Long subscriberCount = 0L;
 
     @SerializedName("network_count")
+    @ColumnInfo(name = "network")
     private Long networkCount = 0L;
 
     @SerializedName("topics")

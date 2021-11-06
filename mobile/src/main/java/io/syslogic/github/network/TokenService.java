@@ -18,6 +18,7 @@ import io.syslogic.github.BuildConfig;
 
 /**
  * Token Service
+ *
  * @author Martin Zeitler
  */
 public class TokenService extends Service {

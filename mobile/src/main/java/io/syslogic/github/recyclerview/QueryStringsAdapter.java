@@ -26,7 +26,8 @@ import io.syslogic.github.model.QueryString;
 import io.syslogic.github.room.Abstraction;
 
 /**
- * Query-Strings {@link RecyclerView} Adapter
+ * Query-Strings {@link RecyclerView.Adapter}
+ *
  * @author Martin Zeitler
  */
 public class QueryStringsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {

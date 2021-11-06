@@ -12,6 +12,7 @@ import io.syslogic.github.room.QueryStringsDao;
 
 /**
  * Query-String {@link ContentProvider}
+ *
  * @author Martin Zeitler
  */
 public class QueryStringProvider extends ContentProvider {

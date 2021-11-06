@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 
 /**
  * Model: Commit
+ *
  * @author Martin Zeitler
  */
 public class Commit {

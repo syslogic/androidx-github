@@ -6,12 +6,12 @@ project.ext.set('archiveBuildTypes', ['debug', 'release'])
 // Version Settings, loaded from file `version.properties`
 def version = new Properties()
 version.load(new FileInputStream(rootProject.file('version.properties')))
-project.ext.set('applicationId',       version['applicationId'])
-project.ext.set('versionName',         version['versionName'])
-project.ext.set('versionCode',         new Integer(version['versionCode']))
-project.ext.set('compileSdkVersion',   new Integer(version['compileSdkVersion']))
-project.ext.set('targetSdkVersion',    new Integer(version['targetSdkVersion']))
-project.ext.set('minSdkVersion',       new Integer(version['minSdkVersion']))
+project.ext.set('applicationId',     version['applicationId'])
+project.ext.set('versionName',       version['versionName'])
+project.ext.set('versionCode',       new Integer(version['versionCode']))
+project.ext.set('compileSdkVersion', new Integer(version['compileSdkVersion']))
+project.ext.set('targetSdkVersion',  new Integer(version['targetSdkVersion']))
+project.ext.set('minSdkVersion',     new Integer(version['minSdkVersion']))
 
 // Load API access-token from file `token.properties`
 if(rootProject.file('token.properties').exists()) {
@@ -30,7 +30,7 @@ buildscript {
     }
     dependencies {
         classpath "com.android.tools.build:gradle:7.0.3"
-        classpath "androidx.navigation:navigation-safe-args-gradle-plugin:2.4.0-alpha10"
+        classpath "androidx.navigation:navigation-safe-args-gradle-plugin:2.4.0-beta01"
     }
 }
 

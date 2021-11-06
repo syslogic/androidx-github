@@ -5,6 +5,7 @@ import androidx.databinding.BindingAdapter;
 
 /**
  * Model: WebView
+ *
  * @author Martin Zeitler
  */
 public class WebView {

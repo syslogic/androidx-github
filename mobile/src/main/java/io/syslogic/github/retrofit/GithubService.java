@@ -23,7 +23,8 @@ import retrofit2.http.Streaming;
 import retrofit2.http.Url;
 
 /**
- * GitHub Retrofit Service
+ * GitHub API Service
+ *
  * @see <a href="https://developer.github.com/v3/">api v3</>
  * @see <a href="https://developer.github.com/v3/rate_limit/">rate limit</>
  * @see <a href="https://developer.github.com/v3/search/#search-repositories">search</>

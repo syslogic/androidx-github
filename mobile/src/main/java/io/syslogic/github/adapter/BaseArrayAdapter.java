@@ -7,9 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import androidx.annotation.ArrayRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,8 +15,12 @@ import androidx.appcompat.widget.AppCompatTextView;
 import io.syslogic.github.R;
 import io.syslogic.github.model.SpinnerItem;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
- * Base Array Adapter
+ * Array {@link BaseAdapter}
+ *
  * @author Martin Zeitler
  */
 abstract public class BaseArrayAdapter extends BaseAdapter {
