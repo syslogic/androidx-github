@@ -75,9 +75,12 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     private String queryString = "topic:android";
 
-    public RepositoriesAdapter(@NonNull Context context, @NonNull String queryString, @NonNull Integer pageNumber) {
+    private boolean showTopics = false;
+
+    public RepositoriesAdapter(@NonNull Context context, @NonNull String queryString, @NonNull Boolean showTopics, @NonNull Integer pageNumber) {
         this.mContext = new WeakReference<>(context);
         this.setQueryString(queryString);
+        this.showTopics = showTopics;
         this.fetchPage(pageNumber);
     }
 
@@ -103,11 +106,15 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         ((RepositoriesAdapter.ViewHolder) viewHolder).getDataBinding().setItem(item);
 
         /* dynamically adding the topics as chips */
-        String[] topics = item.getTopics();
-        for (String topic : topics) {
-            Chip chip = new Chip(this.getContext());
-            chip.setText(topic);
-            ((RepositoriesAdapter.ViewHolder) viewHolder).getDataBinding().chipGroup.addView(chip);
+        if (! this.showTopics) {
+            ((RepositoriesAdapter.ViewHolder) viewHolder).getDataBinding().chipGroup.setVisibility(View.GONE);
+        } else {
+            String[] topics = item.getTopics();
+            for (String topic : topics) {
+                Chip chip = new Chip(this.getContext());
+                chip.setText(topic);
+                ((RepositoriesAdapter.ViewHolder) viewHolder).getDataBinding().chipGroup.addView(chip);
+            }
         }
     }
 

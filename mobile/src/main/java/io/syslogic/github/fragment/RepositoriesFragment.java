@@ -50,6 +50,8 @@ public class RepositoriesFragment extends BaseFragment implements TokenCallback 
     /** Data Binding */
     private FragmentRepositoriesBinding mDataBinding;
 
+    boolean showTopics = false;
+
     /** Constructor */
     public RepositoriesFragment() {}
 
@@ -101,6 +103,7 @@ public class RepositoriesFragment extends BaseFragment implements TokenCallback 
             });
 
             /* It is quicker to query Room, because the QueryStringAdapter is populating too slow. */
+            showTopics = this.prefs.getBoolean(Constants.PREFERENCE_KEY_SHOW_TOPICS, false);
             if (this.getDataBinding().recyclerviewRepositories.getAdapter() == null) {
                 if (isNetworkAvailable(requireContext())) {
                     QueryStringsDao dao = Abstraction.getInstance(requireContext()).queryStringsDao();
@@ -110,7 +113,7 @@ public class RepositoriesFragment extends BaseFragment implements TokenCallback 
                             if (items.size() > 0) {
                                 String queryString = items.get(0).toQueryString();
                                 requireActivity().runOnUiThread(() -> {
-                                    RepositoriesAdapter adapter = new RepositoriesAdapter(requireContext(), queryString, 1);
+                                    RepositoriesAdapter adapter = new RepositoriesAdapter(requireContext(), queryString, showTopics, 1);
                                     getDataBinding().recyclerviewRepositories.setAdapter(adapter);
                                     PagerState pagerState = getDataBinding().getPagerState();
                                     if (pagerState != null) {
@@ -182,7 +185,7 @@ public class RepositoriesFragment extends BaseFragment implements TokenCallback 
                         }
                     }
                     if (queryString != null) {
-                        getDataBinding().recyclerviewRepositories.setAdapter(new RepositoriesAdapter(requireActivity(), queryString, 1));
+                        getDataBinding().recyclerviewRepositories.setAdapter(new RepositoriesAdapter(requireActivity(), queryString, showTopics, 1));
                     }
                 });
             } else if (adapter.getItemCount() == 0) {

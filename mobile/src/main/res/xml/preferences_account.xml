@@ -8,19 +8,31 @@
         app:title="Application Settings"
         app:summary="Open the account settings.">
 
+        <EditTextPreference
+            app:key="access_token"
+            app:title="GitHub Access Token"
+            app:summary="Define a personal access token" />
+
         <Preference
             app:title="Account Settings"
-            app:summary="Open the account settings."
-            app:key="renameCourses">
+            app:summary="Open the account settings"
+            app:key="account_settings">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:targetPackage="io.syslogic.github"
                 android:targetClass=".activity.AuthenticatorActivity.class"/>
         </Preference>
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
+            app:title="Show Topics"
+            app:summary="Show repository topics in the listing"
+            app:defaultValue="false"
+            app:key="show_topics"/>
+
+        <SwitchPreferenceCompat
             app:title="Debug Logging"
             app:summary="Enable verbose logging"
+            app:defaultValue="false"
             app:key="debug_logging"/>
 
     </PreferenceCategory>

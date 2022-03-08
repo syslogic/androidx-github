@@ -3,6 +3,7 @@ package io.syslogic.github.fragment;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkCapabilities;
@@ -19,6 +20,7 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.databinding.ViewDataBinding;
 import androidx.fragment.app.Fragment;
+import androidx.preference.PreferenceManager;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -50,8 +52,10 @@ abstract public class BaseFragment extends Fragment implements ConnectivityListe
     /** Debug Output */
     static final boolean mDebug = BuildConfig.DEBUG;
 
-    @NonNull Boolean contentLoaded = false;
     @Nullable User currentUser = null;
+
+    @NonNull SharedPreferences prefs;
+    @NonNull Boolean contentLoaded = false;
 
     /** Constructor */
     public BaseFragment() {}
@@ -60,6 +64,7 @@ abstract public class BaseFragment extends Fragment implements ConnectivityListe
     @SuppressLint("NewApi")
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.prefs = PreferenceManager.getDefaultSharedPreferences(requireContext());
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             this.registerNetworkCallback(requireContext(), BaseFragment.this);
         } else {
