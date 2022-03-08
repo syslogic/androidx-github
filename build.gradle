@@ -1,9 +1,11 @@
 // root build.gradle
 
-// Build Configurations
-project.ext.set('archiveBuildTypes', ['debug', 'release'])
+plugins {
+    id 'com.android.application' version '7.1.2' apply false
+    id 'androidx.navigation.safeargs' version '2.5.0-alpha03' apply false
+}
 
-// Version Settings, loaded from file `version.properties`
+/** Version Settings, loaded from file `version.properties` */
 def version = new Properties()
 version.load(new FileInputStream(rootProject.file('version.properties')))
 project.ext.set('applicationId',     version['applicationId'])
@@ -13,36 +15,39 @@ project.ext.set('compileSdkVersion', new Integer(version['compileSdkVersion']))
 project.ext.set('targetSdkVersion',  new Integer(version['targetSdkVersion']))
 project.ext.set('minSdkVersion',     new Integer(version['minSdkVersion']))
 
-// Load API access-token from file `token.properties`
+/** Build Configurations */
+project.ext.set('archiveBuildTypes', ['debug', 'release'])
+
+/** Load API access-token from file `token.properties` */
 if(rootProject.file('token.properties').exists()) {
     def apikeys = new Properties()
     apikeys.load(new FileInputStream(rootProject.file('token.properties')))
     project.ext.set('accessToken', apikeys['accessToken'])
 } else {
-    println "*** File `token.properties` is absent, the API will be rate-limited."
+    println "*** File `token.properties` is absent, the API may be rate-limited."
     project.ext.set('accessToken', "")
 }
 
-buildscript {
-    repositories {
-        google()
-        mavenCentral()
-    }
-    dependencies {
-        classpath "com.android.tools.build:gradle:7.0.4"
-        classpath "androidx.navigation:navigation-safe-args-gradle-plugin:2.4.0-beta01"
-    }
-}
-
+/** Modules */
 allprojects {
-    repositories {
-        google()
-        mavenCentral()
+
+    /** Runtime JAR files in the classpath should have the same version. */
+    configurations.all {
+        resolutionStrategy.eachDependency { DependencyResolveDetails details ->
+            def requested = details.requested
+            if (requested.group == 'org.jetbrains.kotlin') {
+                def kotlinVersion = '1.6.0'
+                List<String> list = ['kotlin-stdlib', 'kotlin-stdlib-jdk7', 'kotlin-stdlib-jdk8', 'kotlin-stdlib-common']
+                if (list.contains(requested.name)) {
+                    details.useVersion kotlinVersion
+                }
+            }
+        }
     }
+
     gradle.projectsEvaluated {
         tasks.withType(JavaCompile) {
-            options.compilerArgs << "-Xmaxerrs" << "2000" << "-Xmaxwarns" << "2000"
-            options.compilerArgs << "-Xlint:unchecked" << '-Xlint:deprecation'
+            options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
         }
     }
 }

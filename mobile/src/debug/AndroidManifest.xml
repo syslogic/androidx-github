@@ -6,7 +6,7 @@
 
     <application
         android:allowBackup="false"
-        tools:ignore="GoogleAppIndexingWarning,MissingApplicationIcon">
+        tools:ignore="DataExtractionRules,GoogleAppIndexingWarning,MissingApplicationIcon">
 
         <meta-data
             android:name="com.github.ACCESS_TOKEN"
