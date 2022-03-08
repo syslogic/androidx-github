@@ -3,15 +3,15 @@ apply plugin: "com.android.application"
 apply plugin: "androidx.navigation.safeargs"
 
 android {
-
+    
+    compileSdk rootProject.ext.get('compileSdkVersion')
     defaultConfig {
         applicationId rootProject.ext.get('applicationId')
         manifestPlaceholders = [ accessToken: "" ]
         versionName rootProject.ext.get('versionName')
         versionCode rootProject.ext.get('versionCode')
-        compileSdkVersion rootProject.ext.get('compileSdkVersion')
-        targetSdkVersion rootProject.ext.get('targetSdkVersion')
-        minSdkVersion rootProject.ext.get('minSdkVersion')
+        targetSdk rootProject.ext.get('targetSdkVersion')
+        minSdk rootProject.ext.get('minSdkVersion')
         setProperty("archivesBaseName", "github_client_" + versionName)
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         testBuildType "debug"
