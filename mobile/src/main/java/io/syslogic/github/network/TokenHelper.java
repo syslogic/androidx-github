@@ -57,8 +57,9 @@ public class TokenHelper {
         return accessToken;
     }
 
+    @Nullable
     @SuppressWarnings("SameParameterValue")
-    private static Account getAccount(AccountManager accountManager, int index) {
+    private static Account getAccount(@NonNull AccountManager accountManager, int index) {
         Account[] accounts = accountManager.getAccountsByType(Constants.ACCOUNT_TYPE);
         if (accounts.length <= index) {return null;}
         else {return accounts[ index ];}

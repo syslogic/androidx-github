@@ -15,12 +15,12 @@ import io.syslogic.github.model.PagerState;
 public abstract class ScrollListener extends RecyclerView.OnScrollListener {
 
     private final LinearLayoutManager layoutManager;
+    private static PagerState state;
 
     private int previousTotalItemCount = 0;
 
-    private static PagerState state = new PagerState(1);
-
     ScrollListener(LinearLayoutManager layoutManager) {
+        state = new PagerState(1);
         this.layoutManager = layoutManager;
     }
 

@@ -18,7 +18,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat {
     @SuppressWarnings("unused")
     private static final String LOG_TAG = PreferencesFragment.class.getSimpleName();
 
-    private static final int resId = R.xml.account_preferences;
+    private static final int resId = R.xml.preferences_account;
 
     /** Constructor */
     public PreferencesFragment() {}
@@ -36,6 +36,5 @@ public class PreferencesFragment extends PreferenceFragmentCompat {
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         this.setPreferencesFromResource(resId, rootKey);
-        // if (savedInstanceState != null) {}
     }
 }

@@ -34,6 +34,7 @@ public class QueryStringsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     /** Log Tag */
     @NonNull
+    @SuppressWarnings("unused")
     private static final String LOG_TAG = QueryStringsAdapter.class.getSimpleName();
 
     /** Debug Output */

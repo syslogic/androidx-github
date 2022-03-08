@@ -122,7 +122,6 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     public void fetchPage(final int pageNumber) {
 
-
         String accessToken = getAccessToken();
         if (this.getPagerState() != null && !this.getPagerState().getIsOffline()) {
 
@@ -229,7 +228,6 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @Nullable
     protected PagerState getPagerState() {
-        /* cannot cast FragmentRepositoriesBindingImpl */
         if (((BaseActivity) getContext()).getFragmentDataBinding() instanceof FragmentRepositoriesBinding) {
             FragmentRepositoriesBinding databinding = (FragmentRepositoriesBinding) ((BaseActivity) getContext()).getFragmentDataBinding();
             if (databinding != null) {
@@ -309,7 +307,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         return this.queryString;
     }
 
-    private void logError(ResponseBody responseBody) {
+    private void logError(@NonNull ResponseBody responseBody) {
         try {
             String errors = responseBody.string();
             JsonObject jsonObject = JsonParser.parseString(errors).getAsJsonObject();
