@@ -9,16 +9,35 @@ on:
 
 jobs:
   build:
+    name: 🎉 Build
     runs-on: ubuntu-latest
-
     steps:
-    - uses: actions/checkout@v2
-    - name: Set up JDK 11
-      uses: actions/setup-java@v2
-      with:
-        java-version: '11'
-        distribution: 'temurin'
-        cache: gradle
 
-    - name: Build with Gradle
-      run: ./gradlew assembleDebug
+      - name: 🚚 Get latest code
+        uses: actions/checkout@v2
+
+      - name: ☕ Set up JDK 11
+        uses: actions/setup-java@v2
+        with:
+          java-version: '11'
+          distribution: 'temurin'
+          cache: gradle
+
+      - name: Build with Gradle
+        run: ./gradlew :mobile:bundleDebug
+
+      - name: 📦 Retain Artifacts (Lint Results)
+        id: retain-lint-results
+        uses: actions/upload-artifact@v3
+        with:
+          name: androidx-github
+          path: ./mobile/build/reports/lint-results.*
+          retention-days: 14
+
+      - name: 📦 Retain Artifacts (Debug AAB)
+        id: retain-debug-aab
+        uses: actions/upload-artifact@v3
+        with:
+          name: androidx-github
+          path: ./mobile/build/outputs/bundle/debug/mobile-debug.aab
+          retention-days: 14
