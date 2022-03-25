@@ -12,5 +12,5 @@ dependencyResolutionManagement {
         google()
     }
 }
-rootProject.name = "Client"
+rootProject.name = "GitHub Client"
 include ':mobile'
