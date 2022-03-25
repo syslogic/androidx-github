@@ -148,9 +148,9 @@ dependencies {
 
 // task :assemble finalized by :lint
 tasks.whenTaskAdded { task ->
-    if (task.name == "assembleDebug") {
+    if (task.name == "assembleDebug" || task.name == "bundleDebug") {
         task.finalizedBy "lintDebug"
-    } else if (task.name == "assembleRelease") {
+    } else if (task.name == "assembleRelease" || task.name == "bundleRelease") {
         task.finalizedBy "lintRelease"
     }
 }
