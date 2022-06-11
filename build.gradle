@@ -1,8 +1,8 @@
 // root build.gradle
 
 plugins {
-    id 'com.android.application' version '7.1.2' apply false
-    id 'androidx.navigation.safeargs' version '2.5.0-alpha03' apply false
+    id 'com.android.application' version '7.2.1' apply false
+    id 'androidx.navigation.safeargs' version '2.5.0-rc01' apply false
 }
 
 /** Version Settings, loaded from file `version.properties` */
