@@ -9,7 +9,7 @@
     <string name="summary_preferences_token">Edit or remove the token</string>
 
     <string name="text_bookmarks">Bookmarks</string>
-    <string name="menu_action_edit_bookmarks">Bookmarks</string>
+    <string name="menu_action_edit_bookmarks">Edit Bookmarks</string>
     <string name="menu_action_add_bookmark">Add Bookmark</string>
     <string name="text_edit_bookmark">Edit Bookmark</string>
 

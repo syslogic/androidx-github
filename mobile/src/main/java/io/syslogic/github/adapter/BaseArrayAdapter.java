@@ -25,9 +25,9 @@ import java.util.List;
  */
 abstract public class BaseArrayAdapter extends BaseAdapter {
 
-    protected ArrayList<SpinnerItem> mItems = new ArrayList<>();
-
     private final LayoutInflater layoutInflater;
+
+    @NonNull protected ArrayList<SpinnerItem> mItems = new ArrayList<>();
 
     BaseArrayAdapter(@NonNull Context context) {
         this.layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -78,7 +78,6 @@ abstract public class BaseArrayAdapter extends BaseAdapter {
     }
 
     void clearItems() {
-        if (this.mItems != null) {this.mItems.clear();}
-        else {this.mItems = new ArrayList<>();}
+        this.mItems.clear();
     }
 }

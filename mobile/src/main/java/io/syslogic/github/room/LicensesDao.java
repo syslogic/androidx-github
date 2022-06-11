@@ -2,6 +2,7 @@ package io.syslogic.github.room;
 
 import android.database.Cursor;
 
+import androidx.annotation.NonNull;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;

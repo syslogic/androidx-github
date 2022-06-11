@@ -14,7 +14,7 @@ import io.syslogic.github.model.BaseModel;
  */
 public interface IContentProvider {
 
-    ContentValues toContentValues();
+    @NonNull ContentValues toContentValues();
 
-    BaseModel fromContentValues(@NonNull ContentValues values);
+    @NonNull BaseModel fromContentValues(@NonNull ContentValues values);
 }

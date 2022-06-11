@@ -3,6 +3,7 @@ package io.syslogic.github.room;
 import android.content.Context;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
@@ -27,18 +28,18 @@ public abstract class Abstraction extends RoomDatabase {
     @NonNull
     protected static final String LOG_TAG = Abstraction.class.getSimpleName();
 
-    private static Abstraction sInstance;
-
-    private static final String fileName = "room.db";
-
     private static final int NUMBER_OF_THREADS = 4;
 
     public static final ExecutorService executorService = Executors.newFixedThreadPool(NUMBER_OF_THREADS);
 
-    public abstract QueryStringsDao queryStringsDao();
-    public abstract RepositoriesDao repositoriesDao();
-    public abstract LicensesDao licensesDao();
-    public abstract OwnersDao ownersDao();
+    private static final String fileName = "room.db";
+
+    private static Abstraction sInstance;
+
+    @Nullable public abstract QueryStringsDao queryStringsDao();
+    @Nullable public abstract RepositoriesDao repositoriesDao();
+    @Nullable public abstract LicensesDao licensesDao();
+    @Nullable public abstract OwnersDao ownersDao();
 
     /**
      * Asset `src/main/assets/room.db` must match the current schema version,

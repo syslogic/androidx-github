@@ -45,13 +45,16 @@ public class RepositorySyncAdapter extends AbstractThreadedSyncAdapter {
     /** Debug Output */
     static final boolean mDebug = BuildConfig.DEBUG;
 
+    final QueryStringsDao queryStringsDao;
+    final RepositoriesDao repositoriesDao;
+
     private final String accessToken;
     private final SharedPreferences prefs;
-    private final QueryStringsDao queryStringsDao;
-    private final RepositoriesDao repositoriesDao;
 
     private ArrayList<Repository> repositories = new ArrayList<>();
+
     private List<QueryString> queryStrings;
+
     private User user;
 
     /** Constructor. */
@@ -86,7 +89,10 @@ public class RepositorySyncAdapter extends AbstractThreadedSyncAdapter {
                 public void onResponse(@NonNull Call<User> call, @NonNull Response<User> response) {
                     if (response.body() != null) {
                         onUser(response.body());
-                        Abstraction.executorService.execute(() -> onQueryStrings(queryStringsDao.getItems()));
+                        Abstraction.executorService.execute(() -> {
+                            assert queryStringsDao != null;
+                            onQueryStrings(queryStringsDao.getItems());
+                        });
                     }
                 }
                 public void onFailure(@NonNull Call<User> call, @NonNull Throwable t) {
@@ -96,12 +102,12 @@ public class RepositorySyncAdapter extends AbstractThreadedSyncAdapter {
         }
     }
 
-    private void onUser(@NonNull User item) {
+    void onUser(@NonNull User item) {
         this.log("onUser: " + item.getLogin());
         this.user = item;
     }
 
-    private void onQueryStrings(@NonNull List<QueryString> items) {
+    void onQueryStrings(@NonNull List<QueryString> items) {
         this.log("onQueryStrings: " + items.size());
         this.queryStrings = items;
         for (QueryString item: items) {
@@ -121,7 +127,7 @@ public class RepositorySyncAdapter extends AbstractThreadedSyncAdapter {
         }
     }
 
-    private void onRepositories(@NonNull Repositories item) {
+    void onRepositories(@NonNull Repositories item) {
         this.log("onRepositories: " + item.getRepositories().size());
         for (Repository repository: item.getRepositories()) {
             this.log("Repo: " + repository.getUrl());
@@ -132,7 +138,7 @@ public class RepositorySyncAdapter extends AbstractThreadedSyncAdapter {
         this.log("loaded so far: " + this.repositories.size());
     }
 
-    private void log(String message) {
+    void log(String message) {
         if (mDebug && this.prefs.getBoolean(Constants.PREFERENCE_KEY_DEBUG_LOGGING, false)) {
             Log.d(LOG_TAG, message);
         }

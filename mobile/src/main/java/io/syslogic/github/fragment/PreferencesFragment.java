@@ -6,6 +6,7 @@ import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
 import androidx.preference.PreferenceScreen;
@@ -51,7 +52,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat
      *                           {@link PreferenceScreen} with this key.
      */
     @Override
-    public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
+    public void onCreatePreferences(@Nullable Bundle savedInstanceState, @Nullable String rootKey) {
         this.setPreferencesFromResource(resId, rootKey);
     }
 
@@ -72,7 +73,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat
      *                          a {@code null} value when preferences are cleared.
      */
     @Override
-    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+    public void onSharedPreferenceChanged(@NonNull SharedPreferences sharedPreferences, @NonNull String key) {
 
     }
 }

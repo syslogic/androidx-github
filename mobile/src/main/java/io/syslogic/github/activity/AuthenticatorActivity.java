@@ -4,6 +4,8 @@ import android.accounts.AccountAuthenticatorResponse;
 import android.accounts.AccountManager;
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
+
 import io.syslogic.github.R;
 
 /**
@@ -22,7 +24,7 @@ public class AuthenticatorActivity extends BaseActivity {
      * launched. If result is null or this method is never called then the request will be canceled.
      * @param result this is returned as the result of the AbstractAccountAuthenticator request
      */
-    public final void setAccountAuthenticatorResult(Bundle result) {
+    public final void setAccountAuthenticatorResult(@Nullable Bundle result) {
         mResultBundle = result;
     }
 
@@ -31,7 +33,7 @@ public class AuthenticatorActivity extends BaseActivity {
      * if the icicle is non-zero.
      * @param icicle the save instance data of this Activity, may be null.
      */
-    protected void onCreate(Bundle icicle) {
+    protected void onCreate(@Nullable Bundle icicle) {
         super.onCreate(icicle);
         this.mAccountManager = AccountManager.get(this);
         this.setContentView(R.layout.fragment_token);

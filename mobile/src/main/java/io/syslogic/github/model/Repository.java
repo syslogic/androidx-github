@@ -274,6 +274,7 @@ public class Repository extends BaseModel implements IContentProvider {
         return this.topics;
     }
 
+    @NonNull
     @Override
     public ContentValues toContentValues() {
         ContentValues values = new ContentValues();
@@ -286,6 +287,7 @@ public class Repository extends BaseModel implements IContentProvider {
         return values;
     }
 
+    @NonNull
     @Override
     public Repository fromContentValues(@NonNull ContentValues values) {
         this.setId(values.getAsLong("id"));

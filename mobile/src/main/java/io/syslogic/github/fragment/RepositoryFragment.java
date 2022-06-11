@@ -433,8 +433,10 @@ public class RepositoryFragment extends BaseFragment implements TokenCallback {
                             if (downloadManager != null) {
                                 Cursor c = downloadManager.query(query);
                                 if (c.moveToFirst()) {
-                                    if (DownloadManager.STATUS_SUCCESSFUL == c.getInt(c.getColumnIndex(DownloadManager.COLUMN_STATUS))) {
-                                        String uri = c.getString(c.getColumnIndex(DownloadManager.COLUMN_LOCAL_URI));
+                                    int colStatus = c.getColumnIndex(DownloadManager.COLUMN_STATUS);
+                                    int colLocalUri = c.getColumnIndex(DownloadManager.COLUMN_LOCAL_URI);
+                                    if (DownloadManager.STATUS_SUCCESSFUL == c.getInt(colStatus)) {
+                                        String uri = c.getString(colLocalUri);
                                         if (mDebug) {Log.d(LOG_TAG, "" + uri);                                   }
                                     }
                                 }

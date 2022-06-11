@@ -7,7 +7,6 @@
     <issue id="MissingRegistered">
         <ignore regexp="androidx.*.widget.*" />
         <ignore regexp="com.google.android.material.appbar.AppBarLayout" />
-        <ignore regexp="com.airbnb.lottie.LottieAnimationView" />
     </issue>
 
     <issue id="UnusedIds">
@@ -31,6 +30,10 @@
     <!-- NotifyDataSetChanged is fine when clearing the adapter. -->
     <issue id="NotifyDataSetChanged">
         <ignore regexp="io.syslogic.github.recyclerview.RepositoriesLinearView" />
+    </issue>
+
+    <issue id="UnknownNullness">
+        <ignore regexp="io.syslogic.github.room.*Dao" />
     </issue>
 
     <!-- JaCoCo, from Gradle cache ... -->

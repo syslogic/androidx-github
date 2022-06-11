@@ -164,6 +164,7 @@ public class QueryString extends BaseModel implements IContentProvider {
         return "+" + this.getCondition() + ":" + this.getOperator() + isodate;
     }
 
+    @NonNull
     @Override
     public ContentValues toContentValues() {
         ContentValues values = new ContentValues();
@@ -176,6 +177,7 @@ public class QueryString extends BaseModel implements IContentProvider {
         return values;
     }
 
+    @NonNull
     @Override
     public QueryString fromContentValues(@NonNull ContentValues values) {
         this.setId(values.getAsLong("id"));

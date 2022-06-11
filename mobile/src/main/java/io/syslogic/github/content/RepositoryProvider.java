@@ -1,11 +1,12 @@
 package io.syslogic.github.content;
 
 import android.content.ContentProvider;
-import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.net.Uri;
+
+import androidx.annotation.NonNull;
 
 import io.syslogic.github.model.Repository;
 import io.syslogic.github.room.Abstraction;
@@ -44,7 +45,7 @@ public class RepositoryProvider extends ContentProvider {
     }
 
     @Override
-    public int delete(Uri uri, String selectionClause, String[] selectionArgs) {
+    public int delete(Uri uri, String selectionClause, @NonNull String[] selectionArgs) {
         dao.deleteById(Long.valueOf(selectionArgs[0]));
         return 1;
     }

@@ -314,7 +314,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         return this.queryString;
     }
 
-    private void logError(@NonNull ResponseBody responseBody) {
+    void logError(@NonNull ResponseBody responseBody) {
         try {
             String errors = responseBody.string();
             JsonObject jsonObject = JsonParser.parseString(errors).getAsJsonObject();
