@@ -46,7 +46,8 @@ public class TokenService extends Service {
     public IBinder onBind(@NonNull Intent intent) {
         return this.mAuthenticator.getIBinder();
     }
-
+    
+    @NonNull
     public IBinder getIBinder() {
         return this.mAuthenticator.getIBinder();
     }

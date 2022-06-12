@@ -40,6 +40,8 @@ public class Repositories extends BaseModel {
         return this.totalCount;
     }
 
+    @NonNull
+    @Bindable
     public Long getPageCount() {
         Long recordsPerPage = 30L;
         return (this.totalCount + recordsPerPage -1) / recordsPerPage;

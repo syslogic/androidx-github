@@ -4,6 +4,8 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 
+import androidx.annotation.NonNull;
+
 /**
  * Repository Sync {@link Service}
  *
@@ -25,6 +27,7 @@ public class RepositorySyncService extends Service {
     }
 
     /** Return an object that allows the system to invoke the sync adapter. */
+    @NonNull
     @Override
     public IBinder onBind(Intent intent) {
         return sSyncAdapter.getSyncAdapterBinder();

@@ -115,7 +115,7 @@ public class QueryStringFragment extends BaseFragment {
         this.itemId = value;
     }
 
-    public boolean setOnEditorActionListener(@NonNull TextView view, int actionId, KeyEvent event) {
+    public boolean setOnEditorActionListener(@NonNull TextView view, @NonNull KeyEvent event, int actionId) {
         return true;
     }
 

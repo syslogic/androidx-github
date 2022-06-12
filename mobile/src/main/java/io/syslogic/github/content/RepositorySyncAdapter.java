@@ -58,7 +58,7 @@ public class RepositorySyncAdapter extends AbstractThreadedSyncAdapter {
     private User user;
 
     /** Constructor. */
-    public RepositorySyncAdapter(Context context, boolean autoInitialize, boolean allowParallelSyncs) {
+    public RepositorySyncAdapter(@NonNull Context context, boolean autoInitialize, boolean allowParallelSyncs) {
         super(context, autoInitialize, allowParallelSyncs);
         this.accessToken = TokenHelper.getAccessToken(context);
         this.prefs = PreferenceManager.getDefaultSharedPreferences(context);

@@ -28,29 +28,31 @@ public class RepositoryProvider extends ContentProvider {
     }
 
     @Override
-    public String getType(Uri uri) {
+    public String getType(@NonNull Uri uri) {
         return null;
     }
 
+    @NonNull
     @Override
-    public Cursor query(Uri uri, String[] projection, String selectionClause, String[] selectionArgs, String sortOrder) {
+    public Cursor query(@NonNull Uri uri, @NonNull String[] projection, @NonNull String selectionClause, @NonNull String[] selectionArgs, @NonNull String sortOrder) {
         return dao.selectAll();
     }
 
+    @NonNull
     @Override
-    public Uri insert(Uri uri, ContentValues values) {
+    public Uri insert(@NonNull Uri uri, @NonNull ContentValues values) {
         Repository item = new Repository().fromContentValues(values);
         long id = dao.insert(item);
         return ContentUris.withAppendedId(uri, id);
     }
 
     @Override
-    public int delete(Uri uri, String selectionClause, @NonNull String[] selectionArgs) {
+    public int delete(@NonNull Uri uri, @NonNull String selectionClause, @NonNull String[] selectionArgs) {
         dao.deleteById(Long.valueOf(selectionArgs[0]));
         return 1;
     }
 
-    public int update(Uri uri, ContentValues values, String selectionClause, String[] selectionArgs) {
+    public int update(@NonNull Uri uri, @NonNull ContentValues values, @NonNull String selectionClause, @NonNull String[] selectionArgs) {
         Repository item = new Repository().fromContentValues(values);
         dao.update(item);
         return 1;
