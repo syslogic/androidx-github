@@ -24,7 +24,8 @@ if(rootProject.file('token.properties').exists()) {
     apikeys.load(new FileInputStream(rootProject.file('token.properties')))
     project.ext.set('accessToken', apikeys['accessToken'])
 } else {
-    println "*** File `token.properties` is absent, the API may be rate-limited."
+    println "*** File `token.properties` is missing; the GitHub API may be rate-limited."
+    println "*** The personal access token needs to be defined as EditTextPreference."
     project.ext.set('accessToken', "")
 }
 
@@ -36,7 +37,7 @@ allprojects {
         resolutionStrategy.eachDependency { DependencyResolveDetails details ->
             def requested = details.requested
             if (requested.group == 'org.jetbrains.kotlin') {
-                def kotlinVersion = '1.6.0'
+                def kotlinVersion = '1.6.21'
                 List<String> list = ['kotlin-stdlib', 'kotlin-stdlib-jdk7', 'kotlin-stdlib-jdk8', 'kotlin-stdlib-common']
                 if (list.contains(requested.name)) {
                     details.useVersion kotlinVersion

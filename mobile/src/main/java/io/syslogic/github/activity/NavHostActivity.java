@@ -14,7 +14,7 @@ import io.syslogic.github.R;
 import io.syslogic.github.databinding.FragmentNavHostBinding;
 
 /**
- * NavHost {@link BaseActivity} using {@link SplashScreen}.
+ * The NavHost {@link BaseActivity} using {@link SplashScreen}.
  *
  * @author Martin Zeitler
  */
@@ -44,7 +44,7 @@ public class NavHostActivity extends BaseActivity {
 
         /* When switching the theme to/from dark mode (on all subsequent executions). */
         if (savedInstanceState != null) {
-            this.setTheme(R.style.AppTheme);
+            this.setTheme(R.style.Theme_AppTheme);
         }
         super.onCreate(savedInstanceState);
 

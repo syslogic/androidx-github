@@ -11,7 +11,7 @@ import io.syslogic.github.R;
 import io.syslogic.github.fragment.BaseFragment;
 
 /**
- * Base {@link AppCompatActivity}
+ * The Base {@link AppCompatActivity}.
  *
  * @author Martin Zeitler
  */

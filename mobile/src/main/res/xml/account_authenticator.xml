@@ -4,5 +4,4 @@
     android:accountType="io.syslogic.github"
     android:icon="@mipmap/ocotocat_round"
     android:smallIcon="@mipmap/ocotocat_round"
-    android:accountPreferences="@xml/preferences_account"
-    android:label="@string/text_access_token" />
+    android:label="@string/title_personal_access_token"/>

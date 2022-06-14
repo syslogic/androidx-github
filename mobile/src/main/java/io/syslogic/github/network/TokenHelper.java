@@ -66,12 +66,14 @@ public class TokenHelper {
     }
 
     /** It currently adds into the "Personal" accounts (probably depending on the profile). */
-    private static void addAccount(AccountManager accountManager, String accessToken) {
+    public static Account addAccount(AccountManager accountManager, String accessToken) {
         if (getAccount(accountManager, 0) == null) {
             Account account = new Account("GitHub API Client", Constants.ACCOUNT_TYPE);
             Bundle extraData = new Bundle();
             extraData.putString("accessToken", accessToken);
             accountManager.addAccountExplicitly(account, accessToken, extraData);
+            return account;
         }
+        return null;
     }
 }

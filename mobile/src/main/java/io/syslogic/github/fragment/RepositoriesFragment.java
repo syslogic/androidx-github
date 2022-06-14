@@ -59,17 +59,22 @@ public class RepositoriesFragment extends BaseFragment implements TokenCallback 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         if (savedInstanceState == null) {
+
             this.setDataBinding(FragmentRepositoriesBinding.inflate(inflater, container, false));
             this.getDataBinding().setPagerState(new PagerState());
             this.setHasOptionsMenu(true);
+
             /* Setting up the toolbar, in order to show the topics editor. */
             ((BaseActivity) this.requireActivity()).setSupportActionBar(this.getDataBinding().toolbarRepositories.toolbarQuery);
             this.getDataBinding().toolbarRepositories.toolbarQuery.setOnMenuItemClickListener(item -> {
-                if (item.getItemId() == R.id.menu_action_edit_bookmarks) {
-                    NavController controller = Navigation.findNavController(this.getDataBinding().getRoot());
+                NavController controller = Navigation.findNavController(this.getDataBinding().getRoot());
+                if (item.getItemId() == R.id.menu_action_bookmarks) {
                     controller.navigate(R.id.action_repositoriesFragment_to_queryStringsGraph);
                     return false;
-                }  else {
+                } else if (item.getItemId() == R.id.menu_action_preferences) {
+                    controller.navigate(R.id.action_repositoriesFragment_to_preferencesFragment);
+                    return false;
+                } else {
                     return super.onOptionsItemSelected(item);
                 }});
 
@@ -103,12 +108,13 @@ public class RepositoriesFragment extends BaseFragment implements TokenCallback 
             });
 
             /* It is quicker to query Room, because the QueryStringAdapter is populating too slow. */
-            showTopics = this.prefs.getBoolean(Constants.PREFERENCE_KEY_SHOW_TOPICS, false);
+            showTopics = this.prefs.getBoolean(Constants.PREFERENCE_KEY_REPOSITORY_TOPICS, false);
             if (this.getDataBinding().recyclerviewRepositories.getAdapter() == null) {
                 if (isNetworkAvailable(requireContext())) {
                     QueryStringsDao dao = Abstraction.getInstance(requireContext()).queryStringsDao();
                     Abstraction.executorService.execute(() -> {
                         try {
+                            assert dao != null;
                             List<QueryString> items = dao.getItems();
                             if (items.size() > 0) {
                                 String queryString = items.get(0).toQueryString();

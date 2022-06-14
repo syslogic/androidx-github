@@ -27,7 +27,7 @@
             <include
                 android:id="@+id/toolbar_profile"
                 layout="@layout/toolbar_profile"
-                bind:profile="@{profile}"/>
+                bind:profile="@{ profile }"/>
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
@@ -55,7 +55,7 @@
             android:layout_height="match_parent"
             android:nestedScrollingEnabled="true"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            app:loadUrl="@{profile.htmlUrl}"/>
+            app:loadUrl="@{ profile.htmlUrl }"/>
 
         </ViewFlipper>
 

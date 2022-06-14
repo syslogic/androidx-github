@@ -20,6 +20,9 @@
         <action
             android:id="@+id/action_repositoriesFragment_to_queryStringsGraph"
             app:destination="@id/queryStringsGraph" />
+        <action
+            android:id="@+id/action_repositoriesFragment_to_preferencesFragment"
+            app:destination="@id/preferencesFragment" />
     </fragment>
 
     <fragment
@@ -35,6 +38,11 @@
         android:label="fragment_profile"
         android:name="io.syslogic.github.fragment.RepositoryFragment"
         tools:layout="@layout/fragment_profile"/>
+
+    <fragment
+        android:id="@+id/preferencesFragment"
+        android:label="fragment_preferences"
+        android:name="io.syslogic.github.fragment.PreferencesFragment"/>
 
     <navigation
         android:id="@+id/queryStringsGraph"

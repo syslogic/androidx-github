@@ -23,13 +23,12 @@ public final class Constants {
 
     /** RecyclerView Settings */
     @NonNull public static final Integer RECYCLERVIEW_SCROLLING_THRESHOLD = 12;
-    @NonNull public static final Integer RECYCLERVIEW_DEFAULT_PAGE_SIZE = 30;
+    @NonNull public static final Integer RECYCLERVIEW_DEFAULT_PAGE_SIZE   = 30;
 
     /** Preference Keys */
-    @NonNull public static final String PREFERENCE_KEY_ACCESS_TOKEN = "access_token";
-    @NonNull public static final String PREFERENCE_KEY_ACCOUNT_SETTINGS = "account_settings";
-    @NonNull public static final String PREFERENCE_KEY_SHOW_TOPICS = "show_topics";
-    @NonNull public static final String PREFERENCE_KEY_DEBUG_LOGGING = "debug_logging";
+    @NonNull public static final String PREFERENCE_KEY_ACCOUNT_SETTINGS  = "account_settings";
+    @NonNull public static final String PREFERENCE_KEY_REPOSITORY_TOPICS = "repository_topics";
+    @NonNull public static final String PREFERENCE_KEY_DEBUG_LOGGING     = "debug_logging";
 
     /** Table Names */
     @NonNull public static final String TABLE_QUERY_STRINGS = "query_strings";

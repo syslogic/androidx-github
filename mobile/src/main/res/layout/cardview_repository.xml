@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
         <variable name="item" type="io.syslogic.github.model.Repository"/>
@@ -105,6 +105,7 @@
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
+            <!--
             <com.google.android.material.chip.ChipGroup
                 android:id="@+id/chip_group"
                 android:layout_width="match_parent"
@@ -113,6 +114,7 @@
                 android:padding="8dp"
                 app:singleLine="false"
                 app:chipSpacing="0dp"/>
+            -->
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 

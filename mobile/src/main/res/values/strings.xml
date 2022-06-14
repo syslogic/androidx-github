@@ -4,15 +4,26 @@
     <string name="app_name">GitHub API Client</string>
     <string name="package_name">io.syslogic.github</string>
 
-    <string name="text_access_token">Personal Access Token</string>
-    <string name="title_preferences_token">Access Token Preferences</string>
-    <string name="summary_preferences_token">Edit or remove the token</string>
+    <string name="title_account_authenticator">"Account Authenticator</string>
+
+    <string name="title_application_settings">"Application Settings</string>
+    <string name="summary_intent_account_settings">"Open the account settings</string>
+
+    <string name="title_personal_access_token">Personal Access Token</string>
+    <string name="summary_personal_access_token">Open Android Account Manager</string>
+
+    <string name="title_preference_repository_topics">Show Topics</string>
+    <string name="summary_preference_repository_topics">Show repository topics in the listing</string>
+
+    <string name="title_preference_debug_logging">Debug Logging</string>
+    <string name="summary_preference_debug_logging">Enable verbose logging</string>
+
+    <string name="menu_action_preferences">Preferences</string>
+    <string name="menu_action_bookmarks">Bookmarks</string>
+    <string name="menu_action_add_bookmark">Add Bookmark</string>
 
     <string name="text_bookmarks">Bookmarks</string>
-    <string name="menu_action_edit_bookmarks">Edit Bookmarks</string>
-    <string name="menu_action_add_bookmark">Add Bookmark</string>
     <string name="text_edit_bookmark">Edit Bookmark</string>
-
     <string name="text_repositories">Repositories</string>
     <string name="text_forks">Forks</string>
     <string name="text_stargazers">Stargazers</string>

@@ -8,7 +8,7 @@
     </style>
 
     <!-- The Default AppTheme -->
-    <style name="AppTheme" parent="BaseTheme">
+    <style name="Theme.AppTheme" parent="BaseTheme">
 
         <!-- Theme Colors -->
         <item name="colorPrimary">@color/colorPrimary</item>
@@ -34,7 +34,7 @@
         <item name="windowSplashScreenAnimatedIcon">@mipmap/ocotocat_round</item>
 
         // The theme of the Activity that directly follows the splash screen.
-        <item name="postSplashScreenTheme">@style/AppTheme</item> # Required.
+        <item name="postSplashScreenTheme">@style/Theme.AppTheme</item> # Required.
     </style>
 
 </resources>

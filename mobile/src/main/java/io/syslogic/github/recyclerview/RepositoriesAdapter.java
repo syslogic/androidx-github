@@ -105,7 +105,8 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         Repository item = getItem(position);
         ((RepositoriesAdapter.ViewHolder) viewHolder).getDataBinding().setItem(item);
 
-        /* dynamically adding the topics as chips */
+        /* TODO: dynamically add topics. */
+        /*
         if (! this.showTopics) {
             ((RepositoriesAdapter.ViewHolder) viewHolder).getDataBinding().chipGroup.setVisibility(View.GONE);
         } else {
@@ -116,6 +117,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 ((RepositoriesAdapter.ViewHolder) viewHolder).getDataBinding().chipGroup.addView(chip);
             }
         }
+        */
     }
 
     private Repository getItem(int index) {

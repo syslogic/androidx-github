@@ -1,58 +1,70 @@
 package io.syslogic.github.activity;
 
+import android.accounts.Account;
 import android.accounts.AccountAuthenticatorResponse;
 import android.accounts.AccountManager;
 import android.os.Bundle;
+import android.text.Editable;
 
 import androidx.annotation.Nullable;
 
 import io.syslogic.github.R;
+import io.syslogic.github.databinding.FragmentAccessTokenBinding;
+import io.syslogic.github.network.TokenHelper;
 
 /**
- * Authenticator {@link BaseActivity}
+ * The Authenticator {@link BaseActivity}.
  *
- * Copied from Android SDK (as the documentation suggested).
+ * @author Martin Zeitler
  */
 public class AuthenticatorActivity extends BaseActivity {
 
-    private AccountAuthenticatorResponse mAccountAuthenticatorResponse = null;
-    @SuppressWarnings("FieldCanBeLocal") private AccountManager mAccountManager;
-    private Bundle mResultBundle = null;
+    @Nullable AccountAuthenticatorResponse mResponse = null;
+    @Nullable FragmentAccessTokenBinding mDataBinding;
+    @Nullable Bundle mResult = null;
+
+    /** layout resId kept for reference */
+    @SuppressWarnings("unused")
+    private static final int resId = R.layout.fragment_access_token;
 
     /**
-     * Set the result that is to be sent as the result of the request that caused this Activity to be
-     * launched. If result is null or this method is never called then the request will be canceled.
-     * @param result this is returned as the result of the AbstractAccountAuthenticator request
+     * Retrieves the AccountAuthenticatorResponse from either the intent.
+     * @param icicle the saved instance data of this Activity, may be null.
      */
-    public final void setAccountAuthenticatorResult(@Nullable Bundle result) {
-        mResultBundle = result;
-    }
-
-    /**
-     * Retrieves the AccountAuthenticatorResponse from either the intent of the icicle,
-     * if the icicle is non-zero.
-     * @param icicle the save instance data of this Activity, may be null.
-     */
+    @Override
     protected void onCreate(@Nullable Bundle icicle) {
+
         super.onCreate(icicle);
-        this.mAccountManager = AccountManager.get(this);
-        this.setContentView(R.layout.fragment_token);
-        mAccountAuthenticatorResponse = getIntent().getParcelableExtra(AccountManager.KEY_ACCOUNT_AUTHENTICATOR_RESPONSE);
-        if (mAccountAuthenticatorResponse != null) {
-            mAccountAuthenticatorResponse.onRequestContinued();
+        this.mResponse = getIntent().getParcelableExtra(AccountManager.KEY_ACCOUNT_AUTHENTICATOR_RESPONSE);
+        if (this.mResponse != null) {
+            this.mResponse.onRequestContinued();
         }
+
+        this.mDataBinding = FragmentAccessTokenBinding.inflate(getLayoutInflater(), findViewById(android.R.id.content), true);
+        this.mDataBinding.addAccessToken.setOnClickListener(view -> {
+            Editable editable = this.mDataBinding.personalAccessToken.getText();
+            if (editable != null && !editable.toString().isEmpty()) {
+
+                /* TODO: add Account and return Bundle. */
+                Account account = TokenHelper.addAccount(AccountManager.get(AuthenticatorActivity.this), editable.toString());
+                if (account != null) {
+                    this.mResult = new Bundle();
+                    this.mResult.putInt(AccountManager.KEY_ERROR_CODE, 0);
+                    this.mResponse.onResult(this.mResult);
+                } else {
+                    /* duplicate access token. */
+                }
+            }
+        });
     }
 
     /** Sends the result or a Constants.ERROR_CODE_CANCELED error if a result isn't present. */
+    @Override
     public void finish() {
-        if (mAccountAuthenticatorResponse != null) {
+        if (this.mResponse != null) {
             // send the result bundle back if set, otherwise send an error.
-            if (mResultBundle != null) {
-                mAccountAuthenticatorResponse.onResult(mResultBundle);
-            } else {
-                mAccountAuthenticatorResponse.onError(AccountManager.ERROR_CODE_CANCELED, "canceled");
-            }
-            mAccountAuthenticatorResponse = null;
+            this.mResponse.onError(AccountManager.ERROR_CODE_CANCELED, "canceled");
+            this.mResponse = null;
         }
         super.finish();
     }

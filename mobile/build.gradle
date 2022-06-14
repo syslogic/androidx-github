@@ -1,6 +1,8 @@
 // :mobile build.gradle
-apply plugin: "com.android.application"
-apply plugin: "androidx.navigation.safeargs"
+plugins {
+    id "com.android.application"
+    id "androidx.navigation.safeargs"
+}
 
 android {
     
@@ -17,8 +19,8 @@ android {
         testBuildType "debug"
         multiDexEnabled true
         compileOptions {
-            sourceCompatibility JavaVersion.VERSION_1_8
-            targetCompatibility JavaVersion.VERSION_1_8
+            sourceCompatibility JavaVersion.VERSION_11
+            targetCompatibility JavaVersion.VERSION_11
         }
         javaCompileOptions {
             annotationProcessorOptions {
@@ -44,7 +46,7 @@ android {
     buildFeatures {
         dataBinding = true
     }
-    lintOptions {
+    lint {
         lintConfig rootProject.file('lint.xml')
         checkAllWarnings true
         warningsAsErrors true
@@ -67,7 +69,7 @@ android {
         }
         release {
             signingConfig signingConfigs.release
-            manifestPlaceholders = [accessToken: "${accessToken}"]
+            manifestPlaceholders = [accessToken: ""]
             proguardFile "${project.rootDir}/proguard/android.pro"
             proguardFile "${project.rootDir}/proguard/androidx.pro"
             proguardFile "${project.rootDir}/proguard/retrofit.pro"
