@@ -5,8 +5,12 @@ import android.accounts.AccountAuthenticatorResponse;
 import android.accounts.AccountManager;
 import android.os.Bundle;
 import android.text.Editable;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.VisibleForTesting;
+import androidx.databinding.ViewDataBinding;
 
 import io.syslogic.github.R;
 import io.syslogic.github.databinding.FragmentAccessTokenBinding;
@@ -19,13 +23,17 @@ import io.syslogic.github.network.TokenHelper;
  */
 public class AuthenticatorActivity extends BaseActivity {
 
-    @Nullable AccountAuthenticatorResponse mResponse = null;
-    @Nullable FragmentAccessTokenBinding mDataBinding;
-    @Nullable Bundle mResult = null;
+    /** Log Tag */
+    @SuppressWarnings("unused")
+    private static final String LOG_TAG = AuthenticatorActivity.class.getSimpleName();
 
     /** layout resId kept for reference */
     @SuppressWarnings("unused")
     private static final int resId = R.layout.fragment_access_token;
+
+    @Nullable FragmentAccessTokenBinding mDataBinding;
+    @Nullable AccountAuthenticatorResponse mResponse = null;
+    @Nullable Bundle mResult = null;
 
     /**
      * Retrieves the AccountAuthenticatorResponse from either the intent.
@@ -40,19 +48,22 @@ public class AuthenticatorActivity extends BaseActivity {
             this.mResponse.onRequestContinued();
         }
 
-        this.mDataBinding = FragmentAccessTokenBinding.inflate(getLayoutInflater(), findViewById(android.R.id.content), true);
-        this.mDataBinding.addAccessToken.setOnClickListener(view -> {
-            Editable editable = this.mDataBinding.personalAccessToken.getText();
+        this.setDataBinding(FragmentAccessTokenBinding.inflate(getLayoutInflater(), findViewById(android.R.id.content), true));
+        this.getDataBinding().personalAccessToken.setText("");
+        this.getDataBinding().addAccessToken.setOnClickListener(view -> {
+            Editable editable = this.getDataBinding().personalAccessToken.getText();
             if (editable != null && !editable.toString().isEmpty()) {
 
-                /* TODO: add Account and return Bundle. */
+                /* TODO: add Account and return Bundle? */
                 Account account = TokenHelper.addAccount(AccountManager.get(AuthenticatorActivity.this), editable.toString());
                 if (account != null) {
                     this.mResult = new Bundle();
                     this.mResult.putInt(AccountManager.KEY_ERROR_CODE, 0);
                     this.mResponse.onResult(this.mResult);
+
                 } else {
-                    /* duplicate access token. */
+                    /* TokenHelper.addAccount() only permits one access token. */
+                    Toast.makeText(AuthenticatorActivity.this, "The access token has not been added.\nOnly one token is being supported", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -67,5 +78,16 @@ public class AuthenticatorActivity extends BaseActivity {
             this.mResponse = null;
         }
         super.finish();
+    }
+
+    @NonNull
+    @VisibleForTesting
+    private FragmentAccessTokenBinding getDataBinding() {
+        assert this.mDataBinding != null;
+        return this.mDataBinding;
+    }
+
+    private void setDataBinding(@NonNull ViewDataBinding binding) {
+        this.mDataBinding = (FragmentAccessTokenBinding) binding;
     }
 }
