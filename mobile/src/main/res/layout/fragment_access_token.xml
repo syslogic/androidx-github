@@ -34,11 +34,11 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/personal_access_token"
-                    android:inputType="text"
+                    android:inputType="textPassword"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/title_personal_access_token"
-                    android:text='@{"" + token }'
+                    android:text='@{ token }'
                     android:gravity="start"
                     tools:text="ghp_"/>
 

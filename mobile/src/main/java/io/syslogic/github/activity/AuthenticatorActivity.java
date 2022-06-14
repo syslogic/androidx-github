@@ -49,22 +49,23 @@ public class AuthenticatorActivity extends BaseActivity {
         }
 
         this.setDataBinding(FragmentAccessTokenBinding.inflate(getLayoutInflater(), findViewById(android.R.id.content), true));
-        this.getDataBinding().personalAccessToken.setText("");
+        this.getDataBinding().setToken("");
+
+        this.getDataBinding().personalAccessToken.requestFocus();
         this.getDataBinding().addAccessToken.setOnClickListener(view -> {
             Editable editable = this.getDataBinding().personalAccessToken.getText();
             if (editable != null && !editable.toString().isEmpty()) {
 
                 /* TODO: add Account and return Bundle? */
                 Account account = TokenHelper.addAccount(AccountManager.get(AuthenticatorActivity.this), editable.toString());
+                this.mResult = new Bundle();
                 if (account != null) {
-                    this.mResult = new Bundle();
                     this.mResult.putInt(AccountManager.KEY_ERROR_CODE, 0);
-                    this.mResponse.onResult(this.mResult);
-
                 } else {
-                    /* TokenHelper.addAccount() only permits one access token. */
                     Toast.makeText(AuthenticatorActivity.this, "The access token has not been added.\nOnly one token is being supported", Toast.LENGTH_SHORT).show();
+                    this.mResult.putInt(AccountManager.KEY_ERROR_CODE, AccountManager.ERROR_CODE_UNSUPPORTED_OPERATION);
                 }
+                this.mResponse.onResult(this.mResult);
             }
         });
     }

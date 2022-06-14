@@ -16,7 +16,7 @@ import java.lang.ref.WeakReference;
 import io.syslogic.github.activity.AuthenticatorActivity;
 
 /**
- * Custom {@link AbstractAccountAuthenticator}.
+ * Custom {@link AbstractAccountAuthenticator}.<br/><br/>
  * TODO: implement abstract methods.
  * @author Martin Zeitler
  */
@@ -32,7 +32,7 @@ public class AccountAuthenticator extends AbstractAccountAuthenticator {
     /**
      * Returns a Bundle that contains the Intent of the activity that can be used to edit the
      * properties. In order to indicate success the activity should call response.setResult()
-     * with a non-null Bundle.
+     * with a non-null Bundle.<br/><br/>
      *
      * @param response used to set the result for the request.
      *                 If the Constants.INTENT_KEY is set in the bundle then this response field
@@ -50,13 +50,11 @@ public class AccountAuthenticator extends AbstractAccountAuthenticator {
             @NonNull AccountAuthenticatorResponse response,
             @NonNull String accountType
     ) {
-
         throw new UnsupportedOperationException();
     }
 
     /**
-     * Adds an account of the specified accountType.
-     *
+     * Adds an account of the specified accountType.<br/><br/>
      * @param response to send the result back to the AccountManager, will never be null
      * @param accountType the type of account to add, will never be null
      * @param authTokenType the type of auth token to retrieve after adding the account, may be null
@@ -66,7 +64,7 @@ public class AccountAuthenticator extends AbstractAccountAuthenticator {
      *                {@link AccountManager#KEY_CALLER_PID} and {@link AccountManager#KEY_CALLER_UID}
      *                fields which will let authenticator know the identity of the caller.
      *
-     * @return a Bundle result or null if the result is to be returned via the response.
+     * @return a Bundle result or null if the result is to be returned via the response.<br/><br/>
      *
      * The result will contain either:
      * <ul>
@@ -93,8 +91,7 @@ public class AccountAuthenticator extends AbstractAccountAuthenticator {
     }
 
     /**
-     * Checks that the user knows the credentials of an account.
-     *
+     * Checks that the user knows the credentials of an account.<br/><br/>
      * @param response to send the result back to the AccountManager, will never be null
      * @param account the account whose credentials are to be checked, will never be null
      * @param options a Bundle of authenticator-specific options, may be null
@@ -118,8 +115,7 @@ public class AccountAuthenticator extends AbstractAccountAuthenticator {
     }
 
     /**
-     * Gets an authtoken for an account.
-     *
+     * Gets an authtoken for an account.<br/><br/>
      * If not {@code null}, the resultant {@link Bundle} will contain different sets of keys
      * depending on whether a token was successfully issued and, if not, whether one
      * could be issued via some {@link android.app.Activity}.
@@ -168,7 +164,7 @@ public class AccountAuthenticator extends AbstractAccountAuthenticator {
     }
 
     /**
-     * Ask the authenticator for a localized label for the given authTokenType.
+     * Ask the authenticator for a localized label for the given authTokenType.<br/>
      * @param authTokenType the authTokenType whose label is to be returned, will never be null
      * @return the localized label of the auth token type, may be null if the type isn't known
      */
@@ -179,14 +175,14 @@ public class AccountAuthenticator extends AbstractAccountAuthenticator {
     }
 
     /**
-     * Update the locally stored credentials for an account.
+     * Update the locally stored credentials for an account.<br/><br/>
      * @param response to send the result back to the AccountManager, will never be null
      * @param account the account whose credentials are to be updated, will never be null
      * @param authTokenType the type of auth token to retrieve after updating the credentials,
      * may be null
      * @param options a Bundle of authenticator-specific options, may be null
-     * @return a Bundle result or null if the result is to be returned via the response. The result
-     * will contain either:
+     * @return a Bundle result or null if the result is to be returned via the response.<br/><br/>
+     * The result will contain either:
      * <ul>
      * <li> {@link AccountManager#KEY_INTENT}, or
      * <li> {@link AccountManager#KEY_ACCOUNT_NAME} and {@link AccountManager#KEY_ACCOUNT_TYPE} of
@@ -207,18 +203,16 @@ public class AccountAuthenticator extends AbstractAccountAuthenticator {
     }
 
     /**
-     * Checks if the account supports all the specified authenticator specific features.
+     * Checks if the account supports all the specified authenticator specific features.<br/><br/>
      * @param response to send the result back to the AccountManager, will never be null
      * @param account the account to check, will never be null
      * @param features an array of features to check, will never be null
-     * @return a Bundle result or null if the result is to be returned via the response. The result
-     * will contain either:
+     * @return a Bundle result or null if the result is to be returned via the response.<br/><br/>
+     * The result will contain either:
      * <ul>
      * <li> {@link AccountManager#KEY_INTENT}, or
-     * <li> {@link AccountManager#KEY_BOOLEAN_RESULT}, true if the account has all the features,
-     * false otherwise
-     * <li> {@link AccountManager#KEY_ERROR_CODE} and {@link AccountManager#KEY_ERROR_MESSAGE} to
-     * indicate an error
+     * <li> {@link AccountManager#KEY_BOOLEAN_RESULT}, true if the account has all the features, false otherwise
+     * <li> {@link AccountManager#KEY_ERROR_CODE} and {@link AccountManager#KEY_ERROR_MESSAGE} to indicate an error
      * </ul>
      */
     @Nullable
