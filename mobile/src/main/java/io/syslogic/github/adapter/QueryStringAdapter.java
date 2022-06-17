@@ -29,6 +29,7 @@ public class QueryStringAdapter extends BaseArrayAdapter {
         Abstraction.executorService.execute(() -> {
             final Activity activity = ((Activity) context);
             try {
+                assert dao != null;
                 List<QueryString> items = dao.getItems();
                 for (QueryString queryString : items) {
                     if (queryString.getTitle() != null) {

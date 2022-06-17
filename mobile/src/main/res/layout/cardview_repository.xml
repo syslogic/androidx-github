@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
         <variable name="item" type="io.syslogic.github.model.Repository"/>
+        <import type="android.text.TextUtils"/>
     </data>
 
     <androidx.cardview.widget.CardView
@@ -105,16 +107,26 @@
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
-            <!--
-            <com.google.android.material.chip.ChipGroup
-                android:id="@+id/chip_group"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/colorAccent"
-                android:padding="8dp"
-                app:singleLine="false"
-                app:chipSpacing="0dp"/>
-            -->
+            <!-- TODO: Repository Topics -->
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/repository_topics"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_height="match_parent"
+                    android:layout_width="wrap_content"
+                    android:gravity="center_vertical"
+                    android:padding="4dp"
+                    android:textSize="10sp"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:text='@{ TextUtils.join(", ", item.topics) }'
+                    tools:text="Android, Gradle, Java"
+                    tools:ignore="SmallSp"/>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
