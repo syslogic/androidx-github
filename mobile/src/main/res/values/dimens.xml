@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- ShapeableImageView -->
+    <dimen name="corner_size">50%</dimen>
+
+</resources>

@@ -37,4 +37,9 @@
         <item name="postSplashScreenTheme">@style/Theme.AppTheme</item> # Required.
     </style>
 
+    <style name="ShapeAppearanceOverlay.Topic" parent="ShapeAppearance.MaterialComponents.SmallComponent">
+        <item name="cornerSize">@dimen/corner_size</item>
+        <item name="cornerFamily">rounded</item>
+    </style>
+
 </resources>
