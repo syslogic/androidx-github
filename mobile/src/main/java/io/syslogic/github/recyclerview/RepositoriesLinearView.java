@@ -64,8 +64,8 @@ public class RepositoriesLinearView extends RecyclerView {
     @Nullable
     public String getQueryString() {
         RepositoriesAdapter adapter = ((RepositoriesAdapter) getAdapter());
-        if (adapter != null) {return adapter.getQueryString();}
-        return null;
+        if (adapter == null) {return null;}
+        return adapter.getQueryString();
     }
 
     @NonNull

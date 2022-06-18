@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.google.android.material.chip.Chip;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
@@ -20,6 +19,7 @@ import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import androidx.annotation.NonNull;
@@ -75,7 +75,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     private String queryString = "topic:android";
 
-    private boolean showTopics = false;
+    private final boolean showTopics;
 
     public RepositoriesAdapter(@NonNull Context context, @NonNull String queryString, @NonNull Boolean showTopics, @NonNull Integer pageNumber) {
         this.mContext = new WeakReference<>(context);
@@ -101,23 +101,15 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
-
         Repository item = getItem(position);
-        ((RepositoriesAdapter.ViewHolder) viewHolder).getDataBinding().setItem(item);
-
-        /* TODO: dynamically add topics. */
-        /*
+        CardviewRepositoryBinding binding = ((ViewHolder) viewHolder).getDataBinding();
+        binding.setItem(item);
         if (! this.showTopics) {
-            ((RepositoriesAdapter.ViewHolder) viewHolder).getDataBinding().chipGroup.setVisibility(View.GONE);
+            binding.recyclerviewTopics.setVisibility(View.GONE);
         } else {
-            String[] topics = item.getTopics();
-            for (String topic : topics) {
-                Chip chip = new Chip(this.getContext());
-                chip.setText(topic);
-                ((RepositoriesAdapter.ViewHolder) viewHolder).getDataBinding().chipGroup.addView(chip);
-            }
+            TopicsAdapter adapter = new TopicsAdapter(List.of(item.getTopics()));
+            binding.recyclerviewTopics.setAdapter(adapter);
         }
-        */
     }
 
     private Repository getItem(int index) {
@@ -139,7 +131,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
             Call<Repositories> api = GithubClient.getRepositories(accessToken, this.queryString,"stars","desc", pageNumber);
             if (BuildConfig.DEBUG) {Log.w(LOG_TAG, api.request().url() + "");}
-            api.enqueue(new Callback<Repositories>() {
+            api.enqueue(new Callback<>() {
 
                 @Override
                 public void onResponse(@NonNull Call<Repositories> call, @NonNull Response<Repositories> response) {
@@ -263,16 +255,22 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     protected void getRateLimit(@SuppressWarnings("SameParameterValue") @NonNull final String resourceName) {
         Call<RateLimits> api = GithubClient.getRateLimits();
         if (BuildConfig.DEBUG) {Log.w(LOG_TAG, api.request().url() + "");}
-        api.enqueue(new Callback<RateLimits>() {
+        api.enqueue(new Callback<>() {
             @Override
             public void onResponse(@NonNull Call<RateLimits> call, @NonNull Response<RateLimits> response) {
                 if (response.code() == 200 && response.body() != null) {
                     RateLimits items = response.body();
                     RateLimit limit = null;
-                    switch(resourceName) {
-                        case "graphql": limit = items.getResources().getGraphql(); break;
-                        case "search": limit = items.getResources().getSearch(); break;
-                        case "core": limit = items.getResources().getCore(); break;
+                    switch (resourceName) {
+                        case "graphql":
+                            limit = items.getResources().getGraphql();
+                            break;
+                        case "search":
+                            limit = items.getResources().getSearch();
+                            break;
+                        case "core":
+                            limit = items.getResources().getCore();
+                            break;
                     }
                     if (limit != null && BuildConfig.DEBUG) {
                         long seconds = (long) Math.ceil((new Date(limit.getReset() * 1000).getTime() - Math.ceil(new Date().getTime()) / 1000));
@@ -286,9 +284,12 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     }
                 }
             }
+
             @Override
             public void onFailure(@NonNull Call<RateLimits> call, @NonNull Throwable t) {
-                if (mDebug) {Log.e(LOG_TAG, "" + t.getMessage());}
+                if (mDebug) {
+                    Log.e(LOG_TAG, "" + t.getMessage());
+                }
             }
         });
     }
@@ -330,24 +331,16 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     /** {@link RecyclerView.ViewHolder} for {@link CardView} of type {@link Repository}. */
     private static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        private CardviewRepositoryBinding mDataBinding;
-        private CardView cardView;
-        private long itemId;
+        private final CardviewRepositoryBinding mDataBinding;
 
         /**
          * ViewHolder Constructor
          * @param binding the item's data-binding
         **/
         ViewHolder(@NonNull CardviewRepositoryBinding binding) {
-
             super(binding.getRoot());
+            binding.cardview.setOnClickListener(this);
             this.mDataBinding = binding;
-
-            View layout = binding.getRoot();
-            this.setCardView(layout.findViewById(R.id.cardview));
-            if (this.cardView != null) {
-                this.cardView.setOnClickListener(this);
-            }
         }
 
         @Override
@@ -363,11 +356,6 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 NavController controller = Navigation.findNavController(layout);
                 controller.navigate(R.id.action_repositoriesFragment_to_repositoryFragment, args);
             }
-        }
-
-        /** Setters */
-        void setCardView(CardView view) {
-            this.cardView = view;
         }
 
         /** Getters */

@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
         <variable name="item" type="io.syslogic.github.model.Repository"/>
@@ -38,6 +37,8 @@
                     android:color="?android:colorControlHighlight"
                     android:fontFamily="sans-serif-medium"
                     android:gravity="center_vertical|start"
+                    android:ellipsize="marquee"
+                    android:singleLine="true"
                     android:padding="8dp"
                     android:text="@{ item.fullName }"
                     android:textColor="@color/colorText"
@@ -107,26 +108,12 @@
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
-            <!-- TODO: Repository Topics -->
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:id="@+id/repository_topics"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_height="match_parent"
-                    android:layout_width="wrap_content"
-                    android:gravity="center_vertical"
-                    android:padding="4dp"
-                    android:textSize="10sp"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:text='@{ TextUtils.join(", ", item.topics) }'
-                    tools:text="Android, Gradle, Java"
-                    tools:ignore="SmallSp"/>
-
-            </androidx.appcompat.widget.LinearLayoutCompat>
+            <io.syslogic.github.recyclerview.TopicsFlexboxView
+                android:id="@+id/recyclerview_topics"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:listitem="@layout/cardview_topic"
+                tools:itemCount="6"/>
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 

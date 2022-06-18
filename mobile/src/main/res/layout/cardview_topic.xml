@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable name="item" type="java.lang.String"/>
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardview"
+        style="@style/Widget.Material3.CardView.Outlined"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:clickable="true"
+        android:focusable="true"
+        android:tag="@{ item }">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/topic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical|center"
+            android:color="?android:colorControlHighlight"
+            android:fontFamily="sans-serif-medium"
+            android:padding="8dp"
+            android:text="@{ item }"
+            android:textColor="@color/colorText"
+            android:textSize="12sp"
+            tools:ignore="SmallSp"
+            tools:text="Java"/>
+
+    </com.google.android.material.card.MaterialCardView>
+
+</layout>

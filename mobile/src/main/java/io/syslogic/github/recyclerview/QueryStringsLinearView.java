@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
  * Topics {@link RecyclerView}
  *
  * @author Martin Zeitler
-**/
+ */
 public class QueryStringsLinearView extends RecyclerView {
 
     LinearLayoutManager mLinearLayoutManager;

@@ -150,11 +150,6 @@ public class RepositoryFragment extends BaseFragment implements TokenCallback {
         downloadZipball(this.getDataBinding().getRepository(), branch);
     }
 
-    @NonNull
-    private Long getItemId() {
-        return this.itemId;
-    }
-
     private void setItemId(@NonNull Long value) {
         this.itemId = value;
     }
@@ -205,11 +200,11 @@ public class RepositoryFragment extends BaseFragment implements TokenCallback {
             Call<Repository> api = GithubClient.getRepository(this.itemId);
             if (mDebug) {Log.w(LOG_TAG, api.request().url() + "");}
 
-            api.enqueue(new Callback<Repository>() {
+            api.enqueue(new Callback<>() {
 
                 @Override
                 public void onResponse(@NonNull Call<Repository> call, @NonNull Response<Repository> response) {
-                    switch(response.code()) {
+                    switch (response.code()) {
 
                         case 200: {
                             if (response.body() != null) {
@@ -231,7 +226,9 @@ public class RepositoryFragment extends BaseFragment implements TokenCallback {
                                         Log.e(LOG_TAG, message);
                                     }
                                 } catch (IOException e) {
-                                    if (mDebug) {Log.e(LOG_TAG, "" + e.getMessage());}
+                                    if (mDebug) {
+                                        Log.e(LOG_TAG, "" + e.getMessage());
+                                    }
                                 }
                             }
                             break;
@@ -241,7 +238,9 @@ public class RepositoryFragment extends BaseFragment implements TokenCallback {
 
                 @Override
                 public void onFailure(@NonNull Call<Repository> call, @NonNull Throwable t) {
-                    if (mDebug) {Log.e(LOG_TAG, "" + t.getMessage());}
+                    if (mDebug) {
+                        Log.e(LOG_TAG, "" + t.getMessage());
+                    }
                 }
             });
         }
@@ -253,11 +252,11 @@ public class RepositoryFragment extends BaseFragment implements TokenCallback {
         if (mDebug) {Log.w(LOG_TAG, api.request().url() + "");}
         final String repoName = item.getName();
 
-        api.enqueue(new Callback<ArrayList<Branch>>() {
+        api.enqueue(new Callback<>() {
 
             @Override
             public void onResponse(@NonNull Call<ArrayList<Branch>> call, @NonNull Response<ArrayList<Branch>> response) {
-                switch(response.code()) {
+                switch (response.code()) {
 
                     case 200: {
                         if (response.body() != null && getContext() != null) {
@@ -269,7 +268,7 @@ public class RepositoryFragment extends BaseFragment implements TokenCallback {
                             /* debug output */
                             if (mDebug && Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                                 ArrayList<String> elements = new ArrayList<>();
-                                for(int i=0; i < items.size(); i++) {
+                                for (int i = 0; i < items.size(); i++) {
                                     String name = items.get(i).getName();
                                     elements.add(i, name);
                                 }
@@ -279,13 +278,13 @@ public class RepositoryFragment extends BaseFragment implements TokenCallback {
 
                             /* attempting to select branch master */
                             int defaultIndex = -1;
-                            for(int i=0; i < items.size(); i++) {
+                            for (int i = 0; i < items.size(); i++) {
                                 if (items.get(i).getName().equals("main") && items.get(i).getName().equals("master")) {
                                     if (mDebug) {
                                         String formatString = getContext().getResources().getString(R.string.debug_branch_master);
                                         Log.d(LOG_TAG, String.format(formatString, repoName, i));
                                     }
-                                    defaultIndex=i;
+                                    defaultIndex = i;
                                 }
                             }
 
@@ -297,8 +296,8 @@ public class RepositoryFragment extends BaseFragment implements TokenCallback {
                             if (getActivity() != null && defaultIndex > 0) {
                                 final int index = defaultIndex;
                                 getDataBinding().toolbarDownload.spinnerBranch.postDelayed(() ->
-                                    getDataBinding().toolbarDownload.spinnerBranch.setSelection(index, false),
-                                   100
+                                                getDataBinding().toolbarDownload.spinnerBranch.setSelection(index, false),
+                                        100
                                 );
                             }
                         }
@@ -316,7 +315,9 @@ public class RepositoryFragment extends BaseFragment implements TokenCallback {
                                     Log.e(LOG_TAG, message);
                                 }
                             } catch (IOException e) {
-                                if (mDebug) {Log.e(LOG_TAG, "" + e.getMessage());}
+                                if (mDebug) {
+                                    Log.e(LOG_TAG, "" + e.getMessage());
+                                }
                             }
                         }
                         break;
@@ -326,7 +327,9 @@ public class RepositoryFragment extends BaseFragment implements TokenCallback {
 
             @Override
             public void onFailure(@NonNull Call<ArrayList<Branch>> call, @NonNull Throwable t) {
-                if (mDebug) {Log.e(LOG_TAG, "" + t.getMessage());}
+                if (mDebug) {
+                    Log.e(LOG_TAG, "" + t.getMessage());
+                }
             }
         });
     }
@@ -335,6 +338,7 @@ public class RepositoryFragment extends BaseFragment implements TokenCallback {
         downloadRepository(item, "zipball", branch);
     }
 
+    @SuppressWarnings("unused")
     void downloadTarball(Repository item, String branch) {
         downloadRepository(item, "tarball", branch);
     }
@@ -345,12 +349,12 @@ public class RepositoryFragment extends BaseFragment implements TokenCallback {
         Call<ResponseBody> api = GithubClient.getArchiveLink(token, item.getOwner().getLogin(), item.getName(), archiveFormat, branch);
         if (mDebug) {Log.d(LOG_TAG, api.request().url() + "");}
 
-        api.enqueue(new Callback<ResponseBody>() {
+        api.enqueue(new Callback<>() {
 
             @Override
             public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
                 Headers headers = response.headers();
-                switch(response.raw().code()) {
+                switch (response.raw().code()) {
 
                     case 200: /* OkHttp will only enter this branch with redirects enabled (useless for the DownloadManager). */
                         break;
@@ -360,14 +364,18 @@ public class RepositoryFragment extends BaseFragment implements TokenCallback {
                         break;
 
                     default:
-                        if (mDebug) {Log.e(LOG_TAG, response.raw().code() + " " + response.raw().message());}
+                        if (mDebug) {
+                            Log.e(LOG_TAG, response.raw().code() + " " + response.raw().message());
+                        }
                         break;
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
-                if (mDebug) {Log.e(LOG_TAG, "" + t.getMessage());}
+                if (mDebug) {
+                    Log.e(LOG_TAG, "" + t.getMessage());
+                }
             }
         });
     }
@@ -378,28 +386,27 @@ public class RepositoryFragment extends BaseFragment implements TokenCallback {
         Call<Void> api = GithubClient.getHead(url);
         if (mDebug) {Log.d(LOG_TAG, api.request().url() + "");}
 
-        api.enqueue(new Callback<Void>() {
+        api.enqueue(new Callback<>() {
 
             @Override
             public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
-                switch(response.raw().code()) {
-
-                    case 200:
-                        Headers headers = response.headers();
-                        String mimeType = "application/" + (archiveFormat.equals("zipball") ? "zip" : "tar+gzip");
-                        String filename = URLUtil.guessFileName(url, headers.get("Content-Disposition"), mimeType);
-                        enqueueDownload(url, filename, archiveFormat);
-                        break;
-
-                    default:
-                        if (mDebug) {Log.e(LOG_TAG, response.raw().code() + " " + response.raw().message());}
-                        break;
+                if (response.raw().code() == 200) {
+                    Headers headers = response.headers();
+                    String mimeType = "application/" + (archiveFormat.equals("zipball") ? "zip" : "tar+gzip");
+                    String filename = URLUtil.guessFileName(url, headers.get("Content-Disposition"), mimeType);
+                    enqueueDownload(url, filename, archiveFormat);
+                } else {
+                    if (mDebug) {
+                        Log.e(LOG_TAG, response.raw().code() + " " + response.raw().message());
+                    }
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
-                if (mDebug) {Log.e(LOG_TAG, "" + t.getMessage());}
+                if (mDebug) {
+                    Log.e(LOG_TAG, "" + t.getMessage());
+                }
             }
         });
     }
@@ -449,6 +456,7 @@ public class RepositoryFragment extends BaseFragment implements TokenCallback {
         }
     }
 
+    @SuppressWarnings("unused")
     public void showDownloads() {
         Intent intent = new Intent();
         intent.setAction(DownloadManager.ACTION_VIEW_DOWNLOADS);

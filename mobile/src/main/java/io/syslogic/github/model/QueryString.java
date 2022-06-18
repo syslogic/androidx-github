@@ -150,7 +150,6 @@ public class QueryString extends BaseModel implements IContentProvider {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(new Date());
         calendar.add(Calendar.DAY_OF_YEAR, -this.getParameter());
-        String isodate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(calendar.getTime());
         return this.getSearch() + this.getDateFilter();
     }
 

@@ -35,7 +35,8 @@ import io.syslogic.github.room.QueryStringsDao;
     @BindingMethod(
             type = com.google.android.material.textfield.TextInputEditText.class,
             attribute = "android:onEditorAction",
-            method = "setOnEditorActionListener")
+            method = "setOnEditorActionListener"
+    )
 })
 public class QueryStringFragment extends BaseFragment {
 
@@ -83,6 +84,7 @@ public class QueryStringFragment extends BaseFragment {
             QueryStringsDao dao = Abstraction.getInstance(requireContext()).queryStringsDao();
             QueryString item = this.getDataBinding().getItem();
             Abstraction.executorService.execute(() -> {
+                assert dao != null;
                 if (itemId == -1L) {itemId = dao.insert(item);}
                 else {dao.update(item);}
                 requireActivity().runOnUiThread(() -> {
@@ -98,6 +100,7 @@ public class QueryStringFragment extends BaseFragment {
         } else {
             QueryStringsDao dao = Abstraction.getInstance(requireContext()).queryStringsDao();
             Abstraction.executorService.execute(() -> {
+                assert dao != null;
                 QueryString item = dao.getItem(getItemId());
                 this.getDataBinding().setItem(item);
             });
@@ -115,6 +118,7 @@ public class QueryStringFragment extends BaseFragment {
         this.itemId = value;
     }
 
+    @SuppressWarnings("unused")
     public boolean setOnEditorActionListener(@NonNull TextView view, @NonNull KeyEvent event, int actionId) {
         return true;
     }

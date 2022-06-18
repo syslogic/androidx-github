@@ -54,7 +54,7 @@ abstract public class BaseFragment extends Fragment implements ConnectivityListe
 
     @Nullable User currentUser = null;
 
-    @NonNull SharedPreferences prefs;
+    @Nullable SharedPreferences prefs;
     @NonNull Boolean contentLoaded = false;
 
     /** Constructor */
@@ -151,6 +151,7 @@ abstract public class BaseFragment extends Fragment implements ConnectivityListe
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            //noinspection StatementWithEmptyBody
             if (requestCode == Constants.REQUESTCODE_ADD_ACCESS_TOKEN) {
                 // setUser(this.accessToken, BaseFragment.this);
             }
@@ -181,11 +182,11 @@ abstract public class BaseFragment extends Fragment implements ConnectivityListe
         Call<User> api = GithubClient.getUser(accessToken);
         if (mDebug) {Log.w(LOG_TAG, api.request().url() + "");}
 
-        api.enqueue(new Callback<User>() {
+        api.enqueue(new Callback<>() {
 
             @Override
             public void onResponse(@NonNull Call<User> call, @NonNull Response<User> response) {
-                switch(response.code()) {
+                switch (response.code()) {
 
                     case 200: {
                         if (response.body() != null) {
@@ -195,7 +196,9 @@ abstract public class BaseFragment extends Fragment implements ConnectivityListe
                                 String message = String.format(formatString, item.getLogin());
                                 Log.d("Github API", message);
                             }
-                            if (listener != null) {listener.onLogin(item);}
+                            if (listener != null) {
+                                listener.onLogin(item);
+                            }
                             setCurrentUser(item);
                         }
                         break;
@@ -212,7 +215,9 @@ abstract public class BaseFragment extends Fragment implements ConnectivityListe
                                     Log.e(LOG_TAG, message);
                                 }
                             } catch (IOException e) {
-                                if (mDebug) {Log.e(LOG_TAG, "" + e.getMessage());}
+                                if (mDebug) {
+                                    Log.e(LOG_TAG, "" + e.getMessage());
+                                }
                             }
                         }
                         break;
