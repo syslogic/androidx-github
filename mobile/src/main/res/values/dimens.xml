@@ -2,6 +2,6 @@
 <resources>
 
     <!-- ShapeableImageView -->
-    <dimen name="corner_size">50%</dimen>
+    <dimen name="corner_size">25%</dimen>
 
 </resources>

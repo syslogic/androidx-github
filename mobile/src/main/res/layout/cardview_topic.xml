@@ -11,6 +11,8 @@
     <!-- https://m3.material.io/components/cards/implementation/android -->
     <com.google.android.material.card.MaterialCardView
         style="?attr/materialCardViewElevatedStyle"
+        card_view:shapeAppearance="@style/ShapeAppearanceOverlay.Topic"
+        card_view:cardBackgroundColor="@color/design_default_color_secondary_variant"
         card_view:cardUseCompatPadding="true"
         android:id="@+id/cardview"
         android:layout_height="wrap_content"
@@ -29,9 +31,9 @@
             android:fontFamily="sans-serif-light"
             android:text="@{ item }"
             android:textColor="@color/colorText"
-            android:letterSpacing="0.06"
+            android:letterSpacing="0.08"
             android:textSize="12sp"
-            android:padding="6dp"
+            android:padding="8dp"
             tools:ignore="SmallSp"
             tools:text="@string/tools_current_topic"/>
 
