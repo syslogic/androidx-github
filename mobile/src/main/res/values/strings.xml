@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <string name="app_name">GitHub API Client</string>
+
     <string name="title_account_authenticator">"Account Authenticator</string>
     <string name="summary_account_authenticator">TODO</string>
 
@@ -12,8 +13,8 @@
     <string name="title_personal_access_token">Personal Access Token</string>
     <string name="summary_personal_access_token">Open Android Account Manager</string>
 
-    <string name="title_preference_repository_topics">Show Topics</string>
-    <string name="summary_preference_repository_topics">Show repository topics in the listing</string>
+    <string name="title_preference_show_repository_topics">Show Repository Topics</string>
+    <string name="summary_preference_show_repository_topics">This permits to browse by topic</string>
 
     <string name="title_preference_debug_logging">Debug Logging</string>
     <string name="summary_preference_debug_logging">Enable verbose logging</string>
@@ -34,6 +35,8 @@
     <string name="text_pager_offline">device is offline</string>
     <string name="text_pager_loading">loading page %1$d of %2$d</string>
     <string name="text_pager_loaded">loaded page %1$d of %2$d</string>
+
+    <string name="text_current_topic">Topic: %s</string>
 
     <string name="debug_token_auth">authenticated with token as user %1$s.</string>
     <string name="debug_branch_list">%1$s has %2$d branches: %3$s</string>

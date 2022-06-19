@@ -7,7 +7,8 @@
         <variable name="item" type="io.syslogic.github.model.QueryString"/>
     </data>
 
-    <androidx.cardview.widget.CardView
+    <com.google.android.material.card.MaterialCardView
+        style="?attr/materialCardViewStyle"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:id="@+id/cardview"
@@ -108,6 +109,6 @@
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
-    </androidx.cardview.widget.CardView>
+    </com.google.android.material.card.MaterialCardView>
 
 </layout>

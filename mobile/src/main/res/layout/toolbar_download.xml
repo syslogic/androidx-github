@@ -49,7 +49,7 @@
                     android:layout_width="48dp"
                     android:layout_height="match_parent"
                     android:background="@null"
-                    android:src="@drawable/baseline_cloud_download_white_24"/>
+                    android:src="@drawable/ic_baseline_cloud_download_48"/>
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 

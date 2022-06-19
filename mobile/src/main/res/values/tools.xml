@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
 
+    <string name="tools_full_name">syslogic/androidx-github</string>
+    <string name="tools_current_topic">Android</string>
     <string name="tools_query_string" tools:ignore="TypographyDashes">topic:android+pushed:>2021-10-15</string>
     <string name="tools_fork_count">8498</string>
     <string name="tools_watcher_count">30144</string>

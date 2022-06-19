@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data />
 
@@ -34,6 +34,13 @@
                 android:padding="15dp"
                 android:src="?attr/homeAsUpIndicator"
                 android:visibility="invisible"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/text_current_topic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|end"
+                tools:text="@string/tools_current_topic"/>
 
             <androidx.appcompat.widget.AppCompatSpinner
                 android:id="@+id/spinner_query_string"

@@ -11,10 +11,10 @@
             app:summary="@string/summary_intent_account_settings"/>
 
         <SwitchPreferenceCompat
-            app:key="repository_topics"
+            app:key="show_repository_topics"
             app:defaultValue="false"
-            app:title="@string/title_preference_repository_topics"
-            app:summary="@string/summary_preference_repository_topics"/>
+            app:title="@string/title_preference_show_repository_topics"
+            app:summary="@string/summary_preference_show_repository_topics"/>
 
         <SwitchPreferenceCompat
             app:key="debug_logging"
