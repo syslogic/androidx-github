@@ -27,7 +27,7 @@ public class TopicsFlexboxView extends RecyclerView {
     public TopicsFlexboxView(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         FlexboxLayoutManager layoutManager = new FlexboxLayoutManager(context);
-        layoutManager.setJustifyContent(JustifyContent.FLEX_START);
+        layoutManager.setJustifyContent(JustifyContent.FLEX_END);
         layoutManager.setFlexDirection(FlexDirection.ROW);
         this.setLayoutManager(layoutManager);
     }

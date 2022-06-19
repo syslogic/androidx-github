@@ -80,12 +80,13 @@ public class TopicsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             BaseActivity activity = (BaseActivity) mRecyclerView.getContext();
             FragmentRepositoriesBinding databinding = (FragmentRepositoriesBinding) activity.getFragmentDataBinding();
 
-            /* TODO: navigate... */
+            /* Set the query-string on the adapter and reload it. */
             if (databinding != null) {
                 ScrollListener.setPageNumber(1);
 
-                String queryString = "topic:" + item; // TODO
+                String queryString = "topic:" + item;
                 databinding.recyclerviewRepositories.setQueryString(queryString);
+
 
                 PagerState pagerState = databinding.getPagerState();
                 if (pagerState != null) {
@@ -93,9 +94,7 @@ public class TopicsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     databinding.setPagerState(pagerState);
                 }
                 databinding.toolbarRepositories.spinnerQueryString.setVisibility(View.INVISIBLE);
-                if (databinding.toolbarRepositories.spinnerQueryString.getAdapter() != null) {
-                    // databinding.toolbarRepositories.spinnerQueryString.getAdapter()
-                }
+                databinding.toolbarRepositories.textCurrentTopic.setText(activity.getString(R.string.text_current_topic, item));
                 if (databinding.recyclerviewRepositories.getAdapter() != null) {
                     databinding.recyclerviewRepositories.clearAdapter();
                     ((RepositoriesAdapter) databinding.recyclerviewRepositories.getAdapter()).fetchPage(1);

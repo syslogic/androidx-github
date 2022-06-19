@@ -29,9 +29,9 @@ public final class Constants {
     @NonNull public static final Integer RECYCLERVIEW_DEFAULT_PAGE_SIZE   = 30;
 
     /** Preference Keys */
-    @NonNull public static final String PREFERENCE_KEY_ACCOUNT_SETTINGS  = "account_settings";
-    @NonNull public static final String PREFERENCE_KEY_REPOSITORY_TOPICS = "repository_topics";
-    @NonNull public static final String PREFERENCE_KEY_DEBUG_LOGGING     = "debug_logging";
+    @NonNull public static final String PREFERENCE_KEY_ACCOUNT_SETTINGS       = "account_settings";
+    @NonNull public static final String PREFERENCE_KEY_SHOW_REPOSITORY_TOPICS = "show_repository_topics";
+    @NonNull public static final String PREFERENCE_KEY_DEBUG_LOGGING          = "debug_logging";
 
     /** Table Names */
     @NonNull public static final String TABLE_QUERY_STRINGS = "query_strings";
