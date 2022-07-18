@@ -34,8 +34,12 @@ android {
     }
 
     signingConfigs {
-        debug {}
-        release {}
+        debug {
+
+        }
+        release {
+
+        }
     }
 
     sourceSets {
@@ -105,12 +109,12 @@ dependencies {
     implementation "androidx.cardview:cardview:1.0.0"
 
     // Navigation
-    androidTestImplementation "androidx.navigation:navigation-testing:2.4.2"
-    implementation "androidx.navigation:navigation-fragment:2.4.2"
+    androidTestImplementation "androidx.navigation:navigation-testing:2.5.0"
+    implementation "androidx.navigation:navigation-fragment:2.5.0"
 
     // Fragment
-    androidTestImplementation "androidx.fragment:fragment-testing:1.4.1"
-    implementation "androidx.fragment:fragment:1.4.1"
+    androidTestImplementation "androidx.fragment:fragment-testing:1.5.0"
+    implementation "androidx.fragment:fragment:1.5.0"
 
     // Room
     annotationProcessor "androidx.room:room-compiler:2.4.2"

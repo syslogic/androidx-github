@@ -2,7 +2,7 @@
 
 plugins {
     id 'com.android.application' version '7.2.1' apply false
-    id 'androidx.navigation.safeargs' version '2.5.0-rc01' apply false
+    id 'androidx.navigation.safeargs' version '2.5.0' apply false
 }
 
 /** Version Settings, loaded from file `version.properties` */
@@ -37,7 +37,7 @@ allprojects {
         resolutionStrategy.eachDependency { DependencyResolveDetails details ->
             def requested = details.requested
             if (requested.group == 'org.jetbrains.kotlin') {
-                def kotlinVersion = '1.6.21'
+                def kotlinVersion = '1.7.0'
                 List<String> list = ['kotlin-stdlib', 'kotlin-stdlib-jdk7', 'kotlin-stdlib-jdk8', 'kotlin-stdlib-common']
                 if (list.contains(requested.name)) {
                     details.useVersion kotlinVersion
