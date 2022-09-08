@@ -102,15 +102,15 @@ dependencies {
     implementation 'com.google.android.flexbox:flexbox:3.0.0'
 
     // https://developer.android.com/jetpack/androidx/
-    implementation "androidx.appcompat:appcompat:1.5.0"
+    implementation "androidx.appcompat:appcompat:1.5.1"
     implementation "androidx.core:core-splashscreen:1.0.0"
     implementation "androidx.recyclerview:recyclerview:1.2.1"
     implementation "androidx.preference:preference:1.2.0"
     implementation "androidx.cardview:cardview:1.0.0"
 
     // Navigation
-    androidTestImplementation "androidx.navigation:navigation-testing:2.5.1"
-    implementation "androidx.navigation:navigation-fragment:2.5.1"
+    androidTestImplementation "androidx.navigation:navigation-testing:2.5.2"
+    implementation "androidx.navigation:navigation-fragment:2.5.2"
 
     // Fragment
     androidTestImplementation "androidx.fragment:fragment-testing:1.5.2"
