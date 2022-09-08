@@ -14,7 +14,7 @@ import io.syslogic.github.R;
 import io.syslogic.github.databinding.FragmentNavHostBinding;
 
 /**
- * The NavHost {@link BaseActivity} using {@link SplashScreen}.
+ * The NavHost {@link BaseActivity} using {@link SplashScreen}
  *
  * @author Martin Zeitler
  */
@@ -49,17 +49,19 @@ public class NavHostActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
 
         /* When starting the Activity for the first time. */
-        if (savedInstanceState == null) {
-            SplashScreen.installSplashScreen(this);
-        }
+        if (savedInstanceState == null) {SplashScreen.installSplashScreen(this);}
 
-        this.setDataBinding(FragmentNavHostBinding.inflate(getLayoutInflater(), findViewById(android.R.id.content), true));
+        this.setDataBinding(FragmentNavHostBinding
+                .inflate(getLayoutInflater(), findViewById(android.R.id.content), true));
         this.setNavController();
     }
 
     private void setNavController() {
-        NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_navhost);
-        if (navHostFragment != null) {this.navController = NavHostFragment.findNavController(navHostFragment);}
+        NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.fragment_navhost);
+        if (navHostFragment != null) {
+            this.navController = NavHostFragment.findNavController(navHostFragment);
+        }
     }
 
     @SuppressWarnings("unused")

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources
-    xmlns:tools="http://schemas.android.com/tools">
+<resources>
 
     <string name="app_name">GitHub API Client</string>
 
@@ -20,8 +19,8 @@
     <string name="summary_preference_debug_logging">Enable verbose logging</string>
 
     <string name="menu_action_preferences">Preferences</string>
-    <string name="menu_action_bookmarks">Bookmarks</string>
-    <string name="menu_action_add_bookmark">Add Bookmark</string>
+    <string name="menu_action_query_strings">Bookmarks</string>
+    <string name="menu_action_bookmark_add">Add Bookmark</string>
 
     <string name="text_bookmarks">Bookmarks</string>
     <string name="text_edit_bookmark">Edit Bookmark</string>

@@ -13,9 +13,9 @@
         app:showAsAction="ifRoom"/>
 
     <item
-        android:id="@+id/menu_action_bookmarks"
+        android:id="@+id/menu_action_query_strings"
         android:icon="@drawable/ic_baseline_bookmarks_48"
-        android:title="@string/menu_action_bookmarks"
+        android:title="@string/menu_action_query_strings"
         android:orderInCategory="101"
         app:showAsAction="always"/>
 

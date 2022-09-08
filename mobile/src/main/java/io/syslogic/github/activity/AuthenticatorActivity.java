@@ -17,7 +17,7 @@ import io.syslogic.github.databinding.FragmentAccessTokenBinding;
 import io.syslogic.github.network.TokenHelper;
 
 /**
- * The Authenticator {@link BaseActivity}.
+ * The Authenticator {@link BaseActivity}
  *
  * @author Martin Zeitler
  */

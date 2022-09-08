@@ -5,17 +5,24 @@ import androidx.annotation.Nullable;
 import androidx.databinding.ViewDataBinding;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Lifecycle;
 import androidx.navigation.fragment.NavHostFragment;
 
 import io.syslogic.github.R;
 import io.syslogic.github.fragment.BaseFragment;
+import io.syslogic.github.provider.BaseMenuProvider;
 
 /**
- * The Base {@link AppCompatActivity}.
+ * The Base {@link AppCompatActivity}
  *
  * @author Martin Zeitler
  */
 abstract public class BaseActivity extends AppCompatActivity {
+
+    /** Menu Provider */
+    BaseMenuProvider mMenuProvider = null;
+
+    public BaseActivity() {}
 
     @Nullable
     protected BaseFragment currentFragment = null;
@@ -47,5 +54,11 @@ abstract public class BaseActivity extends AppCompatActivity {
         if (this.currentFragment != null) {
             this.currentFragment.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
+    }
+
+    public void setMenuProvider(BaseMenuProvider menuProvider) {
+        if (mMenuProvider != null) {removeMenuProvider(mMenuProvider);}
+        addMenuProvider(menuProvider, this, Lifecycle.State.RESUMED);
+        mMenuProvider = menuProvider;
     }
 }

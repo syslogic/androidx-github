@@ -444,7 +444,7 @@ public class RepositoryFragment extends BaseFragment implements TokenCallback {
                                     int colLocalUri = c.getColumnIndex(DownloadManager.COLUMN_LOCAL_URI);
                                     if (DownloadManager.STATUS_SUCCESSFUL == c.getInt(colStatus)) {
                                         String uri = c.getString(colLocalUri);
-                                        if (mDebug) {Log.d(LOG_TAG, "" + uri);                                   }
+                                        if (mDebug) {Log.d(LOG_TAG, "" + uri);}
                                     }
                                 }
                             }

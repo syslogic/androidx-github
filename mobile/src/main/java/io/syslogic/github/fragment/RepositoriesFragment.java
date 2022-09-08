@@ -3,8 +3,6 @@ package io.syslogic.github.fragment;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -13,8 +11,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatSpinner;
 import androidx.databinding.ViewDataBinding;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 
 import java.util.List;
 
@@ -28,6 +24,8 @@ import io.syslogic.github.adapter.QueryStringAdapter;
 import io.syslogic.github.databinding.FragmentRepositoriesBinding;
 import io.syslogic.github.model.User;
 import io.syslogic.github.network.TokenCallback;
+import io.syslogic.github.provider.QueryStringsMenuProvider;
+import io.syslogic.github.provider.SettingsMenuProvider;
 import io.syslogic.github.recyclerview.RepositoriesAdapter;
 import io.syslogic.github.recyclerview.RepositoriesLinearView;
 import io.syslogic.github.recyclerview.ScrollListener;
@@ -59,27 +57,17 @@ public class RepositoriesFragment extends BaseFragment implements TokenCallback 
     @NonNull
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        BaseActivity activity = ((BaseActivity) this.requireActivity());
         if (savedInstanceState == null) {
 
             this.setDataBinding(FragmentRepositoriesBinding.inflate(inflater, container, false));
             this.getDataBinding().setPagerState(new PagerState());
-            this.setHasOptionsMenu(true);
 
-            /* Setting up the toolbar, in order to show the topics editor. */
-            ((BaseActivity) this.requireActivity()).setSupportActionBar(this.getDataBinding().toolbarRepositories.toolbarQuery);
-            this.getDataBinding().toolbarRepositories.toolbarQuery.setOnMenuItemClickListener(item -> {
-                NavController controller = Navigation.findNavController(this.getDataBinding().getRoot());
-                if (item.getItemId() == R.id.menu_action_bookmarks) {
-                    controller.navigate(R.id.action_repositoriesFragment_to_queryStringsGraph);
-                    return false;
-                } else if (item.getItemId() == R.id.menu_action_preferences) {
-                    controller.navigate(R.id.action_repositoriesFragment_to_preferencesFragment);
-                    return false;
-                } else {
-                    return super.onOptionsItemSelected(item);
-                }});
+            /* It removes & adds {@link BaseMenuProvider} */
+            activity.setMenuProvider(new SettingsMenuProvider(activity));
 
             // the SpinnerItem has the same ID as the QueryString.
+            activity.setSupportActionBar(this.getDataBinding().toolbarRepositories.toolbarQuery);
             AppCompatSpinner spinner = this.getDataBinding().toolbarRepositories.spinnerQueryString;
             spinner.setAdapter(new QueryStringAdapter(requireContext()));
             spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -143,12 +131,6 @@ public class RepositoriesFragment extends BaseFragment implements TokenCallback 
             }
         }
         return this.getDataBinding().getRoot();
-    }
-
-    @Override
-    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.settings, menu);
     }
 
     @NonNull
