@@ -23,6 +23,9 @@
         <action
             android:id="@+id/action_repositoriesFragment_to_preferencesFragment"
             app:destination="@id/preferencesFragment" />
+        <action
+            android:id="@+id/action_repositoriesFragment_to_workflowFragment"
+            app:destination="@id/workflowFragment" />
     </fragment>
 
     <fragment
@@ -64,5 +67,11 @@
             <argument app:argType="long" android:name="itemId" android:defaultValue="-1L"/>
         </fragment>
     </navigation>
+
+    <fragment
+        android:id="@+id/workflowFragment"
+        android:name="io.syslogic.github.fragment.WorkflowFragment"
+        android:label="WorkflowFragment"
+        tools:layout="@layout/fragment_workflow"/>
 
 </navigation>

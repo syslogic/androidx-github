@@ -1,46 +1,42 @@
 package io.syslogic.github.fragment;
 
-import android.annotation.SuppressLint;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.databinding.ViewDataBinding;
 
-import io.syslogic.github.R;
 import io.syslogic.github.Constants;
-import io.syslogic.github.databinding.FragmentProfileBinding;
-import io.syslogic.github.model.User;
-import io.syslogic.github.network.TokenCallback;
+import io.syslogic.github.R;
+import io.syslogic.github.databinding.FragmentWorkflowBinding;
+import io.syslogic.github.model.Workflow;
 
 /**
- * Profile {@link BaseFragment}
+ * Workflow {@link BaseFragment}
  *
  * @author Martin Zeitler
  */
-public class ProfileFragment extends BaseFragment implements TokenCallback {
+public class WorkflowFragment extends BaseFragment {
 
     /** Log Tag */
     @SuppressWarnings("unused")
-    private static final String LOG_TAG = ProfileFragment.class.getSimpleName();
+    private static final String LOG_TAG = WorkflowFragment.class.getSimpleName();
 
     @SuppressWarnings("unused")
-    private static final int resId = R.layout.fragment_profile;
+    private static final int resId = R.layout.fragment_workflow;
 
     /** Data Binding */
-    private FragmentProfileBinding mDataBinding;
+    private FragmentWorkflowBinding mDataBinding;
 
     private Long itemId = -1L;
 
     /** Constructor */
-    public ProfileFragment() {}
+    public WorkflowFragment() {}
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -54,33 +50,19 @@ public class ProfileFragment extends BaseFragment implements TokenCallback {
 
     @NonNull
     @Override
-    @SuppressLint("SetJavaScriptEnabled")
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        this.setDataBinding(FragmentWorkflowBinding.inflate(inflater, container, false));
+        if (! isNetworkAvailable(this.requireContext())) {
+            this.onNetworkLost();
+        } else {
 
-        this.setDataBinding(FragmentProfileBinding.inflate(inflater, container, false));
-        View layout = this.mDataBinding.getRoot();
-
-        if (this.getContext() != null) {
-
-            if (! isNetworkAvailable(this.getContext())) {
-                this.onNetworkLost();
-            } else {
-
-                this.mDataBinding.webview.getSettings().setJavaScriptEnabled(true);
-                this.mDataBinding.webview.setWebViewClient(new WebViewClient() {
-                    @Override
-                    public void onPageCommitVisible (WebView view, String url) {
-                        if (! contentLoaded) {contentLoaded = true;}
-                    }
-                });
-
-                String token = this.getAccessToken(this.getContext());
-                if (getCurrentUser() == null && token != null) {
-                    this.setUser(token, this);
-                }
+            /* TODO: load from API? */
+            if (itemId != -1L) {
+                Workflow item = new Workflow();
+                this.getDataBinding().setWorkflow(item);
             }
         }
-        return layout;
+        return this.getDataBinding().getRoot();
     }
 
     @NonNull
@@ -93,13 +75,13 @@ public class ProfileFragment extends BaseFragment implements TokenCallback {
     }
 
     @NonNull
-    public FragmentProfileBinding getDataBinding() {
+    public FragmentWorkflowBinding getDataBinding() {
         return this.mDataBinding;
     }
 
     @Override
     protected void setDataBinding(@NonNull ViewDataBinding binding) {
-        this.mDataBinding = (FragmentProfileBinding) binding;
+        this.mDataBinding = (FragmentWorkflowBinding) binding;
     }
 
     @Override
@@ -116,12 +98,5 @@ public class ProfileFragment extends BaseFragment implements TokenCallback {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         // if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {}
-    }
-
-    @Override
-    public void onLogin(@NonNull User item) {
-        if (this.mDataBinding != null && !this.contentLoaded) {
-            this.mDataBinding.setProfile(item);
-        }
     }
 }

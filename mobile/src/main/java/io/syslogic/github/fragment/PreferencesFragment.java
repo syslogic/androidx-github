@@ -21,7 +21,7 @@ import io.syslogic.github.R;
 import io.syslogic.github.network.TokenHelper;
 
 /**
- * Preferences Fragment
+ * General {@link PreferenceFragmentCompat}
  *
  * @author Martin Zeitler
  */

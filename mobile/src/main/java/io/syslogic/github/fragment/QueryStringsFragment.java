@@ -19,7 +19,7 @@ import io.syslogic.github.provider.QueryStringsMenuProvider;
 import io.syslogic.github.recyclerview.QueryStringsAdapter;
 
 /**
- * QueryStrings Fragment
+ * Query-Strings {@link BaseFragment}
  *
  * @author Martin Zeitler
  */

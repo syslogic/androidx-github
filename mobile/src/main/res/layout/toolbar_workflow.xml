@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable name="workflow" type="io.syslogic.github.model.Workflow"/>
+    </data>
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_workflow"
+        android:layout_width="match_parent"
+        android:layout_height="?android:attr/actionBarSize"
+        android:layout_margin="0dp"
+        android:background="@color/statusBar"
+        android:contentInsetStart="0dp"
+        android:elevation="4dp"
+        android:padding="0dp"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:contentInsetStart="0dp"
+        app:layout_scrollFlags="scroll|enterAlways"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        tools:layout_gravity="top">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/layout_toolbar_workflow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="0dp"
+            android:gravity="end"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/text_workflow_name"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="@{ workflow.name }"
+                android:padding="4dp"
+                android:textAlignment="center"
+                android:textColor="#FFFFFF"
+                android:textSize="12sp"
+                app:fontFamily="monospace"
+                tools:ignore="SmallSp"
+                tools:text="@string/tools_workflow_name"/>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </androidx.appcompat.widget.Toolbar>
+
+</layout>

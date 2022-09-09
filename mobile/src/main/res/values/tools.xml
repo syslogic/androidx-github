@@ -18,6 +18,9 @@
     <string name="tools_github_name">Profile Preview</string>
     <string name="tools_github_login">token login</string>
 
+    <!-- toolbar workflow -->
+    <string name="tools_workflow_name">android.yml</string>
+
     <!-- bottom sheet dialog -->
     <string name="tools_download_progress">100</string>
     <string name="tools_download_filename" tools:ignore="TypographyDashes">fastlane-fastlane-fastlane-2.112.0-7-g87864cf.zip</string>

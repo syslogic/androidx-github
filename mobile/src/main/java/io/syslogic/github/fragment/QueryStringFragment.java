@@ -27,7 +27,7 @@ import io.syslogic.github.room.Abstraction;
 import io.syslogic.github.room.QueryStringsDao;
 
 /**
- * Query-String Fragment
+ * Query-String {@link BaseFragment}
  *
  * @author Martin Zeitler
  */

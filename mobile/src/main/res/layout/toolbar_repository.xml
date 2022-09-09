@@ -56,7 +56,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="sans-serif-medium"
                             android:maxLines="1"
-                            android:text='@{""+repository.forkCount}'
+                            android:text='@{"" + repository.forkCount}'
                             android:textAlignment="center"
                             android:textColor="@android:color/white"
                             android:textSize="14sp"
@@ -87,7 +87,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="sans-serif-medium"
                             android:maxLines="1"
-                            android:text='@{""+repository.watcherCount}'
+                            android:text='@{"" + repository.watcherCount}'
                             android:textAlignment="center"
                             android:textColor="@android:color/white"
                             android:textSize="14sp"
@@ -118,7 +118,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="sans-serif-medium"
                             android:maxLines="1"
-                            android:text='@{""+repository.subscriberCount}'
+                            android:text='@{"" + repository.subscriberCount}'
                             android:textAlignment="center"
                             android:textColor="@android:color/white"
                             android:textSize="14sp"
@@ -149,7 +149,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="sans-serif-medium"
                             android:maxLines="1"
-                            android:text='@{""+repository.networkCount}'
+                            android:text='@{"" + repository.networkCount}'
                             android:textAlignment="center"
                             android:textColor="@android:color/white"
                             android:textSize="14sp"

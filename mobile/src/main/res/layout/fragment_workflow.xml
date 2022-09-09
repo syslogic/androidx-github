@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".activity.NavHostActivity">
+
+    <data>
+        <variable name="workflow" type="io.syslogic.github.model.Workflow"/>
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/layout_workflow"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!-- https://github.com/material-components/material-components-android/blob/master/docs/components/AppBarLayout.md -->
+        <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+            <include
+                android:id="@+id/toolbar_workflow"
+                layout="@layout/toolbar_workflow"
+                bind:workflow="@{ workflow }"/>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_gravity="bottom|fill_horizontal"
+                android:background="@color/colorAccent"
+                android:orientation="vertical"
+                android:padding="0dp"/>
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+</layout>

@@ -51,7 +51,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 /**
- * Repository Fragment
+ * Repository {@link BaseFragment}
  *
  * @author Martin Zeitler
  */
@@ -162,11 +162,6 @@ public class RepositoryFragment extends BaseFragment implements TokenCallback {
     @Override
     protected void setDataBinding(@NonNull ViewDataBinding binding) {
         this.mDataBinding = (FragmentRepositoryBinding) binding;
-    }
-
-    @Override
-    protected void setCurrentUser(@Nullable User value) {
-        this.currentUser = value;
     }
 
     @Override

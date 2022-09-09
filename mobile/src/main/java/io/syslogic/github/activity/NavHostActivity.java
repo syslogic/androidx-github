@@ -43,9 +43,7 @@ public class NavHostActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
 
         /* When switching the theme to/from dark mode (on all subsequent executions). */
-        if (savedInstanceState != null) {
-            this.setTheme(R.style.Theme_AppTheme);
-        }
+        if (savedInstanceState != null) {this.setTheme(R.style.Theme_AppTheme);}
         super.onCreate(savedInstanceState);
 
         /* When starting the Activity for the first time. */
