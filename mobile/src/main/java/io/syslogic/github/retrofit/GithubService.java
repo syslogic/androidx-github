@@ -10,6 +10,7 @@ import io.syslogic.github.model.RateLimits;
 import io.syslogic.github.model.Repositories;
 import io.syslogic.github.model.Repository;
 import io.syslogic.github.model.User;
+import io.syslogic.github.model.WorkflowJobs;
 
 import okhttp3.ResponseBody;
 
@@ -117,5 +118,15 @@ public interface GithubService {
     @GET("/user/repos")
     Call<Repositories> getRepositories(
         @NonNull @Header("Authorization") String token
+    );
+
+    /** GitHub Actions: Workflow Runs */
+    @NonNull
+    @GET("/repos/{owner}/{repo}/actions/jobs/{jobId}")
+    Call<WorkflowJobs> getWorkflowRuns(
+            @NonNull @Header("Authorization") String token,
+            @NonNull @Path(value = "owner") String owner,
+            @NonNull @Path(value = "repo")  String repo,
+            @NonNull @Path(value = "jobId") Integer jobId
     );
 }

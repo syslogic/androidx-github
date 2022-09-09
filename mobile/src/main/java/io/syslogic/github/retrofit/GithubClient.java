@@ -13,6 +13,7 @@ import io.syslogic.github.model.RateLimits;
 import io.syslogic.github.model.Repositories;
 import io.syslogic.github.model.Repository;
 import io.syslogic.github.model.User;
+import io.syslogic.github.model.WorkflowJobs;
 
 import okhttp3.OkHttpClient;
 import okhttp3.ResponseBody;
@@ -32,6 +33,7 @@ public class GithubClient {
 
     private static Retrofit retrofit;
 
+    @NonNull
     private static GithubService getService() {
         if (retrofit == null) {
 
@@ -81,6 +83,11 @@ public class GithubClient {
     @SuppressWarnings("unused")
     public static @NonNull Call<Branch> getBranch(@NonNull String owner, @NonNull String repo, @NonNull String branch) {
         return getService().getBranch(owner, repo, branch);
+    }
+
+    @SuppressWarnings("unused")
+    public static @NonNull Call<WorkflowJobs> getWorkflowRuns(@Nullable String token, @NonNull String owner, @NonNull String repo, @NonNull Integer jobId) {
+        return getService().getWorkflowRuns("token " + token, owner, repo, jobId);
     }
 
     public static @NonNull Call<ResponseBody> getArchiveLink(@NonNull String token, @NonNull String owner, @NonNull String repo, @NonNull String format, @NonNull String ref) {
