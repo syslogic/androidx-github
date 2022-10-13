@@ -56,7 +56,7 @@ abstract public class BaseActivity extends AppCompatActivity {
         }
     }
 
-    public void setMenuProvider(BaseMenuProvider menuProvider) {
+    public void setMenuProvider(@NonNull BaseMenuProvider menuProvider) {
         if (mMenuProvider != null) {removeMenuProvider(mMenuProvider);}
         addMenuProvider(menuProvider, this, Lifecycle.State.RESUMED);
         mMenuProvider = menuProvider;
