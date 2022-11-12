@@ -16,6 +16,7 @@ import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
 import androidx.preference.PreferenceScreen;
 
+import io.syslogic.github.BuildConfig;
 import io.syslogic.github.Constants;
 import io.syslogic.github.R;
 import io.syslogic.github.network.TokenHelper;
@@ -29,8 +30,10 @@ public class PreferencesFragment extends PreferenceFragmentCompat
         implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     /** Log Tag */
-    @SuppressWarnings("unused")
     private static final String LOG_TAG = PreferencesFragment.class.getSimpleName();
+
+    /** Debug Output */
+    static final boolean mDebug = BuildConfig.DEBUG;
 
     private static final int resId = R.xml.preferences_general;
 
@@ -99,14 +102,14 @@ public class PreferencesFragment extends PreferenceFragmentCompat
      * via {@link SharedPreferences.Editor#clear()}, unless targeting {@link Build.VERSION_CODES#R}
      * on devices running OS versions {@link Build.VERSION_CODES#R Android R} or later.</em>
      *
-     * @param sharedPreferences The {@link SharedPreferences} that received the change.
-     * @param key               The key of the preference that was changed, added, or removed. Apps targeting
-     *                          {@link Build.VERSION_CODES#R} on devices running OS versions
-     *                          {@link Build.VERSION_CODES#R Android R} or later, will receive
-     *                          a {@code null} value when preferences are cleared.
+     * @param preferences The {@link SharedPreferences} that received the change.
+     * @param key         The key of the preference that was changed, added, or removed. Apps targeting
+     *                    {@link Build.VERSION_CODES#R} on devices running OS versions
+     *                    {@link Build.VERSION_CODES#R Android R} or later, will receive
+     *                    a {@code null} value when preferences are cleared.
      */
     @Override
-    public void onSharedPreferenceChanged(@NonNull SharedPreferences sharedPreferences, @NonNull String key) {
-
+    public void onSharedPreferenceChanged(@NonNull SharedPreferences preferences, @NonNull String key) {
+        if (mDebug) {Log.d(LOG_TAG, "onSharedPreferenceChanged " + key);}
     }
 }

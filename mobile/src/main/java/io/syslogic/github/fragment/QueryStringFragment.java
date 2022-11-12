@@ -2,11 +2,9 @@ package io.syslogic.github.fragment;
 
 import android.os.Build;
 import android.os.Bundle;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -116,11 +114,6 @@ public class QueryStringFragment extends BaseFragment {
 
     private void setItemId(@NonNull Long value) {
         this.itemId = value;
-    }
-
-    @SuppressWarnings("unused")
-    public boolean setOnEditorActionListener(@NonNull TextView view, @NonNull KeyEvent event, int actionId) {
-        return true;
     }
 
     @NonNull
