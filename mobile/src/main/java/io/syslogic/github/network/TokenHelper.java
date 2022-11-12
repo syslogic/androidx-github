@@ -48,7 +48,13 @@ public class TokenHelper {
     private static String loadPackageMeta(@NonNull Context context, AccountManager accountManager) {
         String accessToken = null;
         try {
-            ApplicationInfo app = context.getPackageManager().getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA);
+            ApplicationInfo app = null;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
+                PackageManager.ApplicationInfoFlags flags = PackageManager.ApplicationInfoFlags.of(0L);
+                app = context.getPackageManager().getApplicationInfo(context.getPackageName(), flags);
+            } else {
+                app = context.getPackageManager().getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA);
+            }
             accessToken = app.metaData.getString("com.github.ACCESS_TOKEN");
             if (accessToken != null) {addAccount(accountManager, accessToken);}
         } catch (NullPointerException | PackageManager.NameNotFoundException e) {
