@@ -48,9 +48,9 @@ public class TokenHelper {
     private static String loadPackageMeta(@NonNull Context context, AccountManager accountManager) {
         String accessToken = null;
         try {
-            ApplicationInfo app = null;
+            ApplicationInfo app;
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
-                PackageManager.ApplicationInfoFlags flags = PackageManager.ApplicationInfoFlags.of(0L);
+                PackageManager.ApplicationInfoFlags flags = PackageManager.ApplicationInfoFlags.of(PackageManager.GET_META_DATA);
                 app = context.getPackageManager().getApplicationInfo(context.getPackageName(), flags);
             } else {
                 app = context.getPackageManager().getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA);
