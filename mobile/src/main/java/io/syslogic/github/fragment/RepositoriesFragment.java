@@ -24,7 +24,6 @@ import io.syslogic.github.adapter.QueryStringAdapter;
 import io.syslogic.github.databinding.FragmentRepositoriesBinding;
 import io.syslogic.github.model.User;
 import io.syslogic.github.network.TokenCallback;
-import io.syslogic.github.provider.QueryStringsMenuProvider;
 import io.syslogic.github.provider.SettingsMenuProvider;
 import io.syslogic.github.recyclerview.RepositoriesAdapter;
 import io.syslogic.github.recyclerview.RepositoriesLinearView;

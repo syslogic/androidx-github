@@ -458,6 +458,7 @@ public class RepositoryFragment extends BaseFragment implements TokenCallback {
         startActivity(intent);
     }
 
+    @SuppressWarnings("unused")
     private void switchToolbarView(@NonNull Integer childIndex) {
         ViewFlipper view = this.mDataBinding.toolbarDownload.viewflipperDownload;
         int index = view.getDisplayedChild();
