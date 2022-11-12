@@ -6,15 +6,15 @@ plugins {
 
 android {
 
-    compileSdk rootProject.ext.get('compileSdkVersion')
+    compileSdk 33
     defaultConfig {
         applicationId rootProject.ext.get('applicationId')
         namespace rootProject.ext.get('applicationId')
-        manifestPlaceholders = [ accessToken: "" ]
         versionName rootProject.ext.get('versionName')
         versionCode rootProject.ext.get('versionCode')
-        targetSdk rootProject.ext.get('targetSdkVersion')
-        minSdk rootProject.ext.get('minSdkVersion')
+        manifestPlaceholders = [ accessToken: "" ]
+        targetSdk 33
+        minSdk 22
         setProperty("archivesBaseName", "github_client_" + versionName)
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         testBuildType "debug"
@@ -62,7 +62,7 @@ android {
         debug {
             applicationIdSuffix ".debug"
             signingConfig signingConfigs.debug
-            manifestPlaceholders = [accessToken: "${accessToken}"]
+            manifestPlaceholders = [ accessToken: "${accessToken}" ]
             renderscriptDebuggable true
             pseudoLocalesEnabled false
             testCoverageEnabled true
