@@ -2,6 +2,7 @@ package io.syslogic.github.network;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
@@ -45,6 +46,7 @@ public class TokenHelper {
         }
     }
 
+    @SuppressWarnings({"deprecation", "RedundantSuppression"})
     private static String loadPackageMeta(@NonNull Context context, AccountManager accountManager) {
         String accessToken = null;
         try {

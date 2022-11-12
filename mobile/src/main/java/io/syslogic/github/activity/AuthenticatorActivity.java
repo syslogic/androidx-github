@@ -3,6 +3,7 @@ package io.syslogic.github.activity;
 import android.accounts.Account;
 import android.accounts.AccountAuthenticatorResponse;
 import android.accounts.AccountManager;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.text.Editable;
 import android.widget.Toast;
@@ -40,10 +41,16 @@ public class AuthenticatorActivity extends BaseActivity {
      * @param icicle the saved instance data of this Activity, may be null.
      */
     @Override
+    @SuppressWarnings({"deprecation", "RedundantSuppression"})
     protected void onCreate(@Nullable Bundle icicle) {
-
         super.onCreate(icicle);
-        this.mResponse = getIntent().getParcelableExtra(AccountManager.KEY_ACCOUNT_AUTHENTICATOR_RESPONSE);
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
+            this.mResponse = getIntent().getParcelableExtra(AccountManager.KEY_ACCOUNT_AUTHENTICATOR_RESPONSE, AccountAuthenticatorResponse.class);
+        } else {
+            this.mResponse = getIntent().getParcelableExtra(AccountManager.KEY_ACCOUNT_AUTHENTICATOR_RESPONSE);
+        }
+
         if (this.mResponse != null) {
             this.mResponse.onRequestContinued();
         }
