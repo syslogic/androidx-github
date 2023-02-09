@@ -30,8 +30,18 @@ android {
         }
     }
 
+    sourceSets {
+        main {
+            androidTest.assets.srcDirs += files("$projectDir/schemas".toString())
+        }
+    }
+
     testOptions {
         resultsDir = "${project.buildDir}/results"
+    }
+
+    buildFeatures {
+        dataBinding = true
     }
 
     signingConfigs {
@@ -43,14 +53,6 @@ android {
         }
     }
 
-    sourceSets {
-        main {
-            androidTest.assets.srcDirs += files("$projectDir/schemas".toString())
-        }
-    }
-    buildFeatures {
-        dataBinding = true
-    }
     lint {
         lintConfig rootProject.file('lint.xml')
         checkAllWarnings true
@@ -58,6 +60,7 @@ android {
         abortOnError false
         showAll false
     }
+
     buildTypes {
         debug {
             applicationIdSuffix ".debug"
@@ -133,11 +136,11 @@ dependencies {
     testImplementation "junit:junit:$junit_version"
 
     // https://mvnrepository.com/artifact/androidx.test.ext
-    androidTestImplementation "androidx.test.ext:junit:1.1.4"
+    androidTestImplementation "androidx.test.ext:junit:1.1.5"
 
     // https://mvnrepository.com/artifact/androidx.test
     androidTestImplementation "androidx.test:core:1.5.0"
-    androidTestImplementation "androidx.test:runner:1.5.1"
+    androidTestImplementation "androidx.test:runner:1.5.2"
     androidTestImplementation "androidx.test:rules:1.5.0"
 
     // https://mvnrepository.com/artifact/androidx.test.uiautomator/uiautomator
