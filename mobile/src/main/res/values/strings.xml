@@ -19,8 +19,8 @@
     <string name="summary_preference_debug_logging">Enable verbose logging</string>
 
     <string name="menu_action_preferences">Preferences</string>
-    <string name="menu_action_query_strings">Bookmarks</string>
-    <string name="menu_action_bookmark_add">Add Bookmark</string>
+    <string name="menu_action_query_strings">Query Strings</string>
+    <string name="menu_action_query_string_add">Add Query Strings</string>
 
     <string name="text_bookmarks">Bookmarks</string>
     <string name="text_edit_bookmark">Edit Bookmark</string>

@@ -9,6 +9,19 @@
         <ignore regexp="com.google.android.material.appbar.AppBarLayout" />
     </issue>
 
+    <!-- Not required for Java projects -->
+    <issue id="KotlinPropertyAccess" severity="ignore"/>
+    <issue id="UnknownNullness" severity="ignore"/>
+
+    <issue id="InvalidPackage">
+        <ignore regexp="kotlinx.coroutines.debug.AgentPremain"/>
+    </issue>
+
+    <!-- don't notice about available alpha/beta versions -->
+    <issue id="GradleDependency">
+        <ignore regexp="is available: .*[alpha|beta|rc]" />
+    </issue>
+
     <issue id="UnusedIds">
         <ignore regexp="R.id.nav_graph"/>
     </issue>

@@ -42,7 +42,7 @@ public class QueryStringsMenuProvider extends BaseMenuProvider {
     @Override
     public boolean onMenuItemSelected(@NonNull MenuItem item) {
         if (getNavController() != null) {
-            if (item.getItemId() == R.id.menu_action_bookmark_add) {
+            if (item.getItemId() == R.id.menu_action_query_string_add) {
                 getNavController().navigate(R.id.action_queryStringsFragment_to_queryStringFragment);
                 return true;
             }

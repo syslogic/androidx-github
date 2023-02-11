@@ -6,9 +6,9 @@
     tools:context=".activity.NavHostActivity">
 
     <item
-        android:id="@+id/menu_action_bookmark_add"
+        android:id="@+id/menu_action_query_string_add"
         android:icon="@drawable/ic_baseline_bookmark_add_48"
-        android:title="@string/menu_action_bookmark_add"
+        android:title="@string/menu_action_query_string_add"
         android:orderInCategory="100"
         app:showAsAction="always"/>
 
