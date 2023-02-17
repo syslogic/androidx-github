@@ -56,10 +56,7 @@ public class ProfileFragment extends BaseFragment implements TokenCallback {
     @Override
     @SuppressLint("SetJavaScriptEnabled")
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
         this.setDataBinding(FragmentProfileBinding.inflate(inflater, container, false));
-        View layout = this.mDataBinding.getRoot();
-
         if (this.getContext() != null) {
 
             if (! isNetworkAvailable(this.getContext())) {
@@ -80,7 +77,7 @@ public class ProfileFragment extends BaseFragment implements TokenCallback {
                 }
             }
         }
-        return layout;
+        return this.mDataBinding.getRoot();
     }
 
     @NonNull

@@ -56,77 +56,75 @@ public class RepositoriesFragment extends BaseFragment implements TokenCallback 
     @NonNull
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
         BaseActivity activity = ((BaseActivity) this.requireActivity());
-        if (savedInstanceState == null) {
+        this.setDataBinding(FragmentRepositoriesBinding.inflate(inflater, container, false));
+        this.getDataBinding().setPagerState(new PagerState());
 
-            this.setDataBinding(FragmentRepositoriesBinding.inflate(inflater, container, false));
-            this.getDataBinding().setPagerState(new PagerState());
+        /* It removes & adds {@link BaseMenuProvider} */
+        activity.setMenuProvider(new SettingsMenuProvider(activity));
 
-            /* It removes & adds {@link BaseMenuProvider} */
-            activity.setMenuProvider(new SettingsMenuProvider(activity));
-
-            // the SpinnerItem has the same ID as the QueryString.
-            activity.setSupportActionBar(this.getDataBinding().toolbarRepositories.toolbarQuery);
-            AppCompatSpinner spinner = this.getDataBinding().toolbarRepositories.spinnerQueryString;
-            spinner.setAdapter(new QueryStringAdapter(requireContext()));
-            spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                int count = 0;
-                @Override
-                public void onItemSelected(AdapterView<?> parent, View view, int position, long resId) {
-                    if (count > 0) {
-                        SpinnerItem item = (SpinnerItem) view.getTag();
-                        ScrollListener.setPageNumber(1);
-                        String queryString = item.getValue();
-                        RepositoriesLinearView recyclerview = getDataBinding().recyclerviewRepositories;
-                        recyclerview.setQueryString(queryString);
-                        PagerState pagerState = getDataBinding().getPagerState();
-                        if (pagerState != null) {
-                            pagerState.setQueryString(queryString);
-                            getDataBinding().setPagerState(pagerState);
-                        }
-                        if (recyclerview.getAdapter() != null) {
-                            recyclerview.clearAdapter();
-                            ((RepositoriesAdapter) recyclerview.getAdapter()).fetchPage(1);
-                        }
+        // the SpinnerItem has the same ID as the QueryString.
+        activity.setSupportActionBar(this.getDataBinding().toolbarRepositories.toolbarQuery);
+        AppCompatSpinner spinner = this.getDataBinding().toolbarRepositories.spinnerQueryString;
+        spinner.setAdapter(new QueryStringAdapter(requireContext()));
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            int count = 0;
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long resId) {
+                if (count > 0) {
+                    SpinnerItem item = (SpinnerItem) view.getTag();
+                    ScrollListener.setPageNumber(1);
+                    String queryString = item.getValue();
+                    RepositoriesLinearView recyclerview = getDataBinding().recyclerviewRepositories;
+                    recyclerview.setQueryString(queryString);
+                    PagerState pagerState = getDataBinding().getPagerState();
+                    if (pagerState != null) {
+                        pagerState.setQueryString(queryString);
+                        getDataBinding().setPagerState(pagerState);
                     }
-                    count++;
+                    if (recyclerview.getAdapter() != null) {
+                        recyclerview.clearAdapter();
+                        ((RepositoriesAdapter) recyclerview.getAdapter()).fetchPage(1);
+                    }
                 }
-                @Override
-                public void onNothingSelected(AdapterView<?> parent) {}
-            });
+                count++;
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {}
+        });
 
-            /* It is quicker to query Room, because the QueryStringAdapter is populating too slow. */
-            assert this.prefs != null;
-            showRepositoryTopics = this.prefs.getBoolean(Constants.PREFERENCE_KEY_SHOW_REPOSITORY_TOPICS, false);
-            if (this.getDataBinding().recyclerviewRepositories.getAdapter() == null) {
-                if (isNetworkAvailable(requireContext())) {
-                    QueryStringsDao dao = Abstraction.getInstance(requireContext()).queryStringsDao();
-                    Abstraction.executorService.execute(() -> {
-                        try {
-                            assert dao != null;
-                            List<QueryString> items = dao.getItems();
-                            if (items.size() > 0) {
-                                String queryString = items.get(0).toQueryString();
-                                requireActivity().runOnUiThread(() -> {
-                                    RepositoriesAdapter adapter = new RepositoriesAdapter(requireContext(), queryString, showRepositoryTopics, 1);
-                                    getDataBinding().recyclerviewRepositories.setAdapter(adapter);
-                                    PagerState pagerState = getDataBinding().getPagerState();
-                                    if (pagerState != null) {
-                                        pagerState.setQueryString(queryString);
-                                        getDataBinding().setPagerState(pagerState);
-                                    }
-                                });
-                            } else {
-                                if (mDebug) {Log.e(LOG_TAG, "table `" + Constants.TABLE_QUERY_STRINGS +"` has no records.");}
-                                this.getDataBinding().toolbarRepositories.spinnerQueryString.setVisibility(View.INVISIBLE);
-                            }
-                        } catch (IllegalStateException e) {
-                            if (mDebug) {Log.e(LOG_TAG, e.getMessage());}
+        /* It is quicker to query Room, because the QueryStringAdapter is populating too slow. */
+        assert this.prefs != null;
+        showRepositoryTopics = this.prefs.getBoolean(Constants.PREFERENCE_KEY_SHOW_REPOSITORY_TOPICS, false);
+        if (this.getDataBinding().recyclerviewRepositories.getAdapter() == null) {
+            if (isNetworkAvailable(requireContext())) {
+                QueryStringsDao dao = Abstraction.getInstance(requireContext()).queryStringsDao();
+                Abstraction.executorService.execute(() -> {
+                    try {
+                        assert dao != null;
+                        List<QueryString> items = dao.getItems();
+                        if (items.size() > 0) {
+                            String queryString = items.get(0).toQueryString();
+                            requireActivity().runOnUiThread(() -> {
+                                RepositoriesAdapter adapter = new RepositoriesAdapter(requireContext(), queryString, showRepositoryTopics, 1);
+                                getDataBinding().recyclerviewRepositories.setAdapter(adapter);
+                                PagerState pagerState = getDataBinding().getPagerState();
+                                if (pagerState != null) {
+                                    pagerState.setQueryString(queryString);
+                                    getDataBinding().setPagerState(pagerState);
+                                }
+                            });
+                        } else {
+                            if (mDebug) {Log.e(LOG_TAG, "table `" + Constants.TABLE_QUERY_STRINGS +"` has no records.");}
+                            this.getDataBinding().toolbarRepositories.spinnerQueryString.setVisibility(View.INVISIBLE);
                         }
-                    });
-                } else {
-                    this.onNetworkLost();
-                }
+                    } catch (IllegalStateException e) {
+                        if (mDebug) {Log.e(LOG_TAG, e.getMessage());}
+                    }
+                });
+            } else {
+                this.onNetworkLost();
             }
         }
         return this.getDataBinding().getRoot();

@@ -87,7 +87,7 @@ public class RepositoryFragment extends BaseFragment implements TokenCallback {
     @SuppressLint("SetJavaScriptEnabled")
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         this.setDataBinding(FragmentRepositoryBinding.inflate(inflater, container, false));
-        View layout = this.mDataBinding.getRoot();
+
         if (this.getContext() != null) {
             if (! isNetworkAvailable(this.getContext())) {
                 this.onNetworkLost();
@@ -142,7 +142,7 @@ public class RepositoryFragment extends BaseFragment implements TokenCallback {
                 });
             }
         }
-        return layout;
+        return this.mDataBinding.getRoot();
     }
 
     void downloadBranchAsZip(@Nullable String branch) {

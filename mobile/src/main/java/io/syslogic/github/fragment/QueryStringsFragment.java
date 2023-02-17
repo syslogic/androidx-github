@@ -42,16 +42,14 @@ public class QueryStringsFragment extends BaseFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         BaseActivity activity = ((BaseActivity) this.requireActivity());
         this.setDataBinding(FragmentQueryStringsBinding.inflate(inflater, container, false));
-        if (savedInstanceState == null) {
 
-            /* Setting up the toolbar, in order to show the topics editor. */
-            activity.setSupportActionBar(this.getDataBinding().toolbarQueryStrings.toolbarQueryStrings);
-            ActionBar actionbar = activity.getSupportActionBar();
-            if (actionbar != null) {
-                // this.getDataBinding().toolbarQueryStrings.toolbarQueryStrings.setOnMenuItemClickListener(this);
-                actionbar.setHomeButtonEnabled(true);
-                actionbar.setTitle(R.string.text_bookmarks);
-            }
+        /* Setting up the toolbar, in order to show the topics editor. */
+        activity.setSupportActionBar(this.getDataBinding().toolbarQueryStrings.toolbarQueryStrings);
+        ActionBar actionbar = activity.getSupportActionBar();
+        if (actionbar != null) {
+            // this.getDataBinding().toolbarQueryStrings.toolbarQueryStrings.setOnMenuItemClickListener(this);
+            actionbar.setHomeButtonEnabled(true);
+            actionbar.setTitle(R.string.text_bookmarks);
         }
 
         /* It removes & adds {@link BaseMenuProvider} */
