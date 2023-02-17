@@ -159,10 +159,10 @@ public class RepositoriesFragment extends BaseFragment implements TokenCallback 
                 this.getDataBinding().setPagerState(pagerState);
             }
 
-            /* when being online for the first time, adapter is null. */
+            /* When being online for the first time, adapter is null. */
             RepositoriesAdapter adapter = ((RepositoriesAdapter) this.getDataBinding().recyclerviewRepositories.getAdapter());
             if (adapter == null) {
-                /* needs to run on UiThread */
+                /* Needs to run on UiThread */
                 requireActivity().runOnUiThread(() -> {
                     String queryString = getDataBinding().recyclerviewRepositories.getQueryString();
                     if (queryString == null) {
@@ -176,7 +176,7 @@ public class RepositoriesFragment extends BaseFragment implements TokenCallback 
                     }
                 });
             } else if (adapter.getItemCount() == 0) {
-                /* if required, fetch page 1 */
+                /* If required, fetch page 1 */
                 adapter.fetchPage(1);
             }
         }

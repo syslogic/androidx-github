@@ -71,6 +71,15 @@ public class RepositoryFragment extends BaseFragment implements TokenCallback {
     /** Constructor */
     public RepositoryFragment() {}
 
+    @NonNull
+    public static RepositoryFragment newInstance(long itemId) {
+        RepositoryFragment fragment = new RepositoryFragment();
+        Bundle args = new Bundle();
+        args.putLong(Constants.ARGUMENT_ITEM_ID, itemId);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Override
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -135,7 +144,7 @@ public class RepositoryFragment extends BaseFragment implements TokenCallback {
                     public void onNothingSelected(AdapterView<?> parent) {}
                 });
 
-                /* the download button; TODO: consider tarball? */
+                /* The download button; TODO: consider tarball? */
                 this.mDataBinding.toolbarDownload.buttonDownload.setOnClickListener(view -> {
                     String branch = getDataBinding().toolbarDownload.spinnerBranch.getSelectedItem().toString();
                     downloadBranchAsZip(branch);
@@ -256,11 +265,11 @@ public class RepositoryFragment extends BaseFragment implements TokenCallback {
                     case 200: {
                         if (response.body() != null && getContext() != null) {
 
-                            /* updating the branches */
+                            /* Updating the branches */
                             ArrayList<Branch> items = response.body();
                             getDataBinding().setBranches(items);
 
-                            /* debug output */
+                            /* Debug output */
                             if (mDebug && Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                                 ArrayList<String> elements = new ArrayList<>();
                                 for (int i = 0; i < items.size(); i++) {
@@ -271,7 +280,7 @@ public class RepositoryFragment extends BaseFragment implements TokenCallback {
                                 Log.d(LOG_TAG, String.format(formatString, repoName, items.size(), String.join(", ", elements)));
                             }
 
-                            /* attempting to select branch master */
+                            /* Attempting to select branch master */
                             int defaultIndex = -1;
                             for (int i = 0; i < items.size(); i++) {
                                 if (items.get(i).getName().equals("main") && items.get(i).getName().equals("master")) {
@@ -283,7 +292,7 @@ public class RepositoryFragment extends BaseFragment implements TokenCallback {
                                 }
                             }
 
-                            /* debug output */
+                            /* Debug output */
                             if (mDebug && defaultIndex == -1) {
                                 Log.d(LOG_TAG, repoName + " has no master branch.");
                             }

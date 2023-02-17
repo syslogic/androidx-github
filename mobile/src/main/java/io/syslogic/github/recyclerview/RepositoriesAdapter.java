@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -26,6 +27,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
@@ -36,6 +39,7 @@ import io.syslogic.github.activity.BaseActivity;
 import io.syslogic.github.Constants;
 import io.syslogic.github.databinding.FragmentRepositoriesBinding;
 import io.syslogic.github.databinding.CardviewRepositoryBinding;
+import io.syslogic.github.fragment.RepositoryFragment;
 import io.syslogic.github.model.PagerState;
 import io.syslogic.github.model.RateLimit;
 import io.syslogic.github.model.RateLimits;
@@ -126,7 +130,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         String accessToken = getAccessToken();
         if (this.getPagerState() != null && !this.getPagerState().getIsOffline()) {
 
-            /* updating the pager data-binding */
+            /* Updating the pager data-binding */
             setPagerState(pageNumber, true, null);
 
             Call<Repositories> api = GithubClient.getRepositories(accessToken, this.queryString,"stars","desc", pageNumber);
@@ -154,7 +158,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                                 getItems().addAll(items.getRepositories());
                                 notifyItemRangeChanged(positionStart, getItemCount());
 
-                                /* updating the pager data-binding */
+                                /* Updating the pager data-binding */
                                 setPagerState(pageNumber, false, items.getTotalCount());
                             }
                             break;
@@ -165,7 +169,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                             if (response.errorBody() != null) {
                                 logError(response.errorBody());
 
-                                /* updating the pager data-binding */
+                                /* Updating the pager data-binding */
                                 setPagerState(pageNumber, false, null);
                             }
                             break;
@@ -175,7 +179,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                             if (response.errorBody() != null) {
                                 logError(response.errorBody());
 
-                                /* updating the pager data-binding */
+                                /* Updating the pager data-binding */
                                 setPagerState(pageNumber, false, null);
 
                                 resetOnScrollListener();
@@ -205,7 +209,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             if (activity.checkSelfPermission(Manifest.permission.ACCOUNT_MANAGER) == PackageManager.PERMISSION_GRANTED) {
                 return TokenHelper.getAccessToken(activity);
             } else {
-                /* for testing purposes only: */
+                /* For testing purposes only: */
                 if (mDebug) {return TokenHelper.getAccessToken(activity);}
                 else {return null;}
             }
@@ -219,7 +223,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         notifyItemRangeChanged(0, getItemCount());
     }
 
-    /** reset the scroll listener. */
+    /** Reset the scroll listener. */
     protected void resetOnScrollListener() {
         if (this.mRecyclerView.getAdapter() != null) {
             ScrollListener listener = ((RepositoriesLinearView) this.mRecyclerView).getOnScrollListener();
@@ -262,23 +266,19 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     RateLimits items = response.body();
                     RateLimit limit = null;
                     switch (resourceName) {
-                        case "graphql":
-                            limit = items.getResources().getGraphql();
-                            break;
-                        case "search":
-                            limit = items.getResources().getSearch();
-                            break;
-                        case "core":
-                            limit = items.getResources().getCore();
-                            break;
+                        case "graphql": limit = items.getResources().getGraphql(); break;
+                        case "search":  limit = items.getResources().getSearch(); break;
+                        case "core": limit = items.getResources().getCore();  break;
                     }
+
+                    /* For testing purposes only: */
                     if (limit != null && BuildConfig.DEBUG) {
                         long seconds = (long) Math.ceil((new Date(limit.getReset() * 1000).getTime() - Math.ceil(new Date().getTime()) / 1000));
                         String text = String.format(Locale.getDefault(), "%s quota: %d / %d. reset in %d seconds.", resourceName, limit.getRemaining(), limit.getLimit(), seconds);
                         Toast.makeText(getContext(), text, Toast.LENGTH_SHORT).show();
                     }
 
-                    /* possible border-case: */
+                    /* Possible border-case: */
                     if (limit != null && limit.getRemaining() > 0) {
                         Toast.makeText(getContext(), "the " + resourceName + " quota was reset already", Toast.LENGTH_SHORT).show();
                     }
@@ -287,9 +287,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
             @Override
             public void onFailure(@NonNull Call<RateLimits> call, @NonNull Throwable t) {
-                if (mDebug) {
-                    Log.e(LOG_TAG, "" + t.getMessage());
-                }
+                if (mDebug) {Log.e(LOG_TAG, "" + t.getMessage());}
             }
         });
     }
@@ -348,13 +346,30 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             RepositoriesLinearView mRecyclerView = (RepositoriesLinearView) viewHolder.getParent();
             BaseActivity activity = (BaseActivity) mRecyclerView.getContext();
             FragmentRepositoriesBinding databinding = (FragmentRepositoriesBinding) activity.getFragmentDataBinding();
+            int orientation = activity.getResources().getConfiguration().orientation;
             if (databinding != null) {
                 View layout = databinding.getRoot();
-                Bundle args = new Bundle();
                 Repository item = getDataBinding().getItem();
-                args.putLong(Constants.ARGUMENT_ITEM_ID, item.getId());
                 NavController controller = Navigation.findNavController(layout);
-                controller.navigate(R.id.action_repositoriesFragment_to_repositoryFragment, args);
+                switch (orientation) {
+                    //noinspection deprecation
+                    case Configuration.ORIENTATION_SQUARE:
+                    case Configuration.ORIENTATION_UNDEFINED:
+                    case Configuration.ORIENTATION_PORTRAIT: {
+                        Bundle args = new Bundle();
+                        args.putLong(Constants.ARGUMENT_ITEM_ID, item.getId());
+                        controller.navigate(R.id.action_repositoriesFragment_to_repositoryFragment, args);
+                        break;
+                    }
+                    case Configuration.ORIENTATION_LANDSCAPE: {
+                        int layoutId = databinding.layoutRepository.layoutRepository.getId();
+                        RepositoryFragment fragment = RepositoryFragment.newInstance(item.getId());
+                        FragmentTransaction ft = activity.getSupportFragmentManager().beginTransaction();
+                        ft.replace(layoutId, fragment);
+                        ft.commit();
+                        break;
+                    }
+                }
             }
         }
 
