@@ -24,7 +24,7 @@ public interface OwnersDao {
     @Query("SELECT * FROM " + Constants.TABLE_OWNERS)
     List<Owner> getItems();
 
-    /* for ContentProvider */
+    /* For ContentProvider */
     @Query("SELECT * FROM " + Constants.TABLE_OWNERS)
     Cursor selectAll();
 

@@ -25,7 +25,7 @@ public interface LicensesDao {
     @Query("SELECT * FROM " + Constants.TABLE_LICENSES)
     List<License> getItems();
 
-    /* for ContentProvider */
+    /* For ContentProvider */
     @Query("SELECT * FROM " + Constants.TABLE_LICENSES)
     Cursor selectAll();
 

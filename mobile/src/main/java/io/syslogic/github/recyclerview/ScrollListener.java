@@ -61,7 +61,7 @@ public abstract class ScrollListener extends RecyclerView.OnScrollListener {
 
     public abstract boolean onLoadPage(int pageNumber, int totalCount);
 
-    /* setters */
+    /* Setters */
     public static void setPageNumber(int value) {
         state.setPageNumber(value);
     }

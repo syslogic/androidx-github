@@ -26,7 +26,7 @@ public interface RepositoriesDao {
     @Query("SELECT * FROM " + Constants.TABLE_REPOSITORIES)
     List<Repository> getItems();
 
-    /* for ContentProvider */
+    /* For ContentProvider */
     // @Transaction
     @Query("SELECT * FROM " + Constants.TABLE_REPOSITORIES)
     Cursor selectAll();

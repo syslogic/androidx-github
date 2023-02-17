@@ -27,7 +27,7 @@ public interface QueryStringsDao {
     @Query("SELECT * FROM " + Constants.TABLE_QUERY_STRINGS + " WHERE id = :itemId")
     QueryString getItem(Long itemId);
 
-    /* for ContentProvider */
+    /* For ContentProvider */
     @Query("SELECT * FROM " + Constants.TABLE_QUERY_STRINGS)
     Cursor selectAll();
 
