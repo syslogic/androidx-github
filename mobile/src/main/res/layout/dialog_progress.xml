@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".dialog.ProgressDialogFragment">
+
+    <data/>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/layout_dialog_progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="vertical"
+        android:minWidth="280dp"
+        android:padding="8dp">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_gravity="center_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textSize="22sp"
+            android:textColor="@color/design_default_color_secondary_variant"
+            android:text="@string/text_cloning_repository"/>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="8dp"/>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/repository_name"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            tools:text="@string/tools_full_name"/>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="8dp"/>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/layout_download_progress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="0dp"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/text_current_task_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="4dp"
+                android:textAlignment="center"
+                android:textColor="#546E7A"
+                android:textSize="20sp"
+                app:fontFamily="monospace"
+                tools:text="@string/tools_current_task_title" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/text_download_status"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="4dp"
+                android:textAlignment="center"
+                android:textColor="#546E7A"
+                android:textSize="20sp"
+                app:fontFamily="monospace"
+                tools:text="@string/tools_current_task_progress"/>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="8dp"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/button_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@android:string/cancel"/>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</layout>

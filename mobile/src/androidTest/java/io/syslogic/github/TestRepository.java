@@ -18,6 +18,7 @@ import static org.hamcrest.CoreMatchers.is;
  *
  * @author Martin Zeitler
  */
+@Deprecated
 @RunWith(AndroidJUnit4.class)
 public class TestRepository extends TestSuite {
 

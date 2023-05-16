@@ -20,7 +20,6 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.AdapterView;
 import android.widget.Toast;
-import android.widget.ViewFlipper;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -32,7 +31,6 @@ import java.util.ArrayList;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.widget.AppCompatSpinner;
 import androidx.databinding.ViewDataBinding;
 
@@ -46,6 +44,7 @@ import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 import io.syslogic.github.R;
 import io.syslogic.github.Constants;
 import io.syslogic.github.databinding.FragmentRepositoryBinding;
+import io.syslogic.github.dialog.ProgressDialogFragment;
 import io.syslogic.github.model.User;
 import io.syslogic.github.network.TokenCallback;
 import io.syslogic.github.retrofit.GithubClient;
@@ -64,7 +63,7 @@ import retrofit2.Response;
  *
  * @author Martin Zeitler
  */
-public class RepositoryFragment extends BaseFragment implements TokenCallback, ProgressMonitor {
+public class RepositoryFragment extends BaseFragment implements TokenCallback {
 
     /** Log Tag */
     @SuppressWarnings("unused")
@@ -74,8 +73,8 @@ public class RepositoryFragment extends BaseFragment implements TokenCallback, P
 
     /** Data Binding */
     FragmentRepositoryBinding mDataBinding;
-
-    private Long itemId = 0L;
+    ProgressDialogFragment currentDialog;
+    Long itemId = 0L;
 
     /** Constructor */
     public RepositoryFragment() {}
@@ -90,7 +89,6 @@ public class RepositoryFragment extends BaseFragment implements TokenCallback, P
     }
 
     @Override
-    @RequiresApi(api = Build.VERSION_CODES.N)
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.registerBroadcastReceiver();
@@ -169,16 +167,17 @@ public class RepositoryFragment extends BaseFragment implements TokenCallback, P
                     // directory should be empty.
                     if (destination.exists()) {
                         if (! destination.delete()) {
-                            Log.e(LOG_TAG, "destination not deleted");
+                            Log.e(LOG_TAG, "destination directory not deleted");
                             return;
                         }
                     }
                     if (! destination.exists()) {
                         if (! destination.mkdir()) {
-                            Log.e(LOG_TAG, "destination not created");
+                            Log.e(LOG_TAG, "destination directory not created");
+                            return;
                         }
                     }
-                    if (destination.exists()) {
+                    if (destination.exists() && destination.isDirectory()) {
                         String branch = getDataBinding().toolbarDownload.spinnerBranch.getSelectedItem().toString();
                         gitClone(destination, branch);
                     }
@@ -190,11 +189,17 @@ public class RepositoryFragment extends BaseFragment implements TokenCallback, P
 
     /** git clone. */
     private void gitClone(@NonNull File destination, @Nullable String branch) {
+
+        /* Attempting to display the checkout progress. */
+        this.currentDialog = new ProgressDialogFragment();
+        this.currentDialog.show(getChildFragmentManager(), ProgressDialogFragment.LOG_TAG);
+        this.currentDialog.setRepositoryName(getRepoName());
+
         Thread thread = new Thread(() -> {
             CloneCommand cmd = Git.cloneRepository()
                     .setURI(getRepoUrl())
                     .setCredentialsProvider(new UsernamePasswordCredentialsProvider(getPersonalAccessToken(), ""))
-                    .setProgressMonitor(RepositoryFragment.this)
+                    .setProgressMonitor((ProgressMonitor) currentDialog)
                     .setDirectory(destination)
                     .setRemote("github");
 
@@ -204,19 +209,16 @@ public class RepositoryFragment extends BaseFragment implements TokenCallback, P
                 cmd.setBranch(branch);
             }
 
+            if (mDebug) {Log.d(LOG_TAG, "Cloning into " + getRepoName() + "...");}
             try {
-                if (mDebug) {Log.d(LOG_TAG, "Cloning into " + getRepoName() + "...");}
                 cmd.call();
             } catch (GitAPIException | JGitInternalException | NoSuchMethodError e) {
                 String message = e.getMessage();
                 if (mDebug) {Log.e(LOG_TAG, e.getMessage(), e);}
-                requireActivity().runOnUiThread(() ->
-                        Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show());
-            } finally {
-                String message = "Cloned.";
-                if (mDebug) {Log.d(LOG_TAG, message);}
-                requireActivity().runOnUiThread(() ->
-                        Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show());
+                requireActivity().runOnUiThread(() -> {
+                    this.currentDialog.dismiss();
+                    Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show();
+                });
             }
         });
         thread.start();
@@ -538,47 +540,6 @@ public class RepositoryFragment extends BaseFragment implements TokenCallback, P
         startActivity(intent);
     }
 
-    @SuppressWarnings("unused")
-    private void switchToolbarView(@NonNull Integer childIndex) {
-        ViewFlipper view = this.mDataBinding.toolbarDownload.viewflipperDownload;
-        int index = view.getDisplayedChild();
-        switch(childIndex) {
-            case 0: if (index != childIndex) {view.showPrevious();} break;
-            case 1: if (index != childIndex) {view.showNext();} break;
-        }
-    }
-
     @Override
     public void onLogin(@NonNull User item) {}
-
-    /** Interface: ProgressMonitor */
-    @Override
-    public void start(int totalTasks) {
-        if (mDebug) {Log.d(LOG_TAG, "totalTasks: " + totalTasks);}
-    }
-
-    /** Interface: ProgressMonitor */
-    @Override
-    public void beginTask(String title, int totalWork) {
-        if (mDebug) {Log.d(LOG_TAG, "beginTask " + title + ": " + totalWork);}
-    }
-
-    /** Interface: ProgressMonitor */
-    @Override
-    public void update(int completed) {
-        if (mDebug) {Log.d(LOG_TAG, "completed: +" + completed);}
-    }
-
-    /** Interface: ProgressMonitor */
-    @Override
-    public void endTask() {
-        if (mDebug) {Log.d(LOG_TAG, "endTask");}
-    }
-
-    /** Interface: ProgressMonitor */
-    @Override
-    public boolean isCancelled() {
-        // if (mDebug) {Log.d(LOG_TAG, "isCancelled?");}
-        return false;
-    }
 }
