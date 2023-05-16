@@ -48,7 +48,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="0.2"
                         android:orientation="vertical"
-                        android:visibility="@{safeUnbox(repository.forkCount) > 0 ? View.VISIBLE : View.INVISIBLE}">
+                        android:visibility="@{ safeUnbox(repository.forkCount) > 0 ? View.VISIBLE : View.INVISIBLE }">
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/forkCount"
@@ -56,7 +56,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="sans-serif-medium"
                             android:maxLines="1"
-                            android:text='@{"" + repository.forkCount}'
+                            android:text='@{"" + repository.forkCount }'
                             android:textAlignment="center"
                             android:textColor="@android:color/white"
                             android:textSize="14sp"
@@ -79,7 +79,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="0.2"
                         android:orientation="vertical"
-                        android:visibility="@{safeUnbox(repository.watcherCount) > 0 ? View.VISIBLE : View.INVISIBLE}">
+                        android:visibility="@{ safeUnbox(repository.watcherCount) > 0 ? View.VISIBLE : View.INVISIBLE }">
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/watcherCount"
@@ -87,7 +87,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="sans-serif-medium"
                             android:maxLines="1"
-                            android:text='@{"" + repository.watcherCount}'
+                            android:text='@{"" + repository.watcherCount }'
                             android:textAlignment="center"
                             android:textColor="@android:color/white"
                             android:textSize="14sp"
@@ -110,7 +110,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="0.2"
                         android:orientation="vertical"
-                        android:visibility="@{safeUnbox(repository.subscriberCount) > 0 ? View.VISIBLE : View.INVISIBLE}">
+                        android:visibility="@{ safeUnbox(repository.subscriberCount) > 0 ? View.VISIBLE : View.INVISIBLE }">
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/subscriberCount"
@@ -118,7 +118,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="sans-serif-medium"
                             android:maxLines="1"
-                            android:text='@{"" + repository.subscriberCount}'
+                            android:text='@{"" + repository.subscriberCount }'
                             android:textAlignment="center"
                             android:textColor="@android:color/white"
                             android:textSize="14sp"
@@ -141,7 +141,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="0.2"
                         android:orientation="vertical"
-                        android:visibility="@{safeUnbox(repository.networkCount) > 0 ? View.VISIBLE : View.INVISIBLE}">
+                        android:visibility="@{ safeUnbox(repository.networkCount) > 0 ? View.VISIBLE : View.INVISIBLE }">
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/networkCount"
@@ -149,7 +149,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="sans-serif-medium"
                             android:maxLines="1"
-                            android:text='@{"" + repository.networkCount}'
+                            android:text='@{"" + repository.networkCount }'
                             android:textAlignment="center"
                             android:textColor="@android:color/white"
                             android:textSize="14sp"

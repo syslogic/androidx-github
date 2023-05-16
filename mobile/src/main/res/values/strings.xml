@@ -47,11 +47,13 @@
     <string name="debug_network_absent">Network connection is absent</string>
 
     <string name="hint_auto_id">Auto ID</string>
+    <string name="hint_home_button">Home Button</string>
     <string name="hint_query_string_title">Display Name</string>
     <string name="hint_query_string_search">Search Parameter</string>
     <string name="hint_query_string_condition">Condition</string>
     <string name="hint_query_string_operator">Comparison Operator</string>
     <string name="hint_query_string_operand">Comparison Value</string>
     <string name="hint_query_string_is_raw">Raw Query</string>
+
 
 </resources>
