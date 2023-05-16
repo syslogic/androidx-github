@@ -22,7 +22,7 @@
     <string name="tools_workflow_name">android.yml</string>
 
     <!-- dialog progress -->
-    <string name="tools_task_title">Enumerating objects</string>
+    <string name="tools_task_title">remote: Enumerating objects</string>
     <string name="tools_task_progress">2056 / 5793</string>
     <string name="tools_task_percentage">93%</string>
 

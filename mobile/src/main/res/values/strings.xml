@@ -55,6 +55,6 @@
     <string name="hint_query_string_operand">Comparison Value</string>
     <string name="hint_query_string_is_raw">Raw Query</string>
 
-    <string name="text_cloning_repository">Cloning into…</string>
+    <string name="text_cloning_repository">Cloning git repository…</string>
 
 </resources>

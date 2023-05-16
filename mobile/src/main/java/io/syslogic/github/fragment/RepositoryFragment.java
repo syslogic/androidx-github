@@ -209,7 +209,7 @@ public class RepositoryFragment extends BaseFragment implements TokenCallback {
                 cmd.setBranch(branch);
             }
 
-            if (mDebug) {Log.d(LOG_TAG, "Cloning into " + getRepoName() + "...");}
+            if (mDebug) {Log.d(LOG_TAG, "Cloning git repository " + getRepoName() + "...");}
             try {
                 cmd.call();
             } catch (GitAPIException | JGitInternalException | NoSuchMethodError e) {

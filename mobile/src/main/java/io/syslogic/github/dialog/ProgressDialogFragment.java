@@ -1,6 +1,5 @@
 package io.syslogic.github.dialog;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,6 +10,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import org.eclipse.jgit.lib.ProgressMonitor;
+
+import java.util.Locale;
 
 import io.syslogic.github.databinding.DialogProgressBinding;
 import io.syslogic.github.R;
@@ -32,12 +33,13 @@ public class ProgressDialogFragment extends BaseDialogFragment implements Progre
     DialogProgressBinding mDataBinding;
 
     private String repoName = null;
-
     private boolean taskCancelled = false;
-    private int totalTasks = 4;
+    private int totalTasks = 6;
     private int currentTask = 0;
     private int totalWork = 0;
     private int currentWork = 0;
+
+    /** Constructor */
     public ProgressDialogFragment() {}
 
     /** Inflate the data-binding */
@@ -62,7 +64,6 @@ public class ProgressDialogFragment extends BaseDialogFragment implements Progre
     }
 
     /** ProgressMonitor: Begin processing a single task. */
-    @SuppressLint("SetTextI18n")
     @Override
     public void beginTask(String title, int totalWork) {
         this.totalWork = totalWork;
@@ -78,15 +79,23 @@ public class ProgressDialogFragment extends BaseDialogFragment implements Progre
     }
 
     /** ProgressMonitor: Denote that some work units have been completed. */
-    @SuppressLint("SetTextI18n")
     @Override
     public void update(int completed) {
         this.currentWork += completed;
+
         String message = this.currentWork + " / " + this.totalWork;
+        String percentage;
         // if (mDebug) {Log.d(LOG_TAG, "items complete: " + message);}
+        if (this.totalWork == 0) {
+            percentage = "0.00%";
+        } else {
+            percentage = String.format(Locale.ROOT,"%.02f", (float) (this.currentWork / this.totalWork * 100)) + "%";
+        }
+
         requireActivity().runOnUiThread(() -> {
             this.mDataBinding.progressIndicator.setProgress(this.currentWork);
             this.mDataBinding.textTaskStatus.setText(message);
+            this.mDataBinding.textTaskPercentage.setText(percentage);
         });
     }
 
@@ -97,9 +106,8 @@ public class ProgressDialogFragment extends BaseDialogFragment implements Progre
         // if (this.currentTask == this.totalTasks) {this.dismiss();} // TODO: comparison doesn't work.
 
         /* Reset the progress indicator */
-        requireActivity().runOnUiThread(() -> {
-            this.mDataBinding.progressIndicator.setProgress(0);
-        });
+        requireActivity().runOnUiThread(() ->
+                this.mDataBinding.progressIndicator.setProgress(0));
     }
 
     /** Interface: ProgressMonitor. Check for user task cancellation. */
