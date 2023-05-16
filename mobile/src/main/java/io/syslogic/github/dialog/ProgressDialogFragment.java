@@ -34,7 +34,8 @@ public class ProgressDialogFragment extends BaseDialogFragment implements Progre
 
     private String repoName = null;
     private boolean taskCancelled = false;
-    private int totalTasks = 6;
+    @SuppressWarnings("FieldCanBeLocal")
+    private final int totalTasks = 6;
     private int currentTask = 0;
     private int totalWork = 0;
     private int currentWork = 0;
@@ -81,17 +82,15 @@ public class ProgressDialogFragment extends BaseDialogFragment implements Progre
     /** ProgressMonitor: Denote that some work units have been completed. */
     @Override
     public void update(int completed) {
-        this.currentWork += completed;
-
-        String message = this.currentWork + " / " + this.totalWork;
         String percentage;
-        // if (mDebug) {Log.d(LOG_TAG, "items complete: " + message);}
+        this.currentWork += completed;
         if (this.totalWork == 0) {
             percentage = "0.00%";
         } else {
-            percentage = String.format(Locale.ROOT,"%.02f", (float) (this.currentWork / this.totalWork * 100)) + "%";
+            percentage = String.format(Locale.ROOT,"%.02f", ((float) this.currentWork / (float) this.totalWork) * 100) + "%";
         }
 
+        String message = this.currentWork + " / " + this.totalWork;
         requireActivity().runOnUiThread(() -> {
             this.mDataBinding.progressIndicator.setProgress(this.currentWork);
             this.mDataBinding.textTaskStatus.setText(message);
@@ -103,11 +102,14 @@ public class ProgressDialogFragment extends BaseDialogFragment implements Progre
     @Override
     public void endTask() {
         if (mDebug) {Log.d(LOG_TAG, "endTask " + this.currentTask + " / " + this.totalTasks);}
-        // if (this.currentTask == this.totalTasks) {this.dismiss();} // TODO: comparison doesn't work.
-
-        /* Reset the progress indicator */
-        requireActivity().runOnUiThread(() ->
-                this.mDataBinding.progressIndicator.setProgress(0));
+        if (this.currentTask != this.totalTasks) {
+            /* Reset the progress indicator. */
+            requireActivity().runOnUiThread(() ->
+                    this.mDataBinding.progressIndicator.setProgress(0));
+        } else {
+            /* Dismiss dialog. */
+            this.dismiss();
+        }
     }
 
     /** Interface: ProgressMonitor. Check for user task cancellation. */

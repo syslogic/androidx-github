@@ -31,8 +31,8 @@ abstract public class BaseDialogFragment extends DialogFragment {
     protected SharedPreferences prefs;
     @Nullable protected Dialog dialog;
 
-    /** By default the dialog can be closed by touching outside of it */
-    protected boolean cancelOnTouchOutSide = true;
+    /** By default the dialog cannot be closed by touching outside of it */
+    protected boolean cancelOnTouchOutSide = false;
 
     public BaseDialogFragment() {}
 
