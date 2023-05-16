@@ -1,17 +1,19 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="Test Profile" type="AndroidTestRunConfigurationType" factoryName="Android Instrumented Tests">
-    <module name="androidx-github.mobile" />
+    <module name="GitHub_Client.mobile.androidTest" />
     <option name="TESTING_TYPE" value="2" />
     <option name="METHOD_NAME" value="" />
     <option name="CLASS_NAME" value="io.syslogic.github.TestProfile" />
     <option name="PACKAGE_NAME" value="" />
+    <option name="TEST_NAME_REGEX" value="" />
     <option name="INSTRUMENTATION_RUNNER_CLASS" value="" />
     <option name="EXTRA_OPTIONS" value="" />
-    <option name="INCLUDE_GRADLE_EXTRA_OPTIONS" value="true" />
+    <option name="RETENTION_ENABLED" value="No" />
+    <option name="RETENTION_MAX_SNAPSHOTS" value="2" />
+    <option name="RETENTION_COMPRESS_SNAPSHOTS" value="false" />
     <option name="CLEAR_LOGCAT" value="false" />
     <option name="SHOW_LOGCAT_AUTOMATICALLY" value="false" />
-    <option name="SKIP_NOOP_APK_INSTALLATIONS" value="true" />
-    <option name="FORCE_STOP_RUNNING_APP" value="true" />
+    <option name="INSPECTION_WITHOUT_ACTIVITY_RESTART" value="false" />
     <option name="TARGET_SELECTION_MODE" value="DEVICE_AND_SNAPSHOT_COMBO_BOX" />
     <option name="SELECTED_CLOUD_MATRIX_CONFIGURATION_ID" value="2147483645" />
     <option name="SELECTED_CLOUD_MATRIX_PROJECT_ID" value="api-6565312227085587375-256155" />
@@ -42,7 +44,7 @@
       <option name="ADVANCED_PROFILING_ENABLED" value="false" />
       <option name="STARTUP_PROFILING_ENABLED" value="false" />
       <option name="STARTUP_CPU_PROFILING_ENABLED" value="false" />
-      <option name="STARTUP_CPU_PROFILING_CONFIGURATION_NAME" value="Sample Java Methods" />
+      <option name="STARTUP_CPU_PROFILING_CONFIGURATION_NAME" value="Callstack Sample" />
       <option name="STARTUP_NATIVE_MEMORY_PROFILING_ENABLED" value="false" />
       <option name="NATIVE_MEMORY_SAMPLE_RATE_BYTES" value="2048" />
     </Profilers>
