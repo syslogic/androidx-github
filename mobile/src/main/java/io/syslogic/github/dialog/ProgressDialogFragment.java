@@ -34,7 +34,7 @@ public class ProgressDialogFragment extends BaseDialogFragment implements Progre
     private String repoName = null;
 
     private boolean taskCancelled = false;
-    private int totalTasks = 0;
+    private int totalTasks = 4;
     private int currentTask = 0;
     private int totalWork = 0;
     private int currentWork = 0;
@@ -58,21 +58,23 @@ public class ProgressDialogFragment extends BaseDialogFragment implements Progre
     /** ProgressMonitor: Advise the monitor of the total number of subtasks. */
     @Override
     public void start(int totalTasks) {
-        this.totalTasks = totalTasks;
+        // this.totalTasks = totalTasks;
     }
 
     /** ProgressMonitor: Begin processing a single task. */
     @SuppressLint("SetTextI18n")
     @Override
     public void beginTask(String title, int totalWork) {
-        this.currentTask++;
         this.totalWork = totalWork;
-        this.currentWork = 0;
+        this.currentTask++;
+        this.currentWork=0;
         if (mDebug) {
             Log.d(LOG_TAG, "beginTask " + this.currentTask + ": " + title + ": " + totalWork + " items");
         }
-        requireActivity().runOnUiThread(() ->
-                this.mDataBinding.textCurrentTaskTitle.setText(title));
+        requireActivity().runOnUiThread(() -> {
+            this.mDataBinding.progressIndicator.setMax(totalWork);
+            this.mDataBinding.textTaskTitle.setText(title);
+        });
     }
 
     /** ProgressMonitor: Denote that some work units have been completed. */
@@ -81,17 +83,23 @@ public class ProgressDialogFragment extends BaseDialogFragment implements Progre
     public void update(int completed) {
         this.currentWork += completed;
         String message = this.currentWork + " / " + this.totalWork;
-        if (mDebug) {Log.d(LOG_TAG, "items complete: " + message);}
-        requireActivity().runOnUiThread(() ->
-                this.mDataBinding.textDownloadStatus.setText(message)
-        );
+        // if (mDebug) {Log.d(LOG_TAG, "items complete: " + message);}
+        requireActivity().runOnUiThread(() -> {
+            this.mDataBinding.progressIndicator.setProgress(this.currentWork);
+            this.mDataBinding.textTaskStatus.setText(message);
+        });
     }
 
     /** ProgressMonitor: Finish the current task, so the next can begin. */
     @Override
     public void endTask() {
-        if (mDebug) {Log.d(LOG_TAG, "endTask " + this.currentTask);}
-        if (this.currentTask == this.totalTasks) {this.dismiss();}
+        if (mDebug) {Log.d(LOG_TAG, "endTask " + this.currentTask + " / " + this.totalTasks);}
+        // if (this.currentTask == this.totalTasks) {this.dismiss();} // TODO: comparison doesn't work.
+
+        /* Reset the progress indicator */
+        requireActivity().runOnUiThread(() -> {
+            this.mDataBinding.progressIndicator.setProgress(0);
+        });
     }
 
     /** Interface: ProgressMonitor. Check for user task cancellation. */

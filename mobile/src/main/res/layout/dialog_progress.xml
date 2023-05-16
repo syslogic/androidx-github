@@ -43,14 +43,13 @@
             android:layout_height="8dp"/>
 
         <androidx.appcompat.widget.LinearLayoutCompat
-            android:id="@+id/layout_download_progress"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="0dp"
             android:orientation="vertical">
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/text_current_task_title"
+                android:id="@+id/text_task_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="4dp"
@@ -58,10 +57,18 @@
                 android:textColor="#546E7A"
                 android:textSize="20sp"
                 app:fontFamily="monospace"
-                tools:text="@string/tools_current_task_title" />
+                tools:text="@string/tools_task_title"/>
+
+            <com.google.android.material.progressindicator.LinearProgressIndicator
+                android:id="@+id/progressIndicator"
+                android:layout_width="fill_parent"
+                android:layout_height="12dp"
+                style="@style/Widget.MaterialComponents.LinearProgressIndicator"
+                tools:background="@color/colorAccent"/>
+
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/text_download_status"
+                android:id="@+id/text_task_status"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="4dp"
@@ -69,7 +76,18 @@
                 android:textColor="#546E7A"
                 android:textSize="20sp"
                 app:fontFamily="monospace"
-                tools:text="@string/tools_current_task_progress"/>
+                tools:text="@string/tools_task_progress"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/text_task_percentage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="4dp"
+                android:textAlignment="center"
+                android:textColor="#546E7A"
+                android:textSize="20sp"
+                app:fontFamily="monospace"
+                tools:text="@string/tools_task_percentage"/>
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
