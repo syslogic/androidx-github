@@ -29,7 +29,6 @@ import java.io.File;
 import java.io.IOException;
 
 import java.util.ArrayList;
-import java.util.Collection;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -41,7 +40,7 @@ import org.eclipse.jgit.api.CloneCommand;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
-import org.eclipse.jgit.lib.AnyObjectId;
+import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 
 import io.syslogic.github.R;
@@ -65,7 +64,7 @@ import retrofit2.Response;
  *
  * @author Martin Zeitler
  */
-public class RepositoryFragment extends BaseFragment implements TokenCallback, CloneCommand.Callback {
+public class RepositoryFragment extends BaseFragment implements TokenCallback, ProgressMonitor {
 
     /** Log Tag */
     @SuppressWarnings("unused")
@@ -180,7 +179,8 @@ public class RepositoryFragment extends BaseFragment implements TokenCallback, C
                         }
                     }
                     if (destination.exists()) {
-                        gitClone(destination);
+                        String branch = getDataBinding().toolbarDownload.spinnerBranch.getSelectedItem().toString();
+                        gitClone(destination, branch);
                     }
                 });
             }
@@ -188,39 +188,35 @@ public class RepositoryFragment extends BaseFragment implements TokenCallback, C
         return this.mDataBinding.getRoot();
     }
 
-    /** TODO: git clone (experimental). */
-    private void gitClone(@NonNull File destination) {
+    /** git clone. */
+    private void gitClone(@NonNull File destination, @Nullable String branch) {
         Thread thread = new Thread(() -> {
             CloneCommand cmd = Git.cloneRepository()
                     .setURI(getRepoUrl())
-                    .setDirectory(destination)
-                    .setRemote("github")
-                    .setCloneAllBranches(true)
                     .setCredentialsProvider(new UsernamePasswordCredentialsProvider(getPersonalAccessToken(), ""))
-                    .setCallback(RepositoryFragment.this);
-            /*
-                    .setTransportConfigCallback(transport -> {
-                        Map<String, String> headers = new HashMap<>();
-                        headers.put("Authorization", getPersonalAccessToken());
-                        TransportHttp http = (TransportHttp) transport;
-                        http.setAdditionalHeaders(headers);
-                    });
-            */
-            try {
-                if (mDebug) {Log.d(LOG_TAG, "cloning into " + getRepoName());}
-                Git result = cmd.call();
-                org.eclipse.jgit.lib.Repository repo = result.getRepository();
-                repo.close();
+                    .setProgressMonitor(RepositoryFragment.this)
+                    .setDirectory(destination)
+                    .setRemote("github");
 
+            if (branch == null) {
+                cmd.setCloneAllBranches(true);
+            } else {
+                cmd.setBranch(branch);
+            }
+
+            try {
+                if (mDebug) {Log.d(LOG_TAG, "Cloning into " + getRepoName() + "...");}
+                cmd.call();
             } catch (GitAPIException | JGitInternalException | NoSuchMethodError e) {
                 String message = e.getMessage();
                 if (mDebug) {Log.e(LOG_TAG, e.getMessage(), e);}
                 requireActivity().runOnUiThread(() ->
                         Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show());
             } finally {
-                if (mDebug) {
-                     Log.d(LOG_TAG, "cloning complete");
-                }
+                String message = "Cloned.";
+                if (mDebug) {Log.d(LOG_TAG, message);}
+                requireActivity().runOnUiThread(() ->
+                        Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show());
             }
         });
         thread.start();
@@ -555,21 +551,34 @@ public class RepositoryFragment extends BaseFragment implements TokenCallback, C
     @Override
     public void onLogin(@NonNull User item) {}
 
-    /** Interface: CloneCommand.Callback */
+    /** Interface: ProgressMonitor */
     @Override
-    public void initializedSubmodules(Collection<String> submodules) {
-        if (mDebug) {Log.d(LOG_TAG, "initializedSubmodules");}
+    public void start(int totalTasks) {
+        if (mDebug) {Log.d(LOG_TAG, "totalTasks: " + totalTasks);}
     }
 
-    /** Interface: CloneCommand.Callback */
+    /** Interface: ProgressMonitor */
     @Override
-    public void cloningSubmodule(String path) {
-        if (mDebug) {Log.d(LOG_TAG, "cloningSubmodule");}
+    public void beginTask(String title, int totalWork) {
+        if (mDebug) {Log.d(LOG_TAG, "beginTask " + title + ": " + totalWork);}
     }
 
-    /** Interface: CloneCommand.Callback */
+    /** Interface: ProgressMonitor */
     @Override
-    public void checkingOut(AnyObjectId commit, String path) {
-        if (mDebug) {Log.d(LOG_TAG, "checkingOut");}
+    public void update(int completed) {
+        if (mDebug) {Log.d(LOG_TAG, "completed: +" + completed);}
+    }
+
+    /** Interface: ProgressMonitor */
+    @Override
+    public void endTask() {
+        if (mDebug) {Log.d(LOG_TAG, "endTask");}
+    }
+
+    /** Interface: ProgressMonitor */
+    @Override
+    public boolean isCancelled() {
+        // if (mDebug) {Log.d(LOG_TAG, "isCancelled?");}
+        return false;
     }
 }
