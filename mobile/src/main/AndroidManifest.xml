@@ -10,6 +10,10 @@
     <uses-permission android:name="android.permission.READ_SYNC_SETTINGS"/>
     <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS"/>
 
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        tools:ignore="ScopedStorage"
+        android:maxSdkVersion="32"/>
+
     <!-- Permissions: Lollipop MR1 -->
     <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" android:maxSdkVersion="22"/>
     <uses-permission android:name="android.permission.USE_CREDENTIALS" android:maxSdkVersion="22"/>

@@ -10,6 +10,11 @@
             app:title="@string/title_personal_access_token"
             app:summary="@string/summary_intent_account_settings"/>
 
+        <Preference
+            app:key="workspace_directory"
+            app:title="@string/title_workspace_directory"
+            app:summary="@string/summary_workspace_directory"/>
+
         <SwitchPreferenceCompat
             app:key="show_repository_topics"
             app:defaultValue="false"

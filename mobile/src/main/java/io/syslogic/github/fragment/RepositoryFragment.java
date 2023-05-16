@@ -25,14 +25,24 @@ import android.widget.ViewFlipper;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+import java.io.File;
 import java.io.IOException;
+
 import java.util.ArrayList;
+import java.util.Collection;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.widget.AppCompatSpinner;
 import androidx.databinding.ViewDataBinding;
+
+import org.eclipse.jgit.api.CloneCommand;
+import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.api.errors.JGitInternalException;
+import org.eclipse.jgit.lib.AnyObjectId;
+import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 
 import io.syslogic.github.R;
 import io.syslogic.github.Constants;
@@ -55,7 +65,7 @@ import retrofit2.Response;
  *
  * @author Martin Zeitler
  */
-public class RepositoryFragment extends BaseFragment implements TokenCallback {
+public class RepositoryFragment extends BaseFragment implements TokenCallback, CloneCommand.Callback {
 
     /** Log Tag */
     @SuppressWarnings("unused")
@@ -149,9 +159,71 @@ public class RepositoryFragment extends BaseFragment implements TokenCallback {
                     String branch = getDataBinding().toolbarDownload.spinnerBranch.getSelectedItem().toString();
                     downloadBranchAsZip(branch);
                 });
+
+                /* The git clone button (experimental). */
+                this.mDataBinding.toolbarDownload.buttonClone.setOnClickListener(view -> {
+                    assert this.prefs != null;
+                    String directory = this.prefs.getString(Constants.PREFERENCE_KEY_WORKSPACE_DIRECTORY, Environment.getExternalStorageDirectory() + "/Workspace");
+                    String name = getDataBinding().getRepository().getName();
+                    File destination = new File(directory + "/" + name);
+
+                    // directory should be empty.
+                    if (destination.exists()) {
+                        if (! destination.delete()) {
+                            Log.e(LOG_TAG, "destination not deleted");
+                            return;
+                        }
+                    }
+                    if (! destination.exists()) {
+                        if (! destination.mkdir()) {
+                            Log.e(LOG_TAG, "destination not created");
+                        }
+                    }
+                    if (destination.exists()) {
+                        gitClone(destination);
+                    }
+                });
             }
         }
         return this.mDataBinding.getRoot();
+    }
+
+    /** TODO: git clone (experimental). */
+    private void gitClone(@NonNull File destination) {
+        Thread thread = new Thread(() -> {
+            CloneCommand cmd = Git.cloneRepository()
+                    .setURI(getRepoUrl())
+                    .setDirectory(destination)
+                    .setRemote("github")
+                    .setCloneAllBranches(true)
+                    .setCredentialsProvider(new UsernamePasswordCredentialsProvider(getPersonalAccessToken(), ""))
+                    .setCallback(RepositoryFragment.this);
+            /*
+                    .setTransportConfigCallback(transport -> {
+                        Map<String, String> headers = new HashMap<>();
+                        headers.put("Authorization", getPersonalAccessToken());
+                        TransportHttp http = (TransportHttp) transport;
+                        http.setAdditionalHeaders(headers);
+                    });
+            */
+            try {
+                if (mDebug) {Log.d(LOG_TAG, "cloning into " + getRepoName());}
+                Git result = cmd.call();
+                org.eclipse.jgit.lib.Repository repo = result.getRepository();
+                repo.close();
+
+            } catch (GitAPIException | JGitInternalException | NoSuchMethodError e) {
+                String message = e.getMessage();
+                if (mDebug) {Log.e(LOG_TAG, e.getMessage(), e);}
+                requireActivity().runOnUiThread(() ->
+                        Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show());
+            } finally {
+                if (mDebug) {
+                     Log.d(LOG_TAG, "cloning complete");
+                }
+            }
+        });
+        thread.start();
     }
 
     void downloadBranchAsZip(@Nullable String branch) {
@@ -161,6 +233,17 @@ public class RepositoryFragment extends BaseFragment implements TokenCallback {
 
     private void setItemId(@NonNull Long value) {
         this.itemId = value;
+    }
+
+    @NonNull
+    private String getRepoName() {
+        return getDataBinding().getRepository().getFullName();
+    }
+
+    @NonNull
+    private String getRepoUrl() {
+        return getDataBinding().getRepository().getUrl()
+                .replace("api.github.com/repos", "github.com") + ".git";
     }
 
     @NonNull
@@ -178,7 +261,7 @@ public class RepositoryFragment extends BaseFragment implements TokenCallback {
         super.onNetworkAvailable();
         if (this.getContext() != null) {
 
-            String token = this.getAccessToken(this.getContext());
+            String token = this.getPersonalAccessToken();
             if (getCurrentUser() == null && token != null) {
                 this.setUser(token, this);
             }
@@ -209,17 +292,14 @@ public class RepositoryFragment extends BaseFragment implements TokenCallback {
                 @Override
                 public void onResponse(@NonNull Call<Repository> call, @NonNull Response<Repository> response) {
                     switch (response.code()) {
-
-                        case 200: {
+                        case 200 -> {
                             if (response.body() != null) {
                                 Repository item = response.body();
                                 mDataBinding.setRepository(item);
                                 setBranches(item);
                             }
-                            break;
                         }
-
-                        case 403: {
+                        case 403 -> {
                             if (response.errorBody() != null) {
                                 try {
                                     String errors = response.errorBody().string();
@@ -235,7 +315,6 @@ public class RepositoryFragment extends BaseFragment implements TokenCallback {
                                     }
                                 }
                             }
-                            break;
                         }
                     }
                 }
@@ -261,8 +340,7 @@ public class RepositoryFragment extends BaseFragment implements TokenCallback {
             @Override
             public void onResponse(@NonNull Call<ArrayList<Branch>> call, @NonNull Response<ArrayList<Branch>> response) {
                 switch (response.code()) {
-
-                    case 200: {
+                    case 200 -> {
                         if (response.body() != null && getContext() != null) {
 
                             /* Updating the branches */
@@ -283,7 +361,7 @@ public class RepositoryFragment extends BaseFragment implements TokenCallback {
                             /* Attempting to select branch master */
                             int defaultIndex = -1;
                             for (int i = 0; i < items.size(); i++) {
-                                if (items.get(i).getName().equals("main") && items.get(i).getName().equals("master")) {
+                                if (items.get(i).getName().equals("main") || items.get(i).getName().equals("master")) {
                                     if (mDebug) {
                                         String formatString = getContext().getResources().getString(R.string.debug_branch_master);
                                         Log.d(LOG_TAG, String.format(formatString, repoName, i));
@@ -305,10 +383,8 @@ public class RepositoryFragment extends BaseFragment implements TokenCallback {
                                 );
                             }
                         }
-                        break;
                     }
-
-                    case 403: {
+                    case 403 -> {
                         if (response.errorBody() != null) {
                             try {
                                 String errors = response.errorBody().string();
@@ -324,7 +400,6 @@ public class RepositoryFragment extends BaseFragment implements TokenCallback {
                                 }
                             }
                         }
-                        break;
                     }
                 }
             }
@@ -348,7 +423,7 @@ public class RepositoryFragment extends BaseFragment implements TokenCallback {
     }
 
     void downloadRepository(@NonNull final Repository item, final String archiveFormat, String branch) {
-        String token = getAccessToken(requireContext());
+        String token = getPersonalAccessToken();
         assert token != null;
         Call<ResponseBody> api = GithubClient.getArchiveLink(token, item.getOwner().getLogin(), item.getName(), archiveFormat, branch);
         if (mDebug) {Log.d(LOG_TAG, api.request().url() + "");}
@@ -479,4 +554,22 @@ public class RepositoryFragment extends BaseFragment implements TokenCallback {
 
     @Override
     public void onLogin(@NonNull User item) {}
+
+    /** Interface: CloneCommand.Callback */
+    @Override
+    public void initializedSubmodules(Collection<String> submodules) {
+        if (mDebug) {Log.d(LOG_TAG, "initializedSubmodules");}
+    }
+
+    /** Interface: CloneCommand.Callback */
+    @Override
+    public void cloningSubmodule(String path) {
+        if (mDebug) {Log.d(LOG_TAG, "cloningSubmodule");}
+    }
+
+    /** Interface: CloneCommand.Callback */
+    @Override
+    public void checkingOut(AnyObjectId commit, String path) {
+        if (mDebug) {Log.d(LOG_TAG, "checkingOut");}
+    }
 }

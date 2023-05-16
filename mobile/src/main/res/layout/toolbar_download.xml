@@ -41,7 +41,7 @@
                     android:id="@+id/spinner_branch"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:entries="@{branches}"
+                    android:entries="@{ branches }"
                     android:textAlignment="viewEnd"/>
 
                 <androidx.appcompat.widget.AppCompatImageButton
@@ -50,6 +50,13 @@
                     android:layout_height="match_parent"
                     android:background="@null"
                     android:src="@drawable/ic_baseline_cloud_download_24"/>
+
+                <androidx.appcompat.widget.AppCompatImageButton
+                    android:id="@+id/button_clone"
+                    android:layout_width="48dp"
+                    android:layout_height="match_parent"
+                    android:background="@null"
+                    android:src="@drawable/baseline_folder_copy_24"/>
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 

@@ -1,6 +1,7 @@
 package io.syslogic.github.recyclerview;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
@@ -27,7 +28,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -139,10 +139,10 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
                 @Override
                 public void onResponse(@NonNull Call<Repositories> call, @NonNull Response<Repositories> response) {
-                    switch(response.code()) {
+                    switch (response.code()) {
 
                         // OK
-                        case 200: {
+                        case 200 -> {
                             if (response.body() != null) {
                                 Repositories items = response.body();
                                 if (BuildConfig.DEBUG) {
@@ -161,10 +161,8 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                                 /* Updating the pager data-binding */
                                 setPagerState(pageNumber, false, items.getTotalCount());
                             }
-                            break;
                         }
-
-                        case 401: {
+                        case 401 -> {
                             /* "bad credentials" means that the provided access-token is invalid. */
                             if (response.errorBody() != null) {
                                 logError(response.errorBody());
@@ -172,10 +170,8 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                                 /* Updating the pager data-binding */
                                 setPagerState(pageNumber, false, null);
                             }
-                            break;
                         }
-
-                        case 403: {
+                        case 403 -> {
                             if (response.errorBody() != null) {
                                 logError(response.errorBody());
 
@@ -185,7 +181,6 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                                 resetOnScrollListener();
                                 getRateLimit("search");
                             }
-                            break;
                         }
                     }
                 }
@@ -233,11 +228,8 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @Nullable
     protected PagerState getPagerState() {
-        if (((BaseActivity) getContext()).getFragmentDataBinding() instanceof FragmentRepositoriesBinding) {
-            FragmentRepositoriesBinding databinding = (FragmentRepositoriesBinding) ((BaseActivity) getContext()).getFragmentDataBinding();
-            if (databinding != null) {
-                return databinding.getPagerState();
-            }
+        if (((BaseActivity) getContext()).getFragmentDataBinding() instanceof FragmentRepositoriesBinding databinding) {
+            return databinding.getPagerState();
         }
         return null;
     }
@@ -264,12 +256,12 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             public void onResponse(@NonNull Call<RateLimits> call, @NonNull Response<RateLimits> response) {
                 if (response.code() == 200 && response.body() != null) {
                     RateLimits items = response.body();
-                    RateLimit limit = null;
-                    switch (resourceName) {
-                        case "graphql": limit = items.getResources().getGraphql(); break;
-                        case "search":  limit = items.getResources().getSearch(); break;
-                        case "core": limit = items.getResources().getCore();  break;
-                    }
+                    RateLimit limit = switch (resourceName) {
+                        case "graphql" -> items.getResources().getGraphql();
+                        case "search" -> items.getResources().getSearch();
+                        case "core" -> items.getResources().getCore();
+                        default -> null;
+                    };
 
                     /* For testing purposes only: */
                     if (limit != null && BuildConfig.DEBUG) {
@@ -341,6 +333,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             this.mDataBinding = binding;
         }
 
+        @SuppressLint("SwitchIntDef")
         @Override
         public void onClick(@NonNull View viewHolder) {
             RepositoriesLinearView mRecyclerView = (RepositoriesLinearView) viewHolder.getParent();
@@ -352,16 +345,15 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 Repository item = getDataBinding().getItem();
                 NavController controller = Navigation.findNavController(layout);
                 switch (orientation) {
-                    //noinspection deprecation
-                    case Configuration.ORIENTATION_SQUARE:
-                    case Configuration.ORIENTATION_UNDEFINED:
-                    case Configuration.ORIENTATION_PORTRAIT: {
+                    case /* Configuration.ORIENTATION_SQUARE */ 3,
+                            Configuration.ORIENTATION_UNDEFINED,
+                            Configuration.ORIENTATION_PORTRAIT -> {
                         Bundle args = new Bundle();
                         args.putLong(Constants.ARGUMENT_ITEM_ID, item.getId());
                         controller.navigate(R.id.action_repositoriesFragment_to_repositoryFragment, args);
                         break;
                     }
-                    case Configuration.ORIENTATION_LANDSCAPE: {
+                    case Configuration.ORIENTATION_LANDSCAPE -> {
                         int layoutId = databinding.layoutRepository.layoutRepository.getId();
                         RepositoryFragment fragment = RepositoryFragment.newInstance(item.getId());
                         FragmentTransaction ft = activity.getSupportFragmentManager().beginTransaction();

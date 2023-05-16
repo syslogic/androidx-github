@@ -1,23 +1,35 @@
 package io.syslogic.github.fragment;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.DocumentsContract;
 import android.provider.Settings;
 import android.util.Log;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
 import androidx.preference.PreferenceScreen;
 
+import java.io.File;
+
 import io.syslogic.github.BuildConfig;
 import io.syslogic.github.Constants;
+
 import io.syslogic.github.R;
 import io.syslogic.github.network.TokenHelper;
 
@@ -63,7 +75,9 @@ public class PreferencesFragment extends PreferenceFragmentCompat
     public void onCreatePreferences(@Nullable Bundle savedInstanceState, @Nullable String rootKey) {
 
         this.setPreferencesFromResource(resId, rootKey);
-        Preference pref = this.findPreference(Constants.PREFERENCE_KEY_ACCOUNT_SETTINGS);
+
+        /* Preference: Account Manager */
+        Preference pref = this.findPreference(Constants.PREFERENCE_KEY_PERSONAL_ACCESS_TOKEN);
         if (pref != null) {
 
             String accessToken = TokenHelper.getAccessToken(requireContext());
@@ -90,6 +104,38 @@ public class PreferencesFragment extends PreferenceFragmentCompat
                 }
             });
         }
+
+        /* Preference: Workspace Directory */
+        Preference pref2 = this.findPreference(Constants.PREFERENCE_KEY_WORKSPACE_DIRECTORY);
+        if (pref2 != null) {
+            if (pref2.getSummary() == null) {
+                assert this.prefs != null;
+                String directory = this.prefs.getString(Constants.PREFERENCE_KEY_WORKSPACE_DIRECTORY, Environment.getExternalStorageDirectory() + "/Workspace");
+                File defaultDir = new File(directory);
+                if (! defaultDir.exists()) {
+                    if (! defaultDir.mkdir()) {
+
+                        /* Try internal storage instead */
+                        Log.w(LOG_TAG, "workspace not created: " + defaultDir.getAbsolutePath());
+                        defaultDir = new File(requireContext().getExternalFilesDir(null).toURI());
+                        Log.d(LOG_TAG, "workspace using internal storage: " + defaultDir.getAbsolutePath());
+                    }
+                }
+                if (! directory.equals(defaultDir.getAbsolutePath())) {
+                    this.prefs.edit().putString(Constants.PREFERENCE_KEY_WORKSPACE_DIRECTORY, defaultDir.getAbsolutePath()).apply();
+                }
+                pref2.setSummary(defaultDir.getAbsolutePath());
+            }
+
+            pref2.setOnPreferenceClickListener(preference -> {
+                if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                    // chooseDirectory();
+                } else {
+                    requestPermissionLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+                 }
+                return true;
+            });
+        }
     }
 
     /**
@@ -112,4 +158,39 @@ public class PreferencesFragment extends PreferenceFragmentCompat
     public void onSharedPreferenceChanged(@NonNull SharedPreferences preferences, @NonNull String key) {
         if (mDebug) {Log.d(LOG_TAG, "onSharedPreferenceChanged " + key);}
     }
+
+    private void chooseDirectory() {
+
+        String defaultDir = Environment.getExternalStorageDirectory() + "/Workspace/";
+        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        Uri uri = Uri.parse(defaultDir);
+        intent.setDataAndType(uri, DocumentsContract.Document.MIME_TYPE_DIR);
+        try {
+            requestFileChooserResult.launch(intent);
+        } catch (ActivityNotFoundException e) {
+            Log.e(LOG_TAG, e.getMessage());
+        }
+    }
+
+    /** Register the permissions callback. */
+    final ActivityResultLauncher<String> requestPermissionLauncher =
+            registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
+                if (isGranted) {
+                    // chooseDirectory();
+                }
+            });
+
+    /** Register the file-chooser callback. */
+    final ActivityResultLauncher<Intent> requestFileChooserResult =
+            registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+                if (result.getResultCode() == Activity.RESULT_OK) {
+                    // There are no request codes
+                    Intent data = result.getData();
+
+                } else if(result.getResultCode() == Activity.RESULT_CANCELED) {
+
+                }
+            });
+
 }

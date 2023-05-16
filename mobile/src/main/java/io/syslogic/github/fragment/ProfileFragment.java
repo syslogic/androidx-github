@@ -71,7 +71,7 @@ public class ProfileFragment extends BaseFragment implements TokenCallback {
                     }
                 });
 
-                String token = this.getAccessToken(this.getContext());
+                String token = this.getPersonalAccessToken();
                 if (getCurrentUser() == null && token != null) {
                     this.setUser(token, this);
                 }

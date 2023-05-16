@@ -147,7 +147,7 @@ public class RepositoriesFragment extends BaseFragment implements TokenCallback 
 
         super.onNetworkAvailable();
 
-        String token = this.getAccessToken(requireContext());
+        String token = this.getPersonalAccessToken();
         if (getCurrentUser() == null && token != null) {
             this.setUser(token, this);
         }
