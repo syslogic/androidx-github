@@ -84,6 +84,8 @@ public class ProgressDialogFragment extends BaseDialogFragment implements Progre
     public void update(int completed) {
         String percentage;
         this.currentWork += completed;
+
+        // prevent division by zero.
         if (this.totalWork == 0) {
             percentage = "0.00%";
         } else {
