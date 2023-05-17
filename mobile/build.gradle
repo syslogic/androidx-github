@@ -149,9 +149,9 @@ dependencies {
     androidTestImplementation "androidx.test.ext:junit:1.1.5"
 
     // https://mvnrepository.com/artifact/androidx.test
-    androidTestImplementation "androidx.test:core:1.5.0"
-    androidTestImplementation "androidx.test:runner:1.5.2"
-    androidTestImplementation "androidx.test:rules:1.5.0"
+    androidTestImplementation "androidx.test:core:1.4.0"
+    androidTestImplementation "androidx.test:runner:1.4.0"
+    androidTestImplementation "androidx.test:rules:1.4.0"
 
     // https://mvnrepository.com/artifact/androidx.test.uiautomator/uiautomator
     androidTestImplementation "androidx.test.uiautomator:uiautomator:$uiautomator_version"
