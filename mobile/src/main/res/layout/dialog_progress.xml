@@ -97,9 +97,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:gravity="center_horizontal"
-            android:visibility="gone"
-            tools:visibility="visible">
+            android:gravity="center_horizontal">
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/button_browse"
@@ -107,11 +105,14 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:padding="8dp"
+                android:visibility="gone"
+                tools:visibility="visible"
                 android:text="@string/text_button_browse"/>
 
             <Space
-                android:layout_width="8dp"
-                android:layout_height="match_parent"/>
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1.00"/>
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/button_close"
@@ -119,17 +120,19 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:padding="8dp"
+                android:visibility="gone"
+                tools:visibility="visible"
                 android:text="@string/text_button_close"/>
 
-        </androidx.appcompat.widget.LinearLayoutCompat>
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/button_cancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:padding="8dp"
+                android:text="@android:string/cancel"/>
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/button_cancel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:padding="8dp"
-            android:text="@android:string/cancel"/>
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 
