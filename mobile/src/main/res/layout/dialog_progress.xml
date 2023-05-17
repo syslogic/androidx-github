@@ -105,9 +105,10 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:padding="8dp"
+                android:text="@string/text_button_browse"
                 android:visibility="gone"
                 tools:visibility="visible"
-                android:text="@string/text_button_browse"/>
+                tools:background="@color/cardview_shadow_start_color"/>
 
             <Space
                 android:layout_width="0dp"
@@ -120,9 +121,10 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:padding="8dp"
+                android:text="@string/text_button_close"
                 android:visibility="gone"
                 tools:visibility="visible"
-                android:text="@string/text_button_close"/>
+                tools:background="@color/cardview_shadow_start_color"/>
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/button_cancel"
