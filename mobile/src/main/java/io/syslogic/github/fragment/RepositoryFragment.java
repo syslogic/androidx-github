@@ -194,6 +194,7 @@ public class RepositoryFragment extends BaseFragment implements TokenCallback {
         this.currentDialog = new ProgressDialogFragment();
         this.currentDialog.show(getChildFragmentManager(), ProgressDialogFragment.LOG_TAG);
         this.currentDialog.setRepositoryName(getRepoName());
+        this.currentDialog.setLocalPath(destination.getAbsolutePath());
 
         Thread thread = new Thread(() -> {
             CloneCommand cmd = Git.cloneRepository()

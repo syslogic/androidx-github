@@ -1,5 +1,7 @@
 package io.syslogic.github.dialog;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -33,6 +35,7 @@ public class ProgressDialogFragment extends BaseDialogFragment implements Progre
     DialogProgressBinding mDataBinding;
 
     private String repoName = null;
+    private String localPath = null;
     private boolean taskCancelled = false;
     @SuppressWarnings("FieldCanBeLocal")
     private final int totalTasks = 6;
@@ -49,19 +52,31 @@ public class ProgressDialogFragment extends BaseDialogFragment implements Progre
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         this.mDataBinding = DialogProgressBinding.inflate(inflater, container, false);
         this.mDataBinding.repositoryName.setText(this.repoName);
+        this.mDataBinding.buttonClose.setOnClickListener((view) -> this.dismiss());
+        this.mDataBinding.buttonBrowse.setOnClickListener((view) -> this.browseRepo());
         this.mDataBinding.buttonCancel.setOnClickListener((view) -> this.taskCancelled = true);
         return this.mDataBinding.getRoot();
     }
 
+    private void browseRepo() {
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setDataAndType(Uri.parse(this.localPath), "file/*");
+        startActivity(intent);
+    }
+
     /** Being called early on... */
-    public void setRepositoryName(String repoName) {
+    public void setRepositoryName(@NonNull String repoName) {
         this.repoName = repoName;
+    }
+
+    public void setLocalPath(@NonNull String path) {
+        this.localPath = path;
     }
 
     /** ProgressMonitor: Advise the monitor of the total number of subtasks. */
     @Override
     public void start(int totalTasks) {
-        // this.totalTasks = totalTasks;
+        // it always returns 2, which appears useless.
     }
 
     /** ProgressMonitor: Begin processing a single task. */
@@ -109,8 +124,11 @@ public class ProgressDialogFragment extends BaseDialogFragment implements Progre
             requireActivity().runOnUiThread(() ->
                     this.mDataBinding.progressIndicator.setProgress(0));
         } else {
-            /* Dismiss dialog. */
-            this.dismiss();
+            /* Reset the progress indicator. */
+            requireActivity().runOnUiThread(() -> {
+                this.mDataBinding.buttonsWhenComplete.setVisibility(View.VISIBLE);
+                this.mDataBinding.buttonCancel.setVisibility(View.GONE);
+            });
         }
     }
 
