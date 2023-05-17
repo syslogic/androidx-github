@@ -124,7 +124,7 @@ public class ProgressDialogFragment extends BaseDialogFragment implements Progre
             requireActivity().runOnUiThread(() ->
                     this.mDataBinding.progressIndicator.setProgress(0));
         } else {
-            /* Reset the progress indicator. */
+            /* Display the relevant buttons when done. */
             requireActivity().runOnUiThread(() -> {
                 this.mDataBinding.buttonCancel.setVisibility(View.GONE);
                 this.mDataBinding.buttonClose.setVisibility(View.VISIBLE);
