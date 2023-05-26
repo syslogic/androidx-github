@@ -1,7 +1,7 @@
 // root build.gradle
 buildscript {
     ext {
-        agp_version = '8.0.1'
+        agp_version = '8.0.2'
         nav_version = '2.5.3'
         fragment_version = '1.5.7'
         room_version = '2.5.1'
