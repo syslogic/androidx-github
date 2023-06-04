@@ -172,12 +172,3 @@ dependencies {
     // androidTestImplementation "androidx.test.espresso:espresso-idling-resource:$espresso_version"
 
 }
-
-// task :assemble finalized by :lint
-tasks.whenTaskAdded { task ->
-    if (task.name == "assembleDebug" || task.name == "bundleDebug") {
-        task.finalizedBy "lintDebug"
-    } else if (task.name == "assembleRelease" || task.name == "bundleRelease") {
-        task.finalizedBy "lintRelease"
-    }
-}
