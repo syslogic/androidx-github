@@ -2,8 +2,8 @@
 buildscript {
     ext {
         agp_version = '8.0.2'
-        nav_version = '2.5.3'
-        fragment_version = '1.5.7'
+        nav_version = '2.6.0'
+        fragment_version = '1.6.0'
         room_version = '2.5.1'
         annotation_version = '1.6.0'
         material_version = '1.9.0'
