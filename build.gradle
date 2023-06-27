@@ -4,7 +4,7 @@ buildscript {
         agp_version = '8.0.2'
         nav_version = '2.6.0'
         fragment_version = '1.6.0'
-        room_version = '2.5.1'
+        room_version = '2.5.2'
         annotation_version = '1.6.0'
         material_version = '1.9.0'
         flexbox_version = '3.0.0'
@@ -21,7 +21,7 @@ buildscript {
         junit_version = '4.13.2'
         uiautomator_version = '2.2.0'
         espresso_version = '3.5.1'
-        kotlin_version = '1.8.10'
+        kotlin_version = '1.8.20'
     }
 }
 
