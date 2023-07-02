@@ -6,14 +6,14 @@ plugins {
 
 android {
 
-    compileSdk 33
+    compileSdk 34
     defaultConfig {
         applicationId rootProject.ext.get('applicationId')
         namespace rootProject.ext.get('applicationId')
         versionName rootProject.ext.get('versionName')
         versionCode rootProject.ext.get('versionCode')
         manifestPlaceholders = [ accessToken: "" ]
-        targetSdk 33
+        targetSdk 34
         minSdk 22
         setProperty("archivesBaseName", "github_client_" + versionName)
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -145,13 +145,18 @@ dependencies {
     // jUnit
     testImplementation "junit:junit:$junit_version"
 
+    // Required for connected tests.
+    // https://mvnrepository.com/artifact/androidx.test/monitor
+    debugImplementation "androidx.test:monitor:$test_monitor_version"
+
     // https://mvnrepository.com/artifact/androidx.test.ext
-    androidTestImplementation "androidx.test.ext:junit:1.1.5"
+    androidTestImplementation "androidx.test.ext:junit:$test_junit_version"
 
     // https://mvnrepository.com/artifact/androidx.test
-    androidTestImplementation "androidx.test:core:1.5.0"
-    androidTestImplementation "androidx.test:runner:1.5.2"
-    androidTestImplementation "androidx.test:rules:1.5.0"
+    // https://developer.android.com/jetpack/androidx/releases/test
+    androidTestImplementation "androidx.test:core:$test_core_version"
+    androidTestImplementation "androidx.test:runner:$test_runner_version"
+    androidTestImplementation "androidx.test:rules:$test_rules_version"
 
     // https://mvnrepository.com/artifact/androidx.test.uiautomator/uiautomator
     androidTestImplementation "androidx.test.uiautomator:uiautomator:$uiautomator_version"
