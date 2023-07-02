@@ -16,7 +16,7 @@ import java.util.List;
 
 import io.syslogic.github.Constants;
 import io.syslogic.github.R;
-import io.syslogic.github.activity.BaseActivity;
+import io.syslogic.github.activity.NavHostActivity;
 import io.syslogic.github.model.PagerState;
 import io.syslogic.github.model.QueryString;
 import io.syslogic.github.model.SpinnerItem;
@@ -24,7 +24,7 @@ import io.syslogic.github.adapter.QueryStringAdapter;
 import io.syslogic.github.databinding.FragmentRepositoriesBinding;
 import io.syslogic.github.model.User;
 import io.syslogic.github.network.TokenCallback;
-import io.syslogic.github.provider.SettingsMenuProvider;
+import io.syslogic.github.provider.RepositoriesMenuProvider;
 import io.syslogic.github.recyclerview.RepositoriesAdapter;
 import io.syslogic.github.recyclerview.RepositoriesLinearView;
 import io.syslogic.github.recyclerview.ScrollListener;
@@ -57,15 +57,17 @@ public class RepositoriesFragment extends BaseFragment implements TokenCallback 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        BaseActivity activity = ((BaseActivity) this.requireActivity());
+        NavHostActivity activity = ((NavHostActivity) this.requireActivity());
         this.setDataBinding(FragmentRepositoriesBinding.inflate(inflater, container, false));
         this.getDataBinding().setPagerState(new PagerState());
 
         /* It removes & adds {@link BaseMenuProvider} */
-        activity.setMenuProvider(new SettingsMenuProvider(activity));
+        activity.setMenuProvider(new RepositoriesMenuProvider(activity));
 
         // the SpinnerItem has the same ID as the QueryString.
-        activity.setSupportActionBar(this.getDataBinding().toolbarRepositories.toolbarQuery);
+        activity.setSupportActionBar(this.getDataBinding().toolbarRepositories.toolbarRepositories);
+        this.mDataBinding.toolbarRepositories.home.setOnClickListener(view -> activity.onBackPressed());
+
         AppCompatSpinner spinner = this.getDataBinding().toolbarRepositories.spinnerQueryString;
         spinner.setAdapter(new QueryStringAdapter(requireContext()));
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -127,6 +129,7 @@ public class RepositoriesFragment extends BaseFragment implements TokenCallback 
                 this.onNetworkLost();
             }
         }
+
         return this.getDataBinding().getRoot();
     }
 
@@ -195,6 +198,6 @@ public class RepositoriesFragment extends BaseFragment implements TokenCallback 
 
     @Override
     public void onLogin(@NonNull User item) {
-
+        this.mDataBinding.setUser(item);
     }
 }

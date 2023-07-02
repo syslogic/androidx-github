@@ -3,6 +3,13 @@
 
     <string name="app_name">GitHub API Client</string>
 
+    <!--  GitHub Sponsors  -->
+    <string name="text_git_hub_sponsors">Please sponsor this project on GitHub</string>
+    <string name="url_git_hub_sponsors">https://github.com/sponsors/syslogic</string>
+
+    <string name="button_repositories">Repositories</string>
+    <string name="button_workflow">Workflow</string>
+
     <string name="title_account_authenticator">"Account Authenticator</string>
     <string name="summary_account_authenticator">TODO</string>
 
@@ -23,7 +30,7 @@
 
     <string name="menu_action_preferences">Preferences</string>
     <string name="menu_action_query_strings">Query Strings</string>
-    <string name="menu_action_query_string_add">Add Query Strings</string>
+    <string name="menu_action_query_string_add">Add Query String</string>
 
     <string name="text_bookmarks">Bookmarks</string>
     <string name="text_edit_bookmark">Edit Bookmark</string>

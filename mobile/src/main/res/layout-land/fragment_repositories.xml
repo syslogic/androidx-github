@@ -45,7 +45,8 @@
                 android:layout_gravity="end"
                 android:orientation="vertical">
 
-                <include layout="@layout/toolbar_repositories"
+                <include
+                    layout="@layout/toolbar_repositories"
                     android:id="@+id/toolbar_repositories"
                     android:layout_width="match_parent"
                     android:layout_height="?android:attr/actionBarSize"
@@ -71,12 +72,13 @@
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
-        <include layout="@layout/toolbar_pager"
-             android:id="@+id/toolbar_pager"
-             android:layout_width="match_parent"
-             android:layout_height="24dp"
-             android:layout_margin="0dp"
-             bind:pagerState="@{ pagerState }"/>
+        <include
+            layout="@layout/toolbar_pager"
+            android:id="@+id/toolbar_pager"
+            android:layout_width="match_parent"
+            android:layout_height="24dp"
+            android:layout_margin="0dp"
+            bind:pagerState="@{ pagerState }"/>
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 

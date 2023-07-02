@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data />
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar_query"
+        android:id="@+id/toolbar_repositories"
         android:layout_width="match_parent"
         android:layout_height="?android:attr/actionBarSize"
         android:contentInsetStart="0dp"
@@ -18,7 +19,7 @@
         app:contentInsetStart="0dp">
 
         <androidx.appcompat.widget.LinearLayoutCompat
-            android:id="@+id/layout_toolbar_query"
+            android:id="@+id/layout_toolbar_repositories"
             style="?android:attr/buttonBarStyle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -32,8 +33,7 @@
                 android:layout_marginEnd="8dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:padding="15dp"
-                android:src="?attr/homeAsUpIndicator"
-                android:visibility="invisible"/>
+                android:src="?attr/homeAsUpIndicator" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/text_current_topic"

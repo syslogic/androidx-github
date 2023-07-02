@@ -98,15 +98,15 @@ abstract public class BaseFragment extends Fragment implements ConnectivityListe
                 try {
                     android.net.NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
                     if (activeNetworkInfo != null && activeNetworkInfo.isConnected()) {
-                        Log.d("", "network available");
+                        if (mDebug) {Log.d("", "network available");}
                         return true;
                     }
                 } catch (Exception e) {
-                    Log.e("", "" + e.getMessage());
+                    if (mDebug) {Log.e("", "" + e.getMessage());}
                 }
             }
         }
-        Log.i("update_status","Network is available : FALSE ");
+        if (mDebug) {Log.i("update_status","Network is available : FALSE ");}
         return false;
     }
 
@@ -134,15 +134,17 @@ abstract public class BaseFragment extends Fragment implements ConnectivityListe
 
     @Override
     public void onNetworkAvailable() {
-        if (mDebug && this.getContext() != null) {
-            Log.d(LOG_TAG, this.getContext().getResources().getString(R.string.debug_network_present));
+        if (mDebug) {
+            String message = requireContext().getResources().getString(R.string.debug_network_present);
+            Log.d(LOG_TAG, message);
         }
     }
 
     @Override
     public void onNetworkLost() {
-        if (mDebug && this.getContext() != null) {
-            Log.d(LOG_TAG, this.getContext().getResources().getString(R.string.debug_network_absent));
+        if (mDebug) {
+            String message = requireContext().getResources().getString(R.string.debug_network_absent);
+            Log.d(LOG_TAG, message);
         }
     }
 
@@ -223,7 +225,7 @@ abstract public class BaseFragment extends Fragment implements ConnectivityListe
 
             @Override
             public void onFailure(@NonNull Call<User> call, @NonNull Throwable t) {
-                // if (mDebug) {Log.e(LOG_TAG, t.getMessage());}
+                if (mDebug) {Log.e(LOG_TAG, t.getMessage());}
             }
         });
     }

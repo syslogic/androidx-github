@@ -18,7 +18,8 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <include layout="@layout/toolbar_repositories"
+        <include
+            layout="@layout/toolbar_repositories"
             android:id="@+id/toolbar_repositories"
             android:layout_width="match_parent"
             android:layout_height="?android:attr/actionBarSize"

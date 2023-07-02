@@ -13,8 +13,10 @@ import androidx.databinding.ViewDataBinding;
 
 import io.syslogic.github.Constants;
 import io.syslogic.github.R;
+import io.syslogic.github.activity.NavHostActivity;
 import io.syslogic.github.databinding.FragmentWorkflowBinding;
 import io.syslogic.github.model.Workflow;
+import io.syslogic.github.provider.WorkflowMenuProvider;
 
 /**
  * Workflow {@link BaseFragment}
@@ -51,7 +53,18 @@ public class WorkflowFragment extends BaseFragment {
     @NonNull
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
+        NavHostActivity activity = ((NavHostActivity) this.requireActivity());
         this.setDataBinding(FragmentWorkflowBinding.inflate(inflater, container, false));
+
+        /* It removes & adds {@link BaseMenuProvider} */
+        activity.setMenuProvider(new WorkflowMenuProvider(activity));
+
+        // the SpinnerItem has the same ID as the QueryString.
+        activity.setSupportActionBar(this.getDataBinding().toolbarWorkflow.toolbarWorkflow);
+        this.mDataBinding.toolbarWorkflow.home.setOnClickListener(view -> activity.onBackPressed());
+
+
         if (! isNetworkAvailable(this.requireContext())) {
             this.onNetworkLost();
         } else {
