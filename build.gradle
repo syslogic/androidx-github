@@ -38,9 +38,9 @@ plugins {
 /** Version Settings, loaded from file `version.properties` */
 def version = new Properties()
 version.load(new FileInputStream(rootProject.file('version.properties')))
-project.ext.set('applicationId',     version['applicationId'])
-project.ext.set('versionName',       version['versionName'])
-project.ext.set('versionCode',       new Integer(version['versionCode']))
+project.ext.set('applicationId', version['applicationId'])
+project.ext.set('versionName', version['versionName'])
+project.ext.set('versionCode', new Integer(version['versionCode']))
 
 /** Build Configurations */
 project.ext.set('archiveBuildTypes', ['debug', 'release'])
