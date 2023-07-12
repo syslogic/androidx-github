@@ -5,23 +5,23 @@ plugins {
 }
 
 android {
-
-    compileSdk 33
+    compileSdk 34
+    buildToolsVersion '34.0.0'
     defaultConfig {
-        applicationId rootProject.ext.get('applicationId')
         namespace rootProject.ext.get('applicationId')
+        applicationId rootProject.ext.get('applicationId')
         versionName rootProject.ext.get('versionName')
         versionCode rootProject.ext.get('versionCode')
         manifestPlaceholders = [ accessToken: "" ]
-        targetSdk 33
+        targetSdk 34
         minSdk 22
         setProperty("archivesBaseName", "github_client_" + versionName)
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         testBuildType "debug"
         multiDexEnabled true
         compileOptions {
-            sourceCompatibility JavaVersion.VERSION_11
-            targetCompatibility JavaVersion.VERSION_11
+            sourceCompatibility JavaVersion.VERSION_17
+            targetCompatibility JavaVersion.VERSION_17
         }
         javaCompileOptions {
             annotationProcessorOptions {
@@ -41,7 +41,8 @@ android {
     }
 
     buildFeatures {
-        dataBinding = true
+        dataBinding true
+        buildConfig true
     }
 
     signingConfigs {
@@ -113,8 +114,8 @@ dependencies {
     implementation "androidx.cardview:cardview:$cardview_version"
 
     // Navigation
-    androidTestImplementation "androidx.navigation:navigation-testing:$nav_version"
-    implementation "androidx.navigation:navigation-fragment:$nav_version"
+    androidTestImplementation "androidx.navigation:navigation-testing:$navigation_version"
+    implementation "androidx.navigation:navigation-fragment:$navigation_version"
 
     // Fragment
     androidTestImplementation "androidx.fragment:fragment-testing:$fragment_version"

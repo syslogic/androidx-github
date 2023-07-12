@@ -209,17 +209,14 @@ public class RepositoryFragment extends BaseFragment implements TokenCallback {
                 @Override
                 public void onResponse(@NonNull Call<Repository> call, @NonNull Response<Repository> response) {
                     switch (response.code()) {
-
-                        case 200: {
+                        case 200 -> {
                             if (response.body() != null) {
                                 Repository item = response.body();
                                 mDataBinding.setRepository(item);
                                 setBranches(item);
                             }
-                            break;
                         }
-
-                        case 403: {
+                        case 403 -> {
                             if (response.errorBody() != null) {
                                 try {
                                     String errors = response.errorBody().string();
@@ -235,7 +232,6 @@ public class RepositoryFragment extends BaseFragment implements TokenCallback {
                                     }
                                 }
                             }
-                            break;
                         }
                     }
                 }
@@ -261,8 +257,7 @@ public class RepositoryFragment extends BaseFragment implements TokenCallback {
             @Override
             public void onResponse(@NonNull Call<ArrayList<Branch>> call, @NonNull Response<ArrayList<Branch>> response) {
                 switch (response.code()) {
-
-                    case 200: {
+                    case 200 -> {
                         if (response.body() != null && getContext() != null) {
 
                             /* Updating the branches */
@@ -299,16 +294,11 @@ public class RepositoryFragment extends BaseFragment implements TokenCallback {
 
                             if (getActivity() != null && defaultIndex > 0) {
                                 final int index = defaultIndex;
-                                getDataBinding().toolbarDownload.spinnerBranch.postDelayed(() ->
-                                                getDataBinding().toolbarDownload.spinnerBranch.setSelection(index, false),
-                                        100
-                                );
+                                getDataBinding().toolbarDownload.spinnerBranch.postDelayed(() -> getDataBinding().toolbarDownload.spinnerBranch.setSelection(index, false), 100);
                             }
                         }
-                        break;
                     }
-
-                    case 403: {
+                    case 403 -> {
                         if (response.errorBody() != null) {
                             try {
                                 String errors = response.errorBody().string();
@@ -324,7 +314,6 @@ public class RepositoryFragment extends BaseFragment implements TokenCallback {
                                 }
                             }
                         }
-                        break;
                     }
                 }
             }

@@ -187,8 +187,7 @@ abstract public class BaseFragment extends Fragment implements ConnectivityListe
             @Override
             public void onResponse(@NonNull Call<User> call, @NonNull Response<User> response) {
                 switch (response.code()) {
-
-                    case 200: {
+                    case 200 -> {
                         if (response.body() != null) {
                             User item = response.body();
                             if (mDebug) {
@@ -201,10 +200,8 @@ abstract public class BaseFragment extends Fragment implements ConnectivityListe
                             }
                             setCurrentUser(item);
                         }
-                        break;
                     }
-
-                    case 403: {
+                    case 403 -> {
                         if (response.errorBody() != null) {
                             try {
                                 String errors = response.errorBody().string();
@@ -220,7 +217,6 @@ abstract public class BaseFragment extends Fragment implements ConnectivityListe
                                 }
                             }
                         }
-                        break;
                     }
                 }
             }

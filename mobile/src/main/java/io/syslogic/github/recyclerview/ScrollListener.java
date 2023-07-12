@@ -25,12 +25,14 @@ public abstract class ScrollListener extends RecyclerView.OnScrollListener {
     }
 
     /**
+     * <p>
      * Callback method to be invoked when the RecyclerView has been scrolled.
      * This will be called after the scroll has completed.
-     *
+     * </p>
+     * <p>
      * This callback will also be called if visible item range changes
      * after a layout calculation. In that case, dx and dy will be 0.
-     *
+     * </p>
      * {@link Constants#RECYCLERVIEW_SCROLLING_THRESHOLD} defaults to 12 items.
      *
      * @param recyclerView The RecyclerView which scrolled.

@@ -74,12 +74,15 @@ public interface GithubService {
     );
 
     /**
+     * <p>
      * Obtain the redirect URL to download an archive for a repository.
      * The :archive_format can be either "tarball" or "zipball".
      * The :branch must be a valid Git reference.
-     *
+     * </p>
+     * <p>
      * If you omit :branch, the repository’s default branch (usually master) will be used.
      * Note: for private repositories, the links are temporary and expire after five minutes.
+     * </p>
     **/
     @NonNull
     @Streaming
