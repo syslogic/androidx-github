@@ -11,7 +11,7 @@
         android:name="io.syslogic.github.fragment.HomeScreenFragment"
         android:label="HomeScreenFragment"
         tools:layout="@layout/fragment_home_screen">
-        <deepLink app:uri="github://home_screen"/>
+        <deepLink app:uri="github://home"/>
         <action
             android:id="@+id/action_homeScreenFragment_to_repositoriesFragment"
             app:destination="@id/repositoriesFragment"/>

@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="github://home_screen" type="AndroidRunConfigurationType" factoryName="Android App">
+  <configuration default="false" name="github://home" type="AndroidRunConfigurationType" factoryName="Android App">
     <module name="GitHub_Client.mobile.main" />
     <option name="DEPLOY" value="true" />
     <option name="DEPLOY_APK_FROM_BUNDLE" value="false" />
@@ -49,7 +49,7 @@
       <option name="STARTUP_NATIVE_MEMORY_PROFILING_ENABLED" value="false" />
       <option name="NATIVE_MEMORY_SAMPLE_RATE_BYTES" value="2048" />
     </Profilers>
-    <option name="DEEP_LINK" value="github://home_screen" />
+    <option name="DEEP_LINK" value="github://home" />
     <option name="ACTIVITY_CLASS" value="" />
     <option name="SEARCH_ACTIVITY_IN_GLOBAL_SCOPE" value="false" />
     <option name="SKIP_ACTIVITY_VALIDATION" value="false" />

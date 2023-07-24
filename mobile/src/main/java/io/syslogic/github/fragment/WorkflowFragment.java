@@ -64,7 +64,6 @@ public class WorkflowFragment extends BaseFragment {
         activity.setSupportActionBar(this.getDataBinding().toolbarWorkflow.toolbarWorkflow);
         this.mDataBinding.toolbarWorkflow.home.setOnClickListener(view -> activity.onBackPressed());
 
-
         if (! isNetworkAvailable(this.requireContext())) {
             this.onNetworkLost();
         } else {

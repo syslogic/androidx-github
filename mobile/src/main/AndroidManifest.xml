@@ -34,12 +34,27 @@
         <activity
             android:name=".activity.NavHostActivity"
             android:exported="true">
+
+            <!-- Intent-Filter -->
             <intent-filter>
                 <category android:name="android.intent.category.LAUNCHER"/>
                 <category android:name="android.intent.category.DEFAULT"/>
                 <action android:name="android.intent.action.MAIN"/>
                 <action android:name="android.intent.action.VIEW"/>
             </intent-filter>
+
+            <!-- Deep Links -->
+            <intent-filter android:autoVerify="true" tools:targetApi="m">
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="github"/>
+            </intent-filter>
+
+            <!-- Required for implicit deep-linking content. -->
+            <nav-graph
+                android:value="@navigation/nav_graph"/>
+
         </activity>
 
         <activity
