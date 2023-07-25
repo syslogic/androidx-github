@@ -1,7 +1,7 @@
 // root build.gradle
 buildscript {
     ext {
-        agp_version = '8.0.2'
+        agp_version = '8.1.0'
         kotlin_version = '1.8.22'
         material_version = '1.9.0'
         appcompat_version = '1.6.1'
@@ -60,7 +60,7 @@ if(rootProject.file('token.properties').exists()) {
 allprojects {
 
     /** Runtime JAR files in the classpath should have the same version. */
-    configurations.all {
+    configurations.configureEach {
         resolutionStrategy.eachDependency { DependencyResolveDetails details ->
             def requested = details.requested
             if (requested.group == 'org.jetbrains.kotlin') {
@@ -73,14 +73,16 @@ allprojects {
     }
 
     gradle.projectsEvaluated {
-        tasks.withType(JavaCompile) {
-            options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
+        tasks.withType(JavaCompile).tap {
+            configureEach {
+                options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
+            }
         }
     }
 }
 
 // rootProject > clean
-task clean(type: Delete) {
+tasks.register('clean', Delete) {
 
     // delete build directories
     delete rootProject.buildDir
