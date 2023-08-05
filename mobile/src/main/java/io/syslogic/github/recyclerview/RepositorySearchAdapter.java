@@ -37,7 +37,7 @@ import io.syslogic.github.R;
 import io.syslogic.github.BuildConfig;
 import io.syslogic.github.activity.BaseActivity;
 import io.syslogic.github.Constants;
-import io.syslogic.github.databinding.CardviewRepositoryBinding;
+import io.syslogic.github.databinding.CardviewRepositorySearchBinding;
 import io.syslogic.github.databinding.FragmentRepositorySearchBinding;
 import io.syslogic.github.fragment.RepositoryFragment;
 import io.syslogic.github.model.PagerState;
@@ -98,7 +98,7 @@ public class RepositorySearchAdapter extends RecyclerView.Adapter<RecyclerView.V
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        CardviewRepositoryBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.cardview_repository, parent, false);
+        CardviewRepositorySearchBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.cardview_repository_search, parent, false);
         binding.getRoot().setLayoutParams(new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         return new RepositorySearchAdapter.ViewHolder(binding);
     }
@@ -106,7 +106,7 @@ public class RepositorySearchAdapter extends RecyclerView.Adapter<RecyclerView.V
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
         Repository item = getItem(position);
-        CardviewRepositoryBinding binding = ((ViewHolder) viewHolder).getDataBinding();
+        CardviewRepositorySearchBinding binding = ((ViewHolder) viewHolder).getDataBinding();
         binding.setItem(item);
         if (! this.showTopics) {
             binding.recyclerviewTopics.setVisibility(View.GONE);
@@ -321,13 +321,13 @@ public class RepositorySearchAdapter extends RecyclerView.Adapter<RecyclerView.V
     /** {@link RecyclerView.ViewHolder} for {@link CardView} of type {@link Repository}. */
     private static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        private final CardviewRepositoryBinding mDataBinding;
+        private final CardviewRepositorySearchBinding mDataBinding;
 
         /**
          * ViewHolder Constructor
          * @param binding the item's data-binding
         **/
-        ViewHolder(@NonNull CardviewRepositoryBinding binding) {
+        ViewHolder(@NonNull CardviewRepositorySearchBinding binding) {
             super(binding.getRoot());
             binding.cardview.setOnClickListener(this);
             this.mDataBinding = binding;
@@ -364,7 +364,7 @@ public class RepositorySearchAdapter extends RecyclerView.Adapter<RecyclerView.V
         }
 
         /** Getters */
-        CardviewRepositoryBinding getDataBinding() {
+        CardviewRepositorySearchBinding getDataBinding() {
             return this.mDataBinding;
         }
     }

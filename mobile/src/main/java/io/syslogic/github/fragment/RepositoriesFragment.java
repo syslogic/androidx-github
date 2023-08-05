@@ -12,7 +12,7 @@ import androidx.databinding.ViewDataBinding;
 import io.syslogic.github.R;
 import io.syslogic.github.activity.NavHostActivity;
 import io.syslogic.github.databinding.FragmentRepositoriesBinding;
-import io.syslogic.github.provider.WorkflowsMenuProvider;
+import io.syslogic.github.provider.RepositoriesMenuProvider;
 import io.syslogic.github.recyclerview.RepositoriesAdapter;
 
 /**
@@ -43,7 +43,7 @@ public class RepositoriesFragment extends BaseFragment {
         this.setDataBinding(FragmentRepositoriesBinding.inflate(inflater, container, false));
 
         /* It removes & adds {@link BaseMenuProvider} */
-        activity.setMenuProvider(new WorkflowsMenuProvider(activity));
+        activity.setMenuProvider(new RepositoriesMenuProvider(activity));
 
         activity.setSupportActionBar(this.getDataBinding().toolbarWorkflows.toolbarWorkflows);
         this.mDataBinding.toolbarWorkflows.home.setOnClickListener(view -> activity.onBackPressed());

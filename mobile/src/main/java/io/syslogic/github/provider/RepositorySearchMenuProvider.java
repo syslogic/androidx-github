@@ -11,14 +11,14 @@ import io.syslogic.github.R;
 import io.syslogic.github.activity.BaseActivity;
 
 /**
- * Workflows {@link BaseMenuProvider}
+ * Repository Search {@link BaseMenuProvider}
  *
  * @author Martin Zeitler
  */
-public class WorkflowsMenuProvider extends BaseMenuProvider {
+public class RepositorySearchMenuProvider extends BaseMenuProvider {
 
     /** Constructor */
-    public WorkflowsMenuProvider(@NonNull BaseActivity activity) {
+    public RepositorySearchMenuProvider(@NonNull BaseActivity activity) {
         super(activity);
     }
 
@@ -30,7 +30,7 @@ public class WorkflowsMenuProvider extends BaseMenuProvider {
      */
     @Override
     public void onCreateMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        inflater.inflate(R.menu.workflows, menu);
+        inflater.inflate(R.menu.repository_search, menu);
     }
 
     /**
@@ -41,6 +41,12 @@ public class WorkflowsMenuProvider extends BaseMenuProvider {
      */
     @Override
     public boolean onMenuItemSelected(@NonNull MenuItem item) {
+        if (getNavController() != null) {
+            if (item.getItemId() == R.id.menu_action_query_strings) {
+                getNavController().navigate(R.id.action_repositorySearchFragment_to_queryStringsGraph);
+                return true;
+            }
+        }
         return false;
     }
 }

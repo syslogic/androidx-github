@@ -31,6 +31,7 @@ import io.syslogic.github.BuildConfig;
 import io.syslogic.github.Constants;
 import io.syslogic.github.R;
 import io.syslogic.github.activity.BaseActivity;
+import io.syslogic.github.databinding.CardviewRepositorySearchBinding;
 import io.syslogic.github.databinding.CardviewWorkflowBinding;
 import io.syslogic.github.databinding.FragmentRepositoriesBinding;
 import io.syslogic.github.model.Repository;

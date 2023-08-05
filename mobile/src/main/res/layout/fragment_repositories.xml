@@ -20,7 +20,7 @@
 
             <include
                 android:id="@+id/toolbar_workflows"
-                layout="@layout/toolbar_workflows"/>
+                layout="@layout/toolbar_repositories"/>
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"

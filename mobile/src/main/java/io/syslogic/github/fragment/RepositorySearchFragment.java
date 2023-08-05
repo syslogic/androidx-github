@@ -24,7 +24,7 @@ import io.syslogic.github.adapter.QueryStringAdapter;
 import io.syslogic.github.databinding.FragmentRepositorySearchBinding;
 import io.syslogic.github.model.User;
 import io.syslogic.github.network.TokenCallback;
-import io.syslogic.github.provider.RepositoriesMenuProvider;
+import io.syslogic.github.provider.RepositorySearchMenuProvider;
 import io.syslogic.github.recyclerview.RepositorySearchAdapter;
 import io.syslogic.github.recyclerview.RepositorySearchLinearView;
 import io.syslogic.github.recyclerview.ScrollListener;
@@ -62,7 +62,7 @@ public class RepositorySearchFragment extends BaseFragment implements TokenCallb
         this.getDataBinding().setPagerState(new PagerState());
 
         /* It removes & adds {@link BaseMenuProvider} */
-        activity.setMenuProvider(new RepositoriesMenuProvider(activity));
+        activity.setMenuProvider(new RepositorySearchMenuProvider(activity));
 
         // the SpinnerItem has the same ID as the QueryString.
         activity.setSupportActionBar(this.getDataBinding().toolbarRepositories.toolbarRepositories);
