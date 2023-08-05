@@ -240,7 +240,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 NavController controller = Navigation.findNavController(layout);
                 Bundle args = new Bundle();
                 args.putString(Constants.ARGUMENT_ITEM_NAME, item.getName());
-                controller.navigate(R.id.action_workflowsFragment_to_workflowFragment, args);
+                controller.navigate(R.id.action_repositoriesFragment_to_workflowFragment, args);
             }
         }
 

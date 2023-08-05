@@ -103,7 +103,7 @@
         tools:layout="@layout/fragment_repositories">
         <deepLink app:uri="github://repositories"/>
         <action
-            android:id="@+id/action_workflowsFragment_to_workflowFragment"
+            android:id="@+id/action_repositoriesFragment_to_workflowFragment"
             app:destination="@id/workflowFragment"/>
     </fragment>
 
