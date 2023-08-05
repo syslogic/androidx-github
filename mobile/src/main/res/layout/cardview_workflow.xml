@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <variable name="item" type="io.syslogic.github.model.Repository"/>
+        <variable name="item" type="io.syslogic.github.api.model.Repository"/>
     </data>
 
     <com.google.android.material.card.MaterialCardView

@@ -18,8 +18,8 @@ import java.io.IOException;
 
 import io.syslogic.github.BuildConfig;
 import io.syslogic.github.Constants;
-import io.syslogic.github.model.User;
-import io.syslogic.github.retrofit.GithubClient;
+import io.syslogic.github.api.model.User;
+import io.syslogic.github.api.GithubClient;
 
 import okhttp3.ResponseBody;
 

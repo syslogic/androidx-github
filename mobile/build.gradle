@@ -97,10 +97,12 @@ android {
 
 dependencies {
 
+    api project(path: ':library')
+
     // Annotations
     implementation "androidx.annotation:annotation:$annotation_version"
 
-    // Material Design
+    // Material Design Components
     implementation "com.google.android.material:material:$material_version"
 
     // Flexbox Layout

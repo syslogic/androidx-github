@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <variable name="repository" type="io.syslogic.github.model.Repository"/>
+        <variable name="repository" type="io.syslogic.github.api.model.Repository"/>
         <import type="android.view.View"/>
     </data>
 

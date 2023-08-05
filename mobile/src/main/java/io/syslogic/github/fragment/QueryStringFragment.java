@@ -19,10 +19,10 @@ import androidx.navigation.Navigation;
 import io.syslogic.github.R;
 import io.syslogic.github.activity.BaseActivity;
 import io.syslogic.github.Constants;
+import io.syslogic.github.api.model.QueryString;
+import io.syslogic.github.api.room.Abstraction;
+import io.syslogic.github.api.room.QueryStringsDao;
 import io.syslogic.github.databinding.FragmentQueryStringBinding;
-import io.syslogic.github.model.QueryString;
-import io.syslogic.github.room.Abstraction;
-import io.syslogic.github.room.QueryStringsDao;
 
 /**
  * Query-String {@link BaseFragment}

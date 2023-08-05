@@ -2,6 +2,8 @@ package io.syslogic.github.model;
 
 import androidx.databinding.Bindable;
 
+import io.syslogic.github.api.model.BaseModel;
+
 /**
  * Model: Pager State
  *

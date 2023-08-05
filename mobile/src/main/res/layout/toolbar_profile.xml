@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <variable name="profile" type="io.syslogic.github.model.User"/>
+        <variable name="profile" type="io.syslogic.github.api.model.User"/>
     </data>
 
     <androidx.appcompat.widget.Toolbar

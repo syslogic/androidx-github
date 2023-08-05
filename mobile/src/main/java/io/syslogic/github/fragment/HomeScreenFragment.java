@@ -14,7 +14,7 @@ import androidx.databinding.ViewDataBinding;
 import io.syslogic.github.R;
 import io.syslogic.github.activity.NavHostActivity;
 import io.syslogic.github.databinding.FragmentHomeScreenBinding;
-import io.syslogic.github.model.User;
+import io.syslogic.github.api.model.User;
 import io.syslogic.github.network.TokenCallback;
 import io.syslogic.github.provider.HomeScreenMenuProvider;
 

@@ -21,9 +21,9 @@ import java.io.IOException;
 import io.syslogic.github.BuildConfig;
 import io.syslogic.github.R;
 import io.syslogic.github.databinding.FragmentAccessTokenBinding;
-import io.syslogic.github.model.User;
+import io.syslogic.github.api.GithubClient;
+import io.syslogic.github.api.model.User;
 import io.syslogic.github.network.TokenHelper;
-import io.syslogic.github.retrofit.GithubClient;
 
 import okhttp3.ResponseBody;
 

@@ -2,7 +2,7 @@ package io.syslogic.github.network;
 
 import androidx.annotation.NonNull;
 
-import io.syslogic.github.model.User;
+import io.syslogic.github.api.model.User;
 
 /**
  * Token Callback

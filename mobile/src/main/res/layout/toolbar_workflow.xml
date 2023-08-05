@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <variable name="workflow" type="io.syslogic.github.model.Workflow"/>
+        <variable name="workflow" type="io.syslogic.github.api.model.Workflow"/>
     </data>
 
     <androidx.appcompat.widget.Toolbar

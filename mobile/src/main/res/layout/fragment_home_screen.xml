@@ -5,7 +5,7 @@
     tools:context=".activity.NavHostActivity">
 
     <data>
-        <variable name="user" type="io.syslogic.github.model.User"/>
+        <variable name="user" type="io.syslogic.github.api.model.User"/>
     </data>
 
     <androidx.appcompat.widget.LinearLayoutCompat

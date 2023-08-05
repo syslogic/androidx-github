@@ -4,7 +4,8 @@ import android.content.Context;
 
 import androidx.annotation.NonNull;
 
-import io.syslogic.github.model.SpinnerItem;
+import io.syslogic.github.api.adapter.BaseArrayAdapter;
+import io.syslogic.github.api.model.SpinnerItem;
 
 import java.util.ArrayList;
 
@@ -21,7 +22,7 @@ public class StringArrayAdapter extends BaseArrayAdapter {
         super(context);
     }
 
-    void setItems(@NonNull Context context, String[] array) {
+    void setItems(@NonNull Context context, @NonNull String[] array) {
         this.clearItems();
         for(int i = 0; i < array.length; i++) {
             this.mItems.add(i, new SpinnerItem(i + 1, array[i], array[i]));

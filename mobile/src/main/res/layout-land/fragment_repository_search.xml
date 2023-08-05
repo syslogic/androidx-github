@@ -7,8 +7,8 @@
     tools:context=".activity.NavHostActivity">
 
     <data>
-        <variable name="user" type="io.syslogic.github.model.User"/>
-        <variable name="repositories" type="io.syslogic.github.model.RepositorySearch"/>
+        <variable name="user" type="io.syslogic.github.api.model.User"/>
+        <variable name="repositories" type="io.syslogic.github.api.model.RepositorySearch"/>
         <variable name="pagerState" type="io.syslogic.github.model.PagerState"/>
     </data>
 

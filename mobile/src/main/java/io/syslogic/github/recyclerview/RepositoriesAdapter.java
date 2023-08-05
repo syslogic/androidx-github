@@ -33,11 +33,11 @@ import io.syslogic.github.R;
 import io.syslogic.github.activity.BaseActivity;
 import io.syslogic.github.databinding.CardviewWorkflowBinding;
 import io.syslogic.github.databinding.FragmentRepositoriesBinding;
-import io.syslogic.github.model.Repository;
-import io.syslogic.github.model.Workflow;
-import io.syslogic.github.model.WorkflowsResponse;
+import io.syslogic.github.api.model.Repository;
+import io.syslogic.github.api.model.Workflow;
+import io.syslogic.github.api.model.WorkflowsResponse;
 import io.syslogic.github.network.TokenHelper;
-import io.syslogic.github.retrofit.GithubClient;
+import io.syslogic.github.api.GithubClient;
 
 import okhttp3.ResponseBody;
 

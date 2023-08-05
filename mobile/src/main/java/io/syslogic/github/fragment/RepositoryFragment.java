@@ -45,11 +45,11 @@ import io.syslogic.github.R;
 import io.syslogic.github.Constants;
 import io.syslogic.github.databinding.FragmentRepositoryBinding;
 import io.syslogic.github.dialog.ProgressDialogFragment;
-import io.syslogic.github.model.User;
+import io.syslogic.github.api.model.User;
 import io.syslogic.github.network.TokenCallback;
-import io.syslogic.github.retrofit.GithubClient;
-import io.syslogic.github.model.Branch;
-import io.syslogic.github.model.Repository;
+import io.syslogic.github.api.GithubClient;
+import io.syslogic.github.api.model.Branch;
+import io.syslogic.github.api.model.Repository;
 
 import okhttp3.Headers;
 import okhttp3.ResponseBody;

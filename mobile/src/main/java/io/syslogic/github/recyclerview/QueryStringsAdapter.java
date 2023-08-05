@@ -21,9 +21,9 @@ import io.syslogic.github.BuildConfig;
 import io.syslogic.github.R;
 import io.syslogic.github.activity.BaseActivity;
 import io.syslogic.github.Constants;
+import io.syslogic.github.api.model.QueryString;
+import io.syslogic.github.api.room.Abstraction;
 import io.syslogic.github.databinding.CardviewQueryStringBinding;
-import io.syslogic.github.model.QueryString;
-import io.syslogic.github.room.Abstraction;
 
 /**
  * Query-Strings {@link RecyclerView.Adapter}

@@ -17,4 +17,9 @@ dependencyResolutionManagement {
 
 rootProject.name = "GitHub Client"
 
-include ':mobile'
+include ":library"
+
+/* JitPack: exclude module. */
+if (! System.env.JITPACK) {
+    include ":mobile"
+}

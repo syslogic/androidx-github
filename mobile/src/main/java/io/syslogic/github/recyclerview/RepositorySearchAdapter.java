@@ -40,13 +40,14 @@ import io.syslogic.github.Constants;
 import io.syslogic.github.databinding.CardviewRepositorySearchBinding;
 import io.syslogic.github.databinding.FragmentRepositorySearchBinding;
 import io.syslogic.github.fragment.RepositoryFragment;
-import io.syslogic.github.model.PagerState;
-import io.syslogic.github.model.RateLimit;
-import io.syslogic.github.model.RateLimits;
-import io.syslogic.github.model.RepositorySearch;
-import io.syslogic.github.model.Repository;
-import io.syslogic.github.retrofit.GithubClient;
 
+import io.syslogic.github.api.model.RateLimit;
+import io.syslogic.github.api.model.RateLimits;
+import io.syslogic.github.api.model.RepositorySearch;
+import io.syslogic.github.api.model.Repository;
+import io.syslogic.github.api.GithubClient;
+
+import io.syslogic.github.model.PagerState;
 import okhttp3.ResponseBody;
 
 import retrofit2.Call;

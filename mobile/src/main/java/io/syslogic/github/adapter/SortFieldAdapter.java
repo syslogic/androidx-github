@@ -5,6 +5,7 @@ import android.content.Context;
 import androidx.annotation.NonNull;
 
 import io.syslogic.github.R;
+import io.syslogic.github.api.adapter.BaseArrayAdapter;
 
 /**
  * Sort-Field {@link BaseArrayAdapter}

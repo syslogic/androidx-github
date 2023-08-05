@@ -7,7 +7,7 @@
     <data>
         <import type="android.view.View"/>
         <import type="java.util.ArrayList"/>
-        <variable name="branches" type="ArrayList&lt;io.syslogic.github.model.Branch&gt;"/>
+        <variable name="branches" type="ArrayList&lt;io.syslogic.github.api.model.Branch&gt;"/>
     </data>
 
     <androidx.appcompat.widget.Toolbar

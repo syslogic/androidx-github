@@ -8,9 +8,9 @@
 
     <data>
         <import type="java.util.ArrayList"/>
+        <variable name="repository" type="io.syslogic.github.api.model.Repository"/>
+        <variable name="branches" type="ArrayList&lt;io.syslogic.github.api.model.Branch&gt;"/>
         <variable name="preview" type="io.syslogic.github.model.WebView"/>
-        <variable name="repository" type="io.syslogic.github.model.Repository"/>
-        <variable name="branches" type="ArrayList&lt;io.syslogic.github.model.Branch&gt;"/>
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout

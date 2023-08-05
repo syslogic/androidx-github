@@ -8,9 +8,9 @@
 
     <data>
         <variable name="preview" type="io.syslogic.github.model.WebView"/>
-        <variable name="profile" type="io.syslogic.github.model.User"/>
+        <variable name="profile" type="io.syslogic.github.api.model.User"/>
         <import type="java.util.ArrayList"/>
-        <variable name="repositories" type="ArrayList&lt;io.syslogic.github.model.Repository&gt;"/>
+        <variable name="repositories" type="ArrayList&lt;io.syslogic.github.api.model.Repository&gt;"/>
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout

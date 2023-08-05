@@ -5,7 +5,7 @@
     tools:context=".activity.NavHostActivity">
 
     <data>
-        <variable name="item" type="io.syslogic.github.model.QueryString"/>
+        <variable name="item" type="io.syslogic.github.api.model.QueryString"/>
     </data>
 
     <androidx.appcompat.widget.LinearLayoutCompat

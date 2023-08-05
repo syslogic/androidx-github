@@ -6,7 +6,7 @@
     tools:context=".activity.NavHostActivity">
 
     <data>
-        <variable name="workflow" type="io.syslogic.github.model.Workflow"/>
+        <variable name="workflow" type="io.syslogic.github.api.model.Workflow"/>
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout

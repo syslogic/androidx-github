@@ -28,12 +28,12 @@ import com.google.gson.JsonParser;
 import io.syslogic.github.BuildConfig;
 import io.syslogic.github.R;
 import io.syslogic.github.Constants;
-import io.syslogic.github.model.User;
+import io.syslogic.github.api.model.User;
 import io.syslogic.github.network.ConnectivityReceiver;
 import io.syslogic.github.network.ConnectivityListener;
 import io.syslogic.github.network.TokenCallback;
 import io.syslogic.github.network.TokenHelper;
-import io.syslogic.github.retrofit.GithubClient;
+import io.syslogic.github.api.GithubClient;
 
 import retrofit2.Call;
 import retrofit2.Callback;

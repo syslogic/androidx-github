@@ -6,10 +6,11 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
-import io.syslogic.github.model.SpinnerItem;
-import io.syslogic.github.model.QueryString;
-import io.syslogic.github.room.Abstraction;
-import io.syslogic.github.room.QueryStringsDao;
+import io.syslogic.github.api.adapter.BaseArrayAdapter;
+import io.syslogic.github.api.model.SpinnerItem;
+import io.syslogic.github.api.model.QueryString;
+import io.syslogic.github.api.room.Abstraction;
+import io.syslogic.github.api.room.QueryStringsDao;
 
 import java.util.List;
 
@@ -38,7 +39,7 @@ public class QueryStringAdapter extends BaseArrayAdapter {
                 }
                 activity.runOnUiThread(this::notifyDataSetChanged);
             } catch (IllegalStateException e) {
-                Log.e(LOG_TAG, e.getMessage());
+                Log.e(LOG_TAG, "" + e.getMessage());
             }
         });
     }

@@ -15,7 +15,7 @@ import io.syslogic.github.Constants;
 import io.syslogic.github.R;
 import io.syslogic.github.activity.NavHostActivity;
 import io.syslogic.github.databinding.FragmentWorkflowBinding;
-import io.syslogic.github.model.Workflow;
+import io.syslogic.github.api.model.Workflow;
 import io.syslogic.github.provider.WorkflowMenuProvider;
 
 /**

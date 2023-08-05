@@ -41,5 +41,6 @@ public final class Constants {
     @NonNull public static final String TABLE_REPOSITORIES  = "repositories";
     @NonNull public static final String TABLE_LICENSES      = "licenses";
     @NonNull public static final String TABLE_OWNERS        = "owners";
+    // TODO
     @NonNull public static final String TABLE_TOPICS        = "topics";
 }

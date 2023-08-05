@@ -1,0 +1,172 @@
+plugins {
+    id 'com.android.library'
+    id 'maven-publish'
+}
+
+android {
+    namespace 'io.syslogic.github.api'
+    compileSdk 34
+
+    defaultConfig {
+        minSdk 22
+        targetSdk 34
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+    buildFeatures {
+        buildConfig true
+        dataBinding true
+    }
+
+    buildTypes {
+        debug {
+            // it breaks the data-binding, eg. when running ./gradlew :library:publishToMavenLocal
+            testCoverageEnabled false
+            minifyEnabled false
+        }
+        release {
+            minifyEnabled false
+        }
+    }
+
+    lint {
+        lintConfig rootProject.file('lint.xml')
+        checkAllWarnings true
+        warningsAsErrors true
+        abortOnError false
+        showAll false
+    }
+
+    publishing {
+        singleVariant('release') {
+            withSourcesJar()
+            withJavadocJar()
+        }
+    }
+}
+
+dependencies {
+
+    // Annotations
+    implementation "androidx.annotation:annotation:$annotation_version"
+
+    // Material Design Components
+    implementation "com.google.android.material:material:$material_version"
+
+    // App Compat
+    implementation "androidx.appcompat:appcompat:$appcompat_version"
+
+    // Data-Binding Runtime
+    implementation "androidx.databinding:databinding-runtime:$agp_version"
+
+    // Room Runtime
+    annotationProcessor "androidx.room:room-compiler:$room_version"
+    testImplementation "androidx.room:room-testing:$room_version"
+    implementation "androidx.room:room-runtime:$room_version"
+
+    // Retrofit2
+    implementation "com.google.code.gson:gson:$gson_version"
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+    implementation ("com.squareup.retrofit2:converter-gson:$retrofit_version") {
+        exclude group: "com.google.code.gson", module: "gson"
+    }
+
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+}
+
+tasks.register('javadoc', Javadoc) {
+
+    title = "GitHub API Client ${android.defaultConfig.versionName}"
+    source = android.sourceSets.main.java.srcDirs
+    destinationDir = file("${project.buildDir}/outputs/javadoc/")
+    configurations.implementation.setCanBeResolved(true)
+    classpath = files(new File("${android.sdkDirectory}/platforms/${android.compileSdkVersion}/android.jar"))
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+    classpath += fileTree(dir: "$buildDir/tmp/aarsToJars/")
+    classpath += configurations.implementation
+    exclude "**/BuildConfig.java", "**/R.java"
+    failOnError false
+
+    // options.verbose()
+    // javadoc: warning - The code being documented uses modules but the packages
+    // defined in https://developer.android.com/reference/ are in the unnamed module.
+    options.links "https://docs.oracle.com/en/java/javase/17/docs/api/"
+    options.linksOffline "https://developer.android.com/reference", "${android.sdkDirectory}/docs/reference"
+    options.linkSource true
+    options.author true
+
+    doFirst {
+
+        // extract AAR files
+        configurations.implementation.filter { it.name.endsWith('.aar') }.each { aar ->
+            copy {
+                from zipTree(aar)
+                include "**/classes.jar"
+                into "$buildDir/tmp/aarsToJars/${aar.name.replace('.aar', '')}/"
+            }
+        }
+
+        // provide JAR, which contains the generated data-binding classes
+        def aar_main = new File("$buildDir/intermediates/aar_main_jar")
+        if (aar_main.exists()) {
+            copy {
+                from aar_main
+                include "**/classes.jar"
+                into "$buildDir/tmp/aarsToJars/aar_main_jar/"
+            }
+        }
+    }
+}
+
+javadoc.onlyIf {
+    new File("$buildDir/intermediates/aar_main_jar").exists()
+}
+
+tasks.register('javadocJar', Jar) {
+    dependsOn javadoc
+    archiveClassifier.set('javadoc')
+    from javadoc.destinationDir
+}
+
+tasks.register('sourcesJar', Jar) {
+    from android.sourceSets.main.java.srcDirs
+    archiveClassifier.set('sources')
+}
+
+artifacts {
+    archives javadocJar
+    archives sourcesJar
+}
+
+group = 'io.syslogic'
+version = version_name
+
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                groupId = group
+                artifactId = 'github-retrofit2-client'
+                from components.getByName('release')
+                version = version_name
+                pom {
+                    name = 'GitHub API Client'
+                    description = 'A simple client library for Android'
+                    url = "https://github.com/syslogic/${artifactId}"
+                    scm {
+                        connection = "scm:git:git://github.com/syslogic/${artifactId}.git"
+                        developerConnection = "scm:git:ssh://github.com/syslogic/${artifactId}.git"
+                        url = "https://github.com/syslogic/${artifactId}/"
+                    }
+                }
+            }
+        }
+    }
+}

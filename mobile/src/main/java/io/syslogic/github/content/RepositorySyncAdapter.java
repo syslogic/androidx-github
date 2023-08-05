@@ -17,15 +17,15 @@ import java.util.List;
 
 import io.syslogic.github.BuildConfig;
 import io.syslogic.github.Constants;
-import io.syslogic.github.model.QueryString;
-import io.syslogic.github.model.RepositorySearch;
-import io.syslogic.github.model.Repository;
-import io.syslogic.github.model.User;
+import io.syslogic.github.api.model.QueryString;
+import io.syslogic.github.api.model.RepositorySearch;
+import io.syslogic.github.api.model.Repository;
+import io.syslogic.github.api.model.User;
 import io.syslogic.github.network.TokenHelper;
-import io.syslogic.github.retrofit.GithubClient;
-import io.syslogic.github.room.Abstraction;
-import io.syslogic.github.room.QueryStringsDao;
-import io.syslogic.github.room.RepositoriesDao;
+import io.syslogic.github.api.GithubClient;
+import io.syslogic.github.api.room.Abstraction;
+import io.syslogic.github.api.room.QueryStringsDao;
+import io.syslogic.github.api.room.RepositoriesDao;
 
 import retrofit2.Call;
 import retrofit2.Callback;
