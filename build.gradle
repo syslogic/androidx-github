@@ -45,6 +45,11 @@ project.ext.set('versionCode', new Integer(version['versionCode']))
 
 /** TODO: better should load the versionName from git tag */
 
+/* JitPack: use tag as versionName. */
+if (System.env.JITPACK) {
+    project.ext.set('versionName', System.env.VERSION)
+}
+
 /** Build Configurations */
 project.ext.set('archiveBuildTypes', ['debug', 'release'])
 
