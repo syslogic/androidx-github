@@ -23,5 +23,5 @@ The library is also available on JitPack; either by version tag or `master-SNAPS
 The JitPack repository URL would be: `maven { url 'https://jitpack.io' }`
 
     dependencies {
-        implementation "io.syslogic:androidx-github:1.1.5"
+        implementation "io.syslogic:androidx-github:1.0.0"
     }
