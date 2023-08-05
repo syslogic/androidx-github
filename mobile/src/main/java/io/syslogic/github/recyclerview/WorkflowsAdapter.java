@@ -35,6 +35,7 @@ import io.syslogic.github.databinding.CardviewWorkflowBinding;
 import io.syslogic.github.databinding.FragmentWorkflowsBinding;
 import io.syslogic.github.model.Repository;
 import io.syslogic.github.model.Workflow;
+import io.syslogic.github.model.WorkflowsResponse;
 import io.syslogic.github.network.TokenHelper;
 import io.syslogic.github.retrofit.GithubClient;
 
@@ -62,8 +63,6 @@ public class WorkflowsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     private WeakReference<Context> mContext;
 
-    private long totalItemCount = 0;
-
     public WorkflowsAdapter(@NonNull Context context) {
         this.mContext = new WeakReference<>(context);
     }
@@ -89,15 +88,6 @@ public class WorkflowsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         binding.setItem(item);
     }
 
-    private Repository getItem(int index) {
-        return this.mItems.get(index);
-    }
-
-    @Override
-    public int getItemCount() {
-        return this.mItems.size();
-    }
-
     public void fetchPage(final int pageNumber) {
 
         /* It may add the account and therefore must be called first */
@@ -119,10 +109,41 @@ public class WorkflowsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         api.enqueue(new Callback<>() {
             @Override
             public void onResponse(@NonNull Call<ArrayList<Repository>> call, @NonNull Response<ArrayList<Repository>> response) {
+                int positionStart = getItemCount();
                 if (response.code() == 200) { // OK
                     if (response.body() != null) {
+
                         ArrayList<Repository> items = response.body();
-                        int positionStart = getItemCount();
+                        for (Repository item : items) {
+
+                            Call<WorkflowsResponse> api2 = GithubClient.getWorkflows(accessToken, username,item.getName());
+                            // if (BuildConfig.DEBUG) {Log.w(LOG_TAG, api2.request().url() + "");}
+                            api2.enqueue(new Callback<>() {
+                                @Override
+                                public void onResponse(@NonNull Call<WorkflowsResponse> call, @NonNull Response<WorkflowsResponse> response) {
+                                    if (response.code() == 200) { // OK
+                                        if (response.body() != null) {
+                                            WorkflowsResponse items = response.body();
+                                            assert items.getWorkflows() != null;
+                                            for (Workflow item : items.getWorkflows()) {
+                                                if (BuildConfig.DEBUG) {Log.d(LOG_TAG, "has workflow: " + item.getName());}
+                                            }
+                                        }
+                                    } else {
+                                        /* "bad credentials" means that the provided access-token is invalid. */
+                                        if (response.errorBody() != null) {
+                                            logError(response.errorBody());
+                                        }
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(@NonNull Call<WorkflowsResponse> call, @NonNull Throwable t) {
+                                    if (BuildConfig.DEBUG) {Log.e(LOG_TAG, "onFailure: " + t.getMessage());}
+                                }
+                            });
+                        }
+
                         getItems().addAll(items);
                         notifyItemRangeChanged(positionStart, getItemCount());
                     }
@@ -139,6 +160,16 @@ public class WorkflowsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 if (BuildConfig.DEBUG) {Log.e(LOG_TAG, "" + t.getMessage());}
             }
         });
+    }
+
+    /** Getters */
+    private Repository getItem(int index) {
+        return this.mItems.get(index);
+    }
+
+    @Override
+    public int getItemCount() {
+        return this.mItems.size();
     }
 
     ArrayList<Repository> getItems() {
@@ -167,25 +198,9 @@ public class WorkflowsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         }
     }
 
-    void clearItems() {
-        this.mItems.clear();
-        notifyItemRangeChanged(0, getItemCount());
-    }
-
     @NonNull
     protected Context getContext() {
         return this.mContext.get();
-    }
-
-    /** Setters */
-    void setTotalItemCount(long value) {
-        this.totalItemCount = value;
-    }
-
-    /** Getters */
-    @SuppressWarnings("unused")
-    private long getTotalItemCount() {
-        return this.totalItemCount;
     }
 
     void logError(@NonNull ResponseBody responseBody) {

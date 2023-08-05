@@ -11,6 +11,7 @@ import io.syslogic.github.model.RepositorySearch;
 import io.syslogic.github.model.Repository;
 import io.syslogic.github.model.User;
 import io.syslogic.github.model.WorkflowJobs;
+import io.syslogic.github.model.WorkflowsResponse;
 
 import okhttp3.ResponseBody;
 
@@ -150,10 +151,21 @@ public interface GithubService {
         @NonNull @Header("Authorization") String token
     );
 
-    /** GitHub Actions: Workflow Runs */
+    /**
+     * GitHub Actions: Workflows
+     */
+    @NonNull
+    @GET("/repos/{owner}/{repo}/actions/workflows")
+    Call<WorkflowsResponse> getWorkflows(
+            @NonNull @Header("Authorization") String token,
+            @NonNull @Path(value = "owner") String owner,
+            @NonNull @Path(value = "repo")  String repo
+    );
+
+    /** GitHub Actions: Workflow Run */
     @NonNull
     @GET("/repos/{owner}/{repo}/actions/jobs/{jobId}")
-    Call<WorkflowJobs> getWorkflowRuns(
+    Call<WorkflowJobs> getWorkflowRun(
             @NonNull @Header("Authorization") String token,
             @NonNull @Path(value = "owner") String owner,
             @NonNull @Path(value = "repo")  String repo,
