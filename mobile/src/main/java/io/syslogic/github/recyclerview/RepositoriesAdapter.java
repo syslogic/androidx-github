@@ -132,7 +132,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                                             if (BuildConfig.DEBUG) {
                                                 if (items.getWorkflows() != null && items.getWorkflows().size() > 0) {
                                                     for (Workflow item2 : items.getWorkflows()) {
-                                                        Log.d(LOG_TAG, "has workflows: " + item2.getName());
+                                                        Log.d(LOG_TAG, item.getName() + " has workflow: " + item2.getName());
                                                     }
                                                 }
                                             }
