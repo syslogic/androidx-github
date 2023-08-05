@@ -1,0 +1,5 @@
+# https://jitpack.io/docs/BUILDING/#custom-commands
+before_install:
+#  - sdk install java 17.0.7-oracle
+#  - sdk use java 17.0.7-oracle
+  - sdk update

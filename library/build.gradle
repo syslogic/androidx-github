@@ -159,7 +159,7 @@ afterEvaluate {
         publications {
             release(MavenPublication) {
                 groupId = group
-                artifactId = 'github-retrofit2-client'
+                artifactId = 'androidx-github'
                 from components.getByName('release')
                 version = version_name
                 pom {
