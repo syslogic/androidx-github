@@ -64,9 +64,9 @@ public class HomeScreenFragment extends BaseFragment implements TokenCallback {
                 .navigate(R.id.action_homeScreenFragment_to_repositoriesFragment));
 
         /* Navigating to WorkflowFragment */
-        this.mDataBinding.buttonWorkflow
+        this.mDataBinding.buttonWorkflows
                 .setOnClickListener(view -> activity.getNavController()
-                .navigate(R.id.action_homeScreenFragment_to_workflowFragment));
+                .navigate(R.id.action_homeScreenFragment_to_workflowsFragment));
 
         /* Navigating to GitHub Sponsors */
         this.mDataBinding.textGitHubSponsors

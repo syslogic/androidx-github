@@ -7,7 +7,7 @@ import androidx.annotation.Nullable;
 
 import io.syslogic.github.model.Branch;
 import io.syslogic.github.model.RateLimits;
-import io.syslogic.github.model.Repositories;
+import io.syslogic.github.model.RepositorySearch;
 import io.syslogic.github.model.Repository;
 import io.syslogic.github.model.User;
 import io.syslogic.github.model.WorkflowJobs;
@@ -38,15 +38,44 @@ public interface GithubService {
     @GET("rate_limit")
     Call<RateLimits> getRateLimits();
 
-    /** All repositories */
+    /** Search all repositories */
     @NonNull
     @GET("search/repositories")
-    Call<Repositories> getRepositories(
+    Call<RepositorySearch> searchRepositories(
         @NonNull @Header("Authorization")            String token,
         @NonNull @Query(value = "q", encoded = true) String queryString,
         @NonNull @Query(value = "sort")              String sortField,
         @NonNull @Query(value = "order")             String sortOrder,
         @NonNull @Query(value = "page")              Integer pageNumber
+    );
+
+    /**
+     * Organization repositories
+     * @noinspection unused
+     */
+    @NonNull
+    @GET("orgs/{org}/repos")
+    Call<ArrayList<Repository>> getOrgRepositories(
+            @NonNull @Header("Authorization") String token,
+            @NonNull @Path(value = "org") String org,
+            @NonNull @Query(value = "type") String type, // Default: all. Can be one of: all, public, private, forks, sources, member
+            @NonNull @Query(value = "sort") String sortField, // Default: created. Can be one of: created, updated, pushed, full_name
+            @NonNull @Query(value = "direction") String sortOrder, // Default: asc when using full_name, otherwise desc. Can be one of: asc, desc
+            @NonNull @Query(value = "per_page") Integer pageSize, // The number of results per page (max 100). Default: 30
+            @NonNull @Query(value = "page") Integer pageNumber // Page number of the results to fetch. Default: 1
+    );
+
+    /** User repositories */
+    @NonNull
+    @GET("users/{username}/repos")
+    Call<ArrayList<Repository>> getUserRepositories(
+            @NonNull @Header("Authorization") String token,
+            @NonNull @Path(value = "username") String username,
+            @NonNull @Query(value = "type") String type, // Default: all. Can be one of: all, public, private, forks, sources, member
+            @NonNull @Query(value = "sort") String sortField, // Default: created. Can be one of: created, updated, pushed, full_name
+            @NonNull @Query(value = "direction") String sortOrder, // Default: asc when using full_name, otherwise desc. Can be one of: asc, desc
+            @NonNull @Query(value = "per_page") Integer pageSize, // The number of results per page (max 100). Default: 30
+            @NonNull @Query(value = "page") Integer pageNumber // Page number of the results to fetch. Default: 1
     );
 
     /** One repository */
@@ -77,10 +106,11 @@ public interface GithubService {
      * Obtain the redirect URL to download an archive for a repository.
      * The :archive_format can be either "tarball" or "zipball".
      * The :branch must be a valid Git reference.
-     *
+     * <p>
      * If you omit :branch, the repository’s default branch (usually master) will be used.
      * Note: for private repositories, the links are temporary and expire after five minutes.
-    **/
+     * </p>
+     */
     @NonNull
     @Streaming
     @GET("/repos/{owner}/{repo}/{format}/{branch}")
@@ -116,7 +146,7 @@ public interface GithubService {
     @NonNull
     @SuppressWarnings("unused")
     @GET("/user/repos")
-    Call<Repositories> getRepositories(
+    Call<RepositorySearch> getRepositories(
         @NonNull @Header("Authorization") String token
     );
 

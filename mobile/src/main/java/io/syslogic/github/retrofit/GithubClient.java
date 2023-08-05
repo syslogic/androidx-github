@@ -10,7 +10,7 @@ import androidx.annotation.Nullable;
 
 import io.syslogic.github.model.Branch;
 import io.syslogic.github.model.RateLimits;
-import io.syslogic.github.model.Repositories;
+import io.syslogic.github.model.RepositorySearch;
 import io.syslogic.github.model.Repository;
 import io.syslogic.github.model.User;
 import io.syslogic.github.model.WorkflowJobs;
@@ -68,8 +68,17 @@ public class GithubClient {
         return getService().getUser("token " + token, username);
     }
 
-    public static @NonNull Call<Repositories> getRepositories(@Nullable String token, @NonNull String queryString, @NonNull String sortField, @NonNull String sortOrder, @NonNull Integer pageNumber) {
-        return getService().getRepositories("token " + token, queryString, sortField, sortOrder, pageNumber);
+    public static @NonNull Call<RepositorySearch> searchRepositories(@Nullable String token, @NonNull String queryString, @NonNull String sortField, @NonNull String sortOrder, @NonNull Integer pageNumber) {
+        return getService().searchRepositories("token " + token, queryString, sortField, sortOrder, pageNumber);
+    }
+
+    /** @noinspection unused*/
+    public static @NonNull Call<ArrayList<Repository>> getOrgRepositories(@Nullable String token, @NonNull String org, @NonNull String type, @NonNull String sortField, @NonNull String sortOrder, @NonNull Integer pageSize, @NonNull Integer pageNumber) {
+        return getService().getOrgRepositories("token " + token, org, type, sortField, sortOrder, pageSize, pageNumber);
+    }
+
+    public static @NonNull Call<ArrayList<Repository>> getUserRepositories(@Nullable String token, @NonNull String username, @NonNull String type, @NonNull String sortField, @NonNull String sortOrder, @NonNull Integer pageSize, @NonNull Integer pageNumber) {
+        return getService().getUserRepositories("token " + token, username, type, sortField, sortOrder, pageSize, pageNumber);
     }
 
     public static @NonNull Call<Repository> getRepository(@NonNull Long itemId) {

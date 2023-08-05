@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 public final class Constants {
 
     @NonNull public static final String ARGUMENT_ITEM_ID = "itemId";
+    @NonNull public static final String ARGUMENT_ITEM_NAME = "name";
     @NonNull public static final String ARGUMENT_REPOSITORY_TOPIC = "topic";
 
     @NonNull public static final Integer REQUESTCODE_ADD_ACCESS_TOKEN = 500;

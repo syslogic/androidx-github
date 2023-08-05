@@ -71,7 +71,7 @@ android {
         }
         release {
             signingConfig signingConfigs.release
-            manifestPlaceholders = [accessToken: ""]
+            manifestPlaceholders = [ accessToken: "" ]
             proguardFile "${project.rootDir}/proguard/android.pro"
             proguardFile "${project.rootDir}/proguard/androidx.pro"
             proguardFile "${project.rootDir}/proguard/retrofit.pro"

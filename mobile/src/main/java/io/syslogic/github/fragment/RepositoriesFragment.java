@@ -122,7 +122,7 @@ public class RepositoriesFragment extends BaseFragment implements TokenCallback 
                             this.getDataBinding().toolbarRepositories.spinnerQueryString.setVisibility(View.INVISIBLE);
                         }
                     } catch (IllegalStateException e) {
-                        if (mDebug) {Log.e(LOG_TAG, e.getMessage());}
+                        if (mDebug) {Log.e(LOG_TAG, "" + e.getMessage());}
                     }
                 });
             } else {

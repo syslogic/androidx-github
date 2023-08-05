@@ -8,11 +8,11 @@ import androidx.annotation.NonNull;
 import androidx.databinding.Bindable;
 
 /**
- * Model: Repositories
+ * Model: Repository Search
  *
  * @author Martin Zeitler
  */
-public class Repositories extends BaseModel {
+public class RepositorySearch extends BaseModel {
 
     @SerializedName("items")
     private ArrayList<Repository> mItems;

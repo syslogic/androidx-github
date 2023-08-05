@@ -19,8 +19,8 @@
             android:id="@+id/action_homeScreenFragment_to_preferencesFragment"
             app:destination="@id/preferencesFragment"/>
         <action
-            android:id="@+id/action_homeScreenFragment_to_workflowFragment"
-            app:destination="@id/workflowFragment"/>
+            android:id="@+id/action_homeScreenFragment_to_workflowsFragment"
+            app:destination="@id/workflowsFragment"/>
     </fragment>
 
     <fragment
@@ -95,6 +95,17 @@
         </fragment>
 
     </navigation>
+
+    <fragment
+        android:id="@+id/workflowsFragment"
+        android:name="io.syslogic.github.fragment.WorkflowsFragment"
+        android:label="WorkflowsFragment"
+        tools:layout="@layout/fragment_workflows">
+        <deepLink app:uri="github://workflows"/>
+        <action
+            android:id="@+id/action_workflowsFragment_to_workflowFragment"
+            app:destination="@id/workflowFragment"/>
+    </fragment>
 
     <fragment
         android:id="@+id/workflowFragment"

@@ -37,13 +37,13 @@ import io.syslogic.github.R;
 import io.syslogic.github.BuildConfig;
 import io.syslogic.github.activity.BaseActivity;
 import io.syslogic.github.Constants;
-import io.syslogic.github.databinding.FragmentRepositoriesBinding;
 import io.syslogic.github.databinding.CardviewRepositoryBinding;
+import io.syslogic.github.databinding.FragmentRepositoriesBinding;
 import io.syslogic.github.fragment.RepositoryFragment;
 import io.syslogic.github.model.PagerState;
 import io.syslogic.github.model.RateLimit;
 import io.syslogic.github.model.RateLimits;
-import io.syslogic.github.model.Repositories;
+import io.syslogic.github.model.RepositorySearch;
 import io.syslogic.github.model.Repository;
 import io.syslogic.github.retrofit.GithubClient;
 
@@ -133,18 +133,18 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             /* Updating the pager data-binding */
             setPagerState(pageNumber, true, null);
 
-            Call<Repositories> api = GithubClient.getRepositories(accessToken, this.queryString,"stars","desc", pageNumber);
+            Call<RepositorySearch> api = GithubClient.searchRepositories(accessToken, this.queryString,"stars","desc", pageNumber);
             if (BuildConfig.DEBUG) {Log.w(LOG_TAG, api.request().url() + "");}
             api.enqueue(new Callback<>() {
 
                 @Override
-                public void onResponse(@NonNull Call<Repositories> call, @NonNull Response<Repositories> response) {
+                public void onResponse(@NonNull Call<RepositorySearch> call, @NonNull Response<RepositorySearch> response) {
                     switch (response.code()) {
 
                         // OK
                         case 200 -> {
                             if (response.body() != null) {
-                                Repositories items = response.body();
+                                RepositorySearch items = response.body();
                                 if (BuildConfig.DEBUG) {
                                     // RECYCLERVIEW_DEFAULT_PAGE_SIZE = 30
                                     int currentPageSize = items.getRepositories().size();
@@ -186,7 +186,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 }
 
                 @Override
-                public void onFailure(@NonNull Call<Repositories> call, @NonNull Throwable t) {
+                public void onFailure(@NonNull Call<RepositorySearch> call, @NonNull Throwable t) {
                     if (BuildConfig.DEBUG) {Log.e(LOG_TAG, "" + t.getMessage());}
                 }
             });
