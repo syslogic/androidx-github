@@ -152,7 +152,7 @@ artifacts {
 }
 
 group = 'io.syslogic'
-version = version_name
+version = rootProject.ext.get('versionName')
 
 afterEvaluate {
     publishing {
@@ -160,8 +160,8 @@ afterEvaluate {
             release(MavenPublication) {
                 groupId = group
                 artifactId = 'androidx-github'
+                version = rootProject.ext.get('versionName')
                 from components.getByName('release')
-                version = version_name
                 pom {
                     name = 'GitHub API Client'
                     description = 'A simple client library for Android'
