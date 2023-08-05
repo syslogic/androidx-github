@@ -1,14 +1,14 @@
 package io.syslogic.github.model;
 
+import androidx.annotation.NonNull;
+import androidx.databinding.Bindable;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 
-import androidx.annotation.NonNull;
-import androidx.databinding.Bindable;
-
 /**
- * Model: Repositories
+ * Model: Repository Listing
  *
  * @author Martin Zeitler
  */

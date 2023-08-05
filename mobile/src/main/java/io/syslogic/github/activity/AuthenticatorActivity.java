@@ -5,6 +5,7 @@ import android.accounts.AccountAuthenticatorResponse;
 import android.accounts.AccountManager;
 import android.os.Bundle;
 import android.text.Editable;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -12,9 +13,23 @@ import androidx.annotation.Nullable;
 import androidx.annotation.VisibleForTesting;
 import androidx.databinding.ViewDataBinding;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
+import java.io.IOException;
+
+import io.syslogic.github.BuildConfig;
 import io.syslogic.github.R;
 import io.syslogic.github.databinding.FragmentAccessTokenBinding;
+import io.syslogic.github.model.User;
 import io.syslogic.github.network.TokenHelper;
+import io.syslogic.github.retrofit.GithubClient;
+
+import okhttp3.ResponseBody;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * The Authenticator {@link BaseActivity}
@@ -62,18 +77,58 @@ public class AuthenticatorActivity extends BaseActivity {
             Editable editable = this.getDataBinding().personalAccessToken.getText();
             if (editable != null && !editable.toString().isEmpty()) {
 
-                /* TODO: add Account and return Bundle? */
-                Account account = TokenHelper.addAccount(AccountManager.get(AuthenticatorActivity.this), editable.toString());
-                this.mResult = new Bundle();
-                if (account != null) {
-                    this.mResult.putInt(AccountManager.KEY_ERROR_CODE, 0);
-                } else {
-                    Toast.makeText(AuthenticatorActivity.this, "The access token has not been added.\nOnly one token is being supported", Toast.LENGTH_SHORT).show();
-                    this.mResult.putInt(AccountManager.KEY_ERROR_CODE, AccountManager.ERROR_CODE_UNSUPPORTED_OPERATION);
-                }
-                this.mResponse.onResult(this.mResult);
+                /* Obtain the username; this also validates the access token. */
+                String token = editable.toString();
+                Call<User> api = GithubClient.getUser(token);
+                if (BuildConfig.DEBUG) {Log.w(LOG_TAG, api.request().url() + "");}
+                api.enqueue(new Callback<>() {
+                    @Override
+                    public void onResponse(@NonNull Call<User> call, @NonNull Response<User> response) {
+                        mResult = new Bundle();
+                        switch (response.code()) {
+
+                            // OK
+                            case 200 -> {
+                                if (response.body() != null) {
+                                    User item = response.body();
+                                    Account account = TokenHelper.addAccount(AccountManager.get(AuthenticatorActivity.this), item.getLogin(), token);
+                                    if (account != null) {
+                                        mResult.putInt(AccountManager.KEY_ERROR_CODE, 0);
+                                    } else {
+                                        Toast.makeText(AuthenticatorActivity.this, "The access token has not been added.\nOnly one token is being supported", Toast.LENGTH_SHORT).show();
+                                        mResult.putInt(AccountManager.KEY_ERROR_CODE, AccountManager.ERROR_CODE_UNSUPPORTED_OPERATION);
+                                    }
+                                }
+                            }
+                            case 401, 403, 404 -> {
+                                /* "bad credentials" means that the provided access-token is invalid. */
+                                mResult.putInt(AccountManager.KEY_ERROR_CODE, AccountManager.ERROR_CODE_UNSUPPORTED_OPERATION);
+                                if (response.errorBody() != null) {
+                                    logError(response.errorBody());
+                                }
+                            }
+                        }
+                        mResponse.onResult(mResult);
+                    }
+
+                    @Override
+                    public void onFailure(@NonNull Call<User> call, @NonNull Throwable t) {
+                        if (BuildConfig.DEBUG) {Log.e(LOG_TAG, "" + t.getMessage());}
+                    }
+                });
             }
         });
+    }
+
+    void logError(@NonNull ResponseBody responseBody) {
+        try {
+            String errors = responseBody.string();
+            JsonObject jsonObject = JsonParser.parseString(errors).getAsJsonObject();
+            Toast.makeText(AuthenticatorActivity.this, jsonObject.get("message").toString(), Toast.LENGTH_LONG).show();
+            if (BuildConfig.DEBUG) {Log.e(LOG_TAG, jsonObject.get("message").toString());}
+        } catch (IOException e) {
+            if (BuildConfig.DEBUG) {Log.e(LOG_TAG, "" + e.getMessage());}
+        }
     }
 
     /** Sends the result or a Constants.ERROR_CODE_CANCELED error if a result isn't present. */

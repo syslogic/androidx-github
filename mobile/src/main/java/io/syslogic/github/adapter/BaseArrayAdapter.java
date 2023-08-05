@@ -52,7 +52,7 @@ abstract public class BaseArrayAdapter extends BaseAdapter {
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         if (convertView == null) {
-            convertView = this.layoutInflater.inflate(androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, parent, false);
+            convertView = this.layoutInflater.inflate(com.google.android.material.R.layout.support_simple_spinner_dropdown_item, parent, false);
         }
         convertView.setTag(this.mItems.get(position));
         AppCompatTextView textView = convertView.findViewById(android.R.id.text1);
@@ -71,6 +71,7 @@ abstract public class BaseArrayAdapter extends BaseAdapter {
         }
     }
 
+    @SuppressWarnings("unused")
     void setItems(List<SpinnerItem> items) {
         this.clearItems();
         this.mItems.addAll(items);

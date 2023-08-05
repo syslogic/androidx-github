@@ -23,6 +23,16 @@
         app:popupTheme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         tools:layout_gravity="top">
 
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@android:id/home"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|start"
+            android:layout_marginEnd="8dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:padding="15dp"
+            android:src="?attr/homeAsUpIndicator"/>
+
         <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/layout_toolbar_workflow"
             android:layout_width="match_parent"

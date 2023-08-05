@@ -5,7 +5,7 @@
     <data />
 
     <androidx.appcompat.widget.LinearLayoutCompat
-        android:background="@color/statusBar"
+        android:theme="@style/ThemeOverlay.AppCompat.Light"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">

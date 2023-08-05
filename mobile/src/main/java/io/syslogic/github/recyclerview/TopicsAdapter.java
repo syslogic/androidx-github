@@ -14,7 +14,7 @@ import java.util.List;
 import io.syslogic.github.R;
 import io.syslogic.github.activity.BaseActivity;
 import io.syslogic.github.databinding.CardviewTopicBinding;
-import io.syslogic.github.databinding.FragmentRepositoriesBinding;
+import io.syslogic.github.databinding.FragmentRepositorySearchBinding;
 import io.syslogic.github.model.PagerState;
 
 /**
@@ -78,7 +78,7 @@ public class TopicsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             TopicsFlexboxView mRecyclerView = (TopicsFlexboxView) viewHolder.getParent();
             String item = (String) viewHolder.getTag();
             BaseActivity activity = (BaseActivity) mRecyclerView.getContext();
-            FragmentRepositoriesBinding databinding = (FragmentRepositoriesBinding) activity.getFragmentDataBinding();
+            FragmentRepositorySearchBinding databinding = (FragmentRepositorySearchBinding) activity.getFragmentDataBinding();
 
             /* Set the query-string on the adapter and reload it. */
             if (databinding != null) {
@@ -86,7 +86,6 @@ public class TopicsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
                 String queryString = "topic:" + item;
                 databinding.recyclerviewRepositories.setQueryString(queryString);
-
 
                 PagerState pagerState = databinding.getPagerState();
                 if (pagerState != null) {
@@ -97,7 +96,7 @@ public class TopicsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 databinding.toolbarRepositories.textCurrentTopic.setText(activity.getString(R.string.text_current_topic, item));
                 if (databinding.recyclerviewRepositories.getAdapter() != null) {
                     databinding.recyclerviewRepositories.clearAdapter();
-                    ((RepositoriesAdapter) databinding.recyclerviewRepositories.getAdapter()).fetchPage(1);
+                    ((RepositorySearchAdapter) databinding.recyclerviewRepositories.getAdapter()).fetchPage(1);
                 }
             }
         }

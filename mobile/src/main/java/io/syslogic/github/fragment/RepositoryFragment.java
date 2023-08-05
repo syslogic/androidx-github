@@ -20,23 +20,31 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.AdapterView;
 import android.widget.Toast;
-import android.widget.ViewFlipper;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+import java.io.File;
 import java.io.IOException;
+
 import java.util.ArrayList;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.widget.AppCompatSpinner;
 import androidx.databinding.ViewDataBinding;
+
+import org.eclipse.jgit.api.CloneCommand;
+import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.api.errors.JGitInternalException;
+import org.eclipse.jgit.lib.ProgressMonitor;
+import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 
 import io.syslogic.github.R;
 import io.syslogic.github.Constants;
 import io.syslogic.github.databinding.FragmentRepositoryBinding;
+import io.syslogic.github.dialog.ProgressDialogFragment;
 import io.syslogic.github.model.User;
 import io.syslogic.github.network.TokenCallback;
 import io.syslogic.github.retrofit.GithubClient;
@@ -65,8 +73,8 @@ public class RepositoryFragment extends BaseFragment implements TokenCallback {
 
     /** Data Binding */
     FragmentRepositoryBinding mDataBinding;
-
-    private Long itemId = 0L;
+    ProgressDialogFragment currentDialog;
+    Long itemId = 0L;
 
     /** Constructor */
     public RepositoryFragment() {}
@@ -81,7 +89,6 @@ public class RepositoryFragment extends BaseFragment implements TokenCallback {
     }
 
     @Override
-    @RequiresApi(api = Build.VERSION_CODES.N)
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.registerBroadcastReceiver();
@@ -149,9 +156,73 @@ public class RepositoryFragment extends BaseFragment implements TokenCallback {
                     String branch = getDataBinding().toolbarDownload.spinnerBranch.getSelectedItem().toString();
                     downloadBranchAsZip(branch);
                 });
+
+                /* The git clone button (experimental). */
+                this.mDataBinding.toolbarDownload.buttonClone.setOnClickListener(view -> {
+                    assert this.prefs != null;
+                    String directory = this.prefs.getString(Constants.PREFERENCE_KEY_WORKSPACE_DIRECTORY, Environment.getExternalStorageDirectory() + "/Workspace");
+                    String name = getDataBinding().getRepository().getName();
+                    File destination = new File(directory + "/" + name);
+
+                    // directory should be empty.
+                    if (destination.exists()) {
+                        if (! destination.delete()) {
+                            Log.e(LOG_TAG, "destination directory not deleted");
+                            return;
+                        }
+                    }
+                    if (! destination.exists()) {
+                        if (! destination.mkdir()) {
+                            Log.e(LOG_TAG, "destination directory not created");
+                            return;
+                        }
+                    }
+                    if (destination.exists() && destination.isDirectory()) {
+                        String branch = getDataBinding().toolbarDownload.spinnerBranch.getSelectedItem().toString();
+                        gitClone(destination, branch);
+                    }
+                });
             }
         }
         return this.mDataBinding.getRoot();
+    }
+
+    /** git clone. */
+    private void gitClone(@NonNull File destination, @Nullable String branch) {
+
+        /* Attempting to display the checkout progress. */
+        this.currentDialog = new ProgressDialogFragment();
+        this.currentDialog.show(getChildFragmentManager(), ProgressDialogFragment.LOG_TAG);
+        this.currentDialog.setRepositoryName(getRepoName());
+        this.currentDialog.setLocalPath(destination.getAbsolutePath());
+
+        Thread thread = new Thread(() -> {
+            CloneCommand cmd = Git.cloneRepository()
+                    .setURI(getRepoUrl())
+                    .setCredentialsProvider(new UsernamePasswordCredentialsProvider(getPersonalAccessToken(), ""))
+                    .setProgressMonitor((ProgressMonitor) currentDialog)
+                    .setDirectory(destination)
+                    .setRemote("github");
+
+            if (branch == null) {
+                cmd.setCloneAllBranches(true);
+            } else {
+                cmd.setBranch(branch);
+            }
+
+            if (mDebug) {Log.d(LOG_TAG, "Cloning git repository " + getRepoName() + "...");}
+            try {
+                cmd.call();
+            } catch (GitAPIException | JGitInternalException | NoSuchMethodError e) {
+                String message = e.getMessage();
+                if (mDebug) {Log.e(LOG_TAG, e.getMessage(), e);}
+                requireActivity().runOnUiThread(() -> {
+                    this.currentDialog.dismiss();
+                    Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show();
+                });
+            }
+        });
+        thread.start();
     }
 
     void downloadBranchAsZip(@Nullable String branch) {
@@ -161,6 +232,17 @@ public class RepositoryFragment extends BaseFragment implements TokenCallback {
 
     private void setItemId(@NonNull Long value) {
         this.itemId = value;
+    }
+
+    @NonNull
+    private String getRepoName() {
+        return getDataBinding().getRepository().getFullName();
+    }
+
+    @NonNull
+    private String getRepoUrl() {
+        return getDataBinding().getRepository().getUrl()
+                .replace("api.github.com/repos", "github.com") + ".git";
     }
 
     @NonNull
@@ -178,7 +260,7 @@ public class RepositoryFragment extends BaseFragment implements TokenCallback {
         super.onNetworkAvailable();
         if (this.getContext() != null) {
 
-            String token = this.getAccessToken(this.getContext());
+            String token = this.getPersonalAccessToken();
             if (getCurrentUser() == null && token != null) {
                 this.setUser(token, this);
             }
@@ -278,7 +360,7 @@ public class RepositoryFragment extends BaseFragment implements TokenCallback {
                             /* Attempting to select branch master */
                             int defaultIndex = -1;
                             for (int i = 0; i < items.size(); i++) {
-                                if (items.get(i).getName().equals("main") && items.get(i).getName().equals("master")) {
+                                if (items.get(i).getName().equals("main") || items.get(i).getName().equals("master")) {
                                     if (mDebug) {
                                         String formatString = getContext().getResources().getString(R.string.debug_branch_master);
                                         Log.d(LOG_TAG, String.format(formatString, repoName, i));
@@ -337,7 +419,7 @@ public class RepositoryFragment extends BaseFragment implements TokenCallback {
     }
 
     void downloadRepository(@NonNull final Repository item, final String archiveFormat, String branch) {
-        String token = getAccessToken(requireContext());
+        String token = getPersonalAccessToken();
         assert token != null;
         Call<ResponseBody> api = GithubClient.getArchiveLink(token, item.getOwner().getLogin(), item.getName(), archiveFormat, branch);
         if (mDebug) {Log.d(LOG_TAG, api.request().url() + "");}
@@ -454,16 +536,6 @@ public class RepositoryFragment extends BaseFragment implements TokenCallback {
         Intent intent = new Intent();
         intent.setAction(DownloadManager.ACTION_VIEW_DOWNLOADS);
         startActivity(intent);
-    }
-
-    @SuppressWarnings("unused")
-    private void switchToolbarView(@NonNull Integer childIndex) {
-        ViewFlipper view = this.mDataBinding.toolbarDownload.viewflipperDownload;
-        int index = view.getDisplayedChild();
-        switch(childIndex) {
-            case 0: if (index != childIndex) {view.showPrevious();} break;
-            case 1: if (index != childIndex) {view.showNext();} break;
-        }
     }
 
     @Override

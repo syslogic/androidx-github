@@ -4,7 +4,6 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
-import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,37 +12,31 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
+import androidx.databinding.DataBindingUtil;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.cardview.widget.CardView;
-import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.recyclerview.widget.RecyclerView;
-
-import io.syslogic.github.R;
 import io.syslogic.github.BuildConfig;
-import io.syslogic.github.activity.BaseActivity;
 import io.syslogic.github.Constants;
+import io.syslogic.github.R;
+import io.syslogic.github.activity.BaseActivity;
+import io.syslogic.github.databinding.CardviewWorkflowBinding;
 import io.syslogic.github.databinding.FragmentRepositoriesBinding;
-import io.syslogic.github.databinding.CardviewRepositoryBinding;
-import io.syslogic.github.fragment.RepositoryFragment;
-import io.syslogic.github.model.PagerState;
-import io.syslogic.github.model.RateLimit;
-import io.syslogic.github.model.RateLimits;
-import io.syslogic.github.model.Repositories;
 import io.syslogic.github.model.Repository;
+import io.syslogic.github.model.Workflow;
+import io.syslogic.github.model.WorkflowsResponse;
+import io.syslogic.github.network.TokenHelper;
 import io.syslogic.github.retrofit.GithubClient;
 
 import okhttp3.ResponseBody;
@@ -52,10 +45,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import io.syslogic.github.network.TokenHelper;
-
 /**
- * Repositories {@link RecyclerView.Adapter}
+ * Workflows {@link RecyclerView.Adapter}
  *
  * @author Martin Zeitler
  */
@@ -72,32 +63,20 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     private WeakReference<Context> mContext;
 
-    private RecyclerView mRecyclerView;
-
-    private long totalItemCount = 0;
-
-    private String queryString = "topic:android";
-
-    private final boolean showTopics;
-
-    public RepositoriesAdapter(@NonNull Context context, @NonNull String queryString, @NonNull Boolean showTopics, @NonNull Integer pageNumber) {
+    public RepositoriesAdapter(@NonNull Context context) {
         this.mContext = new WeakReference<>(context);
-        this.setQueryString(queryString);
-        this.showTopics = showTopics;
-        this.fetchPage(pageNumber);
     }
 
     @Override
     public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
         this.mContext = new WeakReference<>(recyclerView.getContext());
-        this.mRecyclerView = recyclerView;
     }
 
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        CardviewRepositoryBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.cardview_repository, parent, false);
+        CardviewWorkflowBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.cardview_workflow, parent, false);
         binding.getRoot().setLayoutParams(new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         return new RepositoriesAdapter.ViewHolder(binding);
     }
@@ -105,16 +84,90 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
         Repository item = getItem(position);
-        CardviewRepositoryBinding binding = ((ViewHolder) viewHolder).getDataBinding();
+        CardviewWorkflowBinding binding = ((ViewHolder) viewHolder).getDataBinding();
         binding.setItem(item);
-        if (! this.showTopics) {
-            binding.recyclerviewTopics.setVisibility(View.GONE);
-        } else {
-            TopicsAdapter adapter = new TopicsAdapter(List.of(item.getTopics()));
-            binding.recyclerviewTopics.setAdapter(adapter);
-        }
     }
 
+    public void fetchPage(final int pageNumber) {
+
+        /* It may add the account and therefore must be called first */
+        String accessToken = getAccessToken();
+
+        /*
+         * This only returns a value on the second attempt, because the account
+         * from which it gets the cached username is being added asynchronously).
+         */
+        String username = getUsername();
+        if (username == null) {
+            // TODO: try again with a delay?
+            return;
+        }
+
+        Call<ArrayList<Repository>> api = GithubClient.getUserRepositories(accessToken, username,"owner", "full_name","desc", 100, pageNumber);
+        if (BuildConfig.DEBUG) {Log.w(LOG_TAG, api.request().url() + "");}
+
+        api.enqueue(new Callback<>() {
+            @Override
+            public void onResponse(@NonNull Call<ArrayList<Repository>> call, @NonNull Response<ArrayList<Repository>> response) {
+                int positionStart = getItemCount();
+                if (response.code() == 200) { // OK
+                    if (response.body() != null) {
+
+                        /* Updating the adapter with the initial response already. */
+                        ArrayList<Repository> items = response.body();
+                        getItems().addAll(items);
+                        notifyItemRangeChanged(positionStart, getItemCount());
+
+                        for (Repository item : items) {
+
+                            Call<WorkflowsResponse> api2 = GithubClient.getWorkflows(accessToken, username,item.getName());
+                            if (BuildConfig.DEBUG) {Log.w(LOG_TAG, api2.request().url() + "");}
+
+                            api2.enqueue(new Callback<>() {
+                                @Override
+                                public void onResponse(@NonNull Call<WorkflowsResponse> call, @NonNull Response<WorkflowsResponse> response) {
+                                    if (response.code() == 200) { // OK
+                                        if (response.body() != null) {
+                                            WorkflowsResponse items = response.body();
+                                            if (BuildConfig.DEBUG) {
+                                                if (items.getWorkflows() != null && items.getWorkflows().size() > 0) {
+                                                    for (Workflow item2 : items.getWorkflows()) {
+                                                        Log.d(LOG_TAG, item.getName() + " has workflow: " + item2.getName());
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    } else {
+                                        /* "bad credentials" means that the provided access-token is invalid. */
+                                        if (response.errorBody() != null) {
+                                            logError(response.errorBody());
+                                        }
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(@NonNull Call<WorkflowsResponse> call, @NonNull Throwable t) {
+                                    if (BuildConfig.DEBUG) {Log.e(LOG_TAG, "onFailure: " + t.getMessage());}
+                                }
+                            });
+                        }
+                    }
+                } else {
+                    /* "bad credentials" means that the provided access-token is invalid. */
+                    if (response.errorBody() != null) {
+                        logError(response.errorBody());
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<ArrayList<Repository>> call, @NonNull Throwable t) {
+                if (BuildConfig.DEBUG) {Log.e(LOG_TAG, "" + t.getMessage());}
+            }
+        });
+    }
+
+    /** Getters */
     private Repository getItem(int index) {
         return this.mItems.get(index);
     }
@@ -124,76 +177,14 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         return this.mItems.size();
     }
 
-    public void fetchPage(final int pageNumber) {
-
-        String accessToken = getAccessToken();
-        if (this.getPagerState() != null && !this.getPagerState().getIsOffline()) {
-
-            /* Updating the pager data-binding */
-            setPagerState(pageNumber, true, null);
-
-            Call<Repositories> api = GithubClient.getRepositories(accessToken, this.queryString,"stars","desc", pageNumber);
-            if (BuildConfig.DEBUG) {Log.w(LOG_TAG, api.request().url() + "");}
-            api.enqueue(new Callback<>() {
-
-                @Override
-                public void onResponse(@NonNull Call<Repositories> call, @NonNull Response<Repositories> response) {
-                    switch (response.code()) {
-
-                        // OK
-                        case 200 -> {
-                            if (response.body() != null) {
-                                Repositories items = response.body();
-                                if (BuildConfig.DEBUG) {
-                                    // RECYCLERVIEW_DEFAULT_PAGE_SIZE = 30
-                                    int currentPageSize = items.getRepositories().size();
-                                    Log.d(LOG_TAG, "loaded " + (getItemCount() + currentPageSize) + " / " + items.getTotalCount());
-                                    if (currentPageSize < Constants.RECYCLERVIEW_DEFAULT_PAGE_SIZE) {
-                                        Log.w(LOG_TAG, "The last page has " + currentPageSize + " / " + Constants.RECYCLERVIEW_DEFAULT_PAGE_SIZE + " items.");
-                                    }
-                                }
-                                setTotalItemCount(items.getTotalCount());
-                                int positionStart = getItemCount();
-                                getItems().addAll(items.getRepositories());
-                                notifyItemRangeChanged(positionStart, getItemCount());
-
-                                /* Updating the pager data-binding */
-                                setPagerState(pageNumber, false, items.getTotalCount());
-                            }
-                        }
-                        case 401 -> {
-                            /* "bad credentials" means that the provided access-token is invalid. */
-                            if (response.errorBody() != null) {
-                                logError(response.errorBody());
-
-                                /* Updating the pager data-binding */
-                                setPagerState(pageNumber, false, null);
-                            }
-                        }
-                        case 403 -> {
-                            if (response.errorBody() != null) {
-                                logError(response.errorBody());
-
-                                /* Updating the pager data-binding */
-                                setPagerState(pageNumber, false, null);
-
-                                resetOnScrollListener();
-                                getRateLimit("search");
-                            }
-                        }
-                    }
-                }
-
-                @Override
-                public void onFailure(@NonNull Call<Repositories> call, @NonNull Throwable t) {
-                    if (BuildConfig.DEBUG) {Log.e(LOG_TAG, "" + t.getMessage());}
-                }
-            });
-        }
-    }
-
     ArrayList<Repository> getItems() {
         return this.mItems;
+    }
+
+    /** The username is now being stored along with the token */
+    @Nullable
+    private String getUsername() {
+        return TokenHelper.getUsername(getContext());
     }
 
     @Nullable
@@ -212,98 +203,9 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
     }
 
-    void clearItems() {
-        this.mItems.clear();
-        notifyItemRangeChanged(0, getItemCount());
-    }
-
-    /** Reset the scroll listener. */
-    protected void resetOnScrollListener() {
-        if (this.mRecyclerView.getAdapter() != null) {
-            ScrollListener listener = ((RepositoriesLinearView) this.mRecyclerView).getOnScrollListener();
-            listener.setIsLoading(false);
-        }
-    }
-
-    @Nullable
-    protected PagerState getPagerState() {
-        if (((BaseActivity) getContext()).getFragmentDataBinding() instanceof FragmentRepositoriesBinding databinding) {
-            return databinding.getPagerState();
-        }
-        return null;
-    }
-
-    protected void setPagerState(int pageNumber, boolean isLoading, @Nullable Long itemCount) {
-        if (this.getPagerState() != null) {
-            PagerState state = this.getPagerState();
-            state.setIsLoading(isLoading);
-            state.setPageNumber(pageNumber);
-            if (itemCount != null) {
-                state.setPageCount((int) Math.ceil((float) itemCount / state.getItemsPerPage()));
-                state.setItemCount(itemCount);
-            }
-            FragmentRepositoriesBinding databinding = (FragmentRepositoriesBinding) ((BaseActivity) getContext()).getFragmentDataBinding();
-            if (databinding != null) {databinding.setPagerState(state);}
-        }
-    }
-
-    protected void getRateLimit(@SuppressWarnings("SameParameterValue") @NonNull final String resourceName) {
-        Call<RateLimits> api = GithubClient.getRateLimits();
-        if (BuildConfig.DEBUG) {Log.w(LOG_TAG, api.request().url() + "");}
-        api.enqueue(new Callback<>() {
-            @Override
-            public void onResponse(@NonNull Call<RateLimits> call, @NonNull Response<RateLimits> response) {
-                if (response.code() == 200 && response.body() != null) {
-                    RateLimits items = response.body();
-                    RateLimit limit = switch (resourceName) {
-                        case "graphql" -> items.getResources().getGraphql();
-                        case "search" -> items.getResources().getSearch();
-                        case "core" -> items.getResources().getCore();
-                        default -> null;
-                    };
-
-                    /* For testing purposes only: */
-                    if (limit != null && BuildConfig.DEBUG) {
-                        long seconds = (long) Math.ceil((new Date(limit.getReset() * 1000).getTime() - Math.ceil(new Date().getTime()) / 1000));
-                        String text = String.format(Locale.getDefault(), "%s quota: %d / %d. reset in %d seconds.", resourceName, limit.getRemaining(), limit.getLimit(), seconds);
-                        Toast.makeText(getContext(), text, Toast.LENGTH_SHORT).show();
-                    }
-
-                    /* Possible border-case: */
-                    if (limit != null && limit.getRemaining() > 0) {
-                        Toast.makeText(getContext(), "the " + resourceName + " quota was reset already", Toast.LENGTH_SHORT).show();
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<RateLimits> call, @NonNull Throwable t) {
-                if (mDebug) {Log.e(LOG_TAG, "" + t.getMessage());}
-            }
-        });
-    }
-
     @NonNull
     protected Context getContext() {
         return this.mContext.get();
-    }
-
-    /** Setters */
-    void setTotalItemCount(long value) {
-        this.totalItemCount = value;
-    }
-    void setQueryString(String value) {
-        this.queryString = value;
-    }
-
-    /** Getters */
-    @SuppressWarnings("unused")
-    private long getTotalItemCount() {
-        return this.totalItemCount;
-    }
-
-    public String getQueryString() {
-        return this.queryString;
     }
 
     void logError(@NonNull ResponseBody responseBody) {
@@ -317,16 +219,16 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
     }
 
-    /** {@link RecyclerView.ViewHolder} for {@link CardView} of type {@link Repository}. */
+    /** {@link RecyclerView.ViewHolder} for {@link CardView} of type {@link Workflow}. */
     private static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        private final CardviewRepositoryBinding mDataBinding;
+        private final CardviewWorkflowBinding mDataBinding;
 
         /**
          * ViewHolder Constructor
          * @param binding the item's data-binding
         **/
-        ViewHolder(@NonNull CardviewRepositoryBinding binding) {
+        ViewHolder(@NonNull CardviewWorkflowBinding binding) {
             super(binding.getRoot());
             binding.cardview.setOnClickListener(this);
             this.mDataBinding = binding;
@@ -337,31 +239,18 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             RepositoriesLinearView mRecyclerView = (RepositoriesLinearView) viewHolder.getParent();
             BaseActivity activity = (BaseActivity) mRecyclerView.getContext();
             FragmentRepositoriesBinding databinding = (FragmentRepositoriesBinding) activity.getFragmentDataBinding();
-            int orientation = activity.getResources().getConfiguration().orientation;
             if (databinding != null) {
                 View layout = databinding.getRoot();
                 Repository item = getDataBinding().getItem();
                 NavController controller = Navigation.findNavController(layout);
-                switch (orientation) {
-                    //noinspection deprecation
-                    case Configuration.ORIENTATION_SQUARE, Configuration.ORIENTATION_UNDEFINED, Configuration.ORIENTATION_PORTRAIT -> {
-                        Bundle args = new Bundle();
-                        args.putLong(Constants.ARGUMENT_ITEM_ID, item.getId());
-                        controller.navigate(R.id.action_repositoriesFragment_to_repositoryFragment, args);
-                    }
-                    case Configuration.ORIENTATION_LANDSCAPE -> {
-                        int layoutId = databinding.layoutRepository.layoutRepository.getId();
-                        RepositoryFragment fragment = RepositoryFragment.newInstance(item.getId());
-                        FragmentTransaction ft = activity.getSupportFragmentManager().beginTransaction();
-                        ft.replace(layoutId, fragment);
-                        ft.commit();
-                    }
-                }
+                Bundle args = new Bundle();
+                args.putString(Constants.ARGUMENT_ITEM_NAME, item.getName());
+                controller.navigate(R.id.action_repositoriesFragment_to_workflowFragment, args);
             }
         }
 
         /** Getters */
-        CardviewRepositoryBinding getDataBinding() {
+        CardviewWorkflowBinding getDataBinding() {
             return this.mDataBinding;
         }
     }

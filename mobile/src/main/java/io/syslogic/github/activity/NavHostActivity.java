@@ -31,7 +31,6 @@ public class NavHostActivity extends BaseActivity {
     private NavController navController;
 
     /** Data Binding */
-    @SuppressWarnings("FieldCanBeLocal")
     private FragmentNavHostBinding mDataBinding;
 
     /**
@@ -62,7 +61,6 @@ public class NavHostActivity extends BaseActivity {
         }
     }
 
-    @SuppressWarnings("unused")
     public NavController getNavController() {
         return this.navController;
     }

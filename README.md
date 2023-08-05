@@ -11,4 +11,4 @@ When file `token.properties` is absent, the personal access token still can be a
 
 ### Screenshots
 
-![Repositories](screenshots/repositories_30.png?raw=true&sanitize=true "Repositories")
+![Repositories](screenshots/repositories_30.png?raw=true&sanitize=true "Repositories")<!-- @IGNORE PREVIOUS: link -->

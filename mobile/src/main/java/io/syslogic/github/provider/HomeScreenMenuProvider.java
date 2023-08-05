@@ -11,14 +11,14 @@ import io.syslogic.github.R;
 import io.syslogic.github.activity.BaseActivity;
 
 /**
- * Settings {@link BaseMenuProvider}
+ * Home Screen {@link BaseMenuProvider}
  *
  * @author Martin Zeitler
  */
-public class SettingsMenuProvider extends BaseMenuProvider {
+public class HomeScreenMenuProvider extends BaseMenuProvider {
 
     /** Constructor */
-    public SettingsMenuProvider(@NonNull BaseActivity activity) {
+    public HomeScreenMenuProvider(@NonNull BaseActivity activity) {
         super(activity);
     }
 
@@ -30,7 +30,7 @@ public class SettingsMenuProvider extends BaseMenuProvider {
      */
     @Override
     public void onCreateMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        inflater.inflate(R.menu.settings, menu);
+        inflater.inflate(R.menu.home_screen, menu);
     }
 
     /**
@@ -43,10 +43,7 @@ public class SettingsMenuProvider extends BaseMenuProvider {
     public boolean onMenuItemSelected(@NonNull MenuItem item) {
         if (getNavController() != null) {
             if (item.getItemId() == R.id.menu_action_preferences) {
-                getNavController().navigate(R.id.action_repositoriesFragment_to_preferencesFragment);
-                return true;
-            } else if (item.getItemId() == R.id.menu_action_query_strings) {
-                getNavController().navigate(R.id.action_repositoriesFragment_to_queryStringsGraph);
+                getNavController().navigate(R.id.action_homeScreenFragment_to_preferencesFragment);
                 return true;
             }
         }

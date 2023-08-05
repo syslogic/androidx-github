@@ -1,59 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:bind="http://schemas.android.com/apk/res-auto"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".activity.NavHostActivity">
 
-    <data>
-        <variable name="user" type="io.syslogic.github.model.User"/>
-        <variable name="repositories" type="io.syslogic.github.model.Repositories"/>
-        <variable name="pagerState" type="io.syslogic.github.model.PagerState"/>
-    </data>
+    <data />
 
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:id="@+id/layout_repositories"
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/layout_workflows"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-        <include layout="@layout/toolbar_repositories"
-            android:id="@+id/toolbar_repositories"
+        <!-- https://github.com/material-components/material-components-android/blob/master/docs/components/AppBarLayout.md -->
+        <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
-            android:layout_height="?android:attr/actionBarSize"
-            android:layout_margin="0dp"/>
+            android:layout_height="wrap_content"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:layout_gravity="bottom|fill_horizontal"
-            android:background="@color/colorAccent"
-            android:orientation="vertical"
-            android:padding="0dp"/>
+            <include
+                android:id="@+id/toolbar_workflows"
+                layout="@layout/toolbar_repositories"/>
 
-        <include
-            android:id="@+id/layout_repository"
-            layout="@layout/fragment_repository"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:visibility="gone"/>
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_gravity="bottom|fill_horizontal"
+                android:background="@color/colorAccent"
+                android:orientation="vertical"
+                android:padding="0dp"/>
+
+        </com.google.android.material.appbar.AppBarLayout>
 
         <io.syslogic.github.recyclerview.RepositoriesLinearView
-            android:id="@+id/recyclerview_repositories"
-            tools:listitem="@layout/cardview_repository"
+            android:id="@+id/recyclerview_workflows"
+            tools:listitem="@layout/cardview_workflow"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             android:layout_height="match_parent"
             android:layout_width="match_parent"
             android:layout_weight="1.00"/>
 
-        <include layout="@layout/toolbar_pager"
-            android:id="@+id/toolbar_pager"
-            android:layout_width="match_parent"
-            android:layout_height="24dp"
-            android:layout_margin="0dp"
-            bind:pagerState="@{ pagerState }"/>
-
-    </androidx.appcompat.widget.LinearLayoutCompat>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 </layout>

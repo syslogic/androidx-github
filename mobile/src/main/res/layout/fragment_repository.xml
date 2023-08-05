@@ -21,20 +21,12 @@
         <!-- https://github.com/material-components/material-components-android/blob/master/docs/components/AppBarLayout.md -->
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
-
-            <!--
-            <include
-                android:id="@+id/toolbar_repository"
-                layout="@layout/toolbar_repository"
-                bind:repository="@{repository}"/>
-            -->
+            android:layout_height="wrap_content">
 
             <include
                 android:id="@+id/toolbar_download"
                 layout="@layout/toolbar_download"
-                bind:branches="@{branches}"/>
+                bind:branches="@{ branches }"/>
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
@@ -62,7 +54,7 @@
                 android:layout_height="match_parent"
                 android:nestedScrollingEnabled="true"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior"
-                app:loadUrl="@{repository.htmlUrl}"/>
+                app:loadUrl="@{ repository.htmlUrl }"/>
 
         </ViewFlipper>
 

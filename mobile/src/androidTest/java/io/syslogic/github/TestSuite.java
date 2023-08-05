@@ -1,5 +1,10 @@
 package io.syslogic.github;
 
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.not;
+import static org.hamcrest.core.IsNull.notNullValue;
+
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -21,13 +26,8 @@ import androidx.test.uiautomator.UiSelector;
 import androidx.test.uiautomator.Until;
 
 import org.junit.Assert;
-import org.junit.runners.Suite.SuiteClasses;
 import org.junit.runner.RunWith;
-
-import static org.hamcrest.core.IsNull.notNullValue;
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.not;
+import org.junit.runners.Suite.SuiteClasses;
 
 import java.util.List;
 

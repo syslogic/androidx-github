@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".activity.NavHostActivity">
+
+    <data>
+        <variable name="user" type="io.syslogic.github.model.User"/>
+        <variable name="repositories" type="io.syslogic.github.model.RepositorySearch"/>
+        <variable name="pagerState" type="io.syslogic.github.model.PagerState"/>
+    </data>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/layout_repositories"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include
+            layout="@layout/toolbar_repository_search"
+            android:id="@+id/toolbar_repositories"
+            android:layout_width="match_parent"
+            android:layout_height="?android:attr/actionBarSize"
+            android:layout_margin="0dp"/>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_gravity="bottom|fill_horizontal"
+            android:background="@color/colorAccent"
+            android:orientation="vertical"
+            android:padding="0dp"/>
+
+        <include
+            android:id="@+id/layout_repository"
+            layout="@layout/fragment_repository"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:visibility="gone"/>
+
+        <io.syslogic.github.recyclerview.RepositorySearchLinearView
+            android:id="@+id/recyclerview_repositories"
+            tools:listitem="@layout/cardview_repository_search"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_weight="1.00"/>
+
+        <include layout="@layout/toolbar_pager"
+            android:id="@+id/toolbar_pager"
+            android:layout_width="match_parent"
+            android:layout_height="24dp"
+            android:layout_margin="0dp"
+            bind:pagerState="@{ pagerState }"/>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</layout>

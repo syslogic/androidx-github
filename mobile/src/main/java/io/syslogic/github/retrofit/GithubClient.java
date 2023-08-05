@@ -8,12 +8,13 @@ import java.util.ArrayList;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import io.syslogic.github.Constants;
 import io.syslogic.github.model.Branch;
 import io.syslogic.github.model.RateLimits;
-import io.syslogic.github.model.Repositories;
+import io.syslogic.github.model.RepositorySearch;
 import io.syslogic.github.model.Repository;
 import io.syslogic.github.model.User;
-import io.syslogic.github.model.WorkflowJobs;
+import io.syslogic.github.model.WorkflowsResponse;
 
 import okhttp3.OkHttpClient;
 import okhttp3.ResponseBody;
@@ -21,8 +22,6 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-
-import io.syslogic.github.Constants;
 
 /**
  * GitHub API Client
@@ -68,8 +67,17 @@ public class GithubClient {
         return getService().getUser("token " + token, username);
     }
 
-    public static @NonNull Call<Repositories> getRepositories(@Nullable String token, @NonNull String queryString, @NonNull String sortField, @NonNull String sortOrder, @NonNull Integer pageNumber) {
-        return getService().getRepositories("token " + token, queryString, sortField, sortOrder, pageNumber);
+    public static @NonNull Call<RepositorySearch> searchRepositories(@Nullable String token, @NonNull String queryString, @NonNull String sortField, @NonNull String sortOrder, @NonNull Integer pageNumber) {
+        return getService().searchRepositories("token " + token, queryString, sortField, sortOrder, pageNumber);
+    }
+
+    /** @noinspection unused*/
+    public static @NonNull Call<ArrayList<Repository>> getOrgRepositories(@Nullable String token, @NonNull String org, @NonNull String type, @NonNull String sortField, @NonNull String sortOrder, @NonNull Integer pageSize, @NonNull Integer pageNumber) {
+        return getService().getOrgRepositories("token " + token, org, type, sortField, sortOrder, pageSize, pageNumber);
+    }
+
+    public static @NonNull Call<ArrayList<Repository>> getUserRepositories(@Nullable String token, @NonNull String username, @NonNull String type, @NonNull String sortField, @NonNull String sortOrder, @NonNull Integer pageSize, @NonNull Integer pageNumber) {
+        return getService().getUserRepositories("token " + token, username, type, sortField, sortOrder, pageSize, pageNumber);
     }
 
     public static @NonNull Call<Repository> getRepository(@NonNull Long itemId) {
@@ -85,9 +93,8 @@ public class GithubClient {
         return getService().getBranch(owner, repo, branch);
     }
 
-    @SuppressWarnings("unused")
-    public static @NonNull Call<WorkflowJobs> getWorkflowRuns(@Nullable String token, @NonNull String owner, @NonNull String repo, @NonNull Integer jobId) {
-        return getService().getWorkflowRuns("token " + token, owner, repo, jobId);
+    public static @NonNull Call<WorkflowsResponse> getWorkflows(@Nullable String token, @NonNull String owner, @NonNull String repo) {
+        return getService().getWorkflows("token " + token, owner, repo);
     }
 
     public static @NonNull Call<ResponseBody> getArchiveLink(@NonNull String token, @NonNull String owner, @NonNull String repo, @NonNull String format, @NonNull String ref) {

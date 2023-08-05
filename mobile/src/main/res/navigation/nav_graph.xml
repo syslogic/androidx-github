@@ -3,29 +3,41 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    app:startDestination="@id/repositoriesFragment"
+    app:startDestination="@id/homeScreenFragment"
     android:id="@+id/nav_graph">
 
     <fragment
-        android:id="@+id/repositoriesFragment"
-        android:label="fragment_repositories"
-        android:name="io.syslogic.github.fragment.RepositoriesFragment"
-        tools:layout="@layout/fragment_repositories">
+        android:id="@+id/homeScreenFragment"
+        android:name="io.syslogic.github.fragment.HomeScreenFragment"
+        android:label="HomeScreenFragment"
+        tools:layout="@layout/fragment_home_screen">
+        <deepLink app:uri="github://home"/>
         <action
-            android:id="@+id/action_repositoriesFragment_to_repositoryFragment"
+            android:id="@+id/action_homeScreenFragment_to_repositorySearchFragment"
+            app:destination="@id/repositorySearchFragment"/>
+        <action
+            android:id="@+id/action_homeScreenFragment_to_repositoriesFragment"
+            app:destination="@id/repositoriesFragment"/>
+        <action
+            android:id="@+id/action_homeScreenFragment_to_preferencesFragment"
+            app:destination="@id/preferencesFragment"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/repositorySearchFragment"
+        android:label="RepositorySearchFragment"
+        android:name="io.syslogic.github.fragment.RepositorySearchFragment"
+        tools:layout="@layout/fragment_repository_search">
+        <deepLink app:uri="github://reposearch"/>
+        <action
+            android:id="@+id/action_repositorySearchFragment_to_repositoryFragment"
             app:destination="@id/repositoryFragment"/>
         <action
-            android:id="@+id/action_repositoriesFragment_to_profileFragment"
+            android:id="@+id/action_repositorySearchFragment_to_profileFragment"
             app:destination="@id/profileFragment"/>
         <action
-            android:id="@+id/action_repositoriesFragment_to_queryStringsGraph"
-            app:destination="@id/queryStringsGraph" />
-        <action
-            android:id="@+id/action_repositoriesFragment_to_preferencesFragment"
-            app:destination="@id/preferencesFragment" />
-        <action
-            android:id="@+id/action_repositoriesFragment_to_workflowFragment"
-            app:destination="@id/workflowFragment" />
+            android:id="@+id/action_repositorySearchFragment_to_queryStringsGraph"
+            app:destination="@id/queryStringsGraph"/>
     </fragment>
 
     <fragment
@@ -33,45 +45,74 @@
         android:label="fragment_repository"
         android:name="io.syslogic.github.fragment.RepositoryFragment"
         tools:layout="@layout/fragment_repository">
-        <argument app:argType="long" android:name="itemId" android:defaultValue="-1L"/>
+        <deepLink app:uri="github://repository/{itemId}"/>
+        <argument
+            app:argType="long"
+            android:name="temId"
+            android:defaultValue="-1L"/>
     </fragment>
 
     <fragment
         android:id="@+id/profileFragment"
         android:label="fragment_profile"
         android:name="io.syslogic.github.fragment.RepositoryFragment"
-        tools:layout="@layout/fragment_profile"/>
+        tools:layout="@layout/fragment_profile">
+        <deepLink app:uri="github://profile"/>
+    </fragment>
 
     <fragment
         android:id="@+id/preferencesFragment"
         android:label="fragment_preferences"
-        android:name="io.syslogic.github.fragment.PreferencesFragment"/>
+        android:name="io.syslogic.github.fragment.PreferencesFragment">
+        <deepLink app:uri="github://preferences"/>
+    </fragment>
 
     <navigation
         android:id="@+id/queryStringsGraph"
         app:startDestination="@id/queryStringsFragment">
+
         <fragment
             android:id="@+id/queryStringsFragment"
             android:name="io.syslogic.github.fragment.QueryStringsFragment"
             android:label="fragment_query_strings"
             tools:layout="@layout/fragment_query_strings">
+            <deepLink app:uri="github://query_strings"/>
             <action
                 android:id="@+id/action_queryStringsFragment_to_queryStringFragment"
-                app:destination="@id/queryStringFragment" />
+                app:destination="@id/queryStringFragment"/>
         </fragment>
+
         <fragment
             android:id="@+id/queryStringFragment"
             android:name="io.syslogic.github.fragment.QueryStringFragment"
             android:label="fragment_query_string"
             tools:layout="@layout/fragment_query_string">
-            <argument app:argType="long" android:name="itemId" android:defaultValue="-1L"/>
+            <deepLink app:uri="github://query_string/{itemId}"/>
+            <argument
+                app:argType="long"
+                android:name="itemId"
+                android:defaultValue="-1L"/>
         </fragment>
+
     </navigation>
+
+    <fragment
+        android:id="@+id/repositoriesFragment"
+        android:name="io.syslogic.github.fragment.RepositoriesFragment"
+        android:label="RepositoriesFragment"
+        tools:layout="@layout/fragment_repositories">
+        <deepLink app:uri="github://repositories"/>
+        <action
+            android:id="@+id/action_repositoriesFragment_to_workflowFragment"
+            app:destination="@id/workflowFragment"/>
+    </fragment>
 
     <fragment
         android:id="@+id/workflowFragment"
         android:name="io.syslogic.github.fragment.WorkflowFragment"
         android:label="WorkflowFragment"
-        tools:layout="@layout/fragment_workflow"/>
+        tools:layout="@layout/fragment_workflow">
+        <deepLink app:uri="github://workflow"/>
+    </fragment>
 
 </navigation>

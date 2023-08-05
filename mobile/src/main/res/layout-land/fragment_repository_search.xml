@@ -8,7 +8,7 @@
 
     <data>
         <variable name="user" type="io.syslogic.github.model.User"/>
-        <variable name="repositories" type="io.syslogic.github.model.Repositories"/>
+        <variable name="repositories" type="io.syslogic.github.model.RepositorySearch"/>
         <variable name="pagerState" type="io.syslogic.github.model.PagerState"/>
     </data>
 
@@ -45,7 +45,8 @@
                 android:layout_gravity="end"
                 android:orientation="vertical">
 
-                <include layout="@layout/toolbar_repositories"
+                <include
+                    layout="@layout/toolbar_repository_search"
                     android:id="@+id/toolbar_repositories"
                     android:layout_width="match_parent"
                     android:layout_height="?android:attr/actionBarSize"
@@ -59,9 +60,9 @@
                     android:orientation="vertical"
                     android:padding="0dp"/>
 
-                <io.syslogic.github.recyclerview.RepositoriesLinearView
+                <io.syslogic.github.recyclerview.RepositorySearchLinearView
                     android:id="@+id/recyclerview_repositories"
-                    tools:listitem="@layout/cardview_repository"
+                    tools:listitem="@layout/cardview_repository_search"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     android:layout_height="match_parent"
                     android:layout_width="match_parent"
@@ -71,12 +72,13 @@
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
-        <include layout="@layout/toolbar_pager"
-             android:id="@+id/toolbar_pager"
-             android:layout_width="match_parent"
-             android:layout_height="24dp"
-             android:layout_margin="0dp"
-             bind:pagerState="@{ pagerState }"/>
+        <include
+            layout="@layout/toolbar_pager"
+            android:id="@+id/toolbar_pager"
+            android:layout_width="match_parent"
+            android:layout_height="24dp"
+            android:layout_margin="0dp"
+            bind:pagerState="@{ pagerState }"/>
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 

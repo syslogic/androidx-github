@@ -39,4 +39,8 @@ public class WorkflowJobs {
     public ArrayList<WorkflowJob> getName() {
         return this.jobs;
     }
+
+    public Integer getTotalCount() {
+        return this.totalCount;
+    }
 }

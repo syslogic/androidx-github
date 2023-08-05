@@ -18,7 +18,7 @@ import java.util.List;
 import io.syslogic.github.BuildConfig;
 import io.syslogic.github.Constants;
 import io.syslogic.github.model.QueryString;
-import io.syslogic.github.model.Repositories;
+import io.syslogic.github.model.RepositorySearch;
 import io.syslogic.github.model.Repository;
 import io.syslogic.github.model.User;
 import io.syslogic.github.network.TokenHelper;
@@ -52,10 +52,6 @@ public class RepositorySyncAdapter extends AbstractThreadedSyncAdapter {
     private final SharedPreferences prefs;
 
     private ArrayList<Repository> repositories = new ArrayList<>();
-
-    private List<QueryString> queryStrings;
-
-    private User user;
 
     /** Constructor. */
     public RepositorySyncAdapter(@NonNull Context context, boolean autoInitialize, boolean allowParallelSyncs) {
@@ -104,30 +100,28 @@ public class RepositorySyncAdapter extends AbstractThreadedSyncAdapter {
 
     void onUser(@NonNull User item) {
         this.log("onUser: " + item.getLogin());
-        this.user = item;
     }
 
     void onQueryStrings(@NonNull List<QueryString> items) {
         this.log("onQueryStrings: " + items.size());
-        this.queryStrings = items;
         for (QueryString item: items) {
-            Call<Repositories> api = GithubClient.getRepositories(this.accessToken, item.toQueryString(), "forks", "desc", 1);
+            Call<RepositorySearch> api = GithubClient.searchRepositories(this.accessToken, item.toQueryString(), "forks", "desc", 1);
             this.log("Building content cache for query-string: " + item.toQueryString());
             this.log("" + api.request().url());
-            api.enqueue(new Callback<Repositories>() {
+            api.enqueue(new Callback<RepositorySearch>() {
                 @Override
-                public void onResponse(@NonNull Call<Repositories> call, @NonNull Response<Repositories> response) {
+                public void onResponse(@NonNull Call<RepositorySearch> call, @NonNull Response<RepositorySearch> response) {
                     if (response.body() != null) {onRepositories(response.body());}
                 }
                 @Override
-                public void onFailure(@NonNull Call<Repositories> call, @NonNull Throwable t) {
+                public void onFailure(@NonNull Call<RepositorySearch> call, @NonNull Throwable t) {
                     if (mDebug) {Log.e(LOG_TAG, "" + t.getMessage());}
                 }
             });
         }
     }
 
-    void onRepositories(@NonNull Repositories item) {
+    void onRepositories(@NonNull RepositorySearch item) {
         this.log("onRepositories: " + item.getRepositories().size());
         for (Repository repository: item.getRepositories()) {
             this.log("Repo: " + repository.getUrl());

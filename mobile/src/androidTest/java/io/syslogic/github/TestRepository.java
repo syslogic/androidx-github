@@ -1,23 +1,24 @@
 package io.syslogic.github;
 
-import androidx.test.platform.app.InstrumentationRegistry;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
-import androidx.test.uiautomator.UiObject2;
-import androidx.test.uiautomator.By;
-
-import org.junit.Assert;
-import org.junit.runner.RunWith;
-import org.junit.Before;
-import org.junit.Test;
-
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
+
+import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.platform.app.InstrumentationRegistry;
+import androidx.test.uiautomator.By;
+import androidx.test.uiautomator.UiObject2;
+
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  * Repository Test Case
  *
  * @author Martin Zeitler
  */
+@Deprecated
 @RunWith(AndroidJUnit4.class)
 public class TestRepository extends TestSuite {
 
