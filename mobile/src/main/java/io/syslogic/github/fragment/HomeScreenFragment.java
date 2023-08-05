@@ -61,12 +61,12 @@ public class HomeScreenFragment extends BaseFragment implements TokenCallback {
         /* Navigating to RepositoriesFragment */
         this.mDataBinding.buttonRepositories
                 .setOnClickListener(view -> activity.getNavController()
-                .navigate(R.id.action_homeScreenFragment_to_repositoriesFragment));
+                        .navigate(R.id.action_homeScreenFragment_to_repositoriesFragment));
 
-        /* Navigating to WorkflowFragment */
-        this.mDataBinding.buttonWorkflows
+        /* Navigating to RepositorySearchFragment */
+        this.mDataBinding.buttonRepositorySearch
                 .setOnClickListener(view -> activity.getNavController()
-                .navigate(R.id.action_homeScreenFragment_to_workflowsFragment));
+                .navigate(R.id.action_homeScreenFragment_to_repositorySearchFragment));
 
         /* Navigating to GitHub Sponsors */
         this.mDataBinding.textGitHubSponsors

@@ -34,20 +34,20 @@
             android:padding="4dp">
 
             <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/button_repository_search"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:padding="24dp"
+                android:text="@string/button_repository_search"/>
+
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/button_repositories"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="20sp"
                 android:padding="24dp"
                 android:text="@string/button_repositories"/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/button_workflows"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="20sp"
-                android:padding="24dp"
-                android:text="@string/button_workflows"/>
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 

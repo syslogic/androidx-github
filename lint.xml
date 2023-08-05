@@ -42,7 +42,7 @@
 
     <!-- NotifyDataSetChanged is fine when clearing the adapter. -->
     <issue id="NotifyDataSetChanged">
-        <ignore regexp="io.syslogic.github.recyclerview.RepositoriesLinearView" />
+        <ignore regexp="io.syslogic.github.recyclerview.RepositorySearchLinearView" />
     </issue>
 
     <issue id="UnknownNullness">

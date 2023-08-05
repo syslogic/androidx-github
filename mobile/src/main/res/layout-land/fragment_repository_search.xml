@@ -60,7 +60,7 @@
                     android:orientation="vertical"
                     android:padding="0dp"/>
 
-                <io.syslogic.github.recyclerview.RepositoriesLinearView
+                <io.syslogic.github.recyclerview.RepositorySearchLinearView
                     android:id="@+id/recyclerview_repositories"
                     tools:listitem="@layout/cardview_repository"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"

@@ -16,7 +16,6 @@ import io.syslogic.github.model.Repository;
 /**
  * {@link Repository} {@link Dao} interface
  *
- * Note: {@link androidx.room.Relation} depends on {@link androidx.room.Transaction}.
  * @author Martin Zeitler
  */
 @Dao

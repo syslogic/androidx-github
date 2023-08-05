@@ -43,7 +43,7 @@ public class RepositoriesMenuProvider extends BaseMenuProvider {
     public boolean onMenuItemSelected(@NonNull MenuItem item) {
         if (getNavController() != null) {
             if (item.getItemId() == R.id.menu_action_query_strings) {
-                getNavController().navigate(R.id.action_repositoriesFragment_to_queryStringsGraph);
+                getNavController().navigate(R.id.action_repositorySearchFragment_to_queryStringsGraph);
                 return true;
             }
         }
