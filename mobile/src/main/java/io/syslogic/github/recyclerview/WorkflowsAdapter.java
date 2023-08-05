@@ -113,28 +113,23 @@ public class WorkflowsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             return;
         }
 
-        Call<ArrayList<Repository>> api = GithubClient.getUserRepositories(accessToken, username,"public", "full_name","desc", 100, pageNumber);
+        Call<ArrayList<Repository>> api = GithubClient.getUserRepositories(accessToken, username,"owner", "full_name","desc", 100, pageNumber);
         if (BuildConfig.DEBUG) {Log.w(LOG_TAG, api.request().url() + "");}
-        api.enqueue(new Callback<>() {
 
+        api.enqueue(new Callback<>() {
             @Override
             public void onResponse(@NonNull Call<ArrayList<Repository>> call, @NonNull Response<ArrayList<Repository>> response) {
-                switch (response.code()) {
-
-                    // OK
-                    case 200 -> {
-                        if (response.body() != null) {
-                            ArrayList<Repository> items = response.body();
-                            int positionStart = getItemCount();
-                            getItems().addAll(items);
-                            notifyItemRangeChanged(positionStart, getItemCount());
-                        }
+                if (response.code() == 200) { // OK
+                    if (response.body() != null) {
+                        ArrayList<Repository> items = response.body();
+                        int positionStart = getItemCount();
+                        getItems().addAll(items);
+                        notifyItemRangeChanged(positionStart, getItemCount());
                     }
-                    default -> {
-                        /* "bad credentials" means that the provided access-token is invalid. */
-                        if (response.errorBody() != null) {
-                            logError(response.errorBody());
-                        }
+                } else {
+                    /* "bad credentials" means that the provided access-token is invalid. */
+                    if (response.errorBody() != null) {
+                        logError(response.errorBody());
                     }
                 }
             }
