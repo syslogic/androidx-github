@@ -16,7 +16,7 @@ import io.syslogic.github.provider.RepositoriesMenuProvider;
 import io.syslogic.github.recyclerview.RepositoriesAdapter;
 
 /**
- * Workflows {@link BaseFragment}
+ * Repositories {@link BaseFragment}
  *
  * @author Martin Zeitler
  */

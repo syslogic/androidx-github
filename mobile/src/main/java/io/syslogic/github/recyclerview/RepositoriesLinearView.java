@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 /**
- * Workflows {@link RecyclerView}
+ * Repositories {@link RecyclerView}
  *
  * @author Martin Zeitler
  */

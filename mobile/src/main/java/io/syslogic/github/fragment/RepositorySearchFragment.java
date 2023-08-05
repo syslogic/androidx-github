@@ -32,7 +32,7 @@ import io.syslogic.github.room.Abstraction;
 import io.syslogic.github.room.QueryStringsDao;
 
 /**
- * Repositories {@link BaseFragment}
+ * Repository Search {@link BaseFragment}
  *
  * @author Martin Zeitler
  */

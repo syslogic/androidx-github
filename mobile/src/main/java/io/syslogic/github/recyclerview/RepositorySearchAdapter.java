@@ -56,7 +56,7 @@ import retrofit2.Response;
 import io.syslogic.github.network.TokenHelper;
 
 /**
- * Repositories {@link RecyclerView.Adapter}
+ * Repository Search {@link RecyclerView.Adapter}
  *
  * @author Martin Zeitler
  */

@@ -46,7 +46,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 /**
- * Workflows {@link RecyclerView.Adapter}
+ * Repositories {@link RecyclerView.Adapter}
  *
  * @author Martin Zeitler
  */

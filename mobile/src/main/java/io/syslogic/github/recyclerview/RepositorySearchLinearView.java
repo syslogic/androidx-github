@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 /**
- * Repositories {@link RecyclerView}
+ * Repository Search {@link RecyclerView}
  *
  * @author Martin Zeitler
  */
