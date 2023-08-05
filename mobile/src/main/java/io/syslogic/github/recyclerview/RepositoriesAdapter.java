@@ -31,7 +31,6 @@ import io.syslogic.github.BuildConfig;
 import io.syslogic.github.Constants;
 import io.syslogic.github.R;
 import io.syslogic.github.activity.BaseActivity;
-import io.syslogic.github.databinding.CardviewRepositorySearchBinding;
 import io.syslogic.github.databinding.CardviewWorkflowBinding;
 import io.syslogic.github.databinding.FragmentRepositoriesBinding;
 import io.syslogic.github.model.Repository;
@@ -114,20 +113,28 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 if (response.code() == 200) { // OK
                     if (response.body() != null) {
 
+                        /* Updating the adapter with the initial response already. */
                         ArrayList<Repository> items = response.body();
+                        getItems().addAll(items);
+                        notifyItemRangeChanged(positionStart, getItemCount());
+
                         for (Repository item : items) {
 
                             Call<WorkflowsResponse> api2 = GithubClient.getWorkflows(accessToken, username,item.getName());
-                            // if (BuildConfig.DEBUG) {Log.w(LOG_TAG, api2.request().url() + "");}
+                            if (BuildConfig.DEBUG) {Log.w(LOG_TAG, api2.request().url() + "");}
+
                             api2.enqueue(new Callback<>() {
                                 @Override
                                 public void onResponse(@NonNull Call<WorkflowsResponse> call, @NonNull Response<WorkflowsResponse> response) {
                                     if (response.code() == 200) { // OK
                                         if (response.body() != null) {
                                             WorkflowsResponse items = response.body();
-                                            assert items.getWorkflows() != null;
-                                            for (Workflow item : items.getWorkflows()) {
-                                                if (BuildConfig.DEBUG) {Log.d(LOG_TAG, "has workflow: " + item.getName());}
+                                            if (BuildConfig.DEBUG) {
+                                                if (items.getWorkflows() != null && items.getWorkflows().size() > 0) {
+                                                    for (Workflow item2 : items.getWorkflows()) {
+                                                        Log.d(LOG_TAG, "has workflows: " + item2.getName());
+                                                    }
+                                                }
                                             }
                                         }
                                     } else {
@@ -144,9 +151,6 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                                 }
                             });
                         }
-
-                        getItems().addAll(items);
-                        notifyItemRangeChanged(positionStart, getItemCount());
                     }
                 } else {
                     /* "bad credentials" means that the provided access-token is invalid. */
