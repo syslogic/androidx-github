@@ -16,7 +16,6 @@ import java.util.Date;
 import java.util.Locale;
 
 import io.syslogic.github.api.Constants;
-import io.syslogic.github.api.content.IContentProvider;
 
 /**
  * Model: Query-String

@@ -14,7 +14,6 @@ import androidx.room.TypeConverters;
 import com.google.gson.annotations.SerializedName;
 
 import io.syslogic.github.api.Constants;
-import io.syslogic.github.api.content.IContentProvider;
 import io.syslogic.github.api.utils.StringArrayConverter;
 
 /**

@@ -1,4 +1,4 @@
-package io.syslogic.github.api.content;
+package io.syslogic.github.api.model;
 
 import android.content.ContentProvider;
 import android.content.ContentValues;
