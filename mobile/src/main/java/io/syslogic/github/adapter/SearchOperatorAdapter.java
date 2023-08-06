@@ -5,7 +5,6 @@ import android.content.Context;
 import androidx.annotation.NonNull;
 
 import io.syslogic.github.R;
-import io.syslogic.github.api.adapter.BaseArrayAdapter;
 
 /**
  * Search-Operator {@link BaseArrayAdapter}

@@ -1,4 +1,4 @@
-package io.syslogic.github.api.adapter;
+package io.syslogic.github.adapter;
 
 import android.content.Context;
 import android.content.res.Resources;

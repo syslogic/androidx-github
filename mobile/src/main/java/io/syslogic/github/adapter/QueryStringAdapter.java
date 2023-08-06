@@ -6,7 +6,6 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
-import io.syslogic.github.api.adapter.BaseArrayAdapter;
 import io.syslogic.github.api.model.SpinnerItem;
 import io.syslogic.github.api.model.QueryString;
 import io.syslogic.github.api.room.Abstraction;

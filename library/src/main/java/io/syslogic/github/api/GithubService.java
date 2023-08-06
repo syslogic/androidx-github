@@ -33,6 +33,7 @@ import retrofit2.http.Url;
  */
 public interface GithubService {
 
+    /** Get rate limits. */
     @NonNull
     @GET("rate_limit")
     Call<RateLimits> getRateLimits();
@@ -147,9 +148,7 @@ public interface GithubService {
         @NonNull @Header("Authorization") String token
     );
 
-    /**
-     * GitHub Actions: Workflows
-     */
+    /** GitHub Actions: Workflows */
     @NonNull
     @GET("/repos/{owner}/{repo}/actions/workflows")
     Call<WorkflowsResponse> getWorkflows(
@@ -158,10 +157,10 @@ public interface GithubService {
             @NonNull @Path(value = "repo")  String repo
     );
 
-    /** GitHub Actions: Workflow Run */
+    /** GitHub Actions: Workflow Runs */
     @NonNull
     @GET("/repos/{owner}/{repo}/actions/jobs/{jobId}")
-    Call<WorkflowJobs> getWorkflowRun(
+    Call<WorkflowJobs> getWorkflowRuns(
             @NonNull @Header("Authorization") String token,
             @NonNull @Path(value = "owner") String owner,
             @NonNull @Path(value = "repo")  String repo,
