@@ -100,7 +100,7 @@ tasks.register('javadoc', Javadoc) {
     configurations.implementation.setCanBeResolved(true)
 
     classpath = files(new File("${android.sdkDirectory}/platforms/${android.compileSdkVersion}/android.jar"))
-    android.getBootClasspath().forEach{classpath += fileTree(it) }
+    android.getBootClasspath().forEach{ classpath += fileTree(it) }
     classpath += fileTree(dir: "$buildDir/tmp/aarsToJars/")
     classpath += configurations.implementation
     exclude "**/BuildConfig.java", "**/R.java", "**/*.kt"
