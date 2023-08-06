@@ -103,7 +103,7 @@ tasks.register('javadoc', Javadoc) {
     android.getBootClasspath().forEach{classpath += fileTree(it) }
     classpath += fileTree(dir: "$buildDir/tmp/aarsToJars/")
     classpath += configurations.implementation
-    exclude "**/BuildConfig.java", "**/R.java"
+    exclude "**/BuildConfig.java", "**/R.java", "**/*.kt"
     failOnError false
 
     options.verbose()
