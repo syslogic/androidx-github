@@ -118,6 +118,8 @@ dependencies {
     implementation "androidx.fragment:fragment:$fragment_version"
 
     // Room Runtime
+    annotationProcessor "androidx.room:room-compiler:$room_version"
+    testImplementation "androidx.room:room-testing:$room_version"
     implementation "androidx.room:room-runtime:$room_version"
 
     // Retrofit2

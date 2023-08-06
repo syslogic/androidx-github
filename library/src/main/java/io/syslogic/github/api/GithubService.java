@@ -25,10 +25,10 @@ import retrofit2.http.Url;
 /**
  * GitHub API Service
  *
- * @see <a href="https://developer.github.com/v3/">api v3</>
- * @see <a href="https://developer.github.com/v3/rate_limit/">rate limit</>
- * @see <a href="https://developer.github.com/v3/search/#search-repositories">search</>
- * @see <a href="https://developer.github.com/v3/repos/branches/">branches</>
+ * @see <a href="https://developer.github.com/v3/">api v3</a>
+ * @see <a href="https://developer.github.com/v3/rate_limit/">rate limit</a>
+ * @see <a href="https://developer.github.com/v3/search/#search-repositories">search</a>
+ * @see <a href="https://developer.github.com/v3/repos/branches/">branches</a>
  * @author Martin Zeitler
  */
 public interface GithubService {
@@ -48,11 +48,9 @@ public interface GithubService {
         @NonNull @Query(value = "page")              Integer pageNumber
     );
 
-    /**
-     * Organization repositories
-     * @noinspection unused
-     */
+    /** Organization repositories */
     @NonNull
+    @SuppressWarnings("unused")
     @GET("orgs/{org}/repos")
     Call<ArrayList<Repository>> getOrgRepositories(
             @NonNull @Header("Authorization") String token,

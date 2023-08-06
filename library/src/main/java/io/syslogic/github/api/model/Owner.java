@@ -11,7 +11,7 @@ import io.syslogic.github.api.Constants;
 /**
  * Model: Owner
  *
- * @see <a href="https://developer.github.com/v3/repos/#get">repos/#get</>
+ * @see <a href="https://developer.github.com/v3/repos/#get">repos/#get</a>
  * @author Martin Zeitler
  */
 @Entity(tableName = Constants.TABLE_OWNERS)

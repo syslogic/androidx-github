@@ -68,7 +68,7 @@ public class GithubClient {
         return getService().searchRepositories("token " + token, queryString, sortField, sortOrder, pageNumber);
     }
 
-    /** @noinspection unused*/
+    @SuppressWarnings("unused")
     public static @NonNull Call<ArrayList<Repository>> getOrgRepositories(@Nullable String token, @NonNull String org, @NonNull String type, @NonNull String sortField, @NonNull String sortOrder, @NonNull Integer pageSize, @NonNull Integer pageNumber) {
         return getService().getOrgRepositories("token " + token, org, type, sortField, sortOrder, pageSize, pageNumber);
     }

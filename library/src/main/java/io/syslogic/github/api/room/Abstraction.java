@@ -44,6 +44,7 @@ public abstract class Abstraction extends RoomDatabase {
     /**
      * Asset `src/main/assets/room.db` must match the current schema version,
      * else this will also result in: "Room cannot verify the data integrity".
+     * @param context any Content class.
      */
     @NonNull
     public static Abstraction getInstance(@NonNull Context context) {

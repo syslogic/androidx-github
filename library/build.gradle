@@ -8,6 +8,8 @@ android {
     buildToolsVersion = '34.0.0'
     compileSdk 34
     defaultConfig {
+        versionName rootProject.ext.get('versionName')
+        versionCode rootProject.ext.get('versionCode')
         minSdk 22
         targetSdk 34
         setProperty("archivesBaseName", "androidx_github_" + versionName)
@@ -96,30 +98,33 @@ tasks.register('javadoc', Javadoc) {
     source = android.sourceSets.main.java.srcDirs
     destinationDir = file("${project.buildDir}/outputs/javadoc/")
     configurations.implementation.setCanBeResolved(true)
+
     classpath = files(new File("${android.sdkDirectory}/platforms/${android.compileSdkVersion}/android.jar"))
-    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+    android.getBootClasspath().forEach{classpath += fileTree(it) }
     classpath += fileTree(dir: "$buildDir/tmp/aarsToJars/")
     classpath += configurations.implementation
     exclude "**/BuildConfig.java", "**/R.java"
     failOnError false
 
-    // options.verbose()
+    options.verbose()
     // javadoc: warning - The code being documented uses modules but the packages
     // defined in https://developer.android.com/reference/ are in the unnamed module.
     options.links "https://docs.oracle.com/en/java/javase/17/docs/api/"
-    // options.linksOffline "https://developer.android.com/reference", "${android.sdkDirectory}/docs/reference"
+    options.linksOffline "https://developer.android.com/reference", "${android.sdkDirectory}/docs/reference"
     options.linkSource true
     options.author true
 
     doFirst {
 
         // extract AAR files
-        configurations.named("implementation").filter { it.name.endsWith('.aar') }.each { aar ->
-            copy {
-                from zipTree(aar)
-                include "**/classes.jar"
-                into "$buildDir/tmp/aarsToJars/${aar.name.replace('.aar', '')}/"
-            }
+        configurations.implementation
+                .filter { it.name.endsWith('.aar') }
+                .each { aar ->
+                    copy {
+                        from zipTree(aar)
+                        include "**/classes.jar"
+                        into "$buildDir/tmp/aarsToJars/${aar.name.replace('.aar', '')}/"
+                    }
         }
 
         // provide JAR, which contains the generated data-binding classes
