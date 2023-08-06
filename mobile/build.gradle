@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-
+    namespace 'io.syslogic.github'
+    buildToolsVersion = '34.0.0'
     compileSdk 34
     defaultConfig {
-        applicationId rootProject.ext.get('applicationId')
-        namespace rootProject.ext.get('applicationId')
+        applicationId 'io.syslogic.github'
         versionName rootProject.ext.get('versionName')
         versionCode rootProject.ext.get('versionCode')
         manifestPlaceholders = [ accessToken: "" ]
@@ -19,12 +19,6 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         testBuildType "debug"
         multiDexEnabled true
-
-        javaCompileOptions {
-            annotationProcessorOptions {
-                arguments = ["room.schemaLocation": "$rootDir/schema".toString()]
-            }
-        }
     }
 
     compileOptions {
@@ -123,9 +117,7 @@ dependencies {
     androidTestImplementation "androidx.fragment:fragment-testing:$fragment_version"
     implementation "androidx.fragment:fragment:$fragment_version"
 
-    // Room
-    annotationProcessor "androidx.room:room-compiler:$room_version"
-    testImplementation "androidx.room:room-testing:$room_version"
+    // Room Runtime
     implementation "androidx.room:room-runtime:$room_version"
 
     // Retrofit2

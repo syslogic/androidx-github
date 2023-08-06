@@ -39,11 +39,8 @@ plugins {
 /** Version Settings, loaded from file `version.properties` */
 def version = new Properties()
 version.load(new FileInputStream(rootProject.file('version.properties')))
-project.ext.set('applicationId', version['applicationId'])
 project.ext.set('versionName', version['versionName'])
 project.ext.set('versionCode', new Integer(version['versionCode']))
-
-/** TODO: better should load the versionName from git tag */
 
 /* JitPack: use tag as versionName. */
 if (System.env.JITPACK) {

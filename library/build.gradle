@@ -5,20 +5,23 @@ plugins {
 
 android {
     namespace 'io.syslogic.github.api'
+    buildToolsVersion = '34.0.0'
     compileSdk 34
-
     defaultConfig {
         minSdk 22
         targetSdk 34
+        setProperty("archivesBaseName", "androidx_github_" + versionName)
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
 
         javaCompileOptions {
             annotationProcessorOptions {
-                arguments = ["room.schemaLocation": "$rootDir/schema".toString()]
+                arguments = [ "room.schemaLocation": "$rootDir/schema".toString() ]
             }
         }
     }
+
+    sourceSets.main.java.srcDirs = [ "src/main/java" ]
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_17
@@ -104,14 +107,14 @@ tasks.register('javadoc', Javadoc) {
     // javadoc: warning - The code being documented uses modules but the packages
     // defined in https://developer.android.com/reference/ are in the unnamed module.
     options.links "https://docs.oracle.com/en/java/javase/17/docs/api/"
-    options.linksOffline "https://developer.android.com/reference", "${android.sdkDirectory}/docs/reference"
+    // options.linksOffline "https://developer.android.com/reference", "${android.sdkDirectory}/docs/reference"
     options.linkSource true
     options.author true
 
     doFirst {
 
         // extract AAR files
-        configurations.implementation.filter { it.name.endsWith('.aar') }.each { aar ->
+        configurations.named("implementation").filter { it.name.endsWith('.aar') }.each { aar ->
             copy {
                 from zipTree(aar)
                 include "**/classes.jar"
