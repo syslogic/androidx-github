@@ -14,7 +14,16 @@ import io.syslogic.github.api.model.BaseModel;
  */
 public interface IContentProvider {
 
-    @NonNull ContentValues toContentValues();
-
+    /**
+     * {@link BaseModel} from {@link ContentValues}.
+     * @param values an instance of {@link ContentValues}.
+     * @return an instance of {@link BaseModel}.
+     */
     @NonNull BaseModel fromContentValues(@NonNull ContentValues values);
+
+    /**
+     * {@link BaseModel} to {@link ContentValues}.
+     * @return an instance of {@link ContentValues}.
+     */
+    @NonNull ContentValues toContentValues();
 }

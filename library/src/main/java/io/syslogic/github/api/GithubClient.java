@@ -29,7 +29,7 @@ public class GithubClient {
 
     private static Retrofit retrofit;
 
-    /** */
+    /** @return an instance of {@link GithubService}. */
     @NonNull
     private static GithubService getService() {
         if (retrofit == null) {
@@ -52,66 +52,140 @@ public class GithubClient {
         return retrofit.create(GithubService.class);
     }
 
-    /** */
+    /** @return Retrofit2 call. */
     public static @NonNull Call<RateLimits> getRateLimits() {
         return getService().getRateLimits();
     }
 
-    /** */
+    /**
+     * @param token the personal access token.
+     * @return Retrofit2 call.
+     */
     public static @NonNull Call<User> getUser(@NonNull String token) {
         return getService().getUser("token " + token);
     }
 
-    /** */
+    /**
+     * @param token the personal access token.
+     * @param username the name of the user to get.
+     * @return Retrofit2 call.
+     */
     @SuppressWarnings("unused")
-    public static @NonNull Call<User> getUser(@NonNull String username, @NonNull String token) {
+    public static @NonNull Call<User> getUser(@NonNull String token, @NonNull String username) {
         return getService().getUser("token " + token, username);
     }
 
-    /** */
+    /**
+     * Search Repositories.
+     * @param token the personal access token.
+     * @param queryString the query-string of the repository search.
+     * @param sortField Default: created. Can be one of: created, updated, pushed, full_name.
+     * @param sortOrder Default: asc when using full_name, otherwise desc. Can be one of: asc, desc.
+     * @param pageNumber Page number of the results to fetch. Default: 1.
+     * @return Retrofit2 call.
+     */
     public static @NonNull Call<RepositorySearch> searchRepositories(@Nullable String token, @NonNull String queryString, @NonNull String sortField, @NonNull String sortOrder, @NonNull Integer pageNumber) {
         return getService().searchRepositories("token " + token, queryString, sortField, sortOrder, pageNumber);
     }
 
-    /** */
+    /**
+     * Organization repositories
+     * @param token the personal access token.
+     * @param org the corresponding organization name.
+     * @param type Default: all. Can be one of: all, public, private, forks, sources, member.
+     * @param sortField Default: created. Can be one of: created, updated, pushed, full_name.
+     * @param sortOrder Default: asc when using full_name, otherwise desc. Can be one of: asc, desc.
+     * @param pageSize The number of results per page (max 100). Default: 30.
+     * @param pageNumber Page number of the results to fetch. Default: 1.
+     * @return Retrofit2 call.
+     */
     @SuppressWarnings("unused")
     public static @NonNull Call<ArrayList<Repository>> getOrgRepositories(@Nullable String token, @NonNull String org, @NonNull String type, @NonNull String sortField, @NonNull String sortOrder, @NonNull Integer pageSize, @NonNull Integer pageNumber) {
         return getService().getOrgRepositories("token " + token, org, type, sortField, sortOrder, pageSize, pageNumber);
     }
 
-    /** */
+    /**
+     * User repositories
+     * @param token the personal access token.
+     * @param username the corresponding username.
+     * @param type Default: all. Can be one of: all, public, private, forks, sources, member.
+     * @param sortField Default: created. Can be one of: created, updated, pushed, full_name.
+     * @param sortOrder Default: asc when using full_name, otherwise desc. Can be one of: asc, desc.
+     * @param pageSize The number of results per page (max 100). Default: 30.
+     * @param pageNumber Page number of the results to fetch. Default: 1.
+     * @return Retrofit2 call.
+     */
     public static @NonNull Call<ArrayList<Repository>> getUserRepositories(@Nullable String token, @NonNull String username, @NonNull String type, @NonNull String sortField, @NonNull String sortOrder, @NonNull Integer pageSize, @NonNull Integer pageNumber) {
         return getService().getUserRepositories("token " + token, username, type, sortField, sortOrder, pageSize, pageNumber);
     }
 
-    /** */
+    /**
+     * One repository.
+     * @param itemId the ID of the repository to get.
+     * @return Retrofit2 call.
+     */
     public static @NonNull Call<Repository> getRepository(@NonNull Long itemId) {
         return getService().getRepository(itemId);
     }
 
-    /** */
+    /**
+     * All branches of a repository.
+     * @param owner the owner of the repository.
+     * @param repo the name of the repository.
+     * @return Retrofit2 call.
+     */
     public static @NonNull Call<ArrayList<Branch>> getBranches(@NonNull String owner, @NonNull String repo) {
         return getService().getBranches(owner, repo);
     }
 
-    /** */
+    /**
+     * One branch of a repository.
+     * @param owner the owner of the repository.
+     * @param repo the name of the repository.
+     * @param branch the name of the branch.
+     * @return Retrofit2 call.
+     */
     @SuppressWarnings("unused")
     public static @NonNull Call<Branch> getBranch(@NonNull String owner, @NonNull String repo, @NonNull String branch) {
         return getService().getBranch(owner, repo, branch);
     }
 
-    /** */
-    public static @NonNull Call<WorkflowsResponse> getWorkflows(@Nullable String token, @NonNull String owner, @NonNull String repo) {
-        return getService().getWorkflows("token " + token, owner, repo);
+    /**
+     * Obtain the redirect URL to download an archive for a repository.
+     * The :archive_format can be either "tarball" or "zipball".
+     * The :branch must be a valid Git reference.
+     *
+     * <p>If you omit :branch, the repository’s default branch (usually master) will be used.
+     * Note: for private repositories, the links are temporary and expire after five minutes.</p>
+     *
+     * @param token the personal access token.
+     * @param owner the owner of the repository.
+     * @param repo the name of the repository.
+     * @param format either zip or tar.
+     * @param branch the ref, which to download.
+     * @return Retrofit2 call.
+     */
+    public static @NonNull Call<ResponseBody> getArchiveLink(@NonNull String token, @NonNull String owner, @NonNull String repo, @NonNull String format, @NonNull String branch) {
+        return getService().getArchiveLink("token " + token, owner, repo, format, branch);
     }
 
-    /** */
-    public static @NonNull Call<ResponseBody> getArchiveLink(@NonNull String token, @NonNull String owner, @NonNull String repo, @NonNull String format, @NonNull String ref) {
-        return getService().getArchiveLink("token " + token, owner, repo, format, ref);
-    }
-
-    /** */
+    /**
+     * It determines the filename to use with the DownloadManager.
+     * @param url the url, which to download.
+     * @return Retrofit2 call.
+     */
     public static @NonNull Call<Void> getHead(@NonNull String url) {
         return getService().getHead(url);
+    }
+
+    /**
+     * GitHub Actions: Workflows per repository.
+     * @param token the personal access token.
+     * @param owner the owner of the repository.
+     * @param repo the name of the repository.
+     * @return Retrofit2 call.
+     */
+    public static @NonNull Call<WorkflowsResponse> getWorkflows(@Nullable String token, @NonNull String owner, @NonNull String repo) {
+        return getService().getWorkflows("token " + token, owner, repo);
     }
 }
