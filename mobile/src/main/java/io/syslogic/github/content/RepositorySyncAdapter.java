@@ -51,6 +51,12 @@ public class RepositorySyncAdapter extends AbstractThreadedSyncAdapter {
 
     private final String username;
 
+    boolean hasRecords = true;
+
+    int pageSize = 100;
+
+    int pageNumber = 1;
+
     /** Constructor. */
     public RepositorySyncAdapter(@NonNull Context context, boolean autoInitialize, boolean allowParallelSyncs) {
         super(context, autoInitialize, allowParallelSyncs);
@@ -74,43 +80,51 @@ public class RepositorySyncAdapter extends AbstractThreadedSyncAdapter {
     public void onPerformSync(Account account, Bundle extras, String authority, ContentProviderClient provider, SyncResult syncResult) {
         if (this.accessToken != null && this.username != null) {
 
-            int pageNumber = 1;
-            int pageSize = 100;
+            while (hasRecords) {
 
-            Call<ArrayList<Repository>> api = GithubClient.getUserRepositories(accessToken, username, "owner", "full_name", "desc", pageSize, pageNumber);
-            if (BuildConfig.DEBUG && this.prefs.getBoolean(Constants.PREFERENCE_KEY_DEBUG_LOGGING, false)) {
-                Log.d(LOG_TAG, api.request().url() + "");
-            }
+                Call<ArrayList<Repository>> api = GithubClient.getUserRepositories(accessToken, username, "owner", "full_name", "desc", pageSize, pageNumber);
+                if (BuildConfig.DEBUG && this.prefs.getBoolean(Constants.PREFERENCE_KEY_DEBUG_LOGGING, false)) {
+                    Log.d(LOG_TAG, api.request().url() + "");
+                }
 
-            api.enqueue(new Callback<>() {
-                @Override
-                public void onResponse(@NonNull Call<ArrayList<Repository>> call, @NonNull Response<ArrayList<Repository>> response) {
-                    if (response.code() == 200) { // OK
-                        if (response.body() != null) {
+                api.enqueue(new Callback<>() {
+                    @Override
+                    public void onResponse(@NonNull Call<ArrayList<Repository>> call, @NonNull Response<ArrayList<Repository>> response) {
+                        if (response.code() == 200) { // OK
+                            if (response.body() != null) {
 
-                            /* Updating the adapter with the initial response already. */
-                            ArrayList<Repository> items = response.body();
-                            for (Repository item : items) {
-                                Abstraction.executorService.execute(() -> {
+                                ArrayList<Repository> items = response.body();
+                                if (items.size() == pageSize) {pageNumber++;}
+                                else {hasRecords = false;}
 
-                                });
+                                for (Repository item : items) {
+                                    Abstraction.executorService.execute(() -> {
+                                        assert dao != null;
+                                        if (dao.getItem(item.getId()) == null) {
+                                            dao.insert(item);
+                                        } else {
+                                            dao.update(item);
+                                        }
+                                    });
+                                }
+                            }
+                        } else {
+                            /* "bad credentials" means that the provided access-token is invalid. */
+                            if (response.errorBody() != null) {
+                                logError(response.errorBody());
+                                hasRecords = false;
                             }
                         }
-                    } else {
-                        /* "bad credentials" means that the provided access-token is invalid. */
-                        if (response.errorBody() != null) {
-                            logError(response.errorBody());
+                    }
+
+                    @Override
+                    public void onFailure(@NonNull Call<ArrayList<Repository>> call, @NonNull Throwable t) {
+                        if (BuildConfig.DEBUG) {
+                            Log.e(LOG_TAG, "" + t.getMessage());
                         }
                     }
-                }
-
-                @Override
-                public void onFailure(@NonNull Call<ArrayList<Repository>> call, @NonNull Throwable t) {
-                    if (BuildConfig.DEBUG) {
-                        Log.e(LOG_TAG, "" + t.getMessage());
-                    }
-                }
-            });
+                });
+            }
         }
     }
 

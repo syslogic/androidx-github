@@ -30,6 +30,9 @@ public interface RepositoriesDao {
     @Query("SELECT * FROM " + Constants.TABLE_REPOSITORIES)
     Cursor selectAll();
 
+    @Query("SELECT * FROM " + Constants.TABLE_REPOSITORIES + " WHERE id LIKE :itemId LIMIT 1")
+    Repository getItem(Long itemId);
+
     @Insert()
     Long insert(Repository item);
 
