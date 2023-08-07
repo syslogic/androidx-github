@@ -7,9 +7,9 @@ This is an unofficial Android client for GitHub, which utilizes the AndroidX & R
 
 ### Debug Builds
 
-File `token.properties` may be created with a GitHub [access token](https://github.com/settings/tokens) declared as `accessToken=ghp_...`.<br/>
-Without personal access token the API will be "rate limited", after having loaded the first 10 pages in quick succession.<br/>
-When file `token.properties` is absent, the personal access token still can be added in the preferences.
+File `token.properties` may be created with a GitHub [access token](https://github.com/settings/tokens) declared as `accessToken=ghp_...`.  
+Without personal access token the API will be "rate limited", after having loaded the first 10 pages in quick succession. When file `token.properties` is absent (or in release builds),  
+the personal access token still can be added in the preferences.
 
 ### Screenshots
 
