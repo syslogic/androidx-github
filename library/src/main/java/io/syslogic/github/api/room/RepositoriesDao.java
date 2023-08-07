@@ -26,9 +26,12 @@ public interface RepositoriesDao {
     List<Repository> getItems();
 
     /* For ContentProvider */
-    // @Transaction
     @Query("SELECT * FROM " + Constants.TABLE_REPOSITORIES)
     Cursor selectAll();
+
+    /* For ContentProvider */
+    @Query("SELECT * FROM " + Constants.TABLE_REPOSITORIES + " WHERE id LIKE :itemId LIMIT 1")
+    Cursor getCursor(Long itemId);
 
     @Query("SELECT * FROM " + Constants.TABLE_REPOSITORIES + " WHERE id LIKE :itemId LIMIT 1")
     Repository getItem(Long itemId);

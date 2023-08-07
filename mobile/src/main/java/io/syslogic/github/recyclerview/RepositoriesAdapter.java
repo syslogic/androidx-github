@@ -81,8 +81,9 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     public RepositoriesAdapter(@NonNull Context context) {
         this.mContext = new WeakReference<>(context);
-        this.getCredentials();
-        this.fetchPage(1);
+        if (this.getCredentials()) {
+            this.fetchPage(1);
+        }
     }
 
     @Override

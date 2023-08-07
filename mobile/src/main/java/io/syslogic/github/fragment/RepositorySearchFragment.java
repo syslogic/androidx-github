@@ -118,7 +118,7 @@ public class RepositorySearchFragment extends BaseFragment implements TokenCallb
                                 }
                             });
                         } else {
-                            if (mDebug) {Log.e(LOG_TAG, "table `" + Constants.TABLE_QUERY_STRINGS +"` has no records.");}
+                            if (mDebug) {Log.e(LOG_TAG, "table `query_strings` has no records.");}
                             this.getDataBinding().toolbarRepositories.spinnerQueryString.setVisibility(View.INVISIBLE);
                         }
                     } catch (IllegalStateException e) {

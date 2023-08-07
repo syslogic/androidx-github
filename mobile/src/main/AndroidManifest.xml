@@ -80,13 +80,6 @@
         </service>
 
         <provider
-            android:label="@string/text_bookmarks"
-            android:name=".content.QueryStringProvider"
-            android:authorities="io.syslogic.github.content.QueryStringProvider"
-            android:exported="false"
-            android:syncable="false"/>
-
-        <provider
             android:label="@string/text_repositories"
             android:name=".content.RepositoryProvider"
             android:authorities="io.syslogic.github.content.RepositoryProvider"

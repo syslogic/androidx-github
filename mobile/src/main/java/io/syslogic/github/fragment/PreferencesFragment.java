@@ -83,15 +83,15 @@ public class PreferencesFragment extends PreferenceFragmentCompat
             if (accessToken != null) {pref.setSummary(R.string.summary_personal_access_token);}
 
             pref.setOnPreferenceClickListener(preference -> {
-
                 Intent intent = new Intent();
-                // intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 if (accessToken != null) {
-                    // intent.putExtra(Settings.EXTRA_AUTHORITIES, new String[] {Constants.ACCOUNT_TYPE});
+                    String[] authorities = {Constants.ACCOUNT_TYPE + ".content.RepositoryProvider"};
+                    intent.putExtra(Settings.EXTRA_AUTHORITIES, authorities);
                     intent.setAction(Settings.ACTION_SYNC_SETTINGS);
                 } else {
-                    intent.putExtra(Settings.EXTRA_ACCOUNT_TYPES, new String[] {Constants.ACCOUNT_TYPE});
+                    String[] accountTypes = new String[] {Constants.ACCOUNT_TYPE};
+                    intent.putExtra(Settings.EXTRA_ACCOUNT_TYPES, accountTypes);
                     intent.setAction(Settings.ACTION_ADD_ACCOUNT);
                 }
                 try {

@@ -3,12 +3,16 @@ package io.syslogic.github.content;
 import android.content.ContentProvider;
 import android.content.ContentUris;
 import android.content.ContentValues;
+import android.content.UriMatcher;
 import android.database.Cursor;
 import android.net.Uri;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import java.util.Objects;
+
+import io.syslogic.github.Constants;
 import io.syslogic.github.api.model.Repository;
 import io.syslogic.github.api.room.Abstraction;
 import io.syslogic.github.api.room.RepositoriesDao;
@@ -21,6 +25,12 @@ import io.syslogic.github.api.room.RepositoriesDao;
 public class RepositoryProvider extends ContentProvider {
 
     private RepositoriesDao dao;
+    private static final UriMatcher uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
+
+    static {
+        uriMatcher.addURI(Constants.ACCOUNT_TYPE + ".content.RepositoryProvider", "repositories", 1);
+        uriMatcher.addURI(Constants.ACCOUNT_TYPE + ".content.RepositoryProvider", "repositories/#", 2);
+    }
 
     @Override
     public boolean onCreate() {
@@ -38,7 +48,30 @@ public class RepositoryProvider extends ContentProvider {
     @NonNull
     @Override
     public Cursor query(@NonNull Uri uri, @Nullable String[] projection, @Nullable String selectionClause, @Nullable String[] selectionArgs, @Nullable String sortOrder) {
-        return dao.selectAll();
+        /*
+         * Choose the table to query and a sort order based on the code returned for the incoming
+         * URI. Here, too, only the statements for table 3 are shown.
+         */
+        switch (uriMatcher.match(uri)) {
+
+
+            // If the incoming URI was for all of table3
+            case 1 -> {
+                return dao.selectAll();
+            }
+
+            // If the incoming URI was for a single row
+            case 2 -> {
+
+                /*
+                 * Because this URI was for a single row, the _ID value part is
+                 * present. Get the last path segment from the URI; this is the _ID value.
+                 * Then, append the value to the WHERE clause for the query.
+                 */
+                return dao.getCursor(Long.valueOf(Objects.requireNonNull(uri.getLastPathSegment())));
+            }
+            default -> throw new IllegalArgumentException("uriMatcher.match must be 1 or 2");
+        }
     }
 
     @NonNull
