@@ -5,6 +5,7 @@ import android.util.AttributeSet;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -15,7 +16,6 @@ import androidx.recyclerview.widget.RecyclerView;
  */
 public class RepositorySearchLinearView extends RecyclerView {
 
-    LinearLayoutManager mLinearLayoutManager;
     ScrollListener scrollListener;
 
     /** Constructor */
@@ -25,13 +25,12 @@ public class RepositorySearchLinearView extends RecyclerView {
 
     /** Constructor */
     public RepositorySearchLinearView(@NonNull Context context, @Nullable AttributeSet attrs) {
-
         super(context, attrs);
+        this.addItemDecoration(new DividerItemDecoration(context, DividerItemDecoration.VERTICAL));
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this.getContext());
+        this.setLayoutManager(layoutManager);
 
-        this.mLinearLayoutManager = new LinearLayoutManager(this.getContext());
-        this.setLayoutManager(this.mLinearLayoutManager);
-
-        this.scrollListener = new ScrollListener(this.mLinearLayoutManager) {
+        this.scrollListener = new ScrollListener(layoutManager) {
             @Override
             public boolean onLoadPage(int pageNumber, int totalItemsCount) {
                 RepositorySearchAdapter adapter = ((RepositorySearchAdapter) getAdapter());

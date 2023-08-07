@@ -166,7 +166,7 @@ abstract public class BaseFragment extends Fragment implements ConnectivityListe
     abstract protected void setDataBinding(@NonNull ViewDataBinding binding);
 
     @Nullable
-    protected String getPersonalAccessToken() {
+    protected String getAccessToken() {
         return TokenHelper.getAccessToken(requireContext());
     }
 

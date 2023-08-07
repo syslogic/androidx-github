@@ -31,7 +31,7 @@ import io.syslogic.github.BuildConfig;
 import io.syslogic.github.Constants;
 import io.syslogic.github.R;
 import io.syslogic.github.activity.BaseActivity;
-import io.syslogic.github.databinding.CardviewWorkflowBinding;
+import io.syslogic.github.databinding.CardviewRepositoryBinding;
 import io.syslogic.github.databinding.FragmentRepositoriesBinding;
 import io.syslogic.github.api.model.Repository;
 import io.syslogic.github.api.model.Workflow;
@@ -63,8 +63,19 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     private WeakReference<Context> mContext;
 
+    /** This may add the account in debug mode and therefore must be called first. */
+    private String accessToken = null;
+
+    /**
+     * This only returns a value on the second attempt, because the account
+     * from which it gets the cached username is being added asynchronously).
+     */
+    private String username = null;
+
     public RepositoriesAdapter(@NonNull Context context) {
         this.mContext = new WeakReference<>(context);
+        this.getCredentials();
+        this.fetchPage(1);
     }
 
     @Override
@@ -76,7 +87,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        CardviewWorkflowBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.cardview_workflow, parent, false);
+        CardviewRepositoryBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.cardview_repository, parent, false);
         binding.getRoot().setLayoutParams(new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         return new RepositoriesAdapter.ViewHolder(binding);
     }
@@ -84,24 +95,25 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
         Repository item = getItem(position);
-        CardviewWorkflowBinding binding = ((ViewHolder) viewHolder).getDataBinding();
+        CardviewRepositoryBinding binding = ((ViewHolder) viewHolder).getDataBinding();
         binding.setItem(item);
     }
 
-    public void fetchPage(final int pageNumber) {
+    private boolean getCredentials() {
 
-        /* It may add the account and therefore must be called first */
-        String accessToken = getAccessToken();
+        /* This may add the account in debug mode and therefore must be called first. */
+        this.accessToken = getAccessToken();
 
         /*
          * This only returns a value on the second attempt, because the account
          * from which it gets the cached username is being added asynchronously).
          */
-        String username = getUsername();
-        if (username == null) {
-            // TODO: try again with a delay?
-            return;
-        }
+        this.username = getUsername();
+
+        return this.accessToken != null && this.username != null;
+    }
+
+    public void fetchPage(final int pageNumber) {
 
         Call<ArrayList<Repository>> api = GithubClient.getUserRepositories(accessToken, username,"owner", "full_name","desc", 100, pageNumber);
         if (BuildConfig.DEBUG) {Log.w(LOG_TAG, api.request().url() + "");}
@@ -118,39 +130,8 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                         getItems().addAll(items);
                         notifyItemRangeChanged(positionStart, getItemCount());
 
-                        for (Repository item : items) {
 
-                            Call<WorkflowsResponse> api2 = GithubClient.getWorkflows(accessToken, username,item.getName());
-                            if (BuildConfig.DEBUG) {Log.w(LOG_TAG, api2.request().url() + "");}
-
-                            api2.enqueue(new Callback<>() {
-                                @Override
-                                public void onResponse(@NonNull Call<WorkflowsResponse> call, @NonNull Response<WorkflowsResponse> response) {
-                                    if (response.code() == 200) { // OK
-                                        if (response.body() != null) {
-                                            WorkflowsResponse items = response.body();
-                                            if (BuildConfig.DEBUG) {
-                                                if (items.getWorkflows() != null && items.getWorkflows().size() > 0) {
-                                                    for (Workflow item2 : items.getWorkflows()) {
-                                                        Log.d(LOG_TAG, item.getName() + " has workflow: " + item2.getName());
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    } else {
-                                        /* "bad credentials" means that the provided access-token is invalid. */
-                                        if (response.errorBody() != null) {
-                                            logError(response.errorBody());
-                                        }
-                                    }
-                                }
-
-                                @Override
-                                public void onFailure(@NonNull Call<WorkflowsResponse> call, @NonNull Throwable t) {
-                                    if (BuildConfig.DEBUG) {Log.e(LOG_TAG, "onFailure: " + t.getMessage());}
-                                }
-                            });
-                        }
+                        getWorkflows();
                     }
                 } else {
                     /* "bad credentials" means that the provided access-token is invalid. */
@@ -165,6 +146,42 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 if (BuildConfig.DEBUG) {Log.e(LOG_TAG, "" + t.getMessage());}
             }
         });
+    }
+
+    private void getWorkflows() {
+        for (Repository item : this.getItems()) {
+
+            Call<WorkflowsResponse> api2 = GithubClient.getWorkflows(accessToken, username,item.getName());
+            if (BuildConfig.DEBUG) {Log.w(LOG_TAG, api2.request().url() + "");}
+
+            api2.enqueue(new Callback<>() {
+                @Override
+                public void onResponse(@NonNull Call<WorkflowsResponse> call, @NonNull Response<WorkflowsResponse> response) {
+                    if (response.code() == 200) { // OK
+                        if (response.body() != null) {
+                            WorkflowsResponse items = response.body();
+                            if (BuildConfig.DEBUG) {
+                                if (items.getWorkflows() != null && items.getWorkflows().size() > 0) {
+                                    for (Workflow item2 : items.getWorkflows()) {
+                                        Log.d(LOG_TAG, item.getName() + " has workflow: " + item2.getName());
+                                    }
+                                }
+                            }
+                        }
+                    } else {
+                        /* "bad credentials" means that the provided access-token is invalid. */
+                        if (response.errorBody() != null) {
+                            logError(response.errorBody());
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(@NonNull Call<WorkflowsResponse> call, @NonNull Throwable t) {
+                    if (BuildConfig.DEBUG) {Log.e(LOG_TAG, "onFailure: " + t.getMessage());}
+                }
+            });
+        }
     }
 
     /** Getters */
@@ -222,13 +239,13 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     /** {@link RecyclerView.ViewHolder} for {@link CardView} of type {@link Workflow}. */
     private static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        private final CardviewWorkflowBinding mDataBinding;
+        private final CardviewRepositoryBinding mDataBinding;
 
         /**
          * ViewHolder Constructor
          * @param binding the item's data-binding
         **/
-        ViewHolder(@NonNull CardviewWorkflowBinding binding) {
+        ViewHolder(@NonNull CardviewRepositoryBinding binding) {
             super(binding.getRoot());
             binding.cardview.setOnClickListener(this);
             this.mDataBinding = binding;
@@ -250,7 +267,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
 
         /** Getters */
-        CardviewWorkflowBinding getDataBinding() {
+        CardviewRepositoryBinding getDataBinding() {
             return this.mDataBinding;
         }
     }

@@ -52,7 +52,7 @@ public class HomeScreenFragment extends BaseFragment implements TokenCallback {
         if (! isNetworkAvailable(activity)) {
             this.onNetworkLost();
         } else {
-            String token = this.getPersonalAccessToken();
+            String token = this.getAccessToken();
             if (getCurrentUser() == null && token != null) {
                 this.setUser(token, this);
             }

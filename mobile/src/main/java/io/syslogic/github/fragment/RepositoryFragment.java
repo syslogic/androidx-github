@@ -199,7 +199,7 @@ public class RepositoryFragment extends BaseFragment implements TokenCallback {
         Thread thread = new Thread(() -> {
             CloneCommand cmd = Git.cloneRepository()
                     .setURI(getRepoUrl())
-                    .setCredentialsProvider(new UsernamePasswordCredentialsProvider(getPersonalAccessToken(), ""))
+                    .setCredentialsProvider(new UsernamePasswordCredentialsProvider(getAccessToken(), ""))
                     .setProgressMonitor((ProgressMonitor) currentDialog)
                     .setDirectory(destination)
                     .setRemote("github");
@@ -260,7 +260,7 @@ public class RepositoryFragment extends BaseFragment implements TokenCallback {
         super.onNetworkAvailable();
         if (this.getContext() != null) {
 
-            String token = this.getPersonalAccessToken();
+            String token = this.getAccessToken();
             if (getCurrentUser() == null && token != null) {
                 this.setUser(token, this);
             }
@@ -419,7 +419,7 @@ public class RepositoryFragment extends BaseFragment implements TokenCallback {
     }
 
     void downloadRepository(@NonNull final Repository item, final String archiveFormat, String branch) {
-        String token = getPersonalAccessToken();
+        String token = getAccessToken();
         assert token != null;
         Call<ResponseBody> api = GithubClient.getArchiveLink(token, item.getOwner().getLogin(), item.getName(), archiveFormat, branch);
         if (mDebug) {Log.d(LOG_TAG, api.request().url() + "");}

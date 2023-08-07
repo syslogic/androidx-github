@@ -64,7 +64,7 @@ public class RepositorySearchFragment extends BaseFragment implements TokenCallb
         /* It removes & adds {@link BaseMenuProvider} */
         activity.setMenuProvider(new RepositorySearchMenuProvider(activity));
 
-        // the SpinnerItem has the same ID as the QueryString.
+        /* the SpinnerItem has the same ID as the QueryString. */
         activity.setSupportActionBar(this.getDataBinding().toolbarRepositories.toolbarRepositories);
         this.mDataBinding.toolbarRepositories.home.setOnClickListener(view -> activity.onBackPressed());
 
@@ -150,38 +150,36 @@ public class RepositorySearchFragment extends BaseFragment implements TokenCallb
 
         super.onNetworkAvailable();
 
-        String token = this.getPersonalAccessToken();
+        String token = this.getAccessToken();
         if (getCurrentUser() == null && token != null) {
             this.setUser(token, this);
         }
 
-        if (mDataBinding != null) {
-          PagerState pagerState = this.getDataBinding().getPagerState();
-            if (pagerState != null) {
-                pagerState.setIsOffline(false);
-                this.getDataBinding().setPagerState(pagerState);
-            }
+        PagerState pagerState = this.getDataBinding().getPagerState();
+        if (pagerState != null) {
+            pagerState.setIsOffline(false);
+            this.getDataBinding().setPagerState(pagerState);
+        }
 
-            /* When being online for the first time, adapter is null. */
-            RepositorySearchAdapter adapter = ((RepositorySearchAdapter) this.getDataBinding().recyclerviewRepositories.getAdapter());
-            if (adapter == null) {
-                /* Needs to run on UiThread */
-                requireActivity().runOnUiThread(() -> {
-                    String queryString = getDataBinding().recyclerviewRepositories.getQueryString();
-                    if (queryString == null) {
-                        QueryStringAdapter queryStringArrayAdapter = (QueryStringAdapter) getDataBinding().toolbarRepositories.spinnerQueryString.getAdapter();
-                        if (queryStringArrayAdapter != null && queryStringArrayAdapter.getCount() > 0) {
-                            queryString = queryStringArrayAdapter.getItem(0).getValue();
-                        }
+        /* When being online for the first time, adapter is null. */
+        RepositorySearchAdapter adapter = ((RepositorySearchAdapter) this.getDataBinding().recyclerviewRepositories.getAdapter());
+        if (adapter == null) {
+            /* Needs to run on UiThread */
+            requireActivity().runOnUiThread(() -> {
+                String queryString = getDataBinding().recyclerviewRepositories.getQueryString();
+                if (queryString == null) {
+                    QueryStringAdapter queryStringArrayAdapter = (QueryStringAdapter) getDataBinding().toolbarRepositories.spinnerQueryString.getAdapter();
+                    if (queryStringArrayAdapter != null && queryStringArrayAdapter.getCount() > 0) {
+                        queryString = queryStringArrayAdapter.getItem(0).getValue();
                     }
-                    if (queryString != null) {
-                        getDataBinding().recyclerviewRepositories.setAdapter(new RepositorySearchAdapter(requireActivity(), queryString, showRepositoryTopics, 1));
-                    }
-                });
-            } else if (adapter.getItemCount() == 0) {
-                /* If required, fetch page 1 */
-                adapter.fetchPage(1);
-            }
+                }
+                if (queryString != null) {
+                    getDataBinding().recyclerviewRepositories.setAdapter(new RepositorySearchAdapter(requireActivity(), queryString, showRepositoryTopics, 1));
+                }
+            });
+        } else if (adapter.getItemCount() == 0) {
+            /* If required, fetch page 1 */
+            adapter.fetchPage(1);
         }
     }
 

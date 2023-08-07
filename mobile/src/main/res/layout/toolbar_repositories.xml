@@ -7,7 +7,7 @@
     <data/>
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar_workflows"
+        android:id="@+id/toolbar_repositories"
         android:layout_width="match_parent"
         android:layout_height="?android:attr/actionBarSize"
         android:layout_margin="0dp"
