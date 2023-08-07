@@ -14,7 +14,7 @@ Without an access token the API will be "rate limited", after having loaded the 
 
 ![Repositories](screenshots/repositories_30.png?raw=true&sanitize=true "Repositories")<!-- @IGNORE PREVIOUS: link -->
 
- ---
+### Android Library
 
 The `:library` module is available on JitPack; either by version tag or `master-SNAPSHOT`.<br/>
 The JitPack repository URL would be: `maven { url 'https://jitpack.io' }`
