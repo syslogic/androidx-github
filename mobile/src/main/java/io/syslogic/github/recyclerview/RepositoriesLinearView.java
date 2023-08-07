@@ -1,5 +1,6 @@
 package io.syslogic.github.recyclerview;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.AttributeSet;
 
@@ -42,6 +43,27 @@ public class RepositoriesLinearView extends RecyclerView {
             }
         };
         this.addOnScrollListener(scrollListener);
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    public void clearAdapter() {
+        RepositoriesAdapter adapter = ((RepositoriesAdapter) getAdapter());
+        if (adapter != null) {
+            adapter.clearItems();
+            adapter.notifyDataSetChanged();
+        }
+    }
+
+    public void setRepositoryType(@NonNull String value) {
+        RepositoriesAdapter adapter = ((RepositoriesAdapter) getAdapter());
+        if (adapter != null) {adapter.setRepositoryType(value);}
+    }
+
+    @Nullable
+    public String getRepositoryType() {
+        RepositoriesAdapter adapter = ((RepositoriesAdapter) getAdapter());
+        if (adapter == null) {return null;}
+        return adapter.getRepositoryType();
     }
 
     @NonNull

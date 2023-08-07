@@ -66,10 +66,10 @@ public class RepositorySearchFragment extends BaseFragment implements TokenCallb
         activity.setMenuProvider(new RepositorySearchMenuProvider(activity));
 
         /* the SpinnerItem has the same ID as the QueryString. */
-        activity.setSupportActionBar(this.getDataBinding().toolbarRepositories.toolbarRepositories);
-        this.mDataBinding.toolbarRepositories.home.setOnClickListener(view -> activity.onBackPressed());
+        activity.setSupportActionBar(this.getDataBinding().toolbarRepositorySearch.toolbarRepositorySearch);
+        this.mDataBinding.toolbarRepositorySearch.home.setOnClickListener(view -> activity.onBackPressed());
 
-        AppCompatSpinner spinner = this.getDataBinding().toolbarRepositories.spinnerQueryString;
+        AppCompatSpinner spinner = this.getDataBinding().toolbarRepositorySearch.spinnerQueryString;
         spinner.setAdapter(new QueryStringAdapter(requireContext()));
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             int count = 0;
@@ -79,7 +79,7 @@ public class RepositorySearchFragment extends BaseFragment implements TokenCallb
                     SpinnerItem item = (SpinnerItem) view.getTag();
                     ScrollListener.setPageNumber(1);
                     String queryString = item.getValue();
-                    RepositorySearchLinearView recyclerview = getDataBinding().recyclerviewRepositories;
+                    RepositorySearchLinearView recyclerview = getDataBinding().recyclerviewRepositorySearch;
                     recyclerview.setQueryString(queryString);
                     PagerState pagerState = getDataBinding().getPagerState();
                     if (pagerState != null) {
@@ -100,7 +100,7 @@ public class RepositorySearchFragment extends BaseFragment implements TokenCallb
         /* It is quicker to query Room, because the QueryStringAdapter is populating too slow. */
         assert this.prefs != null;
         showRepositoryTopics = this.prefs.getBoolean(Constants.PREFERENCE_KEY_SHOW_REPOSITORY_TOPICS, false);
-        if (this.getDataBinding().recyclerviewRepositories.getAdapter() == null) {
+        if (this.getDataBinding().recyclerviewRepositorySearch.getAdapter() == null) {
             if (isNetworkAvailable(requireContext())) {
                 QueryStringsDao dao = Abstraction.getInstance(requireContext()).queryStringsDao();
                 Abstraction.executorService.execute(() -> {
@@ -111,7 +111,7 @@ public class RepositorySearchFragment extends BaseFragment implements TokenCallb
                             String queryString = items.get(0).toQueryString();
                             requireActivity().runOnUiThread(() -> {
                                 RepositorySearchAdapter adapter = new RepositorySearchAdapter(requireContext(), queryString, showRepositoryTopics, 1);
-                                getDataBinding().recyclerviewRepositories.setAdapter(adapter);
+                                getDataBinding().recyclerviewRepositorySearch.setAdapter(adapter);
                                 PagerState pagerState = getDataBinding().getPagerState();
                                 if (pagerState != null) {
                                     pagerState.setQueryString(queryString);
@@ -120,7 +120,7 @@ public class RepositorySearchFragment extends BaseFragment implements TokenCallb
                             });
                         } else {
                             if (mDebug) {Log.e(LOG_TAG, "table `query_strings` has no records.");}
-                            this.getDataBinding().toolbarRepositories.spinnerQueryString.setVisibility(View.INVISIBLE);
+                            this.getDataBinding().toolbarRepositorySearch.spinnerQueryString.setVisibility(View.INVISIBLE);
                         }
                     } catch (IllegalStateException e) {
                         if (mDebug) {Log.e(LOG_TAG, "" + e.getMessage());}
@@ -166,19 +166,19 @@ public class RepositorySearchFragment extends BaseFragment implements TokenCallb
             }
 
             /* When being online for the first time, adapter is null. */
-            RepositorySearchAdapter adapter = ((RepositorySearchAdapter) this.getDataBinding().recyclerviewRepositories.getAdapter());
+            RepositorySearchAdapter adapter = ((RepositorySearchAdapter) this.getDataBinding().recyclerviewRepositorySearch.getAdapter());
             if (adapter == null) {
                 /* Needs to run on UiThread */
                 requireActivity().runOnUiThread(() -> {
-                    String queryString = getDataBinding().recyclerviewRepositories.getQueryString();
+                    String queryString = getDataBinding().recyclerviewRepositorySearch.getQueryString();
                     if (queryString == null) {
-                        QueryStringAdapter queryStringArrayAdapter = (QueryStringAdapter) getDataBinding().toolbarRepositories.spinnerQueryString.getAdapter();
+                        QueryStringAdapter queryStringArrayAdapter = (QueryStringAdapter) getDataBinding().toolbarRepositorySearch.spinnerQueryString.getAdapter();
                         if (queryStringArrayAdapter != null && queryStringArrayAdapter.getCount() > 0) {
                             queryString = queryStringArrayAdapter.getItem(0).getValue();
                         }
                     }
                     if (queryString != null) {
-                        getDataBinding().recyclerviewRepositories.setAdapter(new RepositorySearchAdapter(requireActivity(), queryString, showRepositoryTopics, 1));
+                        getDataBinding().recyclerviewRepositorySearch.setAdapter(new RepositorySearchAdapter(requireActivity(), queryString, showRepositoryTopics, 1));
                     }
                 });
             } else if (adapter.getItemCount() == 0) {

@@ -7,8 +7,9 @@
     <string name="text_git_hub_sponsors">Please sponsor this project on GitHub</string>
     <string name="url_git_hub_sponsors">https://github.com/sponsors/syslogic</string>
 
-    <string name="button_repositories">Repositories</string>
-    <string name="button_repository_search">Search</string>
+    <string name="button_user_repositories">User Repositories</string>
+    <string name="button_org_repositories">Org Repositories</string>
+    <string name="button_repository_search">Repository Search</string>
 
     <string name="title_account_authenticator">"Account Authenticator</string>
     <string name="summary_account_authenticator">TODO</string>

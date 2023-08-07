@@ -66,8 +66,6 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     private RecyclerView mRecyclerView;
 
-    private long totalItemCount = 0;
-
     /** This may add the account in debug mode and therefore must be called first. */
     private String accessToken = null;
 
@@ -77,6 +75,10 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
      */
     private String username = null;
 
+    private long totalItemCount = 0;
+    private String repositoryType = "owner";
+    private String sortField = "full_name";
+    private String sortOrder = "desc";
     private int pageSize = 30;
 
     public RepositoriesAdapter(@NonNull Context context) {
@@ -130,7 +132,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             this.setPagerState(pageNumber, true, null);
             this.getPagerState().setItemsPerPage(this.pageSize);
 
-            Call<ArrayList<Repository>> api = GithubClient.getUserRepositories(accessToken, username, "owner", "full_name", "desc", this.pageSize, pageNumber);
+            Call<ArrayList<Repository>> api = GithubClient.getUserRepositories(this.accessToken, this.username, this.repositoryType, this.sortField, this.sortOrder, this.pageSize, pageNumber);
             if (BuildConfig.DEBUG) {Log.w(LOG_TAG, api.request().url() + "");}
 
             api.enqueue(new Callback<>() {
@@ -275,21 +277,52 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
     }
 
-
-    @NonNull
-    protected Context getContext() {
-        return this.mContext.get();
-    }
-
     /** Setters */
+    public void setRepositoryType(String value) {
+        this.repositoryType = value;
+    }
+    @SuppressWarnings("unused")
+    public void setSortField(String value) {
+        this.sortField = value;
+    }
+    @SuppressWarnings("unused")
+    public void setSortOrder(String value) {
+        this.sortOrder = value;
+    }
+    @SuppressWarnings("unused")
+    public void setPageSize(int value) {
+        if (value <= 0 || value > 100) {return;}
+        this.pageSize = value;
+    }
+    @SuppressWarnings("unused")
     void setTotalItemCount(long value) {
         this.totalItemCount = value;
     }
 
     /** Getters */
+    public String getRepositoryType() {
+        return this.repositoryType;
+    }
+    @SuppressWarnings("unused")
+    public String getSortField() {
+        return this.sortField;
+    }
+    @SuppressWarnings("unused")
+    public String getSortOrder() {
+        return this.sortOrder;
+    }
+    @SuppressWarnings("unused")
+    public int getPageSize() {
+        return this.pageSize;
+    }
     @SuppressWarnings("unused")
     private long getTotalItemCount() {
         return this.totalItemCount;
+    }
+
+    @NonNull
+    protected Context getContext() {
+        return this.mContext.get();
     }
 
     void logError(@NonNull ResponseBody responseBody) {

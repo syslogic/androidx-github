@@ -13,14 +13,14 @@
     </data>
 
     <androidx.appcompat.widget.LinearLayoutCompat
-        android:id="@+id/layout_repositories"
+        android:id="@+id/layout_repository_search"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
         <include
             layout="@layout/toolbar_repository_search"
-            android:id="@+id/toolbar_repositories"
+            android:id="@+id/toolbar_repository_search"
             android:layout_width="match_parent"
             android:layout_height="?android:attr/actionBarSize"
             android:layout_margin="0dp"/>
@@ -41,7 +41,7 @@
             android:visibility="gone"/>
 
         <io.syslogic.github.recyclerview.RepositorySearchLinearView
-            android:id="@+id/recyclerview_repositories"
+            android:id="@+id/recyclerview_repository_search"
             tools:listitem="@layout/cardview_repository_search"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             android:layout_height="match_parent"

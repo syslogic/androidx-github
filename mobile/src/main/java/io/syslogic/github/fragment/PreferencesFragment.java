@@ -44,6 +44,9 @@ public class PreferencesFragment extends PreferenceFragmentCompat
     /** Log Tag */
     private static final String LOG_TAG = PreferencesFragment.class.getSimpleName();
 
+    /** Debug Output */
+    static final boolean mDebug = BuildConfig.DEBUG;
+
     /** Layout resource ID. */
     private static final int resId = R.xml.preferences_general;
 
@@ -109,7 +112,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat
                     requireActivity().startActivityFromFragment(this, intent, 100);
                     return true;
                 } catch (ActivityNotFoundException e) {
-                    if (BuildConfig.DEBUG) {Log.e(LOG_TAG, "" + e.getMessage());}
+                    if (mDebug) {Log.e(LOG_TAG, "" + e.getMessage());}
                     return false;
                 }
             });
@@ -126,9 +129,9 @@ public class PreferencesFragment extends PreferenceFragmentCompat
                     if (! defaultDir.mkdir()) {
 
                         /* Try internal storage instead */
-                        if (BuildConfig.DEBUG) {Log.w(LOG_TAG, "workspace not created: " + defaultDir.getAbsolutePath());}
+                        if (mDebug) {Log.w(LOG_TAG, "workspace not created: " + defaultDir.getAbsolutePath());}
                         defaultDir = new File(Objects.requireNonNull(requireContext().getExternalFilesDir(null)).toURI());
-                        if (BuildConfig.DEBUG) {Log.d(LOG_TAG, "workspace using internal storage: " + defaultDir.getAbsolutePath());}
+                        if (mDebug) {Log.d(LOG_TAG, "workspace using internal storage: " + defaultDir.getAbsolutePath());}
                     }
                 }
                 if (! directory.equals(defaultDir.getAbsolutePath())) {
@@ -166,7 +169,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat
      */
     @Override
     public void onSharedPreferenceChanged(@NonNull SharedPreferences preferences, @Nullable String key) {
-        if (BuildConfig.DEBUG) {Log.d(LOG_TAG, "onSharedPreferenceChanged " + key);}
+        if (mDebug) {Log.d(LOG_TAG, "onSharedPreferenceChanged " + key);}
     }
 
     private void chooseDirectory() {

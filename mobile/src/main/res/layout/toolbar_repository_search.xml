@@ -7,7 +7,7 @@
     <data />
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar_repositories"
+        android:id="@+id/toolbar_repository_search"
         android:layout_width="match_parent"
         android:layout_height="?android:attr/actionBarSize"
         android:contentInsetStart="0dp"
@@ -19,7 +19,7 @@
         app:contentInsetStart="0dp">
 
         <androidx.appcompat.widget.LinearLayoutCompat
-            android:id="@+id/layout_toolbar_repositories"
+            android:id="@+id/layout_toolbar_repository_search"
             style="?android:attr/buttonBarStyle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

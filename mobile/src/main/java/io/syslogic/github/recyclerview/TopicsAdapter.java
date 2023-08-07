@@ -83,20 +83,19 @@ public class TopicsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             /* Set the query-string on the adapter and reload it. */
             if (databinding != null) {
                 ScrollListener.setPageNumber(1);
-
                 String queryString = "topic:" + item;
-                databinding.recyclerviewRepositories.setQueryString(queryString);
-
                 PagerState pagerState = databinding.getPagerState();
                 if (pagerState != null) {
                     pagerState.setQueryString(queryString);
                     databinding.setPagerState(pagerState);
                 }
-                databinding.toolbarRepositories.spinnerQueryString.setVisibility(View.INVISIBLE);
-                databinding.toolbarRepositories.textCurrentTopic.setText(activity.getString(R.string.text_current_topic, item));
-                if (databinding.recyclerviewRepositories.getAdapter() != null) {
-                    databinding.recyclerviewRepositories.clearAdapter();
-                    ((RepositorySearchAdapter) databinding.recyclerviewRepositories.getAdapter()).fetchPage(1);
+                databinding.toolbarRepositorySearch.spinnerQueryString.setVisibility(View.INVISIBLE);
+                databinding.toolbarRepositorySearch.textCurrentTopic.setText(activity.getString(R.string.text_current_topic, item));
+
+                databinding.recyclerviewRepositorySearch.setQueryString(queryString);
+                if (databinding.recyclerviewRepositorySearch.getAdapter() != null) {
+                    databinding.recyclerviewRepositorySearch.clearAdapter();
+                    ((RepositorySearchAdapter) databinding.recyclerviewRepositorySearch.getAdapter()).fetchPage(1);
                 }
             }
         }

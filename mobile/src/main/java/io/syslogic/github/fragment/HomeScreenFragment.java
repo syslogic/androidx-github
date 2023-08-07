@@ -26,8 +26,7 @@ import io.syslogic.github.provider.HomeScreenMenuProvider;
 public class HomeScreenFragment extends BaseFragment implements TokenCallback {
 
     /** Log Tag */
-    @SuppressWarnings("unused")
-    private static final String LOG_TAG = HomeScreenFragment.class.getSimpleName();
+    @SuppressWarnings("unused") private static final String LOG_TAG = HomeScreenFragment.class.getSimpleName();
 
     /** Layout resource ID kept for reference. */
     @SuppressWarnings("unused") private static final int resId = R.layout.fragment_home_screen;
@@ -59,7 +58,7 @@ public class HomeScreenFragment extends BaseFragment implements TokenCallback {
         }
 
         /* Navigating to RepositoriesFragment */
-        this.mDataBinding.buttonRepositories
+        this.mDataBinding.buttonUserRepositories
                 .setOnClickListener(view -> activity.getNavController()
                         .navigate(R.id.action_homeScreenFragment_to_repositoriesFragment));
 

@@ -14,16 +14,9 @@ import io.syslogic.github.api.model.SpinnerItem;
  * @author Martin Zeitler
  */
 public class StringArrayAdapter extends BaseArrayAdapter {
-
-    ArrayList<SpinnerItem> mItems;
-
-    public StringArrayAdapter(@NonNull Context context) {
+    public StringArrayAdapter(@NonNull Context context, @NonNull String[] array) {
         super(context);
-    }
-
-    void setItems(@NonNull Context context, @NonNull String[] array) {
-        this.clearItems();
-        for(int i = 0; i < array.length; i++) {
+        for (int i = 0; i < array.length; i++) {
             this.mItems.add(i, new SpinnerItem(i + 1, array[i], array[i]));
         }
     }

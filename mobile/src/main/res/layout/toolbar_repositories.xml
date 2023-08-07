@@ -10,26 +10,46 @@
         android:id="@+id/toolbar_repositories"
         android:layout_width="match_parent"
         android:layout_height="?android:attr/actionBarSize"
-        android:layout_margin="0dp"
-        android:background="@color/statusBar"
         android:contentInsetStart="0dp"
         android:elevation="4dp"
+        android:gravity="top"
         android:padding="0dp"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-        app:contentInsetStart="0dp"
-        app:layout_scrollFlags="scroll|enterAlways"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        tools:layout_gravity="top">
+        app:contentInsetStart="0dp">
 
-        <androidx.appcompat.widget.AppCompatImageButton
-            android:id="@android:id/home"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical|start"
-            android:layout_marginEnd="8dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:padding="15dp"
-            android:src="?attr/homeAsUpIndicator"/>
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/layout_toolbar_repositories"
+            style="?android:attr/buttonBarStyle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@android:id/home"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|start"
+                android:layout_marginEnd="8dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:padding="15dp"
+                android:src="?attr/homeAsUpIndicator" />
+
+            <androidx.appcompat.widget.AppCompatSpinner
+                android:id="@+id/spinner_repository_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|end"/>
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/button_sort_order"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:background="@android:drawable/ic_menu_sort_by_size"
+                android:visibility="gone"/>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
     </androidx.appcompat.widget.Toolbar>
 
