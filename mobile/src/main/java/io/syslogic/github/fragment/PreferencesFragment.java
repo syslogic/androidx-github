@@ -26,6 +26,7 @@ import androidx.preference.PreferenceManager;
 import androidx.preference.PreferenceScreen;
 
 import java.io.File;
+import java.util.Objects;
 
 import io.syslogic.github.BuildConfig;
 import io.syslogic.github.Constants;
@@ -43,9 +44,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat
     /** Log Tag */
     private static final String LOG_TAG = PreferencesFragment.class.getSimpleName();
 
-    /** Debug Output */
-    static final boolean mDebug = BuildConfig.DEBUG;
-
+    /** Layout resource ID. */
     private static final int resId = R.xml.preferences_general;
 
     /** {@link SharedPreferences} */
@@ -54,12 +53,21 @@ public class PreferencesFragment extends PreferenceFragmentCompat
     /** Constructor */
     public PreferencesFragment() {}
 
-    /** Called when a fragment is first attached to its context. */
+    /** Called when the fragment is first attached to its context. */
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         this.prefs = PreferenceManager.getDefaultSharedPreferences(requireContext());
         this.prefs.registerOnSharedPreferenceChangeListener(this);
+    }
+
+    /** Called when the fragment is being detached from its context. */
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        if (this.prefs != null) {
+            this.prefs.unregisterOnSharedPreferenceChangeListener(this);
+        }
     }
 
     /**
@@ -78,18 +86,21 @@ public class PreferencesFragment extends PreferenceFragmentCompat
         /* Preference: Account Manager */
         Preference pref = this.findPreference(Constants.PREFERENCE_KEY_ACCOUNT_SETTINGS);
         if (pref != null) {
-
             String accessToken = TokenHelper.getAccessToken(requireContext());
-            if (accessToken != null) {pref.setSummary(R.string.summary_personal_access_token);}
-
+            //if (accessToken != null) {pref.setSummary(R.string.summary_personal_access_token_alt);}
             pref.setOnPreferenceClickListener(preference -> {
+
                 Intent intent = new Intent();
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+                /* Depending whether there is an access token... */
                 if (accessToken != null) {
+                    /* It will either open the sync-settings. */
                     String[] authorities = {Constants.ACCOUNT_TYPE + ".content.RepositoryProvider"};
                     intent.putExtra(Settings.EXTRA_AUTHORITIES, authorities);
                     intent.setAction(Settings.ACTION_SYNC_SETTINGS);
                 } else {
+                    /* Or it will add an account. */
                     String[] accountTypes = new String[] {Constants.ACCOUNT_TYPE};
                     intent.putExtra(Settings.EXTRA_ACCOUNT_TYPES, accountTypes);
                     intent.setAction(Settings.ACTION_ADD_ACCOUNT);
@@ -98,7 +109,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat
                     requireActivity().startActivityFromFragment(this, intent, 100);
                     return true;
                 } catch (ActivityNotFoundException e) {
-                    Log.e(LOG_TAG, "" + e.getMessage());
+                    if (BuildConfig.DEBUG) {Log.e(LOG_TAG, "" + e.getMessage());}
                     return false;
                 }
             });
@@ -115,9 +126,9 @@ public class PreferencesFragment extends PreferenceFragmentCompat
                     if (! defaultDir.mkdir()) {
 
                         /* Try internal storage instead */
-                        Log.w(LOG_TAG, "workspace not created: " + defaultDir.getAbsolutePath());
-                        defaultDir = new File(requireContext().getExternalFilesDir(null).toURI());
-                        Log.d(LOG_TAG, "workspace using internal storage: " + defaultDir.getAbsolutePath());
+                        if (BuildConfig.DEBUG) {Log.w(LOG_TAG, "workspace not created: " + defaultDir.getAbsolutePath());}
+                        defaultDir = new File(Objects.requireNonNull(requireContext().getExternalFilesDir(null)).toURI());
+                        if (BuildConfig.DEBUG) {Log.d(LOG_TAG, "workspace using internal storage: " + defaultDir.getAbsolutePath());}
                     }
                 }
                 if (! directory.equals(defaultDir.getAbsolutePath())) {
@@ -155,7 +166,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat
      */
     @Override
     public void onSharedPreferenceChanged(@NonNull SharedPreferences preferences, @Nullable String key) {
-        if (mDebug) {Log.d(LOG_TAG, "onSharedPreferenceChanged " + key);}
+        if (BuildConfig.DEBUG) {Log.d(LOG_TAG, "onSharedPreferenceChanged " + key);}
     }
 
     private void chooseDirectory() {
@@ -172,7 +183,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat
         }
     }
 
-    /** Register the permissions callback. */
+    /** Register the permission-request callback. */
     final ActivityResultLauncher<String> requestPermissionLauncher =
             registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
                 if (isGranted) {
@@ -184,6 +195,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat
     final ActivityResultLauncher<Intent> requestFileChooserResult =
             registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
                 if (result.getResultCode() == Activity.RESULT_OK) {
+
                     // There are no request codes
                     Intent data = result.getData();
 
@@ -191,5 +203,4 @@ public class PreferencesFragment extends PreferenceFragmentCompat
 
                 }
             });
-
 }

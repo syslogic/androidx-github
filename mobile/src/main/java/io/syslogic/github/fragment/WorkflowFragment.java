@@ -26,13 +26,12 @@ import io.syslogic.github.provider.WorkflowMenuProvider;
 public class WorkflowFragment extends BaseFragment {
 
     /** Log Tag */
-    @SuppressWarnings("unused")
-    private static final String LOG_TAG = WorkflowFragment.class.getSimpleName();
+    @SuppressWarnings("unused") private static final String LOG_TAG = WorkflowFragment.class.getSimpleName();
 
-    @SuppressWarnings("unused")
-    private static final int resId = R.layout.fragment_workflow;
+    /** Layout resource ID kept for reference. */
+    @SuppressWarnings("unused") private static final int resId = R.layout.fragment_workflow;
 
-    /** Data Binding */
+    /** Data-Binding */
     private FragmentWorkflowBinding mDataBinding;
 
     private Long itemId = -1L;

@@ -42,9 +42,10 @@ public class RepositorySearchFragment extends BaseFragment implements TokenCallb
     @SuppressWarnings("unused")
     private static final String LOG_TAG = RepositorySearchFragment.class.getSimpleName();
 
+    /** Layout resource ID kept for reference. */
     @SuppressWarnings("unused") private static final int resId = R.layout.fragment_repository_search;
 
-    /** Data Binding */
+    /** Data-Binding */
     private FragmentRepositorySearchBinding mDataBinding;
 
     /** Preference: PREFERENCE_KEY_SHOW_REPOSITORY_TOPICS */

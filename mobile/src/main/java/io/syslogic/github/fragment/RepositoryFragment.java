@@ -68,9 +68,10 @@ public class RepositoryFragment extends BaseFragment implements TokenCallback {
     @SuppressWarnings("unused")
     private static final String LOG_TAG = RepositoryFragment.class.getSimpleName();
 
+    /** Layout resource ID kept for reference. */
     @SuppressWarnings("unused") private static final int resId = R.layout.fragment_repository;
 
-    /** Data Binding */
+    /** Data-Binding */
     FragmentRepositoryBinding mDataBinding;
     ProgressDialogFragment currentDialog;
     Long itemId = 0L;

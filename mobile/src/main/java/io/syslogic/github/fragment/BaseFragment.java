@@ -53,7 +53,6 @@ abstract public class BaseFragment extends Fragment implements ConnectivityListe
     static final boolean mDebug = BuildConfig.DEBUG;
 
     @Nullable User currentUser = null;
-
     @Nullable SharedPreferences prefs;
     @NonNull Boolean contentLoaded = false;
 
@@ -225,7 +224,7 @@ abstract public class BaseFragment extends Fragment implements ConnectivityListe
 
             @Override
             public void onFailure(@NonNull Call<User> call, @NonNull Throwable t) {
-                if (mDebug) {Log.e(LOG_TAG, t.getMessage());}
+                if (mDebug) {Log.e(LOG_TAG, "" + t.getMessage());}
             }
         });
     }

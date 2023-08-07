@@ -18,6 +18,7 @@
 
     <string name="title_personal_access_token">Personal Access Token</string>
     <string name="summary_personal_access_token">Open Android Account Manager</string>
+    <string name="summary_personal_access_token_alt">Open the Sync Settings</string>
 
     <string name="title_workspace_directory">Local Workspace Directory</string>
     <string name="summary_workspace_directory">@null</string>

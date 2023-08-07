@@ -26,13 +26,12 @@ import io.syslogic.github.recyclerview.RepositoriesAdapter;
 public class RepositoriesFragment extends BaseFragment implements TokenCallback {
 
     /** Log Tag */
-    @SuppressWarnings("unused")
-    private static final String LOG_TAG = RepositoriesFragment.class.getSimpleName();
+    @SuppressWarnings("unused") private static final String LOG_TAG = RepositoriesFragment.class.getSimpleName();
 
-    @SuppressWarnings("unused")
-    private static final int resId = R.layout.fragment_repositories;
+    /** Layout resource ID kept for reference. */
+    @SuppressWarnings("unused") private static final int resId = R.layout.fragment_repositories;
 
-    /** Data Binding */
+    /** Data-Binding */
     private FragmentRepositoriesBinding mDataBinding;
 
     /** Constructor */

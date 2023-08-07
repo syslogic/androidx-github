@@ -26,12 +26,12 @@ import io.syslogic.github.recyclerview.QueryStringsAdapter;
 public class QueryStringsFragment extends BaseFragment {
 
     /** Log Tag */
-    @SuppressWarnings("unused")
-    private static final String LOG_TAG = QueryStringsFragment.class.getSimpleName();
+    @SuppressWarnings("unused") private static final String LOG_TAG = QueryStringsFragment.class.getSimpleName();
 
+    /** Layout resource ID kept for reference. */
     @SuppressWarnings("unused") private static final int resId = R.layout.fragment_query_strings;
 
-    /** Data Binding */
+    /** Data-Binding */
     private FragmentQueryStringsBinding mDataBinding;
 
     /** Constructor */

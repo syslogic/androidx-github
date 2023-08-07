@@ -29,10 +29,10 @@ public class HomeScreenFragment extends BaseFragment implements TokenCallback {
     @SuppressWarnings("unused")
     private static final String LOG_TAG = HomeScreenFragment.class.getSimpleName();
 
-    @SuppressWarnings("unused")
-    private static final int resId = R.layout.fragment_home_screen;
+    /** Layout resource ID kept for reference. */
+    @SuppressWarnings("unused") private static final int resId = R.layout.fragment_home_screen;
 
-    /** Data Binding */
+    /** Data-Binding */
     private FragmentHomeScreenBinding mDataBinding;
 
     /** Constructor */
