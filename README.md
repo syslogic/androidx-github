@@ -13,15 +13,16 @@ When file `token.properties` is absent, the personal access token still can be a
 
 ![Repositories](screenshots/repositories_30.png?raw=true&sanitize=true "Repositories")<!-- @IGNORE PREVIOUS: link -->
 
-
-[![](https://jitci.com/gh/syslogic/androidx-github/svg)](https://jitci.com/gh/syslogic/androidx-github) [![Release](https://jitpack.io/v/syslogic/androidx-github.svg)](https://jitpack.io/#io.syslogic/androidx-github)
-[![MIT License](https://img.shields.io/github/license/syslogic/androidx-github)](https://github.com/syslogic/androidx-github/blob/master/LICENSE)
-
  ---
 
-The library is also available on JitPack; either by version tag or `master-SNAPSHOT`.<br/>
+The library module is available on JitPack; either by version tag or `master-SNAPSHOT`.<br/>
 The JitPack repository URL would be: `maven { url 'https://jitpack.io' }`
 
     dependencies {
         implementation "io.syslogic:androidx-github:1.0.0"
     }
+
+ ---
+
+[![Release](https://jitpack.io/v/syslogic/androidx-github.svg)](https://jitpack.io/#io.syslogic/androidx-github)
+[![MIT License](https://img.shields.io/github/license/syslogic/androidx-github)](https://github.com/syslogic/androidx-github/blob/master/LICENSE)
