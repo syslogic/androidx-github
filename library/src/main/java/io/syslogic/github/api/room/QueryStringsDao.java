@@ -35,13 +35,13 @@ public interface QueryStringsDao {
     Long insert(QueryString item);
 
     @Update()
-    void update(QueryString item);
+    int update(QueryString item);
 
     @Delete()
     void delete(QueryString item);
 
     @Query("DELETE FROM " + Constants.TABLE_QUERY_STRINGS + " WHERE id = :itemId")
-    void deleteById(Long itemId);
+    int deleteById(Long itemId);
 
     @Query("DELETE FROM " + Constants.TABLE_QUERY_STRINGS)
     void clear();

@@ -76,7 +76,8 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
      * from which it gets the cached username is being added asynchronously).
      */
     private String username = null;
-    private int pageSize = 100;
+
+    private int pageSize = 30;
 
     public RepositoriesAdapter(@NonNull Context context) {
         this.mContext = new WeakReference<>(context);
@@ -129,9 +130,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             this.getPagerState().setItemsPerPage(this.pageSize);
 
             Call<ArrayList<Repository>> api = GithubClient.getUserRepositories(accessToken, username, "owner", "full_name", "desc", this.pageSize, pageNumber);
-            if (BuildConfig.DEBUG) {
-                Log.w(LOG_TAG, api.request().url() + "");
-            }
+            if (BuildConfig.DEBUG) {Log.w(LOG_TAG, api.request().url() + "");}
 
             api.enqueue(new Callback<>() {
                 @Override
@@ -279,6 +278,17 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     @NonNull
     protected Context getContext() {
         return this.mContext.get();
+    }
+
+    /** Setters */
+    void setTotalItemCount(long value) {
+        this.totalItemCount = value;
+    }
+
+    /** Getters */
+    @SuppressWarnings("unused")
+    private long getTotalItemCount() {
+        return this.totalItemCount;
     }
 
     void logError(@NonNull ResponseBody responseBody) {

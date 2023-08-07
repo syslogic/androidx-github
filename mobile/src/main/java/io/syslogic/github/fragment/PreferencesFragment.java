@@ -83,20 +83,22 @@ public class PreferencesFragment extends PreferenceFragmentCompat
             if (accessToken != null) {pref.setSummary(R.string.summary_personal_access_token);}
 
             pref.setOnPreferenceClickListener(preference -> {
+
                 Intent intent = new Intent();
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.putExtra(Settings.EXTRA_ACCOUNT_TYPES, new String[] {Constants.ACCOUNT_TYPE});
+                // intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
                 if (accessToken != null) {
+                    // intent.putExtra(Settings.EXTRA_AUTHORITIES, new String[] {Constants.ACCOUNT_TYPE});
                     intent.setAction(Settings.ACTION_SYNC_SETTINGS);
                 } else {
+                    intent.putExtra(Settings.EXTRA_ACCOUNT_TYPES, new String[] {Constants.ACCOUNT_TYPE});
                     intent.setAction(Settings.ACTION_ADD_ACCOUNT);
                 }
                 try {
                     requireActivity().startActivityFromFragment(this, intent, 100);
                     return true;
                 } catch (ActivityNotFoundException e) {
-                    Log.e(LOG_TAG, e.getMessage());
+                    Log.e(LOG_TAG, "" + e.getMessage());
                     return false;
                 }
             });
@@ -152,7 +154,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat
      *                    a {@code null} value when preferences are cleared.
      */
     @Override
-    public void onSharedPreferenceChanged(@NonNull SharedPreferences preferences, @NonNull String key) {
+    public void onSharedPreferenceChanged(@NonNull SharedPreferences preferences, @Nullable String key) {
         if (mDebug) {Log.d(LOG_TAG, "onSharedPreferenceChanged " + key);}
     }
 
@@ -166,7 +168,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat
         try {
             requestFileChooserResult.launch(intent);
         } catch (ActivityNotFoundException e) {
-            Log.e(LOG_TAG, e.getMessage());
+            Log.e(LOG_TAG, "" + e.getMessage());
         }
     }
 

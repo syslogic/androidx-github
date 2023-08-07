@@ -34,13 +34,13 @@ public interface RepositoriesDao {
     Long insert(Repository item);
 
     @Update()
-    void update(Repository item);
+    int update(Repository item);
 
     @Delete()
     void delete(Repository item);
 
     @Query("DELETE FROM " + Constants.TABLE_REPOSITORIES + " WHERE id = :itemId")
-    void deleteById(Long itemId);
+    int deleteById(Long itemId);
 
     @Query("DELETE FROM " + Constants.TABLE_REPOSITORIES)
     void clear();

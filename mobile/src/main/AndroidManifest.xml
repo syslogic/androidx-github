@@ -29,6 +29,7 @@
         android:allowBackup="false"
         android:supportsRtl="true"
         tools:ignore="DataExtractionRules"
+        tools:remove="android:appComponentFactory"
         tools:targetApi="s">
 
         <activity
