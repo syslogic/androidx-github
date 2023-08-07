@@ -21,18 +21,13 @@ import android.webkit.WebViewClient;
 import android.widget.AdapterView;
 import android.widget.Toast;
 
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-
-import java.io.File;
-import java.io.IOException;
-
-import java.util.ArrayList;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatSpinner;
 import androidx.databinding.ViewDataBinding;
+
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 import org.eclipse.jgit.api.CloneCommand;
 import org.eclipse.jgit.api.Git;
@@ -41,15 +36,19 @@ import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 
-import io.syslogic.github.R;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+
 import io.syslogic.github.Constants;
-import io.syslogic.github.databinding.FragmentRepositoryBinding;
-import io.syslogic.github.dialog.ProgressDialogFragment;
-import io.syslogic.github.api.model.User;
-import io.syslogic.github.network.TokenCallback;
+import io.syslogic.github.R;
 import io.syslogic.github.api.GithubClient;
 import io.syslogic.github.api.model.Branch;
 import io.syslogic.github.api.model.Repository;
+import io.syslogic.github.api.model.User;
+import io.syslogic.github.databinding.FragmentRepositoryBinding;
+import io.syslogic.github.dialog.ProgressDialogFragment;
+import io.syslogic.github.network.TokenCallback;
 
 import okhttp3.Headers;
 import okhttp3.ResponseBody;

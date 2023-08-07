@@ -14,6 +14,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
+import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
@@ -24,37 +33,26 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.cardview.widget.CardView;
-import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.recyclerview.widget.RecyclerView;
-
-import io.syslogic.github.R;
 import io.syslogic.github.BuildConfig;
-import io.syslogic.github.activity.BaseActivity;
 import io.syslogic.github.Constants;
+import io.syslogic.github.R;
+import io.syslogic.github.activity.BaseActivity;
+import io.syslogic.github.api.GithubClient;
+import io.syslogic.github.api.model.RateLimit;
+import io.syslogic.github.api.model.RateLimits;
+import io.syslogic.github.api.model.Repository;
+import io.syslogic.github.api.model.RepositorySearch;
 import io.syslogic.github.databinding.CardviewRepositorySearchBinding;
 import io.syslogic.github.databinding.FragmentRepositorySearchBinding;
 import io.syslogic.github.fragment.RepositoryFragment;
-
-import io.syslogic.github.api.model.RateLimit;
-import io.syslogic.github.api.model.RateLimits;
-import io.syslogic.github.api.model.RepositorySearch;
-import io.syslogic.github.api.model.Repository;
-import io.syslogic.github.api.GithubClient;
-
 import io.syslogic.github.model.PagerState;
+import io.syslogic.github.network.TokenHelper;
+
 import okhttp3.ResponseBody;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-import io.syslogic.github.network.TokenHelper;
 
 /**
  * Repository Search {@link RecyclerView.Adapter}

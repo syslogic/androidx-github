@@ -29,7 +29,6 @@ import java.io.File;
 
 import io.syslogic.github.BuildConfig;
 import io.syslogic.github.Constants;
-
 import io.syslogic.github.R;
 import io.syslogic.github.network.TokenHelper;
 

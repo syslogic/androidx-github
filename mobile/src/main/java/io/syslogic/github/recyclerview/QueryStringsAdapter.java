@@ -6,9 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.lang.ref.WeakReference;
-import java.util.List;
-
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.databinding.DataBindingUtil;
@@ -17,10 +14,13 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.lang.ref.WeakReference;
+import java.util.List;
+
 import io.syslogic.github.BuildConfig;
+import io.syslogic.github.Constants;
 import io.syslogic.github.R;
 import io.syslogic.github.activity.BaseActivity;
-import io.syslogic.github.Constants;
 import io.syslogic.github.api.model.QueryString;
 import io.syslogic.github.api.room.Abstraction;
 import io.syslogic.github.databinding.CardviewQueryStringBinding;

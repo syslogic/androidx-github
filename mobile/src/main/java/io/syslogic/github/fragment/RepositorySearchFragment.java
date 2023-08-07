@@ -17,19 +17,19 @@ import java.util.List;
 import io.syslogic.github.Constants;
 import io.syslogic.github.R;
 import io.syslogic.github.activity.NavHostActivity;
-import io.syslogic.github.model.PagerState;
+import io.syslogic.github.adapter.QueryStringAdapter;
 import io.syslogic.github.api.model.QueryString;
 import io.syslogic.github.api.model.SpinnerItem;
-import io.syslogic.github.adapter.QueryStringAdapter;
-import io.syslogic.github.databinding.FragmentRepositorySearchBinding;
 import io.syslogic.github.api.model.User;
+import io.syslogic.github.api.room.Abstraction;
+import io.syslogic.github.api.room.QueryStringsDao;
+import io.syslogic.github.databinding.FragmentRepositorySearchBinding;
+import io.syslogic.github.model.PagerState;
 import io.syslogic.github.network.TokenCallback;
 import io.syslogic.github.provider.RepositorySearchMenuProvider;
 import io.syslogic.github.recyclerview.RepositorySearchAdapter;
 import io.syslogic.github.recyclerview.RepositorySearchLinearView;
 import io.syslogic.github.recyclerview.ScrollListener;
-import io.syslogic.github.api.room.Abstraction;
-import io.syslogic.github.api.room.QueryStringsDao;
 
 /**
  * Repository Search {@link BaseFragment}

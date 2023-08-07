@@ -12,9 +12,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
-import java.io.IOException;
-import java.util.Objects;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
@@ -25,15 +22,18 @@ import androidx.preference.PreferenceManager;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+import java.io.IOException;
+import java.util.Objects;
+
 import io.syslogic.github.BuildConfig;
-import io.syslogic.github.R;
 import io.syslogic.github.Constants;
+import io.syslogic.github.R;
+import io.syslogic.github.api.GithubClient;
 import io.syslogic.github.api.model.User;
-import io.syslogic.github.network.ConnectivityReceiver;
 import io.syslogic.github.network.ConnectivityListener;
+import io.syslogic.github.network.ConnectivityReceiver;
 import io.syslogic.github.network.TokenCallback;
 import io.syslogic.github.network.TokenHelper;
-import io.syslogic.github.api.GithubClient;
 
 import retrofit2.Call;
 import retrofit2.Callback;

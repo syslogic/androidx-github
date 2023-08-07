@@ -18,8 +18,8 @@ import java.io.IOException;
 
 import io.syslogic.github.BuildConfig;
 import io.syslogic.github.Constants;
-import io.syslogic.github.api.model.User;
 import io.syslogic.github.api.GithubClient;
+import io.syslogic.github.api.model.User;
 
 import okhttp3.ResponseBody;
 
@@ -104,7 +104,7 @@ public class TokenHelper {
                                     Account account = addAccount(accountManager, item.getLogin(), finalToken);
                                     if (BuildConfig.DEBUG) {
                                         if (account != null) {Log.d(LOG_TAG, "account added");}
-                                        else {Log.d(LOG_TAG, "account not added");}
+                                        // else {Log.d(LOG_TAG, "account not added");}
                                     }
                                 }
                             } else {

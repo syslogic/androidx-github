@@ -14,10 +14,10 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.databinding.ViewDataBinding;
 
-import io.syslogic.github.R;
 import io.syslogic.github.Constants;
-import io.syslogic.github.databinding.FragmentProfileBinding;
+import io.syslogic.github.R;
 import io.syslogic.github.api.model.User;
+import io.syslogic.github.databinding.FragmentProfileBinding;
 import io.syslogic.github.network.TokenCallback;
 
 /**

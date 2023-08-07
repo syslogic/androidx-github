@@ -6,12 +6,12 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
-import io.syslogic.github.api.model.SpinnerItem;
+import java.util.List;
+
 import io.syslogic.github.api.model.QueryString;
+import io.syslogic.github.api.model.SpinnerItem;
 import io.syslogic.github.api.room.Abstraction;
 import io.syslogic.github.api.room.QueryStringsDao;
-
-import java.util.List;
 
 /**
  * Query-String {@link BaseArrayAdapter}

@@ -15,8 +15,8 @@ import org.eclipse.jgit.lib.ProgressMonitor;
 
 import java.util.Locale;
 
-import io.syslogic.github.databinding.DialogProgressBinding;
 import io.syslogic.github.R;
+import io.syslogic.github.databinding.DialogProgressBinding;
 
 /**
  * Progress {@link BaseDialogFragment}

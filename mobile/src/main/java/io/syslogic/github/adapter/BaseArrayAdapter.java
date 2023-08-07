@@ -12,10 +12,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatTextView;
 
-import io.syslogic.github.api.model.SpinnerItem;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import io.syslogic.github.api.model.SpinnerItem;
 
 /**
  * Array {@link BaseAdapter}

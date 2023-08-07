@@ -31,13 +31,14 @@ import io.syslogic.github.BuildConfig;
 import io.syslogic.github.Constants;
 import io.syslogic.github.R;
 import io.syslogic.github.activity.BaseActivity;
-import io.syslogic.github.databinding.CardviewRepositoryBinding;
-import io.syslogic.github.databinding.FragmentRepositoriesBinding;
+import io.syslogic.github.api.GithubClient;
 import io.syslogic.github.api.model.Repository;
 import io.syslogic.github.api.model.Workflow;
 import io.syslogic.github.api.model.WorkflowsResponse;
+import io.syslogic.github.databinding.CardviewRepositoryBinding;
+import io.syslogic.github.databinding.FragmentRepositoriesBinding;
+import io.syslogic.github.model.PagerState;
 import io.syslogic.github.network.TokenHelper;
-import io.syslogic.github.api.GithubClient;
 
 import okhttp3.ResponseBody;
 
@@ -63,6 +64,10 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     private WeakReference<Context> mContext;
 
+    private RecyclerView mRecyclerView;
+
+    private long totalItemCount = 0;
+
     /** This may add the account in debug mode and therefore must be called first. */
     private String accessToken = null;
 
@@ -82,6 +87,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
         this.mContext = new WeakReference<>(recyclerView.getContext());
+        this.mRecyclerView = recyclerView;
     }
 
     @NonNull
@@ -115,44 +121,56 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     public void fetchPage(final int pageNumber) {
 
-        Call<ArrayList<Repository>> api = GithubClient.getUserRepositories(accessToken, username,"owner", "full_name","desc", 100, pageNumber);
-        if (BuildConfig.DEBUG) {Log.w(LOG_TAG, api.request().url() + "");}
+        if (this.getPagerState() != null && !this.getPagerState().getIsOffline()) {
 
-        api.enqueue(new Callback<>() {
-            @Override
-            public void onResponse(@NonNull Call<ArrayList<Repository>> call, @NonNull Response<ArrayList<Repository>> response) {
-                int positionStart = getItemCount();
-                if (response.code() == 200) { // OK
-                    if (response.body() != null) {
+            /* Updating the pager data-binding */
+            this.setPagerState(pageNumber, true, null);
 
-                        /* Updating the adapter with the initial response already. */
-                        ArrayList<Repository> items = response.body();
-                        getItems().addAll(items);
-                        notifyItemRangeChanged(positionStart, getItemCount());
+            Call<ArrayList<Repository>> api = GithubClient.getUserRepositories(accessToken, username, "owner", "full_name", "desc", 100, pageNumber);
+            if (BuildConfig.DEBUG) {
+                Log.w(LOG_TAG, api.request().url() + "");
+            }
 
+            api.enqueue(new Callback<>() {
+                @Override
+                public void onResponse(@NonNull Call<ArrayList<Repository>> call, @NonNull Response<ArrayList<Repository>> response) {
+                    int positionStart = getItemCount();
+                    if (response.code() == 200) { // OK
+                        if (response.body() != null) {
 
-                        getWorkflows();
-                    }
-                } else {
-                    /* "bad credentials" means that the provided access-token is invalid. */
-                    if (response.errorBody() != null) {
-                        logError(response.errorBody());
+                            /* Updating the adapter with the initial response already. */
+                            ArrayList<Repository> items = response.body();
+                            getItems().addAll(items);
+                            notifyItemRangeChanged(positionStart, getItemCount());
+
+                            /* Updating the pager data-binding */
+                            setPagerState(pageNumber, false, (long) getItems().size());
+
+                            getWorkflows();
+                        }
+                    } else {
+                        /* "bad credentials" means that the provided access-token is invalid. */
+                        if (response.errorBody() != null) {
+                            logError(response.errorBody());
+                        }
                     }
                 }
-            }
 
-            @Override
-            public void onFailure(@NonNull Call<ArrayList<Repository>> call, @NonNull Throwable t) {
-                if (BuildConfig.DEBUG) {Log.e(LOG_TAG, "" + t.getMessage());}
-            }
-        });
+                @Override
+                public void onFailure(@NonNull Call<ArrayList<Repository>> call, @NonNull Throwable t) {
+                    if (BuildConfig.DEBUG) {
+                        Log.e(LOG_TAG, "" + t.getMessage());
+                    }
+                }
+            });
+        }
     }
 
     private void getWorkflows() {
         for (Repository item : this.getItems()) {
 
             Call<WorkflowsResponse> api2 = GithubClient.getWorkflows(accessToken, username,item.getName());
-            if (BuildConfig.DEBUG) {Log.w(LOG_TAG, api2.request().url() + "");}
+            // if (BuildConfig.DEBUG) {Log.w(LOG_TAG, api2.request().url() + "");}
 
             api2.enqueue(new Callback<>() {
                 @Override
@@ -219,6 +237,42 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             return TokenHelper.getAccessToken(activity);
         }
     }
+
+    void clearItems() {
+        this.mItems.clear();
+        notifyItemRangeChanged(0, getItemCount());
+    }
+
+    /** Reset the scroll listener. */
+    protected void resetOnScrollListener() {
+        if (this.mRecyclerView.getAdapter() != null) {
+            ScrollListener listener = ((RepositorySearchLinearView) this.mRecyclerView).getOnScrollListener();
+            listener.setIsLoading(false);
+        }
+    }
+
+    @Nullable
+    protected PagerState getPagerState() {
+        if (((BaseActivity) getContext()).getFragmentDataBinding() instanceof FragmentRepositoriesBinding databinding) {
+            return databinding.getPagerState();
+        }
+        return null;
+    }
+
+    protected void setPagerState(int pageNumber, boolean isLoading, @Nullable Long itemCount) {
+        if (this.getPagerState() != null) {
+            PagerState state = this.getPagerState();
+            state.setIsLoading(isLoading);
+            state.setPageNumber(pageNumber);
+            if (itemCount != null) {
+                state.setPageCount((int) Math.ceil((float) itemCount / state.getItemsPerPage()));
+                state.setItemCount(itemCount);
+            }
+            FragmentRepositoriesBinding databinding = (FragmentRepositoriesBinding) ((BaseActivity) getContext()).getFragmentDataBinding();
+            if (databinding != null) {databinding.setPagerState(state);}
+        }
+    }
+
 
     @NonNull
     protected Context getContext() {
