@@ -1,7 +1,9 @@
 ## androidx-github
 
 This is an unofficial Android client for GitHub, which utilizes the AndroidX & Retrofit2 libraries.<br/>
-By default one can browse Android/Kotlin/Gradle projects, but it also features an editor for bookmarks.
+- by default, one can browse Android/Kotlin/Gradle projects, but it also features an editor for bookmarks.
+- one can also browse the own repositories and workflows (work in progress).
+- it even features rudimentary git support (check out only, so far).
 
 ### Client Setup
 
@@ -15,7 +17,7 @@ When file `token.properties` is absent, the personal access token still can be a
 
  ---
 
-The library module is available on JitPack; either by version tag or `master-SNAPSHOT`.<br/>
+The `:library` module is available on JitPack; either by version tag or `master-SNAPSHOT`.<br/>
 The JitPack repository URL would be: `maven { url 'https://jitpack.io' }`
 
     dependencies {
