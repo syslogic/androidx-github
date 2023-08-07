@@ -1,6 +1,6 @@
 ## androidx-github
 
-This is an unofficial Android client for GitHub, which utilizes the AndroidX & Retrofit2 libraries.<br/>
+This is an unofficial Android client for GitHub API, which utilizes the AndroidX & Retrofit2 libraries.<br/>
 - by default, one can browse Android/Kotlin/Gradle projects, but it also features an editor for bookmarks.
 - one can also browse the own repositories and workflows (work in progress).
 - it generally supports git operations (check out only, so far), see [jgit](https://javadoc.io/doc/org.eclipse.jgit/org.eclipse.jgit/6.2.0.202206071550-r/org.eclipse.jgit/module-summary.html).
