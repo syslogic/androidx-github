@@ -10,6 +10,10 @@ This is an unofficial Android client for GitHub API, which utilizes the AndroidX
 File `token.properties` may be created with a GitHub [access token](https://github.com/settings/tokens) declared as `accessToken=ghp_...`.<br/>
 Without an access token the API will be "rate limited", after having loaded the first 10 pages in quick succession. When file `token.properties` is absent (or in release builds), the access token still can be added in the preferences.
 
+### Security
+
+Only GitHub traffic is being permitted, see [`network_security_config.xml`](https://github.com/syslogic/androidx-github/blob/master/mobile/src/main/res/xml/network_security_config.xml).
+
 ### Screenshots
 
 ![Repositories](screenshots/repositories_30.png?raw=true&sanitize=true "Repositories")<!-- @IGNORE PREVIOUS: link -->
