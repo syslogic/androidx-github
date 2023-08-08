@@ -13,6 +13,8 @@ import androidx.room.TypeConverters;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
+
 import io.syslogic.github.api.Constants;
 import io.syslogic.github.api.utils.StringArrayConverter;
 
@@ -92,6 +94,10 @@ public class Repository extends BaseModel implements IContentProvider {
     @TypeConverters(StringArrayConverter.class)
     private String[] topics;
 
+    /** Being populated asynchronously. */
+    @Ignore
+    private ArrayList<Workflow> workflows = new ArrayList<>();
+
     /** Constructor */
     public Repository() {}
 
@@ -170,6 +176,10 @@ public class Repository extends BaseModel implements IContentProvider {
 
     public void setTopics(@NonNull String[] value) {
         this.topics = value;
+    }
+
+    public void setWorkflows(@NonNull ArrayList<Workflow> value) {
+        this.workflows = value;
     }
 
     /* Getters */
@@ -271,6 +281,16 @@ public class Repository extends BaseModel implements IContentProvider {
     @Bindable
     public String[] getTopics() {
         return this.topics;
+    }
+
+    @NonNull
+    public ArrayList<Workflow> getWorkflows() {
+        return this.workflows;
+    }
+
+    @Bindable
+    public int getWorkflowCount() {
+        return this.workflows.size();
     }
 
     @NonNull

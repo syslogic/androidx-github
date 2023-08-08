@@ -150,7 +150,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                             /* Updating the pager data-binding */
                             setPagerState(pageNumber, false, (long) getItems().size());
 
-                            getWorkflows();
+                            getWorkflows(positionStart);
                         }
                     } else {
                         /* "bad credentials" means that the provided access-token is invalid. */
@@ -170,10 +170,11 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
     }
 
-    private void getWorkflows() {
+    private void getWorkflows(int positionStart) {
+        final int[] index = {0};
         for (Repository item : this.getItems()) {
 
-            Call<WorkflowsResponse> api2 = GithubClient.getWorkflows(accessToken, username,item.getName());
+            Call<WorkflowsResponse> api2 = GithubClient.getWorkflows(accessToken, username, item.getName());
             // if (BuildConfig.DEBUG) {Log.w(LOG_TAG, api2.request().url() + "");}
 
             api2.enqueue(new Callback<>() {
@@ -184,6 +185,10 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                             WorkflowsResponse items = response.body();
                             if (BuildConfig.DEBUG) {
                                 if (items.getWorkflows() != null && items.getWorkflows().size() > 0) {
+
+                                    mItems.get(index[0]).setWorkflows(items.getWorkflows());
+                                    notifyItemChanged(positionStart + index[0]);
+
                                     for (Workflow item2 : items.getWorkflows()) {
                                         Log.d(LOG_TAG, item.getName() + " has workflow: " + item2.getName());
                                     }
@@ -196,6 +201,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                             logError(response.errorBody());
                         }
                     }
+                    index[0]++;
                 }
 
                 @Override

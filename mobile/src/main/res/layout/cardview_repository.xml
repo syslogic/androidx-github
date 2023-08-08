@@ -18,24 +18,36 @@
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:foreground="?android:attr/selectableItemBackground"
             android:orientation="horizontal"
             android:padding="2dp"
+            android:foreground="?android:attr/selectableItemBackground"
             tools:ignore="UnusedAttribute">
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/name"
-                android:layout_width="0dp"
+                android:id="@+id/fullName"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.2"
                 android:color="?android:colorControlHighlight"
                 android:fontFamily="sans-serif-medium"
-                android:gravity="center_vertical|center"
+                android:layout_gravity="start"
                 android:padding="8dp"
-                android:text="@{ item.name }"
+                android:text="@{ item.fullName }"
                 android:textColor="@color/colorText"
                 android:textSize="14sp"
-                tools:text="Android"/>
+                tools:text="@string/tools_full_name"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/workflowCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:color="?android:colorControlHighlight"
+                android:fontFamily="sans-serif-medium"
+                android:layout_gravity="end"
+                android:padding="8dp"
+                android:text='@{ "" + item.workflowCount }'
+                android:textColor="@color/colorText"
+                android:textSize="14sp"
+                tools:text="@string/tools_workflow_count"/>
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
