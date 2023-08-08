@@ -68,4 +68,8 @@
     <string name="text_button_browse">Browse</string>
     <string name="text_button_close">Close</string>
 
+    <string name="text_repository_type">Type</string>
+    <string name="text_sort_field">Sort Field</string>
+    <string name="text_sort_order">Direction</string>
+
 </resources>

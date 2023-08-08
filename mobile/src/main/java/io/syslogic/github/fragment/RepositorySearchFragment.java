@@ -19,7 +19,7 @@ import io.syslogic.github.R;
 import io.syslogic.github.activity.NavHostActivity;
 import io.syslogic.github.adapter.QueryStringAdapter;
 import io.syslogic.github.api.model.QueryString;
-import io.syslogic.github.api.model.SpinnerItem;
+import io.syslogic.github.model.SpinnerItem;
 import io.syslogic.github.api.model.User;
 import io.syslogic.github.api.room.Abstraction;
 import io.syslogic.github.api.room.QueryStringsDao;

@@ -15,6 +15,6 @@ public class SortOrderAdapter extends BaseArrayAdapter {
 
     public SortOrderAdapter(@NonNull Context context) {
         super(context);
-        this.setItems(context, R.array.sortorder_keys, R.array.sortorder_values);
+        this.setItems(context, R.array.sort_order_keys, R.array.sort_order_values);
     }
 }

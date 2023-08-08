@@ -9,7 +9,7 @@ import androidx.annotation.NonNull;
 import java.util.List;
 
 import io.syslogic.github.api.model.QueryString;
-import io.syslogic.github.api.model.SpinnerItem;
+import io.syslogic.github.model.SpinnerItem;
 import io.syslogic.github.api.room.Abstraction;
 import io.syslogic.github.api.room.QueryStringsDao;
 

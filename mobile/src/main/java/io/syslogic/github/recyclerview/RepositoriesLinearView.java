@@ -26,6 +26,7 @@ public class RepositoriesLinearView extends RecyclerView {
 
     /** Constructor */
     public RepositoriesLinearView(@NonNull Context context, @Nullable AttributeSet attrs) {
+
         super(context, attrs);
         this.addItemDecoration(new DividerItemDecoration(context, DividerItemDecoration.VERTICAL));
         LinearLayoutManager layoutManager = new LinearLayoutManager(this.getContext());
@@ -59,11 +60,14 @@ public class RepositoriesLinearView extends RecyclerView {
         if (adapter != null) {adapter.setRepositoryType(value);}
     }
 
-    @Nullable
-    public String getRepositoryType() {
+    public void setSortField(String value) {
         RepositoriesAdapter adapter = ((RepositoriesAdapter) getAdapter());
-        if (adapter == null) {return null;}
-        return adapter.getRepositoryType();
+        if (adapter != null) {adapter.setSortField(value);}
+    }
+
+    public void setSortOrder(String value) {
+        RepositoriesAdapter adapter = ((RepositoriesAdapter) getAdapter());
+        if (adapter != null) {adapter.setSortOrder(value);}
     }
 
     @NonNull

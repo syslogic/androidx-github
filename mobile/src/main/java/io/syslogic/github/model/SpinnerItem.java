@@ -1,4 +1,4 @@
-package io.syslogic.github.api.model;
+package io.syslogic.github.model;
 
 import androidx.annotation.NonNull;
 import androidx.room.Ignore;

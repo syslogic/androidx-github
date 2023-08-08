@@ -13,8 +13,11 @@ import androidx.databinding.ViewDataBinding;
 
 import io.syslogic.github.R;
 import io.syslogic.github.activity.NavHostActivity;
+import io.syslogic.github.adapter.RepositoryTypeAdapter;
+import io.syslogic.github.adapter.SortFieldListingAdapter;
+import io.syslogic.github.adapter.SortOrderAdapter;
 import io.syslogic.github.adapter.StringArrayAdapter;
-import io.syslogic.github.api.model.SpinnerItem;
+import io.syslogic.github.model.SpinnerItem;
 import io.syslogic.github.api.model.User;
 import io.syslogic.github.databinding.FragmentRepositoriesBinding;
 import io.syslogic.github.model.PagerState;
@@ -40,15 +43,6 @@ public class RepositoriesFragment extends BaseFragment implements TokenCallback 
     /** Data-Binding */
     private FragmentRepositoriesBinding mDataBinding;
 
-    /** Default: `owner`. */
-    String[] repositoryTypes = new String[] {"all", "owner", "member"};
-
-    /** Default: `full_name`. */
-    String[] sortFields = new String[] {"created", "updated", "pushed", "full_name"};
-
-    /** Default: `asc` when using `full_name`, otherwise `desc`. */
-    String[] sortOrders = new String[] {"asc", "desc"};
-
     /** Constructor */
     public RepositoriesFragment() {}
 
@@ -66,24 +60,23 @@ public class RepositoriesFragment extends BaseFragment implements TokenCallback 
         activity.setSupportActionBar(this.getDataBinding().toolbarRepositories.toolbarRepositories);
         this.mDataBinding.toolbarRepositories.home.setOnClickListener(view -> activity.onBackPressed());
 
-        AppCompatSpinner spinner = this.getDataBinding().toolbarRepositories.spinnerRepositoryType;
-        spinner.setAdapter(new StringArrayAdapter(requireContext(), this.repositoryTypes));
-        spinner.setSelection(1);
+        /* {@link AppCompatSpinner} spinner_repository_type */
+        AppCompatSpinner spinnerRepositoryType = this.getDataBinding().toolbarRepositories.spinnerRepositoryType;
+        spinnerRepositoryType.setAdapter(new RepositoryTypeAdapter(requireContext()));
+        spinnerRepositoryType.setSelection(1);
 
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        spinnerRepositoryType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             int count = 0;
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long resId) {
                 if (count > 0) {
                     SpinnerItem item = (SpinnerItem) view.getTag();
                     ScrollListener.setPageNumber(1);
-                    String repositoryType = item.getValue();
+                    String value = item.getValue();
                     RepositoriesLinearView recyclerview = getDataBinding().recyclerviewRepositories;
-                    recyclerview.setRepositoryType(repositoryType);
-
+                    recyclerview.setRepositoryType(value);
                     PagerState pagerState = getDataBinding().getPagerState();
                     if (pagerState != null) {
-                        pagerState.setQueryString(repositoryType);
                         getDataBinding().setPagerState(pagerState);
                     }
                     if (recyclerview.getAdapter() != null) {
@@ -97,6 +90,65 @@ public class RepositoriesFragment extends BaseFragment implements TokenCallback 
             public void onNothingSelected(AdapterView<?> parent) {}
         });
 
+        /* {@link AppCompatSpinner} spinner_sort_field */
+        AppCompatSpinner spinnerSortField = this.getDataBinding().toolbarRepositories.spinnerSortField;
+        spinnerSortField.setAdapter(new SortFieldListingAdapter(requireContext()));
+        spinnerSortField.setSelection(3);
+
+        spinnerSortField.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            int count = 0;
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long resId) {
+                if (count > 0) {
+                    SpinnerItem item = (SpinnerItem) view.getTag();
+                    ScrollListener.setPageNumber(1);
+                    String value = item.getValue();
+                    RepositoriesLinearView recyclerview = getDataBinding().recyclerviewRepositories;
+                    recyclerview.setSortField(value);
+                    PagerState pagerState = getDataBinding().getPagerState();
+                    if (pagerState != null) {
+                        getDataBinding().setPagerState(pagerState);
+                    }
+                    if (recyclerview.getAdapter() != null) {
+                        recyclerview.clearAdapter();
+                        ((RepositoriesAdapter) recyclerview.getAdapter()).fetchPage(1);
+                    }
+                }
+                count++;
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {}
+        });
+
+        /* {@link AppCompatSpinner} spinner_sort_order */
+        AppCompatSpinner spinnerSortOrder = this.getDataBinding().toolbarRepositories.spinnerSortOrder;
+        spinnerSortOrder.setAdapter(new SortOrderAdapter(requireContext()));
+        spinnerSortOrder.setSelection(0);
+
+        spinnerSortOrder.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            int count = 0;
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long resId) {
+                if (count > 0) {
+                    SpinnerItem item = (SpinnerItem) view.getTag();
+                    ScrollListener.setPageNumber(1);
+                    String value = item.getValue();
+                    RepositoriesLinearView recyclerview = getDataBinding().recyclerviewRepositories;
+                    recyclerview.setSortOrder(value);
+                    PagerState pagerState = getDataBinding().getPagerState();
+                    if (pagerState != null) {
+                        getDataBinding().setPagerState(pagerState);
+                    }
+                    if (recyclerview.getAdapter() != null) {
+                        recyclerview.clearAdapter();
+                        ((RepositoriesAdapter) recyclerview.getAdapter()).fetchPage(1);
+                    }
+                }
+                count++;
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {}
+        });
 
         if (! isNetworkAvailable(this.requireContext())) {
             this.onNetworkLost();

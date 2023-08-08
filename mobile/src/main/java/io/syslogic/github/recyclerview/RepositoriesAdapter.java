@@ -78,8 +78,8 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private long totalItemCount = 0;
     private String repositoryType = "owner";
     private String sortField = "full_name";
-    private String sortOrder = "desc";
-    private int pageSize = 30;
+    private String sortOrder = "asc";
+    private int pageSize = 50;
 
     public RepositoriesAdapter(@NonNull Context context) {
         this.mContext = new WeakReference<>(context);

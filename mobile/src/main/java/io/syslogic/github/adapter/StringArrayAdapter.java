@@ -4,9 +4,7 @@ import android.content.Context;
 
 import androidx.annotation.NonNull;
 
-import java.util.ArrayList;
-
-import io.syslogic.github.api.model.SpinnerItem;
+import io.syslogic.github.model.SpinnerItem;
 
 /**
  * String[] {@link BaseArrayAdapter}

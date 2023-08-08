@@ -21,6 +21,9 @@ public final class Constants {
     /** Deprecated SDK Constant */
     @NonNull public static final String CONNECTIVITY_ACTION = "android.net.conn.CONNECTIVITY_CHANGE";
 
+    /** Table Names */
+    @NonNull public static final String TABLE_QUERY_STRINGS = "query_strings";
+
     /** RecyclerView Settings */
     @NonNull public static final Integer RECYCLERVIEW_SCROLLING_THRESHOLD = 12;
     @NonNull public static final Integer RECYCLERVIEW_DEFAULT_PAGE_SIZE   = 30;

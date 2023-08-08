@@ -12,47 +12,52 @@
         android:id="@+id/toolbar_workflow"
         android:layout_width="match_parent"
         android:layout_height="?android:attr/actionBarSize"
-        android:layout_margin="0dp"
-        android:background="@color/statusBar"
         android:contentInsetStart="0dp"
         android:elevation="4dp"
+        android:gravity="top"
         android:padding="0dp"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-        app:contentInsetStart="0dp"
-        app:layout_scrollFlags="scroll|enterAlways"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        tools:layout_gravity="top">
-
-        <androidx.appcompat.widget.AppCompatImageButton
-            android:id="@android:id/home"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical|start"
-            android:layout_marginEnd="8dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:padding="15dp"
-            android:src="?attr/homeAsUpIndicator"/>
+        app:contentInsetStart="0dp">
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/layout_toolbar_workflow"
+            style="?android:attr/buttonBarStyle"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="0dp"
-            android:gravity="end"
-            android:orientation="vertical">
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/text_workflow_name"
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@android:id/home"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="@{ workflow.name }"
-                android:padding="4dp"
-                android:textAlignment="center"
-                android:textColor="#FFFFFF"
-                android:textSize="12sp"
-                app:fontFamily="monospace"
-                tools:ignore="SmallSp"
-                tools:text="@string/tools_workflow_name"/>
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|start"
+                android:layout_marginEnd="8dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:padding="15dp"
+                android:src="?attr/homeAsUpIndicator"/>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="0dp"
+                android:gravity="end"
+                android:orientation="vertical">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/text_workflow_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="@{ workflow.name }"
+                    android:padding="4dp"
+                    android:textAlignment="center"
+                    android:textColor="#FFFFFF"
+                    android:textSize="12sp"
+                    app:fontFamily="monospace"
+                    tools:ignore="SmallSp"
+                    tools:text="@string/tools_workflow_name"/>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 

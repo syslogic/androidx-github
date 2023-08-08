@@ -16,7 +16,7 @@
         <item name="lteq">&lt;=</item>
     </string-array>
 
-    <string-array name="sortfield_keys">
+    <string-array name="search_sort_field_keys">
         <item name="forks">Forks</item>
         <item name="stargazers">Stargazers</item>
         <item name="watchers">Watchers</item>
@@ -24,7 +24,7 @@
         <item name="network">Networks</item>
     </string-array>
 
-    <string-array name="sortfield_values" translatable="false">
+    <string-array name="search_sort_field_values" translatable="false">
         <item name="forks">forks_count</item>
         <item name="stargazers">stargazers_count</item>
         <item name="watchers">watchers_count</item>
@@ -32,12 +32,38 @@
         <item name="network">network_count</item>
     </string-array>
 
-    <string-array name="sortorder_keys">
+    <string-array name="repository_type_keys" translatable="true">
+        <item name="all">all</item>
+        <item name="owner">owner</item>
+        <item name="member">member</item>
+    </string-array>
+
+    <string-array name="repository_type_values" translatable="false">
+        <item name="all">all</item>
+        <item name="owner">owner</item>
+        <item name="member">member</item>
+    </string-array>
+
+    <string-array name="listing_sort_field_keys" translatable="true">
+        <item name="created">created</item>
+        <item name="updated">updated</item>
+        <item name="pushed">pushed</item>
+        <item name="full_name">full_name</item>
+    </string-array>
+
+    <string-array name="listing_sort_field_values" translatable="false">
+        <item name="created">Created</item>
+        <item name="updated">Updated</item>
+        <item name="pushed">Pushed</item>
+        <item name="full_name">Name</item>
+    </string-array>
+
+    <string-array name="sort_order_keys" translatable="true">
         <item name="asc">ASC</item>
         <item name="desc">DESC</item>
     </string-array>
 
-    <string-array name="sortorder_values" translatable="false">
+    <string-array name="sort_order_values" translatable="false">
         <item name="asc">ASC</item>
         <item name="desc">DESC</item>
     </string-array>

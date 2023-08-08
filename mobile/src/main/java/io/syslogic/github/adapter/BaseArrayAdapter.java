@@ -15,7 +15,8 @@ import androidx.appcompat.widget.AppCompatTextView;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.syslogic.github.api.model.SpinnerItem;
+import io.syslogic.github.R;
+import io.syslogic.github.model.SpinnerItem;
 
 /**
  * Array {@link BaseAdapter}
@@ -52,7 +53,7 @@ abstract public class BaseArrayAdapter extends BaseAdapter {
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         if (convertView == null) {
-            convertView = this.layoutInflater.inflate(com.google.android.material.R.layout.support_simple_spinner_dropdown_item, parent, false);
+            convertView = this.layoutInflater.inflate(R.layout.spinner_dropdown_item, parent, false);
         }
         convertView.setTag(this.mItems.get(position));
         AppCompatTextView textView = convertView.findViewById(android.R.id.text1);
