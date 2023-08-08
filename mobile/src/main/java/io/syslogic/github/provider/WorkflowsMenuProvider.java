@@ -15,10 +15,10 @@ import io.syslogic.github.activity.BaseActivity;
  *
  * @author Martin Zeitler
  */
-public class WorkflowMenuProvider extends BaseMenuProvider {
+public class WorkflowsMenuProvider extends BaseMenuProvider {
 
     /** Constructor */
-    public WorkflowMenuProvider(@NonNull BaseActivity activity) {
+    public WorkflowsMenuProvider(@NonNull BaseActivity activity) {
         super(activity);
     }
 
@@ -30,7 +30,7 @@ public class WorkflowMenuProvider extends BaseMenuProvider {
      */
     @Override
     public void onCreateMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        inflater.inflate(R.menu.workflow, menu);
+        inflater.inflate(R.menu.workflows, menu);
     }
 
     /**

@@ -16,13 +16,14 @@ import io.syslogic.github.api.model.License;
 import io.syslogic.github.api.model.Owner;
 import io.syslogic.github.api.model.QueryString;
 import io.syslogic.github.api.model.Repository;
+import io.syslogic.github.api.model.Workflow;
 
 /**
  * {@link RoomDatabase} Abstraction
  *
  * @author Martin Zeitler
  */
-@Database(version = 1, entities = {QueryString.class, Repository.class, License.class, Owner.class})
+@Database(version = 1, entities = {QueryString.class, Repository.class, Workflow.class, License.class, Owner.class})
 public abstract class Abstraction extends RoomDatabase {
 
     /** The log tag. */
@@ -51,6 +52,12 @@ public abstract class Abstraction extends RoomDatabase {
      * @return in instance of {@link RepositoriesDao}.
      */
     @Nullable public abstract RepositoriesDao repositoriesDao();
+
+    /**
+     * Abstract {@link androidx.room.Dao} for {@link Workflow}.
+     * @return in instance of {@link WorkflowsDao}.
+     */
+    @Nullable public abstract WorkflowsDao workflowsDao();
 
     /**
      * Abstract {@link androidx.room.Dao} for {@link License}.

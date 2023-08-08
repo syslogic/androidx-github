@@ -14,6 +14,7 @@ public final class Constants {
     /** Table Names */
     @NonNull public static final String TABLE_QUERY_STRINGS = "query_strings";
     @NonNull public static final String TABLE_REPOSITORIES  = "repositories";
+    @NonNull public static final String TABLE_WORKFLOWS     = "workflows";
     @NonNull public static final String TABLE_LICENSES      = "licenses";
     @NonNull public static final String TABLE_OWNERS        = "owners";
 }

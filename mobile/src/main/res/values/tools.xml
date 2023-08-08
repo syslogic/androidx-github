@@ -18,11 +18,15 @@
     <string name="tools_github_name">Profile Preview</string>
     <string name="tools_github_login">token login</string>
 
-    <!-- cardview -->
+    <!-- cardview repository -->
     <string name="tools_workflow_count">1</string>
 
     <!-- toolbar workflow -->
-    <string name="tools_workflow_name">android.yml</string>
+    <string name="tools_workflow_file_name">android.yml</string>
+
+    <!-- cardview workflow -->
+    <string name="tools_workflow_name">Gradle</string>
+    <string name="tools_workflow_path">Gradle</string>
 
     <!-- dialog jgit progress -->
     <string name="tools_task_title">remote: Enumerating objects</string>

@@ -23,37 +23,40 @@ import io.syslogic.github.R;
 import io.syslogic.github.activity.NavHostActivity;
 import io.syslogic.github.api.GithubClient;
 import io.syslogic.github.api.model.Repository;
-import io.syslogic.github.databinding.FragmentWorkflowBinding;
-import io.syslogic.github.provider.WorkflowMenuProvider;
+import io.syslogic.github.databinding.FragmentWorkflowsBinding;
+import io.syslogic.github.provider.WorkflowsMenuProvider;
+
+import io.syslogic.github.recyclerview.RepositoriesAdapter;
+import io.syslogic.github.recyclerview.WorkflowsAdapter;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 /**
- * Workflow {@link BaseFragment}
+ * Workflows {@link BaseFragment}
  *
  * @author Martin Zeitler
  */
-public class WorkflowFragment extends BaseFragment {
+public class WorkflowFragments extends BaseFragment {
 
     /** Log Tag */
-    @SuppressWarnings("unused") private static final String LOG_TAG = WorkflowFragment.class.getSimpleName();
+    @SuppressWarnings("unused") private static final String LOG_TAG = WorkflowFragments.class.getSimpleName();
 
     /** Layout resource ID kept for reference. */
-    @SuppressWarnings("unused") private static final int resId = R.layout.fragment_workflow;
+    @SuppressWarnings("unused") private static final int resId = R.layout.fragment_workflows;
 
     /** Data-Binding */
-    private FragmentWorkflowBinding mDataBinding;
+    private FragmentWorkflowsBinding mDataBinding;
 
     private Long itemId = -1L;
 
     /** Constructor */
-    public WorkflowFragment() {}
+    public WorkflowFragments() {}
 
     @NonNull
     @SuppressWarnings("unused")
-    public static WorkflowFragment newInstance(long itemId) {
-        WorkflowFragment fragment = new WorkflowFragment();
+    public static WorkflowFragments newInstance(long itemId) {
+        WorkflowFragments fragment = new WorkflowFragments();
         Bundle args = new Bundle();
         args.putLong(Constants.ARGUMENT_ITEM_ID, itemId);
         fragment.setArguments(args);
@@ -75,32 +78,33 @@ public class WorkflowFragment extends BaseFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         NavHostActivity activity = ((NavHostActivity) this.requireActivity());
-        this.setDataBinding(FragmentWorkflowBinding.inflate(inflater, container, false));
+        this.setDataBinding(FragmentWorkflowsBinding.inflate(inflater, container, false));
 
         /* It removes & adds {@link BaseMenuProvider} */
-        activity.setMenuProvider(new WorkflowMenuProvider(activity));
+        activity.setMenuProvider(new WorkflowsMenuProvider(activity));
 
         // the SpinnerItem has the same ID as the QueryString.
-        activity.setSupportActionBar(this.getDataBinding().toolbarWorkflow.toolbarWorkflow);
-        this.mDataBinding.toolbarWorkflow.home.setOnClickListener(view -> activity.onBackPressed());
+        activity.setSupportActionBar(this.getDataBinding().toolbarWorkflows.toolbarWorkflows);
+        this.mDataBinding.toolbarWorkflows.home.setOnClickListener(view -> activity.onBackPressed());
 
         if (! isNetworkAvailable(this.requireContext())) {
             this.onNetworkLost();
         } else if (itemId != -1L) {
-            this.setRepository();
+            WorkflowsAdapter adapter = new WorkflowsAdapter(requireContext());
+            this.getDataBinding().recyclerviewWorkflows.setAdapter(adapter);
+            this.setRepository(itemId);
         }
         return this.getDataBinding().getRoot();
     }
 
-    private void setRepository() {
+    private void setRepository(long repositoryId) {
 
-        if (this.itemId != 0) {
+        if (repositoryId != 0) {
 
-            Call<Repository> api = GithubClient.getRepository(this.itemId);
+            Call<Repository> api = GithubClient.getRepository(repositoryId);
             if (mDebug) {Log.w(LOG_TAG, api.request().url() + "");}
 
             api.enqueue(new Callback<>() {
-
                 @Override
                 public void onResponse(@NonNull Call<Repository> call, @NonNull Response<Repository> response) {
                     switch (response.code()) {
@@ -108,6 +112,10 @@ public class WorkflowFragment extends BaseFragment {
                             if (response.body() != null) {
                                 Repository item = response.body();
                                 mDataBinding.setRepository(item);
+                                if (mDataBinding.recyclerviewWorkflows.getAdapter() != null) {
+                                    ((WorkflowsAdapter) mDataBinding.recyclerviewWorkflows.getAdapter())
+                                            .getWorkflows(getAccessToken(), item.getOwner().getLogin(), item.getName());
+                                }
                             }
                         }
                         case 403 -> {
@@ -147,13 +155,13 @@ public class WorkflowFragment extends BaseFragment {
     }
 
     @NonNull
-    public FragmentWorkflowBinding getDataBinding() {
+    public FragmentWorkflowsBinding getDataBinding() {
         return this.mDataBinding;
     }
 
     @Override
     protected void setDataBinding(@NonNull ViewDataBinding binding) {
-        this.mDataBinding = (FragmentWorkflowBinding) binding;
+        this.mDataBinding = (FragmentWorkflowsBinding) binding;
     }
 
     @Override

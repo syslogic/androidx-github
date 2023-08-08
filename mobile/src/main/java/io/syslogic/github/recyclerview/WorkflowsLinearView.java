@@ -11,21 +11,21 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 /**
- * Query-Strings {@link RecyclerView}
+ * Workflows {@link RecyclerView}
  *
  * @author Martin Zeitler
  */
-public class QueryStringsLinearView extends RecyclerView {
+public class WorkflowsLinearView extends RecyclerView {
 
     LinearLayoutManager mLinearLayoutManager;
 
     /** Constructor */
-    public QueryStringsLinearView(@NonNull Context context) {
+    public WorkflowsLinearView(@NonNull Context context) {
         super(context);
     }
 
     /** Constructor */
-    public QueryStringsLinearView(@NonNull Context context, @Nullable AttributeSet attrs) {
+    public WorkflowsLinearView(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         this.mLinearLayoutManager = new LinearLayoutManager(this.getContext());
         this.setLayoutManager(this.mLinearLayoutManager);
@@ -34,7 +34,7 @@ public class QueryStringsLinearView extends RecyclerView {
 
     @SuppressLint("NotifyDataSetChanged")
     public void clearAdapter() {
-        QueryStringsAdapter adapter = ((QueryStringsAdapter) getAdapter());
+        WorkflowsAdapter adapter = ((WorkflowsAdapter) getAdapter());
         if (adapter != null) {
             adapter.clearItems();
             adapter.notifyDataSetChanged();

@@ -16,7 +16,6 @@ import io.syslogic.github.activity.NavHostActivity;
 import io.syslogic.github.adapter.RepositoryTypeAdapter;
 import io.syslogic.github.adapter.SortFieldListingAdapter;
 import io.syslogic.github.adapter.SortOrderAdapter;
-import io.syslogic.github.adapter.StringArrayAdapter;
 import io.syslogic.github.model.SpinnerItem;
 import io.syslogic.github.api.model.User;
 import io.syslogic.github.databinding.FragmentRepositoriesBinding;

@@ -1,48 +1,74 @@
 package io.syslogic.github.api.model;
 
+import android.content.ContentValues;
+
 import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
 import com.google.gson.annotations.SerializedName;
+
+import io.syslogic.github.api.Constants;
 
 /**
  * Model: Workflow
  *
  * @author Martin Zeitler
  */
-public class Workflow {
+@Entity(tableName = Constants.TABLE_WORKFLOWS)
+public class Workflow extends BaseModel implements IContentProvider {
 
+    @PrimaryKey()
+    @ColumnInfo(name = "id")
     @SerializedName("id")
     private long id;
 
+    // foreign key
+    @ColumnInfo(name = "repo_id")
+    private long repositoryId;
+
+    @ColumnInfo(name = "node_id")
     @SerializedName("node_id")
     private String nodeId;
 
+    @ColumnInfo(name = "name")
     @SerializedName("name")
     private String name;
 
+    @ColumnInfo(name = "path")
     @SerializedName("path")
     private String path;
 
+    @ColumnInfo(name = "state")
     @SerializedName("state")
     private String state;
 
+    @ColumnInfo(name = "created_at")
     @SerializedName("created_at")
     private String createdAt;
 
+    @ColumnInfo(name = "updated_at")
     @SerializedName("updated_at")
     private String updatedAt;
 
+    @ColumnInfo(name = "url")
     @SerializedName("url")
     private String url;
 
+    @ColumnInfo(name = "html_url")
     @SerializedName("html_url")
     private String htmlUrl;
 
+    @ColumnInfo(name = "badge_url")
     @SerializedName("badge_url")
     private String badgeUrl;
 
     public void setId(long value) {
         this.id = value;
+    }
+    public void setRepositoryId(long value) {
+        this.repositoryId = value;
     }
     public void setNodeId(@NonNull String value) {
         this.nodeId = value;
@@ -74,6 +100,9 @@ public class Workflow {
 
     public long getId() {
         return this.id;
+    }
+    public long getRepositoryId() {
+        return this.repositoryId;
     }
     @NonNull
     public String getNodeId() {
@@ -110,5 +139,17 @@ public class Workflow {
     @NonNull
     public String getBadgeUrl() {
         return this.badgeUrl;
+    }
+
+    @NonNull
+    @Override
+    public BaseModel fromContentValues(@NonNull ContentValues values) {
+        return null;
+    }
+
+    @NonNull
+    @Override
+    public ContentValues toContentValues() {
+        return null;
     }
 }

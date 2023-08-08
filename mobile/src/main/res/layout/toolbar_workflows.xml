@@ -9,7 +9,7 @@
     </data>
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar_workflow"
+        android:id="@+id/toolbar_workflows"
         android:layout_width="match_parent"
         android:layout_height="?android:attr/actionBarSize"
         android:contentInsetStart="0dp"
@@ -21,7 +21,7 @@
         app:contentInsetStart="0dp">
 
         <androidx.appcompat.widget.LinearLayoutCompat
-            android:id="@+id/layout_toolbar_workflow"
+            android:id="@+id/layout_toolbar_workflows"
             style="?android:attr/buttonBarStyle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -55,7 +55,7 @@
                     android:textSize="12sp"
                     app:fontFamily="monospace"
                     tools:ignore="SmallSp"
-                    tools:text="@string/tools_workflow_name"/>
+                    tools:text="@string/tools_full_name"/>
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 

@@ -109,9 +109,9 @@
 
     <fragment
         android:id="@+id/workflowFragment"
-        android:name="io.syslogic.github.fragment.WorkflowFragment"
+        android:name="io.syslogic.github.fragment.WorkflowFragments"
         android:label="WorkflowFragment"
-        tools:layout="@layout/fragment_workflow">
+        tools:layout="@layout/fragment_workflows">
         <deepLink app:uri="github://workflow"/>
     </fragment>
 

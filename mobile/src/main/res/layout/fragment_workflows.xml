@@ -2,6 +2,7 @@
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:bind="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".activity.NavHostActivity">
 
@@ -10,7 +11,7 @@
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
-        android:id="@+id/layout_workflow"
+        android:id="@+id/layout_workflows"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -21,8 +22,8 @@
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
             <include
-                android:id="@+id/toolbar_workflow"
-                layout="@layout/toolbar_workflow"
+                android:id="@+id/toolbar_workflows"
+                layout="@layout/toolbar_workflows"
                 bind:repository="@{ repository }"/>
 
             <androidx.appcompat.widget.LinearLayoutCompat
@@ -32,6 +33,14 @@
                 android:background="@color/colorAccent"
                 android:orientation="vertical"
                 android:padding="0dp"/>
+
+            <io.syslogic.github.recyclerview.WorkflowsLinearView
+                android:id="@+id/recyclerview_workflows"
+                tools:listitem="@layout/cardview_workflow"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                android:layout_height="match_parent"
+                android:layout_width="match_parent"
+                android:layout_weight="1.00"/>
 
         </com.google.android.material.appbar.AppBarLayout>
 
