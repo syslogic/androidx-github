@@ -74,7 +74,7 @@ public class RepositoryFragment extends BaseFragment implements TokenCallback {
     /** Data-Binding */
     FragmentRepositoryBinding mDataBinding;
     ProgressDialogFragment currentDialog;
-    Long itemId = 0L;
+    Long itemId = -1L;
 
     /** Constructor */
     public RepositoryFragment() {}
@@ -93,7 +93,7 @@ public class RepositoryFragment extends BaseFragment implements TokenCallback {
         super.onCreate(savedInstanceState);
         this.registerBroadcastReceiver();
         Bundle args = this.getArguments();
-        if (itemId == 0 && args != null) {
+        if (args != null) {
             this.setItemId(args.getLong(Constants.ARGUMENT_ITEM_ID));
         }
     }
@@ -309,9 +309,7 @@ public class RepositoryFragment extends BaseFragment implements TokenCallback {
                                         Log.e(LOG_TAG, message);
                                     }
                                 } catch (IOException e) {
-                                    if (mDebug) {
-                                        Log.e(LOG_TAG, "" + e.getMessage());
-                                    }
+                                    if (mDebug) {Log.e(LOG_TAG, "" + e.getMessage());}
                                 }
                             }
                         }
@@ -500,6 +498,7 @@ public class RepositoryFragment extends BaseFragment implements TokenCallback {
         if (downloadManager != null) {downloadManager.enqueue(request);}
     }
 
+    @SuppressLint("UnspecifiedRegisterReceiverFlag")
     void registerBroadcastReceiver() {
         if (getActivity() != null) {
             BroadcastReceiver receiver = new BroadcastReceiver() {

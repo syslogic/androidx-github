@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <variable name="workflow" type="io.syslogic.github.api.model.Workflow"/>
+        <variable name="repository" type="io.syslogic.github.api.model.Repository"/>
     </data>
 
     <androidx.appcompat.widget.Toolbar
@@ -45,10 +45,10 @@
                 android:orientation="vertical">
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/text_workflow_name"
+                    android:id="@+id/text_repository_name"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:text="@{ workflow.name }"
+                    android:text="@{ repository.fullName }"
                     android:padding="4dp"
                     android:textAlignment="center"
                     android:textColor="#FFFFFF"
