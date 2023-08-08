@@ -51,6 +51,7 @@ public class WorkflowFragment extends BaseFragment {
     public WorkflowFragment() {}
 
     @NonNull
+    @SuppressWarnings("unused")
     public static WorkflowFragment newInstance(long itemId) {
         WorkflowFragment fragment = new WorkflowFragment();
         Bundle args = new Bundle();
@@ -96,8 +97,7 @@ public class WorkflowFragment extends BaseFragment {
         if (this.itemId != 0) {
 
             Call<Repository> api = GithubClient.getRepository(this.itemId);
-            if (mDebug) {
-                Log.w(LOG_TAG, api.request().url() + "");}
+            if (mDebug) {Log.w(LOG_TAG, api.request().url() + "");}
 
             api.enqueue(new Callback<>() {
 
