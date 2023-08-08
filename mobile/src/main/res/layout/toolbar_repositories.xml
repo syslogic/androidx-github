@@ -51,7 +51,8 @@
                 <androidx.appcompat.widget.AppCompatSpinner
                     android:id="@+id/spinner_repository_type"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    tools:listitem="@layout/spinner_dropdown_item"/>
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -71,7 +72,8 @@
                 <androidx.appcompat.widget.AppCompatSpinner
                     android:id="@+id/spinner_sort_field"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    tools:listitem="@layout/spinner_dropdown_item"/>
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -91,7 +93,8 @@
                 <androidx.appcompat.widget.AppCompatSpinner
                     android:id="@+id/spinner_sort_order"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    tools:listitem="@layout/spinner_dropdown_item"/>
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
