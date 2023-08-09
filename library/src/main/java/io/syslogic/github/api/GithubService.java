@@ -11,6 +11,7 @@ import io.syslogic.github.api.model.Repository;
 import io.syslogic.github.api.model.RepositorySearch;
 import io.syslogic.github.api.model.User;
 import io.syslogic.github.api.model.WorkflowJobs;
+import io.syslogic.github.api.model.WorkflowRunsResponse;
 import io.syslogic.github.api.model.WorkflowsResponse;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -237,15 +238,13 @@ public interface GithubService {
      * @param token the personal access token.
      * @param owner the owner of the repository.
      * @param repo the name of the repository.
-     * @param jobId the ID of the job.
      * @return Retrofit2 call.
      */
     @NonNull
-    @GET("/repos/{owner}/{repo}/actions/jobs/{jobId}")
-    Call<WorkflowJobs> getWorkflowRuns(
+    @GET("/repos/{owner}/{repo}/actions/runs")
+    Call<WorkflowRunsResponse> getWorkflowRuns(
             @NonNull @Header("Authorization") String token,
             @NonNull @Path(value = "owner") String owner,
-            @NonNull @Path(value = "repo")  String repo,
-            @NonNull @Path(value = "jobId") Integer jobId
+            @NonNull @Path(value = "repo")  String repo
     );
 }

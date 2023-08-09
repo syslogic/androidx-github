@@ -26,7 +26,7 @@
 
     <!-- cardview workflow -->
     <string name="tools_workflow_name">Gradle</string>
-    <string name="tools_workflow_path">Gradle</string>
+    <string name="tools_workflow_path">.github/workflows/gradle.yml</string>
 
     <!-- dialog jgit progress -->
     <string name="tools_task_title">remote: Enumerating objects</string>

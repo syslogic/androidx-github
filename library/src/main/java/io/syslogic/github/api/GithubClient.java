@@ -13,6 +13,8 @@ import io.syslogic.github.api.model.RateLimits;
 import io.syslogic.github.api.model.Repository;
 import io.syslogic.github.api.model.RepositorySearch;
 import io.syslogic.github.api.model.User;
+import io.syslogic.github.api.model.WorkflowJobs;
+import io.syslogic.github.api.model.WorkflowRunsResponse;
 import io.syslogic.github.api.model.WorkflowsResponse;
 import okhttp3.OkHttpClient;
 import okhttp3.ResponseBody;
@@ -187,5 +189,16 @@ public class GithubClient {
      */
     public static @NonNull Call<WorkflowsResponse> getWorkflows(@Nullable String token, @NonNull String owner, @NonNull String repo) {
         return getService().getWorkflows("token " + token, owner, repo);
+    }
+
+    /**
+     * GitHub Actions: Workflow Runs.
+     * @param token the personal access token.
+     * @param owner the owner of the repository.
+     * @param repo the name of the repository.
+     * @return Retrofit2 call.
+     */
+    public static @NonNull Call<WorkflowRunsResponse> getWorkflowRuns(@Nullable String token, @NonNull String owner, @NonNull String repo) {
+        return getService().getWorkflowRuns("token " + token, owner, repo);
     }
 }

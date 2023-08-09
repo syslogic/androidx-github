@@ -36,10 +36,10 @@ import retrofit2.Response;
  *
  * @author Martin Zeitler
  */
-public class WorkflowFragments extends BaseFragment {
+public class WorkflowsFragment extends BaseFragment {
 
     /** Log Tag */
-    @SuppressWarnings("unused") private static final String LOG_TAG = WorkflowFragments.class.getSimpleName();
+    @SuppressWarnings("unused") private static final String LOG_TAG = WorkflowsFragment.class.getSimpleName();
 
     /** Layout resource ID kept for reference. */
     @SuppressWarnings("unused") private static final int resId = R.layout.fragment_workflows;
@@ -50,19 +50,18 @@ public class WorkflowFragments extends BaseFragment {
     private Long itemId = -1L;
 
     /** Constructor */
-    public WorkflowFragments() {}
+    public WorkflowsFragment() {}
 
     @NonNull
     @SuppressWarnings("unused")
-    public static WorkflowFragments newInstance(long itemId) {
-        WorkflowFragments fragment = new WorkflowFragments();
+    public static WorkflowsFragment newInstance(long itemId) {
+        WorkflowsFragment fragment = new WorkflowsFragment();
         Bundle args = new Bundle();
         args.putLong(Constants.ARGUMENT_ITEM_ID, itemId);
         fragment.setArguments(args);
         return fragment;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

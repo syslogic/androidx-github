@@ -6,10 +6,14 @@ import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
+import androidx.room.TypeConverters;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.Date;
+
 import io.syslogic.github.api.Constants;
+import io.syslogic.github.api.utils.DateConverter;
 
 /**
  * Model: Workflow
@@ -17,6 +21,7 @@ import io.syslogic.github.api.Constants;
  * @author Martin Zeitler
  */
 @Entity(tableName = Constants.TABLE_WORKFLOWS)
+@TypeConverters(DateConverter.class)
 public class Workflow extends BaseModel implements IContentProvider {
 
     @PrimaryKey()
@@ -46,11 +51,11 @@ public class Workflow extends BaseModel implements IContentProvider {
 
     @ColumnInfo(name = "created_at")
     @SerializedName("created_at")
-    private String createdAt;
+    private Date createdAt;
 
     @ColumnInfo(name = "updated_at")
     @SerializedName("updated_at")
-    private String updatedAt;
+    private Date updatedAt;
 
     @ColumnInfo(name = "url")
     @SerializedName("url")
@@ -82,10 +87,10 @@ public class Workflow extends BaseModel implements IContentProvider {
     public void setState(@NonNull String value) {
         this.state = value;
     }
-    public void setCreatedAt(@NonNull String value) {
+    public void setCreatedAt(@NonNull Date value) {
         this.createdAt = value;
     }
-    public void setUpdatedAt(@NonNull String value) {
+    public void setUpdatedAt(@NonNull Date value) {
         this.updatedAt = value;
     }
     public void setUrl(@NonNull String value) {
@@ -121,11 +126,11 @@ public class Workflow extends BaseModel implements IContentProvider {
         return this.state;
     }
     @NonNull
-    public String getCreatedAt() {
+    public Date getCreatedAt() {
         return this.createdAt;
     }
     @NonNull
-    public String getUpdatedAt() {
+    public Date getUpdatedAt() {
         return this.updatedAt;
     }
     @NonNull
