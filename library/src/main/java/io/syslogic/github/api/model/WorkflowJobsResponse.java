@@ -8,29 +8,30 @@ import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 
 /**
- * Model: Workflow Runs Response
+ * Model: Workflow Jobs Response
  *
  * @author Martin Zeitler
  */
-public class WorkflowRunsResponse {
+public class WorkflowJobsResponse {
     @SerializedName("total_count")
     private Long totalCount;
-    @SerializedName("workflow_runs")
-    private ArrayList<WorkflowRun> workflowRuns;
+    @SerializedName("jobs")
+    private ArrayList<WorkflowJob> jobs;
 
     @SuppressWarnings("unused")
     public void setTotalCount(@NonNull Long value) {
         this.totalCount = value;
     }
-    public void setWorkflowRuns(@NonNull ArrayList<WorkflowRun> value) {
-        this.workflowRuns = value;
+    @SuppressWarnings("unused")
+    public void setJobs(@NonNull ArrayList<WorkflowJob> value) {
+        this.jobs = value;
     }
     @NonNull
     public Long getTotalCount() {
         return this.totalCount;
     }
     @Nullable
-    public ArrayList<WorkflowRun> getWorkflowRuns() {
-        return this.workflowRuns;
+    public ArrayList<WorkflowJob> getJobs() {
+        return this.jobs;
     }
 }

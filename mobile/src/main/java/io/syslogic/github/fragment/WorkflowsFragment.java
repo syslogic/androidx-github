@@ -111,8 +111,9 @@ public class WorkflowsFragment extends BaseFragment {
                                 Repository item = response.body();
                                 mDataBinding.setRepository(item);
                                 if (mDataBinding.recyclerviewWorkflows.getAdapter() != null) {
-                                    ((WorkflowsAdapter) mDataBinding.recyclerviewWorkflows.getAdapter())
-                                            .getWorkflows(getAccessToken(), item.getOwner().getLogin(), item.getName());
+                                    WorkflowsAdapter adapter = ((WorkflowsAdapter) mDataBinding.recyclerviewWorkflows.getAdapter());
+                                    adapter.setRepositoryId(itemId);
+                                    adapter.getWorkflows(getAccessToken(), item.getOwner().getLogin(), item.getName());
                                 }
                             }
                         }

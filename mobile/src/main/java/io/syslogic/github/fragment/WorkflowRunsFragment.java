@@ -22,7 +22,6 @@ import io.syslogic.github.activity.NavHostActivity;
 import io.syslogic.github.api.GithubClient;
 import io.syslogic.github.api.model.Repository;
 import io.syslogic.github.databinding.FragmentWorkflowRunsBinding;
-import io.syslogic.github.databinding.FragmentWorkflowsBinding;
 import io.syslogic.github.provider.WorkflowsMenuProvider;
 import io.syslogic.github.recyclerview.WorkflowRunsAdapter;
 
@@ -74,7 +73,7 @@ public class WorkflowRunsFragment extends BaseFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         NavHostActivity activity = ((NavHostActivity) this.requireActivity());
-        this.setDataBinding(FragmentWorkflowsBinding.inflate(inflater, container, false));
+        this.setDataBinding(FragmentWorkflowRunsBinding.inflate(inflater, container, false));
 
         /* It removes & adds {@link BaseMenuProvider} */
         activity.setMenuProvider(new WorkflowsMenuProvider(activity));

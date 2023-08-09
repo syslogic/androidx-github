@@ -41,9 +41,9 @@ public class WorkflowsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     /** Log Tag */
     @NonNull @SuppressWarnings("unused") private static final String LOG_TAG = WorkflowsAdapter.class.getSimpleName();
-
     private static WeakReference<Context> mContext;
     private List<Workflow> mItems;
+    private Long repositoryId;
 
     public WorkflowsAdapter(@NonNull Context context) {
         mContext = new WeakReference<>(context);
@@ -62,7 +62,7 @@ public class WorkflowsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull final RecyclerView.ViewHolder viewHolder, int position) {
-        final Workflow item = getItem(position);
+        Workflow item = getItem(position);
         ((ViewHolder) viewHolder).getDataBinding().setItem(item);
         ((ViewHolder) viewHolder).setId(item.getId());
     }
@@ -91,6 +91,10 @@ public class WorkflowsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         return mContext.get();
     }
 
+    public void setRepositoryId(Long value) {
+        this.repositoryId = value;
+    }
+
     public void getWorkflows(String accessToken, String username, String repositoryName) {
 
         Call<WorkflowsResponse> api = GithubClient.getWorkflows(accessToken, username, repositoryName);
@@ -104,6 +108,7 @@ public class WorkflowsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                         WorkflowsResponse items = response.body();
                         if (items.getWorkflows() != null && items.getWorkflows().size() > 0) {
                             mItems = items.getWorkflows();
+                            for (Workflow item : mItems) {item.setRepositoryId(repositoryId);}
                             notifyItemRangeChanged(0, mItems.size());
                         }
                     }
@@ -150,7 +155,7 @@ public class WorkflowsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             ViewDataBinding databinding = activity.getFragmentDataBinding();
             if (databinding != null) {
                 Bundle args = new Bundle();
-                args.putLong(Constants.ARGUMENT_ITEM_ID, item.getId());
+                args.putLong(Constants.ARGUMENT_ITEM_ID, item.getRepositoryId());
                 NavController controller = Navigation.findNavController(databinding.getRoot());
                 controller.navigate(R.id.action_workflowFragment_to_workflowRunsFragment, args);
             }

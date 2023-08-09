@@ -11,6 +11,7 @@ import io.syslogic.github.api.model.Repository;
 import io.syslogic.github.api.model.RepositorySearch;
 import io.syslogic.github.api.model.User;
 import io.syslogic.github.api.model.WorkflowJobs;
+import io.syslogic.github.api.model.WorkflowJobsResponse;
 import io.syslogic.github.api.model.WorkflowRunsResponse;
 import io.syslogic.github.api.model.WorkflowsResponse;
 import okhttp3.ResponseBody;
@@ -230,7 +231,7 @@ public interface GithubService {
     Call<WorkflowsResponse> getWorkflows(
             @NonNull @Header("Authorization") String token,
             @NonNull @Path(value = "owner") String owner,
-            @NonNull @Path(value = "repo")  String repo
+            @NonNull @Path(value = "repo") String repo
     );
 
     /**
@@ -245,6 +246,15 @@ public interface GithubService {
     Call<WorkflowRunsResponse> getWorkflowRuns(
             @NonNull @Header("Authorization") String token,
             @NonNull @Path(value = "owner") String owner,
-            @NonNull @Path(value = "repo")  String repo
+            @NonNull @Path(value = "repo") String repo
+    );
+
+    @NonNull
+    @GET("/repos/{owner}/{repo}/actions/runs/{runId}/jobs")
+    Call<WorkflowJobsResponse> getWorkflowJobs(
+            @NonNull @Header("Authorization") String token,
+            @NonNull @Path(value = "owner") String owner,
+            @NonNull @Path(value = "repo") String repo,
+            @NonNull @Path(value = "repo") Integer runId
     );
 }
