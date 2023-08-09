@@ -25,9 +25,8 @@ import io.syslogic.github.api.GithubClient;
 import io.syslogic.github.api.model.Repository;
 import io.syslogic.github.databinding.FragmentWorkflowsBinding;
 import io.syslogic.github.provider.WorkflowsMenuProvider;
-
-import io.syslogic.github.recyclerview.RepositoriesAdapter;
 import io.syslogic.github.recyclerview.WorkflowsAdapter;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -92,12 +91,12 @@ public class WorkflowFragments extends BaseFragment {
         } else if (itemId != -1L) {
             WorkflowsAdapter adapter = new WorkflowsAdapter(requireContext());
             this.getDataBinding().recyclerviewWorkflows.setAdapter(adapter);
-            this.setRepository(itemId);
+            this.setRepositoryId(itemId);
         }
         return this.getDataBinding().getRoot();
     }
 
-    private void setRepository(long repositoryId) {
+    private void setRepositoryId(long repositoryId) {
 
         if (repositoryId != 0) {
 
