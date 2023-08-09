@@ -127,7 +127,7 @@ public class WorkflowRunsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private final CardviewWorkflowRunBinding mDataBinding;
-        private WorkflowsLinearView mRecyclerView;
+        private WorkflowRunsLinearView mRecyclerView;
         private CardView cardView;
         private long itemId;
 
@@ -147,15 +147,14 @@ public class WorkflowRunsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
         @Override
         public void onClick(@NonNull View viewHolder) {
-            this.mRecyclerView = (WorkflowsLinearView) viewHolder.getParent();
-            Workflow item = (Workflow) viewHolder.getTag();
+            WorkflowRun item = getDataBinding().getItem();
             BaseActivity activity = (BaseActivity) this.mRecyclerView.getContext();
             ViewDataBinding databinding = activity.getFragmentDataBinding();
             if (databinding != null) {
                 Bundle args = new Bundle();
                 args.putLong(Constants.ARGUMENT_ITEM_ID, item.getId());
                 NavController controller = Navigation.findNavController(databinding.getRoot());
-                // controller.navigate(R.id.action_workflowFragment_to_someFragment, args);
+                // controller.navigate(R.id.action_workflowRunsFragment_to_someFragment, args);
             }
         }
 

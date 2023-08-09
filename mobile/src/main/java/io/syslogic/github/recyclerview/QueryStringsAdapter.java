@@ -65,10 +65,9 @@ public class QueryStringsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @Override
     public void onBindViewHolder(@NonNull final RecyclerView.ViewHolder viewHolder, int position) {
-        final QueryString item = getItem(position);
+        QueryString item = getItem(position);
         ((ViewHolder) viewHolder).getDataBinding().setItem(item);
         ((ViewHolder) viewHolder).setId(item.getId());
-        ((ViewHolder) viewHolder).setTag(item);
     }
 
     private QueryString getItem(int index) {
@@ -137,9 +136,6 @@ public class QueryStringsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
         void setCardView(CardView view) {
             this.cardView = view;
-        }
-        void setTag(QueryString item) {
-            this.cardView.setTag(item);
         }
 
         /** Getters */

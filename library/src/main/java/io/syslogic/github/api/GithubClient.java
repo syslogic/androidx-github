@@ -164,7 +164,7 @@ public class GithubClient {
      * @param token the personal access token.
      * @param owner the owner of the repository.
      * @param repo the name of the repository.
-     * @param format either zip or tar.
+     * @param format either "tarball" or "zipball".
      * @param branch the ref, which to download.
      * @return Retrofit2 call.
      */
