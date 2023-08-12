@@ -60,7 +60,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     /** Debug Output */
     static final boolean mDebug = BuildConfig.DEBUG;
 
-    private final ArrayList<Repository> mItems = new ArrayList<>();
+    ArrayList<Repository> mItems = new ArrayList<>();
 
     private WeakReference<Context> mContext;
 
@@ -170,7 +170,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
     }
 
-    private void getWorkflows(int positionStart) {
+    void getWorkflows(int positionStart) {
         final int[] index = {0};
         for (Repository item : this.getItems()) {
 

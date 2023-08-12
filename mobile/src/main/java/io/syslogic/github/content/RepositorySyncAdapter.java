@@ -45,11 +45,11 @@ public class RepositorySyncAdapter extends AbstractThreadedSyncAdapter {
 
     private final SharedPreferences prefs;
 
-    private final RepositoriesDao dao;
-
     private final String accessToken;
 
     private final String username;
+
+    final RepositoriesDao dao;
 
     boolean hasRecords = true;
 

@@ -1,6 +1,5 @@
 package io.syslogic.github.fragment;
 
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,7 +9,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.databinding.ViewDataBinding;
 
 import com.google.gson.JsonObject;
@@ -45,9 +43,9 @@ public class WorkflowsFragment extends BaseFragment {
     @SuppressWarnings("unused") private static final int resId = R.layout.fragment_workflows;
 
     /** Data-Binding */
-    private FragmentWorkflowsBinding mDataBinding;
+    FragmentWorkflowsBinding mDataBinding;
 
-    private Long itemId = -1L;
+    Long itemId = -1L;
 
     /** Constructor */
     public WorkflowsFragment() {}

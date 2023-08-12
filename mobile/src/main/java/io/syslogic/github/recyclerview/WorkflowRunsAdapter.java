@@ -16,6 +16,7 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 import java.util.List;
 
 import io.syslogic.github.BuildConfig;
@@ -23,8 +24,6 @@ import io.syslogic.github.Constants;
 import io.syslogic.github.R;
 import io.syslogic.github.activity.BaseActivity;
 import io.syslogic.github.api.GithubClient;
-import io.syslogic.github.api.model.QueryString;
-import io.syslogic.github.api.model.Workflow;
 import io.syslogic.github.api.model.WorkflowRun;
 import io.syslogic.github.api.model.WorkflowRunsResponse;
 import io.syslogic.github.api.room.Abstraction;
@@ -44,7 +43,7 @@ public class WorkflowRunsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     /** Log Tag */
     @NonNull @SuppressWarnings("unused") private static final String LOG_TAG = WorkflowRunsAdapter.class.getSimpleName();
     private WeakReference<Context> mContext;
-    private List<WorkflowRun> mItems;
+    List<WorkflowRun> mItems = new ArrayList<>();
 
     public WorkflowRunsAdapter(@NonNull Context context) {
         this.mContext = new WeakReference<>(context);
@@ -123,7 +122,7 @@ public class WorkflowRunsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         });
     }
 
-    /** {@link RecyclerView.ViewHolder} for {@link CardView} of type {@link QueryString}. */
+    /** {@link RecyclerView.ViewHolder} for {@link CardView} of type {@link WorkflowRun}. */
     private static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private final CardviewWorkflowRunBinding mDataBinding;

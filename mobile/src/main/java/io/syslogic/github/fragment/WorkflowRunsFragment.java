@@ -43,7 +43,7 @@ public class WorkflowRunsFragment extends BaseFragment {
     @SuppressWarnings("unused") private static final int resId = R.layout.fragment_workflow_runs;
 
     /** Data-Binding */
-    private FragmentWorkflowRunsBinding mDataBinding;
+    FragmentWorkflowRunsBinding mDataBinding;
 
     private Long itemId = -1L;
 

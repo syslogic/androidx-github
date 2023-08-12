@@ -16,6 +16,7 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 import java.util.List;
 
 import io.syslogic.github.BuildConfig;
@@ -41,9 +42,9 @@ public class WorkflowsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     /** Log Tag */
     @NonNull @SuppressWarnings("unused") private static final String LOG_TAG = WorkflowsAdapter.class.getSimpleName();
-    private static WeakReference<Context> mContext;
-    private List<Workflow> mItems;
-    private Long repositoryId;
+    static WeakReference<Context> mContext;
+    List<Workflow> mItems = new ArrayList<>();
+    Long repositoryId;
 
     public WorkflowsAdapter(@NonNull Context context) {
         mContext = new WeakReference<>(context);

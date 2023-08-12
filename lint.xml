@@ -17,11 +17,6 @@
         <ignore regexp="kotlinx.coroutines.debug.AgentPremain"/>
     </issue>
 
-    <!-- don't notice about available alpha/beta versions -->
-    <issue id="GradleDependency">
-        <ignore regexp="is available: .*[alpha|beta|rc]" />
-    </issue>
-
     <issue id="UnusedIds">
         <ignore regexp="R.id.nav_graph"/>
     </issue>
