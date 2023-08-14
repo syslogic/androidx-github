@@ -215,7 +215,7 @@ public class GithubClient {
      * @param runId the ID of the run.
      * @return Retrofit2 call.
      */
-    @NonNull public static Call<WorkflowRun> getWorkflowRun(@Nullable String token, @NonNull String owner, @NonNull String repo, @NonNull Integer runId) {
+    @NonNull public static Call<WorkflowRun> getWorkflowRun(@Nullable String token, @NonNull String owner, @NonNull String repo, @NonNull Long runId) {
         return getService().getWorkflowRun("token " + token, owner, repo, runId);
     }
 
@@ -228,7 +228,7 @@ public class GithubClient {
      * @param runId the ID of the run to list jobs for.
      * @return Retrofit2 call.
      */
-    @NonNull public static Call<WorkflowJobsResponse> getWorkflowJobs(@Nullable String token, @NonNull String owner, @NonNull String repo, @NonNull Integer runId) {
+    @NonNull public static Call<WorkflowJobsResponse> getWorkflowJobs(@Nullable String token, @NonNull String owner, @NonNull String repo, @NonNull Long runId) {
         return getService().getWorkflowJobs("token " + token, owner, repo, runId);
     }
 }

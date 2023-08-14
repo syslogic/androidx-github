@@ -42,11 +42,11 @@ public class WorkflowStepsAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     /** Log Tag */
     @NonNull @SuppressWarnings("unused") private static final String LOG_TAG = WorkflowStepsAdapter.class.getSimpleName();
-    private WeakReference<Context> mContext;
+    private static WeakReference<Context> mContext;
     List<WorkflowStep> mItems = new ArrayList<>();
 
     public WorkflowStepsAdapter(@NonNull Context context) {
-        this.mContext = new WeakReference<>(context);
+        mContext = new WeakReference<>(context);
         Abstraction.executorService.execute(() -> {
             // mItems = Abstraction.getInstance(getContext()).workflowStepsDao().getItems()
         });
@@ -91,7 +91,7 @@ public class WorkflowStepsAdapter extends RecyclerView.Adapter<RecyclerView.View
         return this.mContext.get();
     }
 
-    public void getWorkflowSteps(String accessToken, String username, String repositoryName, Integer runId) {
+    public void getWorkflowSteps(String accessToken, String username, String repositoryName, Long runId) {
 
         Call<WorkflowJobsResponse> api = GithubClient.getWorkflowJobs(accessToken, username, repositoryName, runId);
         if (BuildConfig.DEBUG) {Log.w(LOG_TAG, api.request().url() + "");}
@@ -126,7 +126,6 @@ public class WorkflowStepsAdapter extends RecyclerView.Adapter<RecyclerView.View
     private static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private final CardviewWorkflowStepBinding mDataBinding;
-        private WorkflowStepsLinearView mRecyclerView;
         private CardView cardView;
         private long itemId;
 
@@ -147,7 +146,7 @@ public class WorkflowStepsAdapter extends RecyclerView.Adapter<RecyclerView.View
         @Override
         public void onClick(@NonNull View viewHolder) {
             WorkflowStep item = getDataBinding().getItem();
-            BaseActivity activity = (BaseActivity) this.mRecyclerView.getContext();
+            BaseActivity activity = (BaseActivity) mContext.get();
             ViewDataBinding databinding = activity.getFragmentDataBinding();
             if (databinding != null) {
                 Bundle args = new Bundle();

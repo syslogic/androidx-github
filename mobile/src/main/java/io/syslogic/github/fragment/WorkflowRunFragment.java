@@ -46,6 +46,7 @@ public class WorkflowRunFragment extends BaseFragment {
     FragmentWorkflowRunBinding mDataBinding;
 
     private Long itemId = -1L;
+    private Long runId = -1L;
 
     /** Constructor */
     public WorkflowRunFragment() {}
@@ -65,6 +66,7 @@ public class WorkflowRunFragment extends BaseFragment {
         Bundle args = this.getArguments();
         if (args != null) {
             this.setItemId(args.getLong(Constants.ARGUMENT_ITEM_ID));
+            this.setRunId(args.getLong(Constants.ARGUMENT_RUN_ID));
         }
     }
 
@@ -107,7 +109,7 @@ public class WorkflowRunFragment extends BaseFragment {
                                 Repository item = response.body();
                                 mDataBinding.setRepository(item);
 
-                                Call<WorkflowRun> api2 = GithubClient.getWorkflowRun(getAccessToken(), item.getOwner().getLogin(), item.getName(), Math.toIntExact(itemId));
+                                Call<WorkflowRun> api2 = GithubClient.getWorkflowRun(getAccessToken(), item.getOwner().getLogin(), item.getName(), getRunId());
                             }
                         }
                         case 403 -> {
@@ -141,9 +143,16 @@ public class WorkflowRunFragment extends BaseFragment {
     public Long getItemId() {
         return this.itemId;
     }
+    @NonNull
+    public Long getRunId() {
+        return this.runId;
+    }
 
     private void setItemId(@NonNull Long value) {
         this.itemId = value;
+    }
+    private void setRunId(@NonNull Long value) {
+        this.runId = value;
     }
 
     @NonNull

@@ -258,7 +258,7 @@ public interface GithubService {
             @NonNull @Header("Authorization") String token,
             @NonNull @Path(value = "owner") String owner,
             @NonNull @Path(value = "repo") String repo,
-            @NonNull @Path(value = "runId") Integer runId
+            @NonNull @Path(value = "runId") Long runId
     );
 
     @NonNull
@@ -267,6 +267,6 @@ public interface GithubService {
             @NonNull @Header("Authorization") String token,
             @NonNull @Path(value = "owner") String owner,
             @NonNull @Path(value = "repo") String repo,
-            @NonNull @Path(value = "runId") Integer runId
+            @NonNull @Path(value = "runId") Long runId
     );
 }

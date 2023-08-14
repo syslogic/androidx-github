@@ -16,7 +16,7 @@ import java.util.Date;
 public class WorkflowJob {
 
     @SerializedName("id")
-    private Integer id;
+    private Long id;
 
     @SerializedName("name")
     private String name;
@@ -28,7 +28,7 @@ public class WorkflowJob {
     private String conclusion;
 
     @SerializedName("run_id")
-    private Integer runId;
+    private Long runId;
 
     @SerializedName("run_url")
     private String runUrl;
@@ -55,7 +55,7 @@ public class WorkflowJob {
     private ArrayList<WorkflowStep> steps;
 
     /** Setters... */
-    public void setId(@NonNull Integer value) {
+    public void setId(@NonNull Long value) {
         this.id = value;
     }
 
@@ -71,7 +71,7 @@ public class WorkflowJob {
         this.conclusion = value;
     }
 
-    public void setRunId(@NonNull Integer value) {
+    public void setRunId(@NonNull Long value) {
         this.runId = value;
     }
 
@@ -109,7 +109,7 @@ public class WorkflowJob {
 
     /** Getters... */
     @NonNull
-    public Integer getId() {
+    public Long getId() {
         return this.id;
     }
 
@@ -129,7 +129,7 @@ public class WorkflowJob {
     }
 
     @NonNull
-    public Integer getRunId() {
+    public Long getRunId() {
         return this.runId;
     }
 

@@ -47,6 +47,7 @@ public class WorkflowJobsFragment extends BaseFragment {
 
     /** the itemId should be used as runId. */
     private Long itemId = -1L;
+    private Long runId = -1L;
 
     /** Constructor */
     public WorkflowJobsFragment() {}
@@ -66,6 +67,7 @@ public class WorkflowJobsFragment extends BaseFragment {
         Bundle args = this.getArguments();
         if (args != null) {
             this.setItemId(args.getLong(Constants.ARGUMENT_ITEM_ID));
+            this.setRunId(args.getLong(Constants.ARGUMENT_RUN_ID));
         }
     }
 
@@ -112,7 +114,7 @@ public class WorkflowJobsFragment extends BaseFragment {
                                     // runId ??
 
                                     ((WorkflowStepsAdapter) mDataBinding.recyclerviewWorkflowSteps.getAdapter())
-                                            .getWorkflowSteps(getAccessToken(), item.getOwner().getLogin(), item.getName(), Math.toIntExact(itemId));
+                                            .getWorkflowSteps(getAccessToken(), item.getOwner().getLogin(), item.getName(), getRunId());
                                 }
                             }
                         }
@@ -147,9 +149,16 @@ public class WorkflowJobsFragment extends BaseFragment {
     public Long getItemId() {
         return this.itemId;
     }
+    @NonNull
+    public Long getRunId() {
+        return this.runId;
+    }
 
     private void setItemId(@NonNull Long value) {
         this.itemId = value;
+    }
+    private void setRunId(@NonNull Long value) {
+        this.runId = value;
     }
 
     @NonNull
