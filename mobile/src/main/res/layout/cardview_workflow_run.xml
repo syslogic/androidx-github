@@ -60,7 +60,8 @@
                 android:padding="8dp"
                 android:text='@{ "" + item.runNumber }'
                 android:textColor="@color/colorText"
-                android:textSize="14sp"/>
+                android:textSize="14sp"
+                tools:text="@string/tools_workflow_run_number"/>
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/name"
@@ -72,7 +73,8 @@
                 android:padding="8dp"
                 android:text='@{ item.name }'
                 android:textColor="@color/colorText"
-                android:textSize="14sp"/>
+                android:textSize="14sp"
+                tools:text="@string/tools_workflow_run_name"/>
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/displayTitle"
@@ -85,7 +87,8 @@
                 android:padding="8dp"
                 android:text='@{ item.displayTitle }'
                 android:textColor="@color/colorText"
-                android:textSize="14sp"/>
+                android:textSize="14sp"
+                tools:text="@string/tools_workflow_run_title"/>
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/conclusion"
@@ -97,7 +100,8 @@
                 android:padding="8dp"
                 android:text='@{ item.conclusion }'
                 android:textColor="@color/colorText"
-                android:textSize="14sp"/>
+                android:textSize="14sp"
+                tools:text="@string/tools_workflow_run_conclusion"/>
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 

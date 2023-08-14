@@ -29,12 +29,16 @@
     <string name="tools_workflow_html_url">https://</string>
 
     <!-- Cardview Workflow Run -->
+    <string name="tools_workflow_run_number">185</string>
+    <string name="tools_workflow_run_name">Gradle</string>
+    <string name="tools_workflow_run_title">AGP 8.1.0</string>
+    <string name="tools_workflow_run_conclusion">success</string>
 
     <!-- Cardview Workflow Step -->
     <string name="tools_workflow_step_number">1</string>
     <string name="tools_workflow_step_name"></string>
     <string name="tools_workflow_step_status"></string>
-    <string name="tools_workflow_step_conclusion"></string>
+    <string name="tools_workflow_step_conclusion">success</string>
 
     <!-- Dialog jgit progress -->
     <string name="tools_task_title">remote: Enumerating objects</string>
