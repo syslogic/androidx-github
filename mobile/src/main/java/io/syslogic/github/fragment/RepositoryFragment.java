@@ -74,7 +74,7 @@ public class RepositoryFragment extends BaseFragment implements TokenCallback {
     /** Data-Binding */
     FragmentRepositoryBinding mDataBinding;
     ProgressDialogFragment currentDialog;
-    Long itemId = -1L;
+    Long repositoryId = -1L;
 
     /** Constructor */
     public RepositoryFragment() {}
@@ -94,7 +94,7 @@ public class RepositoryFragment extends BaseFragment implements TokenCallback {
         this.registerBroadcastReceiver();
         Bundle args = this.getArguments();
         if (args != null) {
-            this.setItemId(args.getLong(Constants.ARGUMENT_REPO_ID));
+            this.setRepositoryId(args.getLong(Constants.ARGUMENT_REPO_ID));
         }
     }
 
@@ -119,8 +119,8 @@ public class RepositoryFragment extends BaseFragment implements TokenCallback {
                         }
                     }
                 });
+                this.getRepository(this.repositoryId);
 
-                this.setRepository();
                 this.mDataBinding.toolbarDownload.spinnerBranch.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     int count = 0;
                     @Override
@@ -230,8 +230,8 @@ public class RepositoryFragment extends BaseFragment implements TokenCallback {
         downloadZipball(this.getDataBinding().getRepository(), branch);
     }
 
-    private void setItemId(@NonNull Long value) {
-        this.itemId = value;
+    private void setRepositoryId(@NonNull Long value) {
+        this.repositoryId = value;
     }
 
     @NonNull
@@ -266,7 +266,7 @@ public class RepositoryFragment extends BaseFragment implements TokenCallback {
             }
 
             if (this.mDataBinding != null && !this.contentLoaded) {
-                setRepository();
+                getRepository(this.repositoryId);
             }
         }
     }
@@ -279,11 +279,10 @@ public class RepositoryFragment extends BaseFragment implements TokenCallback {
         }
     }
 
-    private void setRepository() {
+    private void getRepository(Long repositoryId) {
+        if (repositoryId != 0) {
 
-        if (this.itemId != 0) {
-
-            Call<Repository> api = GithubClient.getRepository(this.itemId);
+            Call<Repository> api = GithubClient.getRepository(repositoryId);
             if (mDebug) {Log.w(LOG_TAG, api.request().url() + "");}
 
             api.enqueue(new Callback<>() {
@@ -318,9 +317,7 @@ public class RepositoryFragment extends BaseFragment implements TokenCallback {
 
                 @Override
                 public void onFailure(@NonNull Call<Repository> call, @NonNull Throwable t) {
-                    if (mDebug) {
-                        Log.e(LOG_TAG, "" + t.getMessage());
-                    }
+                    if (mDebug) {Log.e(LOG_TAG, "" + t.getMessage());}
                 }
             });
         }

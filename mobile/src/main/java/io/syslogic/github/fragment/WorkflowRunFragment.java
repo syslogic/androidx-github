@@ -25,6 +25,7 @@ import io.syslogic.github.api.model.WorkflowRun;
 import io.syslogic.github.databinding.FragmentWorkflowRunBinding;
 import io.syslogic.github.provider.WorkflowsMenuProvider;
 
+import io.syslogic.github.recyclerview.WorkflowRunsAdapter;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -45,8 +46,16 @@ public class WorkflowRunFragment extends BaseFragment {
     /** Data-Binding */
     FragmentWorkflowRunBinding mDataBinding;
 
-    /** The itemId is the repositoryId. */
-    private Long itemId = -1L;
+    /** The repository's ID. */
+    Long repositoryId = -1L;
+
+    /** The repository's owner. */
+    private String repositoryOwner;
+
+    /** The repository's name. */
+    private String repositoryName;
+
+    /** The workflow run's ID. */
     private Long runId = -1L;
 
     /** Constructor */
@@ -66,8 +75,15 @@ public class WorkflowRunFragment extends BaseFragment {
         super.onCreate(savedInstanceState);
         Bundle args = this.getArguments();
         if (args != null) {
-            this.setItemId(args.getLong(Constants.ARGUMENT_REPO_ID));
-            this.setRunId(args.getLong(Constants.ARGUMENT_RUN_ID));
+            if (args.keySet().contains("android-support-nav:controller:deepLinkIntent")) {
+                //noinspection DataFlowIssue
+                this.setRepositoryId(Long.valueOf(args.getString(Constants.ARGUMENT_REPO_ID)));
+                //noinspection DataFlowIssue
+                this.setRunId(Long.valueOf(args.getString(Constants.ARGUMENT_RUN_ID)));
+            } else {
+                this.setRepositoryId(args.getLong(Constants.ARGUMENT_REPO_ID));
+                this.setRunId(args.getLong(Constants.ARGUMENT_RUN_ID));
+            }
         }
     }
 
@@ -86,15 +102,18 @@ public class WorkflowRunFragment extends BaseFragment {
 
         if (! isNetworkAvailable(this.requireContext())) {
             this.onNetworkLost();
-        } else if (itemId != -1L) {
-            // WorkflowRunsAdapter adapter = new WorkflowRunsAdapter(requireContext());
-            // this.getDataBinding().recyclerviewWorkflowRuns.setAdapter(adapter);
-            this.setRepositoryId(itemId);
+        } else if (this.repositoryOwner != null && this.repositoryName != null) {
+            /* No need to load the repository, when the owner and name are known. */
+            this.getWorkflowRun();
+        } else if (this.repositoryId != -1L) {
+            /* Load the repository, when only the ID is known (eg. when started from deep-link intent). */
+            this.getRepository(this.repositoryId);
         }
+
         return this.getDataBinding().getRoot();
     }
 
-    private void setRepositoryId(long repositoryId) {
+    private void getRepository(Long repositoryId) {
         if (repositoryId != 0) {
 
             Call<Repository> api = GithubClient.getRepository(repositoryId);
@@ -106,11 +125,13 @@ public class WorkflowRunFragment extends BaseFragment {
                     switch (response.code()) {
                         case 200 -> {
                             if (response.body() != null) {
-
                                 Repository item = response.body();
                                 mDataBinding.setRepository(item);
 
-                                Call<WorkflowRun> api2 = GithubClient.getWorkflowRun(getAccessToken(), item.getOwner().getLogin(), item.getName(), getRunId());
+                                /* Filling in the blanks. */
+                                repositoryOwner = item.getOwner().getLogin();
+                                repositoryName = item.getName();
+                                getWorkflowRun();
                             }
                         }
                         case 403 -> {
@@ -140,17 +161,58 @@ public class WorkflowRunFragment extends BaseFragment {
         }
     }
 
+    private void getWorkflowRun() {
+
+        Call<WorkflowRun> api = GithubClient.getWorkflowRun(getAccessToken(), repositoryOwner, repositoryName, getRunId());
+        if (mDebug) {Log.w(LOG_TAG, api.request().url() + "");}
+
+        api.enqueue(new Callback<>() {
+            @Override
+            public void onResponse(@NonNull Call<WorkflowRun> call, @NonNull Response<WorkflowRun> response) {
+                switch (response.code()) {
+                    case 200 -> {
+                        if (response.body() != null) {
+                            WorkflowRun item = response.body();
+                            mDataBinding.setRun(item);
+                        }
+                    }
+                    case 403 -> {
+                        if (response.errorBody() != null) {
+                            try {
+                                String errors = response.errorBody().string();
+                                JsonObject jsonObject = JsonParser.parseString(errors).getAsJsonObject();
+                                String message = jsonObject.get("message").toString();
+                                if (mDebug) {
+                                    Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
+                                    Log.e(LOG_TAG, message);
+                                }
+                            } catch (IOException e) {
+                                if (mDebug) {Log.e(LOG_TAG, "" + e.getMessage());}
+                            }
+                        }
+                    }
+                }
+            }
+            @Override
+            public void onFailure(@NonNull Call<WorkflowRun> call, @NonNull Throwable t) {
+                if (mDebug) {
+                    Log.e(LOG_TAG, "" + t.getMessage());
+                }
+            }
+        });
+    }
+
     @NonNull
-    public Long getItemId() {
-        return this.itemId;
+    public Long getRepositoryId() {
+        return this.repositoryId;
     }
     @NonNull
     public Long getRunId() {
         return this.runId;
     }
 
-    private void setItemId(@NonNull Long value) {
-        this.itemId = value;
+    private void setRepositoryId(@NonNull Long value) {
+        this.repositoryId = value;
     }
     private void setRunId(@NonNull Long value) {
         this.runId = value;

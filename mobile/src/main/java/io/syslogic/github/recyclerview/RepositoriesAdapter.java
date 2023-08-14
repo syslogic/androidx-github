@@ -329,7 +329,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @NonNull
     protected Context getContext() {
-        return this.mContext.get();
+        return mContext.get();
     }
 
     void logError(@NonNull ResponseBody responseBody) {
@@ -365,7 +365,9 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             ViewDataBinding databinding = activity.getFragmentDataBinding();
             if (databinding != null) {
                 Bundle args = new Bundle();
-                args.putLong(Constants.ARGUMENT_ITEM_ID, item.getId());
+                args.putLong(Constants.ARGUMENT_REPO_ID, item.getId());
+                args.putString(Constants.ARGUMENT_REPO_OWNER, item.getOwner().getLogin());
+                args.putString(Constants.ARGUMENT_REPO_NAME, item.getName());
                 NavController controller = Navigation.findNavController(databinding.getRoot());
                 controller.navigate(R.id.action_repositoriesFragment_to_workflowsFragment, args);
             }

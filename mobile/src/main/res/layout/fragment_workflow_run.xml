@@ -8,6 +8,7 @@
     <data>
         <variable name="repository" type="io.syslogic.github.api.model.Repository"/>
         <variable name="workflow" type="io.syslogic.github.api.model.Workflow"/>
+        <variable name="run" type="io.syslogic.github.api.model.WorkflowRun"/>
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout

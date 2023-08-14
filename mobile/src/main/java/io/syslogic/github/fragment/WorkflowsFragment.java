@@ -45,8 +45,14 @@ public class WorkflowsFragment extends BaseFragment {
     /** Data-Binding */
     FragmentWorkflowsBinding mDataBinding;
 
-    /** The itemId is the repositoryId. */
-    Long itemId = -1L;
+    /** The repository's ID. */
+    Long repositoryId = -1L;
+
+    /** The repository's owner. */
+    private String repositoryOwner;
+
+    /** The repository's name. */
+    private String repositoryName;
 
     /** Constructor */
     public WorkflowsFragment() {}
@@ -69,9 +75,11 @@ public class WorkflowsFragment extends BaseFragment {
         if (args != null) {
             if (args.keySet().contains("android-support-nav:controller:deepLinkIntent")) {
                 //noinspection DataFlowIssue
-                this.setItemId(Long.valueOf(args.getString(Constants.ARGUMENT_REPO_ID)));
+                this.setRepositoryId(Long.valueOf(args.getString(Constants.ARGUMENT_REPO_ID)));
             } else {
-                this.setItemId(args.getLong(Constants.ARGUMENT_REPO_ID));
+                this.setRepositoryId(args.getLong(Constants.ARGUMENT_REPO_ID));
+                this.setRepositoryOwner(args.getString(Constants.ARGUMENT_REPO_OWNER, null));
+                this.setRepositoryName(args.getString(Constants.ARGUMENT_REPO_NAME, null));
             }
         }
     }
@@ -90,19 +98,24 @@ public class WorkflowsFragment extends BaseFragment {
         activity.setSupportActionBar(this.getDataBinding().toolbarWorkflows.toolbarWorkflows);
         this.mDataBinding.toolbarWorkflows.home.setOnClickListener(view -> activity.onBackPressed());
 
+        // Recyclerview.Adapter
+        WorkflowsAdapter adapter = new WorkflowsAdapter(requireContext());
+        this.getDataBinding().recyclerviewWorkflows.setAdapter(adapter);
+
         if (! isNetworkAvailable(this.requireContext())) {
             this.onNetworkLost();
-        } else if (itemId != -1L) {
-            WorkflowsAdapter adapter = new WorkflowsAdapter(requireContext());
-            this.getDataBinding().recyclerviewWorkflows.setAdapter(adapter);
-            this.setRepositoryId(itemId);
+        } else if (this.repositoryOwner != null && this.repositoryName != null) {
+            /* No need to load the repository, when the owner and name are known. */
+            adapter.getWorkflows(getAccessToken(), this.repositoryOwner, this.repositoryName);
+        } else if (this.repositoryId != -1L) {
+            /* Load the repository, when only the ID is known (eg. when started from deep-link intent). */
+            this.getRepository(this.repositoryId);
         }
         return this.getDataBinding().getRoot();
     }
 
-    private void setRepositoryId(long repositoryId) {
-
-        if (repositoryId != 0) {
+    private void getRepository(Long repositoryId) {
+        if (repositoryId != 0L) {
 
             Call<Repository> api = GithubClient.getRepository(repositoryId);
             if (mDebug) {Log.w(LOG_TAG, api.request().url() + "");}
@@ -115,10 +128,15 @@ public class WorkflowsFragment extends BaseFragment {
                             if (response.body() != null) {
                                 Repository item = response.body();
                                 mDataBinding.setRepository(item);
+
+                                /* Filling in the blanks. */
+                                repositoryOwner = item.getOwner().getLogin();
+                                repositoryName = item.getName();
+
                                 if (mDataBinding.recyclerviewWorkflows.getAdapter() != null) {
                                     WorkflowsAdapter adapter = ((WorkflowsAdapter) mDataBinding.recyclerviewWorkflows.getAdapter());
-                                    adapter.setRepositoryId(itemId);
-                                    adapter.getWorkflows(getAccessToken(), item.getOwner().getLogin(), item.getName());
+                                    adapter.setRepositoryId(repositoryId);
+                                    adapter.getWorkflows(getAccessToken(), repositoryOwner, repositoryName);
                                 }
                             }
                         }
@@ -150,12 +168,30 @@ public class WorkflowsFragment extends BaseFragment {
     }
 
     @NonNull
-    public Long getItemId() {
-        return this.itemId;
+    public Long getRepositoryId() {
+        return this.repositoryId;
     }
 
-    private void setItemId(@NonNull Long value) {
-        this.itemId = value;
+    @Nullable
+    public String getRepositoryOwner() {
+        return this.repositoryOwner;
+    }
+
+    @Nullable
+    public String getRepositoryName() {
+        return this.repositoryName;
+    }
+
+    private void setRepositoryId(@NonNull Long value) {
+        this.repositoryId = value;
+    }
+
+    private void setRepositoryOwner(@NonNull String value) {
+        this.repositoryOwner = value;
+    }
+
+    private void setRepositoryName(@NonNull String value) {
+        this.repositoryName = value;
     }
 
     @NonNull
