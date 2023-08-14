@@ -16,6 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.databinding.DataBindingUtil;
+import androidx.databinding.ViewDataBinding;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
@@ -62,7 +63,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     ArrayList<Repository> mItems = new ArrayList<>();
 
-    private WeakReference<Context> mContext;
+    private static WeakReference<Context> mContext;
 
     private RecyclerView mRecyclerView;
 
@@ -359,16 +360,14 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
         @Override
         public void onClick(@NonNull View viewHolder) {
-            RepositoriesLinearView mRecyclerView = (RepositoriesLinearView) viewHolder.getParent();
-            BaseActivity activity = (BaseActivity) mRecyclerView.getContext();
-            FragmentRepositoriesBinding databinding = (FragmentRepositoriesBinding) activity.getFragmentDataBinding();
+            Repository item = getDataBinding().getItem();
+            BaseActivity activity = (BaseActivity) mContext.get();
+            ViewDataBinding databinding = activity.getFragmentDataBinding();
             if (databinding != null) {
-                View layout = databinding.getRoot();
-                Repository item = getDataBinding().getItem();
-                NavController controller = Navigation.findNavController(layout);
                 Bundle args = new Bundle();
                 args.putLong(Constants.ARGUMENT_ITEM_ID, item.getId());
-                controller.navigate(R.id.action_repositoriesFragment_to_workflowFragment, args);
+                NavController controller = Navigation.findNavController(databinding.getRoot());
+                controller.navigate(R.id.action_repositoriesFragment_to_workflowsFragment, args);
             }
         }
 

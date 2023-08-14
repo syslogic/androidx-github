@@ -21,57 +21,51 @@ import io.syslogic.github.R;
 import io.syslogic.github.activity.NavHostActivity;
 import io.syslogic.github.api.GithubClient;
 import io.syslogic.github.api.model.Repository;
-import io.syslogic.github.databinding.FragmentWorkflowsBinding;
+import io.syslogic.github.databinding.FragmentWorkflowJobsBinding;
 import io.syslogic.github.provider.WorkflowsMenuProvider;
-import io.syslogic.github.recyclerview.WorkflowsAdapter;
+import io.syslogic.github.recyclerview.WorkflowStepsAdapter;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 /**
- * Workflows {@link BaseFragment}
+ * Workflow Run {@link BaseFragment}
  *
  * @author Martin Zeitler
  */
-public class WorkflowsFragment extends BaseFragment {
+public class WorkflowJobsFragment extends BaseFragment {
 
     /** Log Tag */
-    @SuppressWarnings("unused") private static final String LOG_TAG = WorkflowsFragment.class.getSimpleName();
+    @SuppressWarnings("unused") private static final String LOG_TAG = WorkflowJobsFragment.class.getSimpleName();
 
     /** Layout resource ID kept for reference. */
-    @SuppressWarnings("unused") private static final int resId = R.layout.fragment_workflows;
+    @SuppressWarnings("unused") private static final int resId = R.layout.fragment_workflow_jobs;
 
     /** Data-Binding */
-    FragmentWorkflowsBinding mDataBinding;
+    FragmentWorkflowJobsBinding mDataBinding;
 
-    Long itemId = -1L;
+    /** the itemId should be used as runId. */
+    private Long itemId = -1L;
 
     /** Constructor */
-    public WorkflowsFragment() {}
-
+    public WorkflowJobsFragment() {}
     @NonNull
     @SuppressWarnings("unused")
-    public static WorkflowsFragment newInstance(long itemId) {
-        WorkflowsFragment fragment = new WorkflowsFragment();
+    public static WorkflowJobsFragment newInstance(long itemId) {
+        WorkflowJobsFragment fragment = new WorkflowJobsFragment();
         Bundle args = new Bundle();
         args.putLong(Constants.ARGUMENT_ITEM_ID, itemId);
         fragment.setArguments(args);
         return fragment;
     }
 
-    /** Note: when deep-linking, the parameters will be passed as type String. */
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle args = this.getArguments();
         if (args != null) {
-            if (args.keySet().contains("android-support-nav:controller:deepLinkIntent")) {
-                //noinspection DataFlowIssue
-                this.setItemId(Long.valueOf(args.getString(Constants.ARGUMENT_ITEM_ID)));
-            } else {
-                this.setItemId(args.getLong(Constants.ARGUMENT_ITEM_ID));
-            }
+            this.setItemId(args.getLong(Constants.ARGUMENT_ITEM_ID));
         }
     }
 
@@ -80,20 +74,19 @@ public class WorkflowsFragment extends BaseFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         NavHostActivity activity = ((NavHostActivity) this.requireActivity());
-        this.setDataBinding(FragmentWorkflowsBinding.inflate(inflater, container, false));
+        this.setDataBinding(FragmentWorkflowJobsBinding.inflate(inflater, container, false));
 
         /* It removes & adds {@link BaseMenuProvider} */
         activity.setMenuProvider(new WorkflowsMenuProvider(activity));
 
-        // the SpinnerItem has the same ID as the QueryString.
-        activity.setSupportActionBar(this.getDataBinding().toolbarWorkflows.toolbarWorkflows);
-        this.mDataBinding.toolbarWorkflows.home.setOnClickListener(view -> activity.onBackPressed());
+        activity.setSupportActionBar(this.getDataBinding().toolbarWorkflowJobs.toolbarWorkflowJobs);
+        this.mDataBinding.toolbarWorkflowJobs.home.setOnClickListener(view -> activity.onBackPressed());
 
         if (! isNetworkAvailable(this.requireContext())) {
             this.onNetworkLost();
         } else if (itemId != -1L) {
-            WorkflowsAdapter adapter = new WorkflowsAdapter(requireContext());
-            this.getDataBinding().recyclerviewWorkflows.setAdapter(adapter);
+            WorkflowStepsAdapter adapter = new WorkflowStepsAdapter(requireContext());
+            this.getDataBinding().recyclerviewWorkflowSteps.setAdapter(adapter);
             this.setRepositoryId(itemId);
         }
         return this.getDataBinding().getRoot();
@@ -114,10 +107,12 @@ public class WorkflowsFragment extends BaseFragment {
                             if (response.body() != null) {
                                 Repository item = response.body();
                                 mDataBinding.setRepository(item);
-                                if (mDataBinding.recyclerviewWorkflows.getAdapter() != null) {
-                                    WorkflowsAdapter adapter = ((WorkflowsAdapter) mDataBinding.recyclerviewWorkflows.getAdapter());
-                                    adapter.setRepositoryId(itemId);
-                                    adapter.getWorkflows(getAccessToken(), item.getOwner().getLogin(), item.getName());
+                                if (mDataBinding.recyclerviewWorkflowSteps.getAdapter() != null) {
+
+                                    // runId ??
+
+                                    ((WorkflowStepsAdapter) mDataBinding.recyclerviewWorkflowSteps.getAdapter())
+                                            .getWorkflowSteps(getAccessToken(), item.getOwner().getLogin(), item.getName(), Math.toIntExact(itemId));
                                 }
                             }
                         }
@@ -158,13 +153,13 @@ public class WorkflowsFragment extends BaseFragment {
     }
 
     @NonNull
-    public FragmentWorkflowsBinding getDataBinding() {
+    public FragmentWorkflowJobsBinding getDataBinding() {
         return this.mDataBinding;
     }
 
     @Override
     protected void setDataBinding(@NonNull ViewDataBinding binding) {
-        this.mDataBinding = (FragmentWorkflowsBinding) binding;
+        this.mDataBinding = (FragmentWorkflowJobsBinding) binding;
     }
 
     @Override

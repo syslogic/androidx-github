@@ -204,6 +204,8 @@ public class RepositoriesFragment extends BaseFragment implements TokenCallback 
 
     @Override
     public void onLogin(@NonNull User item) {
-        this.mDataBinding.setUser(item);
+        if (this.mDataBinding != null) {
+            this.mDataBinding.setUser(item);
+        }
     }
 }

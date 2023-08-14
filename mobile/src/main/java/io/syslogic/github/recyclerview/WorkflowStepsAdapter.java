@@ -24,50 +24,50 @@ import io.syslogic.github.Constants;
 import io.syslogic.github.R;
 import io.syslogic.github.activity.BaseActivity;
 import io.syslogic.github.api.GithubClient;
-import io.syslogic.github.api.model.WorkflowRun;
-import io.syslogic.github.api.model.WorkflowRunsResponse;
+import io.syslogic.github.api.model.WorkflowJobsResponse;
+import io.syslogic.github.api.model.WorkflowStep;
 import io.syslogic.github.api.room.Abstraction;
-import io.syslogic.github.databinding.CardviewWorkflowRunBinding;
+import io.syslogic.github.databinding.CardviewWorkflowStepBinding;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 /**
- * Workflow Runs {@link RecyclerView.Adapter}
+ * Workflow Steps {@link RecyclerView.Adapter}
  *
  * @author Martin Zeitler
  */
-public class WorkflowRunsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class WorkflowStepsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     /** Log Tag */
-    @NonNull @SuppressWarnings("unused") private static final String LOG_TAG = WorkflowRunsAdapter.class.getSimpleName();
-    private static WeakReference<Context> mContext;
-    List<WorkflowRun> mItems = new ArrayList<>();
+    @NonNull @SuppressWarnings("unused") private static final String LOG_TAG = WorkflowStepsAdapter.class.getSimpleName();
+    private WeakReference<Context> mContext;
+    List<WorkflowStep> mItems = new ArrayList<>();
 
-    public WorkflowRunsAdapter(@NonNull Context context) {
+    public WorkflowStepsAdapter(@NonNull Context context) {
         this.mContext = new WeakReference<>(context);
         Abstraction.executorService.execute(() -> {
-            // mItems = Abstraction.getInstance(getContext()).workflowRunsDao().getItems()
+            // mItems = Abstraction.getInstance(getContext()).workflowStepsDao().getItems()
         });
     }
 
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        CardviewWorkflowRunBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.cardview_workflow_run, parent, false);
+        CardviewWorkflowStepBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.cardview_workflow_step, parent, false);
         binding.getRoot().setLayoutParams(new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         return new ViewHolder(binding);
     }
 
     @Override
     public void onBindViewHolder(@NonNull final RecyclerView.ViewHolder viewHolder, int position) {
-        WorkflowRun item = getItem(position);
+        WorkflowStep item = getItem(position);
         ((ViewHolder) viewHolder).getDataBinding().setItem(item);
-        ((ViewHolder) viewHolder).setId(item.getId());
+        ((ViewHolder) viewHolder).setId(item.getNumber());
     }
 
-    private WorkflowRun getItem(int index) {
+    private WorkflowStep getItem(int index) {
         return this.mItems.get(index);
     }
 
@@ -77,7 +77,7 @@ public class WorkflowRunsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         return this.mItems.size();
     }
 
-    List<WorkflowRun> getItems() {
+    List<WorkflowStep> getItems() {
         return this.mItems;
     }
 
@@ -91,19 +91,19 @@ public class WorkflowRunsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         return this.mContext.get();
     }
 
-    public void getWorkflowRuns(String accessToken, String username, String repositoryName) {
+    public void getWorkflowSteps(String accessToken, String username, String repositoryName, Integer runId) {
 
-        Call<WorkflowRunsResponse> api = GithubClient.getWorkflowRuns(accessToken, username, repositoryName);
+        Call<WorkflowJobsResponse> api = GithubClient.getWorkflowJobs(accessToken, username, repositoryName, runId);
         if (BuildConfig.DEBUG) {Log.w(LOG_TAG, api.request().url() + "");}
 
         api.enqueue(new Callback<>() {
             @Override
-            public void onResponse(@NonNull Call<WorkflowRunsResponse> call, @NonNull Response<WorkflowRunsResponse> response) {
+            public void onResponse(@NonNull Call<WorkflowJobsResponse> call, @NonNull Response<WorkflowJobsResponse> response) {
                 if (response.code() == 200) { // OK
                     if (response.body() != null) {
-                        WorkflowRunsResponse items = response.body();
-                        if (items.getWorkflowRuns() != null && items.getWorkflowRuns().size() > 0) {
-                            mItems = items.getWorkflowRuns();
+                        WorkflowJobsResponse items = response.body();
+                        if (items.getJobs() != null && items.getJobs().get(0).getSteps().size() > 0) {
+                            mItems = items.getJobs().get(0).getSteps();
                             notifyItemRangeChanged(0, mItems.size());
                         }
                     }
@@ -116,17 +116,17 @@ public class WorkflowRunsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             }
 
             @Override
-            public void onFailure(@NonNull Call<WorkflowRunsResponse> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<WorkflowJobsResponse> call, @NonNull Throwable t) {
                 if (BuildConfig.DEBUG) {Log.e(LOG_TAG, "onFailure: " + t.getMessage());}
             }
         });
     }
 
-    /** {@link RecyclerView.ViewHolder} for {@link CardView} of type {@link WorkflowRun}. */
+    /** {@link RecyclerView.ViewHolder} for {@link CardView} of type {@link WorkflowStep}. */
     private static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        private final CardviewWorkflowRunBinding mDataBinding;
-        private WorkflowRunsLinearView mRecyclerView;
+        private final CardviewWorkflowStepBinding mDataBinding;
+        private WorkflowStepsLinearView mRecyclerView;
         private CardView cardView;
         private long itemId;
 
@@ -134,7 +134,7 @@ public class WorkflowRunsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
          * ViewHolder Constructor
          * @param binding the item's data-binding
         **/
-        ViewHolder(@NonNull CardviewWorkflowRunBinding binding) {
+        ViewHolder(@NonNull CardviewWorkflowStepBinding binding) {
 
             super(binding.getRoot());
             this.mDataBinding = binding;
@@ -146,15 +146,14 @@ public class WorkflowRunsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
         @Override
         public void onClick(@NonNull View viewHolder) {
-            WorkflowRun item = getDataBinding().getItem();
-            BaseActivity activity = (BaseActivity) mContext.get();
+            WorkflowStep item = getDataBinding().getItem();
+            BaseActivity activity = (BaseActivity) this.mRecyclerView.getContext();
             ViewDataBinding databinding = activity.getFragmentDataBinding();
             if (databinding != null) {
                 Bundle args = new Bundle();
-                args.putLong(Constants.ARGUMENT_ITEM_ID, item.getId());
+                args.putLong(Constants.ARGUMENT_ITEM_ID, item.getNumber());
                 NavController controller = Navigation.findNavController(databinding.getRoot());
-
-                controller.navigate(R.id.action_workflowFragment_to_workflowRunsFragment, args);
+                // controller.navigate(R.id.action_workflowStepsFragment_to_someFragment, args);
             }
         }
 
@@ -170,7 +169,7 @@ public class WorkflowRunsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         public long getId() {
             return this.itemId;
         }
-        CardviewWorkflowRunBinding getDataBinding() {
+        CardviewWorkflowStepBinding getDataBinding() {
             return this.mDataBinding;
         }
     }
