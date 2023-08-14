@@ -153,8 +153,7 @@ public class WorkflowRunsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 Bundle args = new Bundle();
                 args.putLong(Constants.ARGUMENT_ITEM_ID, item.getId());
                 NavController controller = Navigation.findNavController(databinding.getRoot());
-
-                controller.navigate(R.id.action_workflowFragment_to_workflowRunsFragment, args);
+                controller.navigate(R.id.action_workflowRunsFragment_to_workflowJobsFragment, args);
             }
         }
 

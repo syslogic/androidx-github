@@ -119,7 +119,7 @@
             <deepLink app:uri="github://repository/{itemId}/workflows"/>
             <action
                 android:id="@+id/action_workflowFragment_to_workflowRunsFragment"
-                app:destination="@id/workflowRunsFragment" />
+                app:destination="@id/workflowRunsFragment"/>
         </fragment>
 
         <fragment
@@ -132,6 +132,9 @@
                 app:argType="long"
                 android:name="itemId"
                 android:defaultValue="-1L"/>
+            <action
+                android:id="@+id/action_workflowRunsFragment_to_workflowJobsFragment"
+                app:destination="@id/workflowJobsFragment"/>
         </fragment>
 
         <fragment
