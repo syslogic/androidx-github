@@ -12,7 +12,7 @@ Without an access token the API will be "rate limited", after having loaded the 
 
 ### Security
 
-Only GitHub traffic is being permitted, see [`network_security_config.xml`](https://github.com/syslogic/androidx-github/blob/master/mobile/src/main/res/xml/network_security_config.xml).
+Only GitHub traffic is being permitted, see [`network_security_config.xml`](mobile/src/main/res/xml/network_security_config.xml).
 
 ### Screenshots
 
