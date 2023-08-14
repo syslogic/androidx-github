@@ -16,13 +16,13 @@ Only GitHub traffic is being permitted, see [`network_security_config.xml`](mobi
 
 ### Screenshots
 
-![Repositories](screenshots/repositories_30.png?raw=true&sanitize=true "Repositories")<!-- @IGNORE PREVIOUS: link -->
+![Repositories](screenshots/repositories_30.png?raw=true&sanitize=true "Repositories")<!-- @IGNORE PREVIOUS: link --><br/>
 ![Workflow Steps](screenshots/workflow_steps_30.png?raw=true&sanitize=true "Workflow Steps")<!-- @IGNORE PREVIOUS: link -->
 
 ### Android Library
 
 The [`:library`](library/src/main/java/io/syslogic/github/api) module is available on JitPack; either by version tag or `master-SNAPSHOT`.<br/>
-The JitPack repository URL would be: `maven { url 'https://jitpack.io' }`
+It provides the relevant API calls & data-models. The JitPack repository URL would be: `maven { url 'https://jitpack.io' }`
 
     dependencies {
         implementation "io.syslogic:androidx-github:1.0.1"
