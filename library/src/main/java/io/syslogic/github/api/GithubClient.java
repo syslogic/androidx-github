@@ -14,6 +14,7 @@ import io.syslogic.github.api.model.Repository;
 import io.syslogic.github.api.model.RepositorySearch;
 import io.syslogic.github.api.model.User;
 import io.syslogic.github.api.model.WorkflowJobsResponse;
+import io.syslogic.github.api.model.WorkflowRun;
 import io.syslogic.github.api.model.WorkflowRunsResponse;
 import io.syslogic.github.api.model.WorkflowsResponse;
 
@@ -203,6 +204,19 @@ public class GithubClient {
      */
     @NonNull public static Call<WorkflowRunsResponse> getWorkflowRuns(@Nullable String token, @NonNull String owner, @NonNull String repo) {
         return getService().getWorkflowRuns("token " + token, owner, repo);
+    }
+
+    /**
+     * GitHub Actions: Workflow Run.
+     * @see <a href="https://docs.github.com/en/github-ae@latest/rest/actions/workflow-runs#get-a-workflow-run">Get a workflow run</a>
+     * @param token the personal access token.
+     * @param owner the owner of the repository.
+     * @param repo the name of the repository.
+     * @param runId the ID of the run.
+     * @return Retrofit2 call.
+     */
+    @NonNull public static Call<WorkflowRun> getWorkflowRun(@Nullable String token, @NonNull String owner, @NonNull String repo, @NonNull Integer runId) {
+        return getService().getWorkflowRun("token " + token, owner, repo, runId);
     }
 
     /**

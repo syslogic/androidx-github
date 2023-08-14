@@ -12,6 +12,7 @@ import io.syslogic.github.api.model.RepositorySearch;
 import io.syslogic.github.api.model.User;
 
 import io.syslogic.github.api.model.WorkflowJobsResponse;
+import io.syslogic.github.api.model.WorkflowRun;
 import io.syslogic.github.api.model.WorkflowRunsResponse;
 import io.syslogic.github.api.model.WorkflowsResponse;
 
@@ -249,6 +250,15 @@ public interface GithubService {
             @NonNull @Header("Authorization") String token,
             @NonNull @Path(value = "owner") String owner,
             @NonNull @Path(value = "repo") String repo
+    );
+
+    @NonNull
+    @GET("/repos/{owner}/{repo}/actions/runs/{runId}")
+    Call<WorkflowRun> getWorkflowRun(
+            @NonNull @Header("Authorization") String token,
+            @NonNull @Path(value = "owner") String owner,
+            @NonNull @Path(value = "repo") String repo,
+            @NonNull @Path(value = "runId") Integer runId
     );
 
     @NonNull
