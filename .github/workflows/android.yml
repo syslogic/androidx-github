@@ -3,9 +3,17 @@ name: Android CI
 on:
   push:
     branches: [ master ]
-    
+    paths-ignore:
+      - 'README.md'
+      - 'screenshots/**'
+      - '.idea/**'
+
   pull_request:
     branches: [ master ]
+    paths-ignore:
+      - 'README.md'
+      - 'screenshots/**'
+      - '.idea/**'
 
 jobs:
   build:

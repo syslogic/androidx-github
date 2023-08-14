@@ -42,6 +42,7 @@ android {
             minifyEnabled false
         }
         release {
+            consumerProguardFile "${project.rootDir}/proguard/consumer.pro"
             minifyEnabled false
         }
     }

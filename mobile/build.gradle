@@ -69,7 +69,9 @@ android {
             proguardFile "${project.rootDir}/proguard/android.pro"
             proguardFile "${project.rootDir}/proguard/androidx.pro"
             proguardFile "${project.rootDir}/proguard/retrofit.pro"
+            proguardFile "${project.rootDir}/proguard/window.pro"
             proguardFile "${project.rootDir}/proguard/mobile.pro"
+            proguardFile "${project.rootDir}/proguard/jgit.pro"
             testCoverageEnabled false
             minifyEnabled true
             shrinkResources true

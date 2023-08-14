@@ -19,11 +19,12 @@ Only GitHub traffic is being permitted, see [`network_security_config.xml`](mobi
 ![Repositories](screenshots/repositories_30.png?raw=true&sanitize=true "Repositories")<!-- @IGNORE PREVIOUS: link --><br/>
 ![Workflow Steps](screenshots/workflow_steps_30.png?raw=true&sanitize=true "Workflow Steps")<!-- @IGNORE PREVIOUS: link -->
 
+ ---
+
 ### Android Library
 
 The [`:library`](library/src/main/java/io/syslogic/github/api) module is available on JitPack; either by version tag or `master-SNAPSHOT`.<br/>
-It provides the relevant GitHub API calls & data-models with data-binding annotations.
-
+It provides the relevant GitHub API calls & data-models with data-binding annotations.<br/>
 The JitPack repository URL would be: `maven { url 'https://jitpack.io' }`
 
     dependencies {
