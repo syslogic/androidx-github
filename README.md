@@ -21,7 +21,7 @@ Only GitHub traffic is being permitted, see [`network_security_config.xml`](mobi
 
 ### Android Library
 
-The `:library` module is available on JitPack; either by version tag or `master-SNAPSHOT`.<br/>
+The [`:library`](library/src/main/java/io/syslogic/github/api) module is available on JitPack; either by version tag or `master-SNAPSHOT`.<br/>
 The JitPack repository URL would be: `maven { url 'https://jitpack.io' }`
 
     dependencies {
