@@ -43,12 +43,14 @@ public class WorkflowRunsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     /** Log Tag */
     @NonNull @SuppressWarnings("unused") private static final String LOG_TAG = WorkflowRunsAdapter.class.getSimpleName();
     private static WeakReference<Context> mContext;
+    private static Long repositoryId;
     List<WorkflowRun> mItems = new ArrayList<>();
 
-    public WorkflowRunsAdapter(@NonNull Context context) {
+    public WorkflowRunsAdapter(@NonNull Context context, @NonNull Long repoId) {
         mContext = new WeakReference<>(context);
+        repositoryId = repoId;
         Abstraction.executorService.execute(() -> {
-            // mItems = Abstraction.getInstance(getContext()).workflowRunsDao().getItems()
+            // mItems = Abstraction.getInstance(getContext()).workflowRunsDao().getItems(repoId)
         });
     }
 
@@ -150,7 +152,7 @@ public class WorkflowRunsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             ViewDataBinding databinding = activity.getFragmentDataBinding();
             if (databinding != null) {
                 Bundle args = new Bundle();
-                args.putLong(Constants.ARGUMENT_REPO_ID, itemId);
+                args.putLong(Constants.ARGUMENT_REPO_ID, repositoryId);
                 args.putLong(Constants.ARGUMENT_RUN_ID, item.getId());
                 NavController controller = Navigation.findNavController(databinding.getRoot());
                 controller.navigate(R.id.action_workflowRunsFragment_to_workflowJobsFragment, args);

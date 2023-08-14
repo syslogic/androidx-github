@@ -117,7 +117,7 @@ public class WorkflowJobsFragment extends BaseFragment {
                                 }
                             }
                         }
-                        case 403, 404 -> {
+                        case 403 -> {
                             if (response.errorBody() != null) {
                                 try {
                                     String errors = response.errorBody().string();
