@@ -43,10 +43,16 @@ android {
 
     signingConfigs {
         debug {
-
+            storeFile new File("${System.properties['user.home']}${File.separator}.android${File.separator}debug.keystore")
+            storePassword rootProject.ext.get('debugKeystorePass')
+            keyAlias rootProject.ext.get('debugKeyAlias')
+            keyPassword rootProject.ext.get('debugKeyPass')
         }
         release {
-
+            storeFile new File("${System.properties['user.home']}${File.separator}.android${File.separator}release.keystore")
+            storePassword rootProject.ext.get('releaseKeystorePass')
+            keyAlias rootProject.ext.get('releaseKeyAlias')
+            keyPassword rootProject.ext.get('releaseKeyPass')
         }
     }
 
@@ -83,7 +89,7 @@ android {
     }
 
     lint {
-        lintConfig rootProject.file('lint.xml')
+        lintConfig project.file('lint.xml')
         checkAllWarnings true
         warningsAsErrors true
         abortOnError false

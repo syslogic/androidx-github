@@ -47,6 +47,18 @@ if (System.env.JITPACK) {
     project.ext.set('versionName', System.env.VERSION)
 }
 
+/** Keystore Settings, loaded from keystore.properties */
+if (rootProject.file('keystore.properties').exists()) {
+    def keystore = new Properties()
+    keystore.load(new FileInputStream(rootProject.file('keystore.properties')))
+    project.ext.set('debugKeystorePass',   keystore['debugKeystorePass'])
+    project.ext.set('debugKeyAlias',       keystore['debugKeyAlias'])
+    project.ext.set('debugKeyPass',        keystore['debugKeyPass'])
+    project.ext.set('releaseKeystorePass', keystore['releaseKeystorePass'])
+    project.ext.set('releaseKeyAlias',     keystore['releaseKeyAlias'])
+    project.ext.set('releaseKeyPass',      keystore['releaseKeyPass'])
+}
+
 /** Build Configurations */
 project.ext.set('archiveBuildTypes', ['debug', 'release'])
 

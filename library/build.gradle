@@ -45,19 +45,19 @@ android {
         }
     }
 
-    lint {
-        lintConfig rootProject.file('lint.xml')
-        checkAllWarnings true
-        warningsAsErrors true
-        abortOnError false
-        showAll false
-    }
-
     publishing {
         singleVariant('release') {
             withSourcesJar()
             withJavadocJar()
         }
+    }
+
+    lint {
+        lintConfig project.file('lint.xml')
+        checkAllWarnings true
+        warningsAsErrors true
+        abortOnError false
+        showAll false
     }
 }
 
