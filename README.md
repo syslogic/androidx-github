@@ -25,7 +25,7 @@ The `:library` module is available on JitPack; either by version tag or `master-
 The JitPack repository URL would be: `maven { url 'https://jitpack.io' }`
 
     dependencies {
-        implementation "io.syslogic:androidx-github:1.0.0"
+        implementation "io.syslogic:androidx-github:1.0.1"
     }
 
 [![Release](https://jitpack.io/v/syslogic/androidx-github.svg)](https://jitpack.io/#io.syslogic/androidx-github)
