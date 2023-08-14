@@ -17,7 +17,7 @@ Only GitHub traffic is being permitted, see [`network_security_config.xml`](http
 ### Screenshots
 
 ![Repositories](screenshots/repositories_30.png?raw=true&sanitize=true "Repositories")<!-- @IGNORE PREVIOUS: link -->
-![Workflow Steps](screenshots/workflow_steps_30?raw=true&sanitize=true "Workflow Steps")<!-- @IGNORE PREVIOUS: link -->
+![Workflow Steps](screenshots/workflow_steps_30.png?raw=true&sanitize=true "Workflow Steps")<!-- @IGNORE PREVIOUS: link -->
 
 ### Android Library
 
