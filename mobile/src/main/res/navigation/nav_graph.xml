@@ -55,7 +55,7 @@
     <fragment
         android:id="@+id/profileFragment"
         android:label="fragment_profile"
-        android:name="io.syslogic.github.fragment.RepositoryFragment"
+        android:name="io.syslogic.github.fragment.ProfileFragment"
         tools:layout="@layout/fragment_profile">
         <deepLink app:uri="github://profile"/>
     </fragment>
@@ -76,7 +76,7 @@
             android:name="io.syslogic.github.fragment.QueryStringsFragment"
             android:label="fragment_query_strings"
             tools:layout="@layout/fragment_query_strings">
-            <deepLink app:uri="github://query_strings"/>
+            <deepLink app:uri="github://bookmarks"/>
             <action
                 android:id="@+id/action_queryStringsFragment_to_queryStringFragment"
                 app:destination="@id/queryStringFragment"/>
@@ -127,7 +127,7 @@
             android:name="io.syslogic.github.fragment.WorkflowRunsFragment"
             android:label="WorkflowRunsFragment"
             tools:layout="@layout/fragment_workflow_runs">
-            <deepLink app:uri="github://runs/{itemId}"/>
+            <deepLink app:uri="github://workflow/runs/{itemId}"/>
             <argument
                 app:argType="long"
                 android:name="itemId"
