@@ -43,18 +43,16 @@ public class TokenHelper {
     @Nullable
     public static String getAccessToken(@NonNull Context context) {
         AccountManager accountManager = AccountManager.get(context);
-        if (mDebug) {
-            /* Attempting to load the personal access token from package meta. */
+        Account account = getAccount(accountManager, 0);
+        if (account != null) {
+            /* Default: Load the access token from AccountManager. */
+            return accountManager.getUserData(account, "token");
+        } else if (mDebug) {
+            /* Debug: Try to load and validate the access token. */
             return loadTokenFromPackageMeta(context, accountManager);
         } else {
-            /* Attempting to load the personal access token from AccountManager. */
-            Account account = getAccount(accountManager, 0);
-            if (account != null) {
-                return accountManager.getUserData(account, "token");
-            } else {
-                Log.e(LOG_TAG, "account not found: " + Constants.ACCOUNT_TYPE);
-                return null;
-            }
+            Log.e(LOG_TAG, "Account not found: " + Constants.ACCOUNT_TYPE);
+            return null;
         }
     }
 
