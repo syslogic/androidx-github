@@ -10,11 +10,13 @@ import io.syslogic.github.api.model.RateLimits;
 import io.syslogic.github.api.model.Repository;
 import io.syslogic.github.api.model.RepositorySearch;
 import io.syslogic.github.api.model.User;
-import io.syslogic.github.api.model.WorkflowJobs;
+
 import io.syslogic.github.api.model.WorkflowJobsResponse;
 import io.syslogic.github.api.model.WorkflowRunsResponse;
 import io.syslogic.github.api.model.WorkflowsResponse;
+
 import okhttp3.ResponseBody;
+
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.HEAD;
@@ -255,6 +257,6 @@ public interface GithubService {
             @NonNull @Header("Authorization") String token,
             @NonNull @Path(value = "owner") String owner,
             @NonNull @Path(value = "repo") String repo,
-            @NonNull @Path(value = "repo") Integer runId
+            @NonNull @Path(value = "runId") Integer runId
     );
 }

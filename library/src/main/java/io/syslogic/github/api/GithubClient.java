@@ -13,12 +13,13 @@ import io.syslogic.github.api.model.RateLimits;
 import io.syslogic.github.api.model.Repository;
 import io.syslogic.github.api.model.RepositorySearch;
 import io.syslogic.github.api.model.User;
-import io.syslogic.github.api.model.WorkflowJobs;
 import io.syslogic.github.api.model.WorkflowJobsResponse;
 import io.syslogic.github.api.model.WorkflowRunsResponse;
 import io.syslogic.github.api.model.WorkflowsResponse;
+
 import okhttp3.OkHttpClient;
 import okhttp3.ResponseBody;
+
 import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -33,8 +34,7 @@ public class GithubClient {
     private static Retrofit retrofit;
 
     /** @return an instance of {@link GithubService}. */
-    @NonNull
-    private static GithubService getService() {
+    @NonNull private static GithubService getService() {
         if (retrofit == null) {
 
             Gson gson = new GsonBuilder()
@@ -56,7 +56,7 @@ public class GithubClient {
     }
 
     /** @return Retrofit2 call. */
-    public static @NonNull Call<RateLimits> getRateLimits() {
+    @NonNull public static Call<RateLimits> getRateLimits() {
         return getService().getRateLimits();
     }
 
@@ -64,7 +64,7 @@ public class GithubClient {
      * @param token the personal access token.
      * @return Retrofit2 call.
      */
-    public static @NonNull Call<User> getUser(@NonNull String token) {
+    @NonNull public static Call<User> getUser(@NonNull String token) {
         return getService().getUser("token " + token);
     }
 
@@ -74,7 +74,7 @@ public class GithubClient {
      * @return Retrofit2 call.
      */
     @SuppressWarnings("unused")
-    public static @NonNull Call<User> getUser(@NonNull String token, @NonNull String username) {
+    @NonNull public static Call<User> getUser(@NonNull String token, @NonNull String username) {
         return getService().getUser("token " + token, username);
     }
 
@@ -87,7 +87,7 @@ public class GithubClient {
      * @param pageNumber Page number of the results to fetch. Default: 1.
      * @return Retrofit2 call.
      */
-    public static @NonNull Call<RepositorySearch> searchRepositories(@Nullable String token, @NonNull String queryString, @NonNull String sortField, @NonNull String sortOrder, @NonNull Integer pageNumber) {
+    @NonNull public static Call<RepositorySearch> searchRepositories(@Nullable String token, @NonNull String queryString, @NonNull String sortField, @NonNull String sortOrder, @NonNull Integer pageNumber) {
         return getService().searchRepositories("token " + token, queryString, sortField, sortOrder, pageNumber);
     }
 
@@ -103,7 +103,7 @@ public class GithubClient {
      * @return Retrofit2 call.
      */
     @SuppressWarnings("unused")
-    public static @NonNull Call<ArrayList<Repository>> getOrgRepositories(@Nullable String token, @NonNull String org, @NonNull String type, @NonNull String sortField, @NonNull String sortOrder, @NonNull Integer pageSize, @NonNull Integer pageNumber) {
+    @NonNull public static Call<ArrayList<Repository>> getOrgRepositories(@Nullable String token, @NonNull String org, @NonNull String type, @NonNull String sortField, @NonNull String sortOrder, @NonNull Integer pageSize, @NonNull Integer pageNumber) {
         return getService().getOrgRepositories("token " + token, org, type, sortField, sortOrder, pageSize, pageNumber);
     }
 
@@ -118,7 +118,7 @@ public class GithubClient {
      * @param pageNumber Page number of the results to fetch. Default: 1.
      * @return Retrofit2 call.
      */
-    public static @NonNull Call<ArrayList<Repository>> getUserRepositories(@Nullable String token, @NonNull String username, @NonNull String type, @NonNull String sortField, @NonNull String sortOrder, @NonNull Integer pageSize, @NonNull Integer pageNumber) {
+    @NonNull public static Call<ArrayList<Repository>> getUserRepositories(@Nullable String token, @NonNull String username, @NonNull String type, @NonNull String sortField, @NonNull String sortOrder, @NonNull Integer pageSize, @NonNull Integer pageNumber) {
         return getService().getUserRepositories("token " + token, username, type, sortField, sortOrder, pageSize, pageNumber);
     }
 
@@ -127,7 +127,7 @@ public class GithubClient {
      * @param itemId the ID of the repository to get.
      * @return Retrofit2 call.
      */
-    public static @NonNull Call<Repository> getRepository(@NonNull Long itemId) {
+    @NonNull public static Call<Repository> getRepository(@NonNull Long itemId) {
         return getService().getRepository(itemId);
     }
 
@@ -137,7 +137,7 @@ public class GithubClient {
      * @param repo the name of the repository.
      * @return Retrofit2 call.
      */
-    public static @NonNull Call<ArrayList<Branch>> getBranches(@NonNull String owner, @NonNull String repo) {
+    @NonNull public static Call<ArrayList<Branch>> getBranches(@NonNull String owner, @NonNull String repo) {
         return getService().getBranches(owner, repo);
     }
 
@@ -149,7 +149,7 @@ public class GithubClient {
      * @return Retrofit2 call.
      */
     @SuppressWarnings("unused")
-    public static @NonNull Call<Branch> getBranch(@NonNull String owner, @NonNull String repo, @NonNull String branch) {
+    @NonNull public static Call<Branch> getBranch(@NonNull String owner, @NonNull String repo, @NonNull String branch) {
         return getService().getBranch(owner, repo, branch);
     }
 
@@ -168,7 +168,7 @@ public class GithubClient {
      * @param branch the ref, which to download.
      * @return Retrofit2 call.
      */
-    public static @NonNull Call<ResponseBody> getArchiveLink(@NonNull String token, @NonNull String owner, @NonNull String repo, @NonNull String format, @NonNull String branch) {
+    @NonNull public static Call<ResponseBody> getArchiveLink(@NonNull String token, @NonNull String owner, @NonNull String repo, @NonNull String format, @NonNull String branch) {
         return getService().getArchiveLink("token " + token, owner, repo, format, branch);
     }
 
@@ -177,7 +177,7 @@ public class GithubClient {
      * @param url the url, which to download.
      * @return Retrofit2 call.
      */
-    public static @NonNull Call<Void> getHead(@NonNull String url) {
+    @NonNull public static Call<Void> getHead(@NonNull String url) {
         return getService().getHead(url);
     }
 
@@ -189,7 +189,7 @@ public class GithubClient {
      * @param repo the name of the repository.
      * @return Retrofit2 call.
      */
-    public static @NonNull Call<WorkflowsResponse> getWorkflows(@Nullable String token, @NonNull String owner, @NonNull String repo) {
+    @NonNull public static Call<WorkflowsResponse> getWorkflows(@Nullable String token, @NonNull String owner, @NonNull String repo) {
         return getService().getWorkflows("token " + token, owner, repo);
     }
 
@@ -201,7 +201,7 @@ public class GithubClient {
      * @param repo the name of the repository.
      * @return Retrofit2 call.
      */
-    public static @NonNull Call<WorkflowRunsResponse> getWorkflowRuns(@Nullable String token, @NonNull String owner, @NonNull String repo) {
+    @NonNull public static Call<WorkflowRunsResponse> getWorkflowRuns(@Nullable String token, @NonNull String owner, @NonNull String repo) {
         return getService().getWorkflowRuns("token " + token, owner, repo);
     }
 
@@ -214,7 +214,7 @@ public class GithubClient {
      * @param runId the ID of the run to list jobs for.
      * @return Retrofit2 call.
      */
-    public static @NonNull Call<WorkflowJobsResponse> getWorkflowJobs(@Nullable String token, @NonNull String owner, @NonNull String repo, @NonNull Integer runId) {
+    @NonNull public static Call<WorkflowJobsResponse> getWorkflowJobs(@Nullable String token, @NonNull String owner, @NonNull String repo, @NonNull Integer runId) {
         return getService().getWorkflowJobs("token " + token, owner, repo, runId);
     }
 }
