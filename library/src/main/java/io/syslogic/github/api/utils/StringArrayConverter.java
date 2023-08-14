@@ -1,5 +1,6 @@
 package io.syslogic.github.api.utils;
 
+import androidx.annotation.NonNull;
 import androidx.room.TypeConverter;
 
 import com.google.gson.Gson;
@@ -11,13 +12,15 @@ import com.google.gson.Gson;
  */
 public class StringArrayConverter {
 
+    @NonNull
     @TypeConverter
-    public String[] fromJson(String value) {
+    public String[] fromJson(@NonNull String value) {
         return new Gson().fromJson(value, String[].class);
     }
 
+    @NonNull
     @TypeConverter
-    public String toJson(String[] value) {
+    public String toJson(@NonNull String[] value) {
         return new Gson().toJson(value);
     }
 }

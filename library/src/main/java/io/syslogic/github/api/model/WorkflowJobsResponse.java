@@ -14,7 +14,7 @@ import java.util.ArrayList;
  */
 public class WorkflowJobsResponse {
     @SerializedName("total_count")
-    private Long totalCount;
+    private Long totalCount = 0L;
     @SerializedName("jobs")
     private ArrayList<WorkflowJob> jobs;
 

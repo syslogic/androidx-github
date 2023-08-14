@@ -14,7 +14,7 @@ import java.util.ArrayList;
  */
 public class WorkflowRunsResponse {
     @SerializedName("total_count")
-    private Long totalCount;
+    private Long totalCount = 0L;
     @SerializedName("workflow_runs")
     private ArrayList<WorkflowRun> workflowRuns;
 
@@ -29,6 +29,7 @@ public class WorkflowRunsResponse {
     public Long getTotalCount() {
         return this.totalCount;
     }
+
     @Nullable
     public ArrayList<WorkflowRun> getWorkflowRuns() {
         return this.workflowRuns;

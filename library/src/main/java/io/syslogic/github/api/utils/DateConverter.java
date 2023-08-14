@@ -12,11 +12,13 @@ import java.util.Date;
  */
 public class DateConverter {
 
+    @NonNull
     @TypeConverter
-    public Date fromLong(Long value) {
+    public Date fromLong(@NonNull Long value) {
         return new Date(value);
     }
 
+    @NonNull
     @TypeConverter
     public Long toLong(@NonNull Date value) {
         return value.getTime();

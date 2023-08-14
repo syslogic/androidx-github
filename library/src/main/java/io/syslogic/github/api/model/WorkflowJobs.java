@@ -15,13 +15,13 @@ import java.util.ArrayList;
 public class WorkflowJobs {
 
     @SerializedName("total_count")
-    private Integer totalCount;
+    private Long totalCount = 0L;
 
     @SerializedName("jobs")
     private ArrayList<WorkflowJob> jobs;
 
     /** Setters... */
-    public void setTotalCount(@NonNull Integer value) {
+    public void setTotalCount(@NonNull Long value) {
         this.totalCount = value;
     }
 
@@ -31,16 +31,12 @@ public class WorkflowJobs {
 
     /** Getters... */
     @NonNull
-    public Integer getId() {
-        return this.totalCount;
-    }
-
-    @NonNull
-    public ArrayList<WorkflowJob> getName() {
+    public ArrayList<WorkflowJob> getJobs() {
         return this.jobs;
     }
 
-    public Integer getTotalCount() {
+    @NonNull
+    public Long getTotalCount() {
         return this.totalCount;
     }
 }

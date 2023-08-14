@@ -2,6 +2,7 @@ package io.syslogic.github.api.room;
 
 import android.database.Cursor;
 
+import androidx.annotation.NonNull;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -21,32 +22,37 @@ import io.syslogic.github.api.model.Workflow;
 @Dao
 public interface WorkflowsDao {
 
-    // @Transaction
+    @NonNull
     @Query("SELECT * FROM " + Constants.TABLE_WORKFLOWS)
     List<Workflow> getItems();
 
     /* For ContentProvider */
+    @NonNull
     @Query("SELECT * FROM " + Constants.TABLE_WORKFLOWS)
     Cursor selectAll();
 
     /* For ContentProvider */
+    @NonNull
     @Query("SELECT * FROM " + Constants.TABLE_WORKFLOWS + " WHERE id LIKE :itemId LIMIT 1")
-    Cursor getCursor(Long itemId);
+    Cursor getCursor(@NonNull Long itemId);
 
+    @NonNull
     @Query("SELECT * FROM " + Constants.TABLE_WORKFLOWS + " WHERE id LIKE :itemId LIMIT 1")
-    Workflow getItem(Long itemId);
+    Workflow getItem(@NonNull Long itemId);
 
+    @NonNull
     @Insert()
-    Long insert(Workflow item);
+    Long insert(@NonNull Workflow item);
 
     @Update()
-    int update(Workflow item);
+    int update(@NonNull Workflow item);
 
     @Delete()
-    void delete(Workflow item);
+    void delete(@NonNull Workflow item);
 
+    @SuppressWarnings("unused")
     @Query("DELETE FROM " + Constants.TABLE_WORKFLOWS + " WHERE id = :itemId")
-    int deleteById(Long itemId);
+    int deleteById(@NonNull Long itemId);
 
     @Query("DELETE FROM " + Constants.TABLE_WORKFLOWS)
     void clear();
