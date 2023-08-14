@@ -9,26 +9,26 @@
     <string name="tools_subscriber_count">2418</string>
     <string name="tools_network_count">2090</string>
 
-    <!-- toolbar pager -->
+    <!-- Toolbar Pager -->
     <string name="tools_page_number">loaded page 1 of 319</string>
     <string name="tools_total_item_count">9574</string>
     <string name="tools_total_pages">319</string>
 
-    <!-- toolbar profile -->
+    <!-- Toolbar Profile -->
     <string name="tools_github_name">Profile Preview</string>
     <string name="tools_github_login">token login</string>
 
-    <!-- cardview repository -->
+    <!-- Cardview Repository -->
     <string name="tools_workflow_count">1</string>
 
-    <!-- toolbar workflow -->
+    <!-- Toolbar & Cardview Workflow -->
     <string name="tools_workflow_file_name">android.yml</string>
-
-    <!-- cardview workflow -->
     <string name="tools_workflow_name">Gradle</string>
     <string name="tools_workflow_path">.github/workflows/gradle.yml</string>
+    <string name="tools_workflow_state">active</string>
+    <string name="tools_workflow_html_url">https://</string>
 
-    <!-- dialog jgit progress -->
+    <!-- Dialog jgit progress -->
     <string name="tools_task_title">remote: Enumerating objects</string>
     <string name="tools_task_progress">2056 / 5793</string>
     <string name="tools_task_percentage">93%</string>

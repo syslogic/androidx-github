@@ -18,36 +18,76 @@
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            android:orientation="vertical"
             android:padding="2dp"
             android:foreground="?android:attr/selectableItemBackground"
             tools:ignore="UnusedAttribute">
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/name"
-                android:layout_width="wrap_content"
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:color="?android:colorControlHighlight"
-                android:fontFamily="sans-serif-medium"
-                android:layout_gravity="end"
-                android:padding="8dp"
-                android:text="@{ item.name }"
-                android:textColor="@color/colorText"
-                android:textSize="14sp"
-                tools:text="@string/tools_workflow_name"/>
+                android:orientation="horizontal">
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/path"
-                android:layout_width="wrap_content"
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:color="?android:colorControlHighlight"
+                    android:fontFamily="sans-serif-medium"
+                    android:layout_gravity="end"
+                    android:padding="8dp"
+                    android:text="@{ item.name }"
+                    android:textColor="@color/colorText"
+                    android:textSize="14sp"
+                    tools:text="@string/tools_workflow_name"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/path"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:color="?android:colorControlHighlight"
+                    android:fontFamily="sans-serif-medium"
+                    android:layout_gravity="start"
+                    android:padding="8dp"
+                    android:text="@{ item.path }"
+                    android:textColor="@color/colorText"
+                    android:textSize="14sp"
+                    tools:text="@string/tools_workflow_path"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/state"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:color="?android:colorControlHighlight"
+                    android:fontFamily="sans-serif-medium"
+                    android:layout_gravity="start"
+                    android:padding="8dp"
+                    android:text="@{ item.state }"
+                    android:textColor="@color/colorText"
+                    android:textSize="14sp"
+                    tools:text="@string/tools_workflow_state"/>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:color="?android:colorControlHighlight"
-                android:fontFamily="sans-serif-medium"
-                android:layout_gravity="start"
-                android:padding="8dp"
-                android:text="@{ item.path }"
-                android:textColor="@color/colorText"
-                android:textSize="14sp"
-                tools:text="@string/tools_workflow_path"/>
+                android:orientation="horizontal">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/htmlUrl"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:color="?android:colorControlHighlight"
+                    android:fontFamily="sans-serif-medium"
+                    android:layout_gravity="start"
+                    android:padding="8dp"
+                    android:text="@{ item.htmlUrl }"
+                    android:textColor="@color/colorText"
+                    android:textSize="14sp"
+                    tools:text="@string/tools_workflow_html_url"/>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
