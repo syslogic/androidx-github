@@ -8,14 +8,13 @@ android {
     buildToolsVersion = '34.0.0'
     compileSdk 34
     defaultConfig {
-        versionName rootProject.ext.get('versionName')
-        versionCode rootProject.ext.get('versionCode')
         minSdk 22
         targetSdk 34
+        versionCode rootProject.ext.get('versionCode')
+        versionName rootProject.ext.get('versionName')
         setProperty("archivesBaseName", "androidx_github_" + versionName)
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles "consumer-rules.pro"
-
+        consumerProguardFile "${project.rootDir}/proguard/consumer.pro"
         javaCompileOptions {
             annotationProcessorOptions {
                 arguments = [ "room.schemaLocation": "$rootDir/schema".toString() ]
@@ -42,7 +41,6 @@ android {
             minifyEnabled false
         }
         release {
-            consumerProguardFile "${project.rootDir}/proguard/consumer.pro"
             minifyEnabled false
         }
     }
