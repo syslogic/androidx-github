@@ -26,7 +26,7 @@ import io.syslogic.github.api.room.QueryStringsDao;
 import io.syslogic.github.databinding.FragmentRepositorySearchBinding;
 import io.syslogic.github.model.PagerState;
 import io.syslogic.github.network.TokenCallback;
-import io.syslogic.github.provider.RepositorySearchMenuProvider;
+import io.syslogic.github.menu.RepositorySearchMenuProvider;
 import io.syslogic.github.recyclerview.RepositorySearchAdapter;
 import io.syslogic.github.recyclerview.RepositorySearchLinearView;
 import io.syslogic.github.recyclerview.ScrollListener;

@@ -21,7 +21,7 @@ import io.syslogic.github.api.model.User;
 import io.syslogic.github.databinding.FragmentRepositoriesBinding;
 import io.syslogic.github.model.PagerState;
 import io.syslogic.github.network.TokenCallback;
-import io.syslogic.github.provider.RepositoriesMenuProvider;
+import io.syslogic.github.menu.RepositoriesMenuProvider;
 import io.syslogic.github.recyclerview.RepositoriesAdapter;
 import io.syslogic.github.recyclerview.RepositoriesLinearView;
 import io.syslogic.github.recyclerview.ScrollListener;
@@ -171,6 +171,7 @@ public class RepositoriesFragment extends BaseFragment implements TokenCallback 
     @Override
     public void onNetworkAvailable() {
         super.onNetworkAvailable();
+
         String token = this.getAccessToken();
         if (getCurrentUser() == null && token != null) {
             this.setUser(token, this);
@@ -204,8 +205,6 @@ public class RepositoriesFragment extends BaseFragment implements TokenCallback 
 
     @Override
     public void onLogin(@NonNull User item) {
-        if (this.mDataBinding != null) {
-            this.mDataBinding.setUser(item);
-        }
+        if (this.mDataBinding != null) {this.mDataBinding.setUser(item);}
     }
 }

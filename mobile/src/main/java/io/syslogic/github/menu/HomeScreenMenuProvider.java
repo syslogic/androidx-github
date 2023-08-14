@@ -1,4 +1,4 @@
-package io.syslogic.github.provider;
+package io.syslogic.github.menu;
 
 import android.view.Menu;
 import android.view.MenuInflater;

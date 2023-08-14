@@ -99,7 +99,7 @@ public class WorkflowsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     public void getWorkflows(String accessToken, String username, String repositoryName) {
 
         Call<WorkflowsResponse> api = GithubClient.getWorkflows(accessToken, username, repositoryName);
-        if (BuildConfig.DEBUG) {Log.w(LOG_TAG, api.request().url() + "");}
+        GithubClient.logUrl(LOG_TAG, api);
 
         api.enqueue(new Callback<>() {
             @Override
@@ -114,10 +114,7 @@ public class WorkflowsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                         }
                     }
                 } else {
-                    /* "bad credentials" means that the provided access-token is invalid. */
-                    if (response.errorBody() != null) {
-                        // logError(response.errorBody());
-                    }
+                    GithubClient.logError(LOG_TAG, response);
                 }
             }
 

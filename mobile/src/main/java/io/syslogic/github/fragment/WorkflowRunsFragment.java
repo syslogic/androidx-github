@@ -5,16 +5,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.ViewDataBinding;
-
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-
-import java.io.IOException;
 
 import io.syslogic.github.Constants;
 import io.syslogic.github.R;
@@ -22,10 +16,9 @@ import io.syslogic.github.activity.NavHostActivity;
 import io.syslogic.github.api.GithubClient;
 import io.syslogic.github.api.model.Repository;
 import io.syslogic.github.databinding.FragmentWorkflowRunsBinding;
-import io.syslogic.github.provider.WorkflowsMenuProvider;
+import io.syslogic.github.menu.WorkflowsMenuProvider;
 import io.syslogic.github.recyclerview.WorkflowRunsAdapter;
 
-import io.syslogic.github.recyclerview.WorkflowStepsAdapter;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -118,67 +111,35 @@ public class WorkflowRunsFragment extends BaseFragment {
         if (repositoryId != 0) {
 
             Call<Repository> api = GithubClient.getRepository(repositoryId);
-            if (mDebug) {Log.w(LOG_TAG, api.request().url() + "");}
+            GithubClient.logUrl(LOG_TAG, api);
 
             api.enqueue(new Callback<>() {
                 @Override
                 public void onResponse(@NonNull Call<Repository> call, @NonNull Response<Repository> response) {
-                    switch (response.code()) {
-                        case 200 -> {
-                            if (response.body() != null) {
-                                Repository item = response.body();
-                                mDataBinding.setRepository(item);
+                    if (response.code() == 200) {
+                        if (response.body() != null) {
+                            Repository item = response.body();
+                            mDataBinding.setRepository(item);
 
-                                /* Filling in the blanks. */
-                                repositoryOwner = item.getOwner().getLogin();
-                                repositoryName = item.getName();
+                            /* Filling in the blanks. */
+                            repositoryOwner = item.getOwner().getLogin();
+                            repositoryName = item.getName();
 
-                                if (mDataBinding.recyclerviewWorkflowRuns.getAdapter() != null) {
-                                    ((WorkflowRunsAdapter) mDataBinding.recyclerviewWorkflowRuns.getAdapter())
-                                            .getWorkflowRuns(getAccessToken(), item.getOwner().getLogin(), item.getName());
-                                }
+                            if (mDataBinding.recyclerviewWorkflowRuns.getAdapter() != null) {
+                                ((WorkflowRunsAdapter) mDataBinding.recyclerviewWorkflowRuns.getAdapter())
+                                        .getWorkflowRuns(getAccessToken(), item.getOwner().getLogin(), item.getName());
                             }
                         }
-                        case 403 -> {
-                            if (response.errorBody() != null) {
-                                try {
-                                    String errors = response.errorBody().string();
-                                    JsonObject jsonObject = JsonParser.parseString(errors).getAsJsonObject();
-                                    String message = jsonObject.get("message").toString();
-                                    if (mDebug) {
-                                        Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
-                                        Log.e(LOG_TAG, message);
-                                    }
-                                } catch (IOException e) {
-                                    if (mDebug) {Log.e(LOG_TAG, "" + e.getMessage());}
-                                }
-                            }
-                        }
+                    } else {
+                        GithubClient.logError(LOG_TAG, response);
                     }
                 }
                 @Override
                 public void onFailure(@NonNull Call<Repository> call, @NonNull Throwable t) {
-                    if (mDebug) {
-                        Log.e(LOG_TAG, "" + t.getMessage());
-                    }
+                    if (mDebug) {Log.e(LOG_TAG, "" + t.getMessage());}
                 }
             });
         }
-    }
-
-    @NonNull
-    public Long getRepositoryId() {
-        return this.repositoryId;
-    }
-
-    @Nullable
-    public String getRepositoryOwner() {
-        return this.repositoryOwner;
-    }
-
-    @Nullable
-    public String getRepositoryName() {
-        return this.repositoryName;
     }
 
     private void setRepositoryId(@NonNull Long value) {

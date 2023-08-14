@@ -16,7 +16,7 @@ import io.syslogic.github.activity.NavHostActivity;
 import io.syslogic.github.api.model.User;
 import io.syslogic.github.databinding.FragmentHomeScreenBinding;
 import io.syslogic.github.network.TokenCallback;
-import io.syslogic.github.provider.HomeScreenMenuProvider;
+import io.syslogic.github.menu.HomeScreenMenuProvider;
 
 /**
  * Home Screen {@link BaseFragment}

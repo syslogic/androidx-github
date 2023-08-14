@@ -74,6 +74,8 @@ public class RepositoryFragment extends BaseFragment implements TokenCallback {
     /** Data-Binding */
     FragmentRepositoryBinding mDataBinding;
     ProgressDialogFragment currentDialog;
+
+    /** The repository's ID. */
     Long repositoryId = -1L;
 
     /** Constructor */
@@ -126,24 +128,25 @@ public class RepositoryFragment extends BaseFragment implements TokenCallback {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                         if (count > 0) {
-
                             WebView webview = getDataBinding().webview;
                             AppCompatSpinner spinner = getDataBinding().toolbarDownload.spinnerBranch;
                             String branch = spinner.getSelectedItem().toString();
-
                             String url = webview.getUrl();
-                            if (url.equals("https://github.com/" + getDataBinding().getRepository().getFullName())) {
-                                url += "/tree/" + branch;
-                            } else {
-                                Uri uri = Uri.parse(url);
-                                String token = uri.getLastPathSegment();
-                                if (token != null) {
-                                    url = url.replace(token, branch);
+
+                            if (url != null) {
+                                if (url.equals("https://github.com/" + getDataBinding().getRepository().getFullName())) {
+                                    url += "/tree/" + branch;
+                                } else {
+                                    Uri uri = Uri.parse(url);
+                                    String token = uri.getLastPathSegment();
+                                    if (token != null) {
+                                        url = url.replace(token, branch);
+                                    }
                                 }
+                                url = url.replace("/tree/master", "");
+                                if (mDebug) {Log.d(LOG_TAG, url);}
+                                webview.loadUrl(url);
                             }
-                            url = url.replace("/tree/master", "");
-                            if (mDebug) {Log.d(LOG_TAG, url);}
-                            webview.loadUrl(url);
                         }
                         count++;
                     }
@@ -283,35 +286,20 @@ public class RepositoryFragment extends BaseFragment implements TokenCallback {
         if (repositoryId != 0) {
 
             Call<Repository> api = GithubClient.getRepository(repositoryId);
-            if (mDebug) {Log.w(LOG_TAG, api.request().url() + "");}
+            GithubClient.logUrl(LOG_TAG, api);
 
             api.enqueue(new Callback<>() {
 
                 @Override
                 public void onResponse(@NonNull Call<Repository> call, @NonNull Response<Repository> response) {
-                    switch (response.code()) {
-                        case 200 -> {
-                            if (response.body() != null) {
-                                Repository item = response.body();
-                                mDataBinding.setRepository(item);
-                                setBranches(item);
-                            }
+                    if (response.code() == 200) {
+                        if (response.body() != null) {
+                            Repository item = response.body();
+                            mDataBinding.setRepository(item);
+                            setBranches(item);
                         }
-                        case 403 -> {
-                            if (response.errorBody() != null) {
-                                try {
-                                    String errors = response.errorBody().string();
-                                    JsonObject jsonObject = JsonParser.parseString(errors).getAsJsonObject();
-                                    String message = jsonObject.get("message").toString();
-                                    if (mDebug) {
-                                        Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
-                                        Log.e(LOG_TAG, message);
-                                    }
-                                } catch (IOException e) {
-                                    if (mDebug) {Log.e(LOG_TAG, "" + e.getMessage());}
-                                }
-                            }
-                        }
+                    } else {
+                        GithubClient.logError(LOG_TAG, response);
                     }
                 }
 
@@ -326,7 +314,7 @@ public class RepositoryFragment extends BaseFragment implements TokenCallback {
     public void setBranches(@NonNull Repository item) {
 
         Call<ArrayList<Branch>> api = GithubClient.getBranches(item.getOwner().getLogin(), item.getName());
-        if (mDebug) {Log.w(LOG_TAG, api.request().url() + "");}
+        GithubClient.logUrl(LOG_TAG, api);
         final String repoName = item.getName();
 
         api.enqueue(new Callback<>() {

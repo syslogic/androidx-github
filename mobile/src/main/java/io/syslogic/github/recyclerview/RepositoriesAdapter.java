@@ -10,7 +10,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,10 +20,6 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-
-import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
@@ -40,8 +35,6 @@ import io.syslogic.github.databinding.CardviewRepositoryBinding;
 import io.syslogic.github.databinding.FragmentRepositoriesBinding;
 import io.syslogic.github.model.PagerState;
 import io.syslogic.github.network.TokenHelper;
-
-import okhttp3.ResponseBody;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -65,7 +58,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     private static WeakReference<Context> mContext;
 
-    private RecyclerView mRecyclerView;
+
 
     /** This may add the account in debug mode and therefore must be called first. */
     private String accessToken = null;
@@ -83,17 +76,10 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private int pageSize = 50;
 
     public RepositoriesAdapter(@NonNull Context context) {
-        this.mContext = new WeakReference<>(context);
+        mContext = new WeakReference<>(context);
         if (this.getCredentials()) {
             this.fetchPage(1);
         }
-    }
-
-    @Override
-    public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
-        super.onAttachedToRecyclerView(recyclerView);
-        this.mContext = new WeakReference<>(recyclerView.getContext());
-        this.mRecyclerView = recyclerView;
     }
 
     @NonNull
@@ -134,7 +120,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             this.getPagerState().setItemsPerPage(this.pageSize);
 
             Call<ArrayList<Repository>> api = GithubClient.getUserRepositories(this.accessToken, this.username, this.repositoryType, this.sortField, this.sortOrder, this.pageSize, pageNumber);
-            if (BuildConfig.DEBUG) {Log.w(LOG_TAG, api.request().url() + "");}
+            GithubClient.logUrl(LOG_TAG, api);
 
             api.enqueue(new Callback<>() {
                 @Override
@@ -154,18 +140,13 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                             getWorkflows(positionStart);
                         }
                     } else {
-                        /* "bad credentials" means that the provided access-token is invalid. */
-                        if (response.errorBody() != null) {
-                            logError(response.errorBody());
-                        }
+                        GithubClient.logError(LOG_TAG, response);
                     }
                 }
 
                 @Override
                 public void onFailure(@NonNull Call<ArrayList<Repository>> call, @NonNull Throwable t) {
-                    if (BuildConfig.DEBUG) {
-                        Log.e(LOG_TAG, "" + t.getMessage());
-                    }
+                    if (BuildConfig.DEBUG) {Log.e(LOG_TAG, "" + t.getMessage());}
                 }
             });
         }
@@ -175,10 +156,10 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         final int[] index = {0};
         for (Repository item : this.getItems()) {
 
-            Call<WorkflowsResponse> api2 = GithubClient.getWorkflows(accessToken, username, item.getName());
-            // if (BuildConfig.DEBUG) {Log.w(LOG_TAG, api2.request().url() + "");}
+            Call<WorkflowsResponse> api = GithubClient.getWorkflows(accessToken, username, item.getName());
+            GithubClient.logUrl(LOG_TAG, api);
 
-            api2.enqueue(new Callback<>() {
+            api.enqueue(new Callback<>() {
                 @Override
                 public void onResponse(@NonNull Call<WorkflowsResponse> call, @NonNull Response<WorkflowsResponse> response) {
                     if (response.code() == 200) { // OK
@@ -197,10 +178,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                             }
                         }
                     } else {
-                        /* "bad credentials" means that the provided access-token is invalid. */
-                        if (response.errorBody() != null) {
-                            logError(response.errorBody());
-                        }
+                        GithubClient.logError(LOG_TAG, response);
                     }
                     index[0]++;
                 }
@@ -252,14 +230,6 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     void clearItems() {
         this.mItems.clear();
         notifyItemRangeChanged(0, getItemCount());
-    }
-
-    /** Reset the scroll listener. */
-    protected void resetOnScrollListener() {
-        if (this.mRecyclerView.getAdapter() != null) {
-            ScrollListener listener = ((RepositoriesLinearView) this.mRecyclerView).getOnScrollListener();
-            listener.setIsLoading(false);
-        }
     }
 
     @Nullable
@@ -330,17 +300,6 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     @NonNull
     protected Context getContext() {
         return mContext.get();
-    }
-
-    void logError(@NonNull ResponseBody responseBody) {
-        try {
-            String errors = responseBody.string();
-            JsonObject jsonObject = JsonParser.parseString(errors).getAsJsonObject();
-            Toast.makeText(getContext(), jsonObject.get("message").toString(), Toast.LENGTH_LONG).show();
-            if (BuildConfig.DEBUG) {Log.e(LOG_TAG, jsonObject.get("message").toString());}
-        } catch (IOException e) {
-            if (BuildConfig.DEBUG) {Log.e(LOG_TAG, "" + e.getMessage());}
-        }
     }
 
     /** {@link RecyclerView.ViewHolder} for {@link CardView} of type {@link Workflow}. */

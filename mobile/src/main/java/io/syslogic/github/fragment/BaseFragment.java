@@ -181,7 +181,7 @@ abstract public class BaseFragment extends Fragment implements ConnectivityListe
     protected void setUser(@NonNull String accessToken, @Nullable final TokenCallback listener) {
 
         Call<User> api = GithubClient.getUser(accessToken);
-        if (mDebug) {Log.w(LOG_TAG, api.request().url() + "");}
+        GithubClient.logUrl(LOG_TAG, api);
 
         api.enqueue(new Callback<>() {
 

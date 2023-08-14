@@ -23,10 +23,6 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-
-import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Date;
@@ -47,8 +43,6 @@ import io.syslogic.github.databinding.FragmentRepositorySearchBinding;
 import io.syslogic.github.fragment.RepositoryFragment;
 import io.syslogic.github.model.PagerState;
 import io.syslogic.github.network.TokenHelper;
-
-import okhttp3.ResponseBody;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -133,7 +127,8 @@ public class RepositorySearchAdapter extends RecyclerView.Adapter<RecyclerView.V
             setPagerState(pageNumber, true, null);
 
             Call<RepositorySearch> api = GithubClient.searchRepositories(accessToken, this.queryString,"stars","desc", pageNumber);
-            if (BuildConfig.DEBUG) {Log.w(LOG_TAG, api.request().url() + "");}
+            GithubClient.logUrl(LOG_TAG, api);
+
             api.enqueue(new Callback<>() {
 
                 @Override
@@ -162,24 +157,19 @@ public class RepositorySearchAdapter extends RecyclerView.Adapter<RecyclerView.V
                             }
                         }
                         case 401 -> {
-                            /* "bad credentials" means that the provided access-token is invalid. */
-                            if (response.errorBody() != null) {
-                                logError(response.errorBody());
+                            GithubClient.logError(LOG_TAG, response);
 
-                                /* Updating the pager data-binding */
-                                setPagerState(pageNumber, false, null);
-                            }
+                            /* Updating the pager data-binding */
+                            setPagerState(pageNumber, false, null);
                         }
                         case 403 -> {
-                            if (response.errorBody() != null) {
-                                logError(response.errorBody());
+                            GithubClient.logError(LOG_TAG, response);
 
-                                /* Updating the pager data-binding */
-                                setPagerState(pageNumber, false, null);
+                            /* Updating the pager data-binding */
+                            setPagerState(pageNumber, false, null);
 
-                                resetOnScrollListener();
-                                getRateLimit("search");
-                            }
+                            resetOnScrollListener();
+                            getRateLimit("search");
                         }
                     }
                 }
@@ -304,17 +294,6 @@ public class RepositorySearchAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     public String getQueryString() {
         return this.queryString;
-    }
-
-    void logError(@NonNull ResponseBody responseBody) {
-        try {
-            String errors = responseBody.string();
-            JsonObject jsonObject = JsonParser.parseString(errors).getAsJsonObject();
-            Toast.makeText(getContext(), jsonObject.get("message").toString(), Toast.LENGTH_LONG).show();
-            if (BuildConfig.DEBUG) {Log.e(LOG_TAG, jsonObject.get("message").toString());}
-        } catch (IOException e) {
-            if (BuildConfig.DEBUG) {Log.e(LOG_TAG, "" + e.getMessage());}
-        }
     }
 
     /** {@link RecyclerView.ViewHolder} for {@link CardView} of type {@link Repository}. */

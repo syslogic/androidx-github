@@ -70,7 +70,6 @@ public class TokenHelper {
         }
     }
 
-    // @SuppressWarnings({"deprecation", "RedundantSuppression"})
     private static String loadTokenFromPackageMeta(@NonNull Context context, AccountManager accountManager) {
         String token = null;
         try {
@@ -90,7 +89,7 @@ public class TokenHelper {
 
                     /* Obtain the username; this also validates the access token. */
                     Call<User> api = GithubClient.getUser(token);
-                    if (BuildConfig.DEBUG) {Log.w(LOG_TAG, api.request().url() + "");}
+                    GithubClient.logUrl(LOG_TAG, api);
                     String finalToken = token;
 
                     api.enqueue(new Callback<>() {
@@ -100,9 +99,9 @@ public class TokenHelper {
                                 if (response.body() != null) {
                                     User item = response.body();
                                     Account account = addAccount(accountManager, item.getLogin(), finalToken);
-                                    if (BuildConfig.DEBUG) {
+                                    if (mDebug) {
                                         if (account != null) {Log.d(LOG_TAG, "account added");}
-                                        // else {Log.d(LOG_TAG, "account not added");}
+                                         else {Log.d(LOG_TAG, "account not added");}
                                     }
                                 }
                             } else {
@@ -114,7 +113,7 @@ public class TokenHelper {
                         }
                         @Override
                         public void onFailure(@NonNull Call<User> call, @NonNull Throwable t) {
-                            if (BuildConfig.DEBUG) {Log.e(LOG_TAG, "" + t.getMessage());}
+                            if (mDebug) {Log.e(LOG_TAG, "" + t.getMessage());}
                         }
                     });
                 }

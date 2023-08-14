@@ -1,11 +1,16 @@
 package io.syslogic.github.api;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import io.syslogic.github.api.model.Branch;
@@ -22,6 +27,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.ResponseBody;
 
 import retrofit2.Call;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -32,6 +38,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class GithubClient {
 
+    /** {@link Retrofit} Instance */
     private static Retrofit retrofit;
 
     /** @return an instance of {@link GithubService}. */
@@ -230,5 +237,24 @@ public class GithubClient {
      */
     @NonNull public static Call<WorkflowJobsResponse> getWorkflowJobs(@Nullable String token, @NonNull String owner, @NonNull String repo, @NonNull Long runId) {
         return getService().getWorkflowJobs("token " + token, owner, repo, runId);
+    }
+
+    /** It logs the URL of the call. */
+    public static void logUrl(@NonNull String tag, @NonNull Call<?> api) {
+        if (BuildConfig.DEBUG) {Log.w(tag, api.request().url() + "");}
+    }
+
+    /** Note: "bad credentials" means that the provided access-token is invalid. */
+    public static void logError(@NonNull String tag, @NonNull Response<?> response) {
+        if (BuildConfig.DEBUG && response.errorBody() != null) {
+            try {
+                String errors = response.errorBody().string();
+                JsonObject jsonObject = JsonParser.parseString(errors).getAsJsonObject();
+                String message = jsonObject.get("message").toString();
+                Log.e(tag, message);
+            } catch (IOException e) {
+                Log.e(tag, "" + e.getMessage());
+            }
+        }
     }
 }

@@ -15,7 +15,7 @@ import androidx.navigation.Navigation;
 import io.syslogic.github.R;
 import io.syslogic.github.activity.BaseActivity;
 import io.syslogic.github.databinding.FragmentQueryStringsBinding;
-import io.syslogic.github.provider.QueryStringsMenuProvider;
+import io.syslogic.github.menu.QueryStringsMenuProvider;
 import io.syslogic.github.recyclerview.QueryStringsAdapter;
 
 /**

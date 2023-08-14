@@ -22,7 +22,7 @@ import io.syslogic.github.activity.NavHostActivity;
 import io.syslogic.github.api.GithubClient;
 import io.syslogic.github.api.model.Repository;
 import io.syslogic.github.databinding.FragmentWorkflowsBinding;
-import io.syslogic.github.provider.WorkflowsMenuProvider;
+import io.syslogic.github.menu.WorkflowsMenuProvider;
 import io.syslogic.github.recyclerview.WorkflowsAdapter;
 
 import retrofit2.Call;
@@ -118,40 +118,39 @@ public class WorkflowsFragment extends BaseFragment {
         if (repositoryId != 0L) {
 
             Call<Repository> api = GithubClient.getRepository(repositoryId);
-            if (mDebug) {Log.w(LOG_TAG, api.request().url() + "");}
+            GithubClient.logUrl(LOG_TAG, api);
 
             api.enqueue(new Callback<>() {
                 @Override
                 public void onResponse(@NonNull Call<Repository> call, @NonNull Response<Repository> response) {
-                    switch (response.code()) {
-                        case 200 -> {
-                            if (response.body() != null) {
-                                Repository item = response.body();
-                                mDataBinding.setRepository(item);
+                    if (response.code() == 200) {
+                        if (response.body() != null) {
+                            Repository item = response.body();
+                            mDataBinding.setRepository(item);
 
-                                /* Filling in the blanks. */
-                                repositoryOwner = item.getOwner().getLogin();
-                                repositoryName = item.getName();
+                            /* Filling in the blanks. */
+                            repositoryOwner = item.getOwner().getLogin();
+                            repositoryName = item.getName();
 
-                                if (mDataBinding.recyclerviewWorkflows.getAdapter() != null) {
-                                    WorkflowsAdapter adapter = ((WorkflowsAdapter) mDataBinding.recyclerviewWorkflows.getAdapter());
-                                    adapter.setRepositoryId(repositoryId);
-                                    adapter.getWorkflows(getAccessToken(), repositoryOwner, repositoryName);
-                                }
+                            if (mDataBinding.recyclerviewWorkflows.getAdapter() != null) {
+                                WorkflowsAdapter adapter = ((WorkflowsAdapter) mDataBinding.recyclerviewWorkflows.getAdapter());
+                                adapter.setRepositoryId(repositoryId);
+                                adapter.getWorkflows(getAccessToken(), repositoryOwner, repositoryName);
                             }
                         }
-                        case 403 -> {
-                            if (response.errorBody() != null) {
-                                try {
-                                    String errors = response.errorBody().string();
-                                    JsonObject jsonObject = JsonParser.parseString(errors).getAsJsonObject();
-                                    String message = jsonObject.get("message").toString();
-                                    if (mDebug) {
-                                        Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
-                                        Log.e(LOG_TAG, message);
-                                    }
-                                } catch (IOException e) {
-                                    if (mDebug) {Log.e(LOG_TAG, "" + e.getMessage());}
+                    } else {
+                        if (response.errorBody() != null) {
+                            try {
+                                String errors = response.errorBody().string();
+                                JsonObject jsonObject = JsonParser.parseString(errors).getAsJsonObject();
+                                String message = jsonObject.get("message").toString();
+                                if (mDebug) {
+                                    Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
+                                    Log.e(LOG_TAG, message);
+                                }
+                            } catch (IOException e) {
+                                if (mDebug) {
+                                    Log.e(LOG_TAG, "" + e.getMessage());
                                 }
                             }
                         }
@@ -159,27 +158,10 @@ public class WorkflowsFragment extends BaseFragment {
                 }
                 @Override
                 public void onFailure(@NonNull Call<Repository> call, @NonNull Throwable t) {
-                    if (mDebug) {
-                        Log.e(LOG_TAG, "" + t.getMessage());
-                    }
+                    if (mDebug) {Log.e(LOG_TAG, "" + t.getMessage());}
                 }
             });
         }
-    }
-
-    @NonNull
-    public Long getRepositoryId() {
-        return this.repositoryId;
-    }
-
-    @Nullable
-    public String getRepositoryOwner() {
-        return this.repositoryOwner;
-    }
-
-    @Nullable
-    public String getRepositoryName() {
-        return this.repositoryName;
     }
 
     private void setRepositoryId(@NonNull Long value) {

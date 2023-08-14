@@ -10,7 +10,7 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import io.syslogic.github.R;
 import io.syslogic.github.fragment.BaseFragment;
-import io.syslogic.github.provider.BaseMenuProvider;
+import io.syslogic.github.menu.BaseMenuProvider;
 
 /**
  * The Base {@link AppCompatActivity}
