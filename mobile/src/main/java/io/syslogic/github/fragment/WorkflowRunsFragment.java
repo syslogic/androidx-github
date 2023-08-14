@@ -66,11 +66,9 @@ public class WorkflowRunsFragment extends BaseFragment {
         super.onCreate(savedInstanceState);
         Bundle args = this.getArguments();
         if (args != null) {
-            if (args.keySet().contains("android-support-nav:controller:deepLinkIntent")) {
-                //noinspection DataFlowIssue
-                this.setRepositoryId(Long.valueOf(args.getString(Constants.ARGUMENT_REPO_ID)));
-            } else {
-                this.setRepositoryId(args.getLong(Constants.ARGUMENT_REPO_ID));
+            this.setRepositoryId(args.getLong(Constants.ARGUMENT_REPO_ID));
+
+            if (! args.keySet().contains("android-support-nav:controller:deepLinkIntent")) {
                 this.setRepositoryOwner(args.getString(Constants.ARGUMENT_REPO_OWNER, null));
                 this.setRepositoryName(args.getString(Constants.ARGUMENT_REPO_NAME, null));
             }

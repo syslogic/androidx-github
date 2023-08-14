@@ -29,21 +29,36 @@
                 android:layout_height="wrap_content"
                 android:color="?android:colorControlHighlight"
                 android:fontFamily="sans-serif-medium"
-                android:layout_gravity="end"
+                android:layout_gravity="start|center_vertical"
                 android:padding="8dp"
                 android:text='@{ "" + item.workflowId }'
                 android:textColor="@color/colorText"
-                android:textSize="14sp"/>
+                android:textSize="14sp"
+                android:visibility="gone"/>
 
+            <!-- runId -->
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/id"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:color="?android:colorControlHighlight"
                 android:fontFamily="sans-serif-medium"
-                android:layout_gravity="start"
+                android:layout_gravity="start|center_vertical"
                 android:padding="8dp"
                 android:text='@{ "" + item.id }'
+                android:textColor="@color/colorText"
+                android:textSize="14sp"
+                android:visibility="gone"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/runNumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:color="?android:colorControlHighlight"
+                android:fontFamily="sans-serif-medium"
+                android:layout_gravity="start|center_vertical"
+                android:padding="8dp"
+                android:text='@{ "" + item.runNumber }'
                 android:textColor="@color/colorText"
                 android:textSize="14sp"/>
 
@@ -53,9 +68,22 @@
                 android:layout_height="wrap_content"
                 android:color="?android:colorControlHighlight"
                 android:fontFamily="sans-serif-medium"
-                android:layout_gravity="start"
+                android:layout_gravity="start|center_vertical"
                 android:padding="8dp"
                 android:text='@{ item.name }'
+                android:textColor="@color/colorText"
+                android:textSize="14sp"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/displayTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.00"
+                android:color="?android:colorControlHighlight"
+                android:fontFamily="sans-serif-medium"
+                android:layout_gravity="start|center_vertical"
+                android:padding="8dp"
+                android:text='@{ item.displayTitle }'
                 android:textColor="@color/colorText"
                 android:textSize="14sp"/>
 
@@ -65,7 +93,7 @@
                 android:layout_height="wrap_content"
                 android:color="?android:colorControlHighlight"
                 android:fontFamily="sans-serif-medium"
-                android:layout_gravity="start"
+                android:layout_gravity="end|center_vertical"
                 android:padding="8dp"
                 android:text='@{ item.conclusion }'
                 android:textColor="@color/colorText"
