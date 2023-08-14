@@ -107,16 +107,16 @@
             tools:layout="@layout/fragment_repositories">
             <deepLink app:uri="github://repositories"/>
             <action
-                android:id="@+id/action_repositoriesFragment_to_workflowFragment"
-                app:destination="@id/workflowFragment"/>
+                android:id="@+id/action_repositoriesFragment_to_workflowsFragment"
+                app:destination="@id/workflowsFragment"/>
         </fragment>
 
         <fragment
-            android:id="@+id/workflowFragment"
+            android:id="@+id/workflowsFragment"
             android:name="io.syslogic.github.fragment.WorkflowsFragment"
-            android:label="WorkflowFragment"
+            android:label="WorkflowsFragment"
             tools:layout="@layout/fragment_workflows">
-            <deepLink app:uri="github://workflow"/>
+            <deepLink app:uri="github://repository/{itemId}/workflows"/>
             <action
                 android:id="@+id/action_workflowFragment_to_workflowRunsFragment"
                 app:destination="@id/workflowRunsFragment" />
@@ -127,10 +127,26 @@
             android:name="io.syslogic.github.fragment.WorkflowRunsFragment"
             android:label="WorkflowRunsFragment"
             tools:layout="@layout/fragment_workflow_runs">
-            <deepLink app:uri="github://workflow/runs/{itemId}"/>
+            <deepLink app:uri="github://repository/{itemId}/workflow/runs"/>
             <argument
                 app:argType="long"
                 android:name="itemId"
+                android:defaultValue="-1L"/>
+        </fragment>
+
+        <fragment
+            android:id="@+id/workflowJobsFragment"
+            android:name="io.syslogic.github.fragment.WorkflowJobsFragment"
+            android:label="WorkflowJobsFragment"
+            tools:layout="@layout/fragment_workflow_runs">
+            <deepLink app:uri="github://repository/{itemId}/workflow/runs/{runId}"/>
+            <argument
+                app:argType="long"
+                android:name="itemId"
+                android:defaultValue="-1L"/>
+            <argument
+                app:argType="long"
+                android:name="runId"
                 android:defaultValue="-1L"/>
         </fragment>
 
