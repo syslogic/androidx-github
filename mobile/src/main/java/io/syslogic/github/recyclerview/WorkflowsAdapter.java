@@ -156,7 +156,7 @@ public class WorkflowsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             ViewDataBinding databinding = activity.getFragmentDataBinding();
             if (databinding != null) {
                 Bundle args = new Bundle();
-                args.putLong(Constants.ARGUMENT_ITEM_ID, item.getRepositoryId());
+                args.putLong(Constants.ARGUMENT_REPO_ID, item.getRepositoryId());
                 NavController controller = Navigation.findNavController(databinding.getRoot());
                 controller.navigate(R.id.action_workflowFragment_to_workflowRunsFragment, args);
             }

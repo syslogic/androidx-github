@@ -46,7 +46,7 @@ public class WorkflowRunsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     List<WorkflowRun> mItems = new ArrayList<>();
 
     public WorkflowRunsAdapter(@NonNull Context context) {
-        this.mContext = new WeakReference<>(context);
+        mContext = new WeakReference<>(context);
         Abstraction.executorService.execute(() -> {
             // mItems = Abstraction.getInstance(getContext()).workflowRunsDao().getItems()
         });
@@ -88,7 +88,7 @@ public class WorkflowRunsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @NonNull
     protected Context getContext() {
-        return this.mContext.get();
+        return mContext.get();
     }
 
     public void getWorkflowRuns(String accessToken, String username, String repositoryName) {
@@ -126,7 +126,6 @@ public class WorkflowRunsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private final CardviewWorkflowRunBinding mDataBinding;
-        private WorkflowRunsLinearView mRecyclerView;
         private CardView cardView;
         private long itemId;
 
@@ -151,7 +150,8 @@ public class WorkflowRunsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             ViewDataBinding databinding = activity.getFragmentDataBinding();
             if (databinding != null) {
                 Bundle args = new Bundle();
-                args.putLong(Constants.ARGUMENT_ITEM_ID, item.getId());
+                args.putLong(Constants.ARGUMENT_REPO_ID, itemId);
+                args.putLong(Constants.ARGUMENT_RUN_ID, item.getId());
                 NavController controller = Navigation.findNavController(databinding.getRoot());
                 controller.navigate(R.id.action_workflowRunsFragment_to_workflowJobsFragment, args);
             }

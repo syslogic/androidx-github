@@ -88,7 +88,7 @@ public class WorkflowStepsAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     @NonNull
     protected Context getContext() {
-        return this.mContext.get();
+        return mContext.get();
     }
 
     public void getWorkflowSteps(String accessToken, String username, String repositoryName, Long runId) {

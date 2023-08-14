@@ -11,6 +11,7 @@ public final class Constants {
 
     @NonNull public static final String ARGUMENT_ITEM_ID = "itemId";
     @NonNull public static final String ARGUMENT_ITEM_NAME = "name";
+    @NonNull public static final String ARGUMENT_REPO_ID = "repoId";
     @NonNull public static final String ARGUMENT_RUN_ID = "runId";
     @NonNull public static final String ARGUMENT_REPOSITORY_TOPIC = "topic";
 

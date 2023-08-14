@@ -45,16 +45,18 @@ public class WorkflowRunsFragment extends BaseFragment {
     /** Data-Binding */
     FragmentWorkflowRunsBinding mDataBinding;
 
+    /** The itemId is the repositoryId. */
     private Long itemId = -1L;
+    private Long runId = -1L;
 
     /** Constructor */
     public WorkflowRunsFragment() {}
     @NonNull
     @SuppressWarnings("unused")
-    public static WorkflowRunsFragment newInstance(long itemId) {
+    public static WorkflowRunsFragment newInstance(long repositoryId) {
         WorkflowRunsFragment fragment = new WorkflowRunsFragment();
         Bundle args = new Bundle();
-        args.putLong(Constants.ARGUMENT_ITEM_ID, itemId);
+        args.putLong(Constants.ARGUMENT_REPO_ID, repositoryId);
         fragment.setArguments(args);
         return fragment;
     }
@@ -64,7 +66,8 @@ public class WorkflowRunsFragment extends BaseFragment {
         super.onCreate(savedInstanceState);
         Bundle args = this.getArguments();
         if (args != null) {
-            this.setItemId(args.getLong(Constants.ARGUMENT_ITEM_ID));
+            this.setItemId(args.getLong(Constants.ARGUMENT_REPO_ID));
+            this.setRunId(args.getLong(Constants.ARGUMENT_RUN_ID));
         }
     }
 
@@ -83,10 +86,10 @@ public class WorkflowRunsFragment extends BaseFragment {
 
         if (! isNetworkAvailable(this.requireContext())) {
             this.onNetworkLost();
-        } else if (itemId != -1L) {
+        } else if (this.itemId != -1L) {
             WorkflowRunsAdapter adapter = new WorkflowRunsAdapter(requireContext());
             this.getDataBinding().recyclerviewWorkflowRuns.setAdapter(adapter);
-            this.setRepositoryId(itemId);
+            this.setRepositoryId(this.itemId);
         }
         return this.getDataBinding().getRoot();
     }
@@ -143,9 +146,16 @@ public class WorkflowRunsFragment extends BaseFragment {
     public Long getItemId() {
         return this.itemId;
     }
+    @NonNull
+    public Long getRunId() {
+        return this.runId;
+    }
 
     private void setItemId(@NonNull Long value) {
         this.itemId = value;
+    }
+    private void setRunId(@NonNull Long value) {
+        this.runId = value;
     }
 
     @NonNull

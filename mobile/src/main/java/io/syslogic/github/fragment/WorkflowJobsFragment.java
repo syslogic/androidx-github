@@ -45,7 +45,7 @@ public class WorkflowJobsFragment extends BaseFragment {
     /** Data-Binding */
     FragmentWorkflowJobsBinding mDataBinding;
 
-    /** the itemId should be used as runId. */
+    /** The itemId is the repositoryId. */
     private Long itemId = -1L;
     private Long runId = -1L;
 
@@ -53,10 +53,10 @@ public class WorkflowJobsFragment extends BaseFragment {
     public WorkflowJobsFragment() {}
     @NonNull
     @SuppressWarnings("unused")
-    public static WorkflowJobsFragment newInstance(long itemId) {
+    public static WorkflowJobsFragment newInstance(long repositoryId) {
         WorkflowJobsFragment fragment = new WorkflowJobsFragment();
         Bundle args = new Bundle();
-        args.putLong(Constants.ARGUMENT_ITEM_ID, itemId);
+        args.putLong(Constants.ARGUMENT_REPO_ID, repositoryId);
         fragment.setArguments(args);
         return fragment;
     }
@@ -66,7 +66,7 @@ public class WorkflowJobsFragment extends BaseFragment {
         super.onCreate(savedInstanceState);
         Bundle args = this.getArguments();
         if (args != null) {
-            this.setItemId(args.getLong(Constants.ARGUMENT_ITEM_ID));
+            this.setItemId(args.getLong(Constants.ARGUMENT_REPO_ID));
             this.setRunId(args.getLong(Constants.ARGUMENT_RUN_ID));
         }
     }
@@ -86,10 +86,10 @@ public class WorkflowJobsFragment extends BaseFragment {
 
         if (! isNetworkAvailable(this.requireContext())) {
             this.onNetworkLost();
-        } else if (itemId != -1L) {
+        } else if (this.itemId != -1L) {
             WorkflowStepsAdapter adapter = new WorkflowStepsAdapter(requireContext());
             this.getDataBinding().recyclerviewWorkflowSteps.setAdapter(adapter);
-            this.setRepositoryId(itemId);
+            this.setRepositoryId(this.itemId);
         }
         return this.getDataBinding().getRoot();
     }
@@ -107,18 +107,17 @@ public class WorkflowJobsFragment extends BaseFragment {
                     switch (response.code()) {
                         case 200 -> {
                             if (response.body() != null) {
+
                                 Repository item = response.body();
                                 mDataBinding.setRepository(item);
-                                if (mDataBinding.recyclerviewWorkflowSteps.getAdapter() != null) {
 
-                                    // runId ??
-
-                                    ((WorkflowStepsAdapter) mDataBinding.recyclerviewWorkflowSteps.getAdapter())
-                                            .getWorkflowSteps(getAccessToken(), item.getOwner().getLogin(), item.getName(), getRunId());
+                                WorkflowStepsAdapter adapter = ((WorkflowStepsAdapter) mDataBinding.recyclerviewWorkflowSteps.getAdapter());
+                                if (adapter != null) {
+                                    adapter.getWorkflowSteps(getAccessToken(), item.getOwner().getLogin(), item.getName(), getRunId());
                                 }
                             }
                         }
-                        case 403 -> {
+                        case 403, 404 -> {
                             if (response.errorBody() != null) {
                                 try {
                                     String errors = response.errorBody().string();
@@ -137,9 +136,7 @@ public class WorkflowJobsFragment extends BaseFragment {
                 }
                 @Override
                 public void onFailure(@NonNull Call<Repository> call, @NonNull Throwable t) {
-                    if (mDebug) {
-                        Log.e(LOG_TAG, "" + t.getMessage());
-                    }
+                    if (mDebug) {Log.e(LOG_TAG, "" + t.getMessage());}
                 }
             });
         }

@@ -83,7 +83,7 @@ public class RepositoryFragment extends BaseFragment implements TokenCallback {
     public static RepositoryFragment newInstance(long itemId) {
         RepositoryFragment fragment = new RepositoryFragment();
         Bundle args = new Bundle();
-        args.putLong(Constants.ARGUMENT_ITEM_ID, itemId);
+        args.putLong(Constants.ARGUMENT_REPO_ID, itemId);
         fragment.setArguments(args);
         return fragment;
     }
@@ -94,7 +94,7 @@ public class RepositoryFragment extends BaseFragment implements TokenCallback {
         this.registerBroadcastReceiver();
         Bundle args = this.getArguments();
         if (args != null) {
-            this.setItemId(args.getLong(Constants.ARGUMENT_ITEM_ID));
+            this.setItemId(args.getLong(Constants.ARGUMENT_REPO_ID));
         }
     }
 

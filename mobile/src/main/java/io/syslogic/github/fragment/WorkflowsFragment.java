@@ -45,6 +45,7 @@ public class WorkflowsFragment extends BaseFragment {
     /** Data-Binding */
     FragmentWorkflowsBinding mDataBinding;
 
+    /** The itemId is the repositoryId. */
     Long itemId = -1L;
 
     /** Constructor */
@@ -52,10 +53,10 @@ public class WorkflowsFragment extends BaseFragment {
 
     @NonNull
     @SuppressWarnings("unused")
-    public static WorkflowsFragment newInstance(long itemId) {
+    public static WorkflowsFragment newInstance(long repositoryId) {
         WorkflowsFragment fragment = new WorkflowsFragment();
         Bundle args = new Bundle();
-        args.putLong(Constants.ARGUMENT_ITEM_ID, itemId);
+        args.putLong(Constants.ARGUMENT_REPO_ID, repositoryId);
         fragment.setArguments(args);
         return fragment;
     }
@@ -68,9 +69,9 @@ public class WorkflowsFragment extends BaseFragment {
         if (args != null) {
             if (args.keySet().contains("android-support-nav:controller:deepLinkIntent")) {
                 //noinspection DataFlowIssue
-                this.setItemId(Long.valueOf(args.getString(Constants.ARGUMENT_ITEM_ID)));
+                this.setItemId(Long.valueOf(args.getString(Constants.ARGUMENT_REPO_ID)));
             } else {
-                this.setItemId(args.getLong(Constants.ARGUMENT_ITEM_ID));
+                this.setItemId(args.getLong(Constants.ARGUMENT_REPO_ID));
             }
         }
     }

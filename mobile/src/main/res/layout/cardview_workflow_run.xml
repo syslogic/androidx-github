@@ -47,6 +47,30 @@
                 android:textColor="@color/colorText"
                 android:textSize="14sp"/>
 
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:color="?android:colorControlHighlight"
+                android:fontFamily="sans-serif-medium"
+                android:layout_gravity="start"
+                android:padding="8dp"
+                android:text='@{ item.name }'
+                android:textColor="@color/colorText"
+                android:textSize="14sp"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/conclusion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:color="?android:colorControlHighlight"
+                android:fontFamily="sans-serif-medium"
+                android:layout_gravity="start"
+                android:padding="8dp"
+                android:text='@{ item.conclusion }'
+                android:textColor="@color/colorText"
+                android:textSize="14sp"/>
+
         </androidx.appcompat.widget.LinearLayoutCompat>
 
     </com.google.android.material.card.MaterialCardView>

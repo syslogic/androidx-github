@@ -45,6 +45,7 @@ public class WorkflowRunFragment extends BaseFragment {
     /** Data-Binding */
     FragmentWorkflowRunBinding mDataBinding;
 
+    /** The itemId is the repositoryId. */
     private Long itemId = -1L;
     private Long runId = -1L;
 
@@ -52,10 +53,10 @@ public class WorkflowRunFragment extends BaseFragment {
     public WorkflowRunFragment() {}
     @NonNull
     @SuppressWarnings("unused")
-    public static WorkflowRunFragment newInstance(long itemId) {
+    public static WorkflowRunFragment newInstance(long repositoryId) {
         WorkflowRunFragment fragment = new WorkflowRunFragment();
         Bundle args = new Bundle();
-        args.putLong(Constants.ARGUMENT_ITEM_ID, itemId);
+        args.putLong(Constants.ARGUMENT_REPO_ID, repositoryId);
         fragment.setArguments(args);
         return fragment;
     }
@@ -65,7 +66,7 @@ public class WorkflowRunFragment extends BaseFragment {
         super.onCreate(savedInstanceState);
         Bundle args = this.getArguments();
         if (args != null) {
-            this.setItemId(args.getLong(Constants.ARGUMENT_ITEM_ID));
+            this.setItemId(args.getLong(Constants.ARGUMENT_REPO_ID));
             this.setRunId(args.getLong(Constants.ARGUMENT_RUN_ID));
         }
     }
