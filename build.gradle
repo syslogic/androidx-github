@@ -2,7 +2,7 @@
 buildscript {
     ext {
         agp_version = '8.1.1'
-        kotlin_version = '1.8.22'
+        kotlin_version = '1.9.0'
         material_version = '1.9.0'
         appcompat_version = '1.6.1'
         annotation_version = '1.6.0'
