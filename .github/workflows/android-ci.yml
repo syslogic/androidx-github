@@ -52,18 +52,18 @@ jobs:
       - name: Build with Gradle
         run: ./gradlew :mobile:bundleDebug
 
-      - name: 📦 Retain Artifacts (Lint Results)
-        id: retain-lint-results
-        uses: actions/upload-artifact@v3
-        with:
-          name: androidx-github
-          path: ./mobile/build/reports/*
-          retention-days: 14
-
       - name: 📦 Retain Artifacts (Debug AAB)
         id: retain-debug-aab
         uses: actions/upload-artifact@v3
         with:
           name: androidx-github
           path: ./mobile/build/outputs/bundle/debug/*.aab
+          retention-days: 14
+
+      - name: 📦 Retain Artifacts (Lint Results)
+        id: retain-lint-results
+        uses: actions/upload-artifact@v3
+        with:
+          name: androidx-github
+          path: ./mobile/build/reports/*
           retention-days: 14
