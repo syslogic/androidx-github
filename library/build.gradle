@@ -10,9 +10,7 @@ android {
     defaultConfig {
         minSdk 22
         targetSdk 34
-        versionCode rootProject.ext.get('versionCode')
-        versionName rootProject.ext.get('versionName')
-        setProperty("archivesBaseName", "androidx_github_" + versionName)
+        setProperty("archivesBaseName", "androidx_github_$version_name")
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFile "${project.rootDir}/proguard/consumer.pro"
         javaCompileOptions {
@@ -159,7 +157,7 @@ artifacts {
 }
 
 group = 'io.syslogic'
-version = rootProject.ext.get('versionName')
+version = rootProject.ext.get('version_name')
 
 afterEvaluate {
     publishing {
@@ -167,7 +165,7 @@ afterEvaluate {
             release(MavenPublication) {
                 groupId = group
                 artifactId = 'androidx-github'
-                version = rootProject.ext.get('versionName')
+                version = rootProject.ext.get('version_name')
                 from components.getByName('release')
                 pom {
                     name = 'GitHub API Client'

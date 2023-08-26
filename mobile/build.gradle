@@ -9,13 +9,13 @@ android {
     buildToolsVersion = '34.0.0'
     compileSdk 34
     defaultConfig {
-        applicationId 'io.syslogic.github'
-        versionName rootProject.ext.get('versionName')
-        versionCode rootProject.ext.get('versionCode')
-        manifestPlaceholders = [ accessToken: "" ]
-        targetSdk 34
         minSdk 22
-        setProperty("archivesBaseName", "github_client_" + versionName)
+        targetSdk 34
+        applicationId 'io.syslogic.github'
+        manifestPlaceholders = [ accessToken: "" ]
+        versionName rootProject.ext.get('version_name')
+        versionCode rootProject.ext.get('version_code')
+        setProperty("archivesBaseName", "github_client_$version_name")
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         testBuildType "debug"
         multiDexEnabled true

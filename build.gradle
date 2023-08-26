@@ -1,13 +1,13 @@
 // root build.gradle
 buildscript {
     ext {
-        agp_version = '8.1.0'
+        agp_version = '8.1.1'
         kotlin_version = '1.8.22'
         material_version = '1.9.0'
         appcompat_version = '1.6.1'
         annotation_version = '1.6.0'
         fragment_version = '1.6.1'
-        nav_version = '2.7.0'
+        nav_version = '2.7.1'
         room_version = '2.5.2'
         flexbox_version = '3.0.0'
         splash_version = '1.0.1'
@@ -39,12 +39,12 @@ plugins {
 /** Version Settings, loaded from file `version.properties` */
 def version = new Properties()
 version.load(new FileInputStream(rootProject.file('version.properties')))
-project.ext.set('versionName', version['versionName'])
-project.ext.set('versionCode', new Integer(version['versionCode']))
+project.ext.set('version_code', new Integer(version['versionCode']))
+project.ext.set('version_name', version['versionName'])
 
 /* JitPack: use tag as versionName. */
 if (System.env.JITPACK) {
-    project.ext.set('versionName', System.env.VERSION)
+    project.ext.set('version_name', System.env.VERSION)
 }
 
 /** Keystore Settings, loaded from keystore.properties */
