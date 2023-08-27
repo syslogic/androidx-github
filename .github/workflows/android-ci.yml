@@ -54,7 +54,7 @@ jobs:
           distribution: jdkfile
           java-version: '17'
           architecture: x64
-          jdkFile: "${JDK_FILE}"
+          jdkFile: echo $JDK_FILE
 
       - name: Build with Gradle
         run: ./gradlew :mobile:bundleDebug
