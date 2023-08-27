@@ -1,7 +1,7 @@
 name: Android CI
 
 env:
-  JDK_FILE: /home/runner/work/_temp/amazon-corretto-17-x64-linux-jdk.tar.gz
+  JDK_FILE: /home/runner/work/amazon-corretto-17-x64-linux-jdk.tar.gz
 
 on:
   push:
@@ -54,7 +54,7 @@ jobs:
           distribution: jdkfile
           java-version: '17'
           architecture: x64
-          jdkFile: $JDK_FILE
+          jdkFile: "${JDK_FILE}"
 
       - name: Build with Gradle
         run: ./gradlew :mobile:bundleDebug
