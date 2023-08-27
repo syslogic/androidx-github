@@ -32,8 +32,11 @@ jobs:
           java-version: '17'
           architecture: x64
 
-      - name: Build with Gradle
-        run: ./gradlew :library:lint :mobile:lint :mobile:bundleDebug
+      - name: Build module :library with Gradle
+        run: ./gradlew :library:lint :library:assemble
+
+      - name: Build module :mobile with Gradle
+        run: ./gradlew :mobile:lint :mobile:bundleDebug
 
       # https://github.com/actions/upload-artifact
       - name: 📦 Retain Artifacts (Release AAR)
