@@ -101,7 +101,7 @@
                 android:text='@{ item.conclusion }'
                 android:textColor="@color/colorText"
                 android:textSize="14sp"
-                tools:text="@string/tools_workflow_run_conclusion"/>
+                tools:text="@string/tools_workflow_conclusion"/>
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 

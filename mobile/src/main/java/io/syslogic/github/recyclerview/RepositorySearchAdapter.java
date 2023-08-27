@@ -56,8 +56,7 @@ import retrofit2.Response;
 public class RepositorySearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     /** Log Tag */
-    @NonNull
-    private static final String LOG_TAG = RepositorySearchAdapter.class.getSimpleName();
+    @NonNull static final String LOG_TAG = RepositorySearchAdapter.class.getSimpleName();
 
     /** Debug Output */
     static final boolean mDebug = BuildConfig.DEBUG;

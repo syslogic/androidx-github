@@ -65,8 +65,7 @@ import retrofit2.Response;
 public class RepositoryFragment extends BaseFragment implements TokenCallback {
 
     /** Log Tag */
-    @SuppressWarnings("unused")
-    private static final String LOG_TAG = RepositoryFragment.class.getSimpleName();
+    @NonNull static final String LOG_TAG = RepositoryFragment.class.getSimpleName();
 
     /** Layout resource ID kept for reference. */
     @SuppressWarnings("unused") private static final int resId = R.layout.fragment_repository;

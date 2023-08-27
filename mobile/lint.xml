@@ -23,33 +23,38 @@
     </issue>
 
     <issue id="SyntheticAccessor">
-        <ignore regexp="LOG_TAG" />
+
     </issue>
 
     <issue id="UnusedResources">
-        <ignore regexp="R.layout.*" />
-        <ignore regexp="R.string.tools_*" />
-        <ignore regexp="R.string.text_pager_*" />
-        <ignore regexp="R.string.text_stargazers" />
-        <ignore regexp="R.string.text_subscribers" />
-        <ignore regexp="R.string.text_networks" />
-        <ignore regexp="R.drawable.baseline_cloud_download_*" />
+        <ignore regexp="R.layout.*"/>
+        <ignore regexp="R.string.tools_*"/>
+        <ignore regexp="R.string.text_pager_*"/>
+        <ignore regexp="R.string.text_stargazers"/>
+        <ignore regexp="R.string.text_subscribers"/>
+        <ignore regexp="R.string.text_networks"/>
+        <ignore regexp="R.string.summary_personal_access_token"/>
+        <ignore regexp="R.string.summary_personal_access_token_alt"/>
+        <ignore regexp="R.drawable.baseline_cloud_download_*"/>
+        <ignore regexp="R.mipmap.ic_launcher"/>
+        <ignore regexp="R.mipmap.ic_launcher_round"/>
+        <ignore regexp="R.mipmap.ocotocat"/>
     </issue>
 
     <!-- NotifyDataSetChanged is fine when clearing the adapter. -->
     <issue id="NotifyDataSetChanged">
-        <ignore regexp="io.syslogic.github.recyclerview.RepositorySearchLinearView" />
+        <ignore regexp="io.syslogic.github.recyclerview.RepositorySearchLinearView"/>
     </issue>
 
     <issue id="UnknownNullness">
-        <ignore regexp="io.syslogic.github.room.*Dao" />
+        <ignore regexp="io.syslogic.github.room.*Dao"/>
     </issue>
 
     <!-- JaCoCo, from Gradle cache ... -->
     <issue id="InvalidPackage">
-        <ignore regexp="java.lang.instrument" />
-        <ignore regexp="java.lang.management" />
-        <ignore regexp="javax.management" />
+        <ignore regexp="java.lang.instrument"/>
+        <ignore regexp="java.lang.management"/>
+        <ignore regexp="javax.management"/>
     </issue>
 
     <!-- don't notice about available alpha/beta versions -->

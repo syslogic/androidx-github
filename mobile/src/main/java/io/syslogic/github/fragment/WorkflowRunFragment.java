@@ -31,7 +31,7 @@ import retrofit2.Response;
 public class WorkflowRunFragment extends BaseFragment {
 
     /** Log Tag */
-    @SuppressWarnings("unused") private static final String LOG_TAG = WorkflowRunFragment.class.getSimpleName();
+    @SuppressWarnings("unused") static final String LOG_TAG = WorkflowRunFragment.class.getSimpleName();
 
     /** Layout resource ID kept for reference. */
     @SuppressWarnings("unused") private static final int resId = R.layout.fragment_workflow_run;
@@ -43,10 +43,10 @@ public class WorkflowRunFragment extends BaseFragment {
     Long repositoryId = -1L;
 
     /** The repository's owner. */
-    private String repositoryOwner;
+    String repositoryOwner;
 
     /** The repository's name. */
-    private String repositoryName;
+    String repositoryName;
 
     /** The workflow run's ID. */
     private Long runId = -1L;
@@ -137,7 +137,7 @@ public class WorkflowRunFragment extends BaseFragment {
         }
     }
 
-    private void getWorkflowRun() {
+    void getWorkflowRun() {
 
         Call<WorkflowRun> api = GithubClient.getWorkflowRun(getAccessToken(), repositoryOwner, repositoryName, getRunId());
         GithubClient.logUrl(LOG_TAG, api);

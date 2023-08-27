@@ -49,7 +49,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     /** Log Tag */
     @NonNull
-    private static final String LOG_TAG = RepositoriesAdapter.class.getSimpleName();
+    static final String LOG_TAG = RepositoriesAdapter.class.getSimpleName();
 
     /** Debug Output */
     static final boolean mDebug = BuildConfig.DEBUG;
@@ -275,6 +275,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
     /** Getters */
+    @SuppressWarnings("unused")
     public String getRepositoryType() {
         return this.repositoryType;
     }

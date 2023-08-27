@@ -31,7 +31,7 @@ import retrofit2.Response;
 public class WorkflowRunsFragment extends BaseFragment {
 
     /** Log Tag */
-    @SuppressWarnings("unused") private static final String LOG_TAG = WorkflowRunsFragment.class.getSimpleName();
+    @SuppressWarnings("unused") static final String LOG_TAG = WorkflowRunsFragment.class.getSimpleName();
 
     /** Layout resource ID kept for reference. */
     @SuppressWarnings("unused") private static final int resId = R.layout.fragment_workflow_runs;
@@ -43,11 +43,10 @@ public class WorkflowRunsFragment extends BaseFragment {
     Long repositoryId = -1L;
 
     /** The repository's owner. */
-    private String repositoryOwner;
+    String repositoryOwner;
 
     /** The repository's name. */
-    private String repositoryName;
-
+    String repositoryName;
 
     /** Constructor */
     public WorkflowRunsFragment() {}

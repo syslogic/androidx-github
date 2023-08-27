@@ -34,7 +34,7 @@ import retrofit2.Response;
 public class WorkflowStepsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     /** Log Tag */
-    @NonNull @SuppressWarnings("unused") private static final String LOG_TAG = WorkflowStepsAdapter.class.getSimpleName();
+    @NonNull static final String LOG_TAG = WorkflowStepsAdapter.class.getSimpleName();
     private static WeakReference<Context> mContext;
     List<WorkflowStep> mItems = new ArrayList<>();
 
@@ -112,7 +112,7 @@ public class WorkflowStepsAdapter extends RecyclerView.Adapter<RecyclerView.View
         });
     }
 
-    private void setItems(@NonNull ArrayList<WorkflowStep> items) {
+    void setItems(@NonNull ArrayList<WorkflowStep> items) {
         this.mItems = items;
     }
 

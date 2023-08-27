@@ -40,8 +40,7 @@ import retrofit2.Response;
 public class RepositorySyncAdapter extends AbstractThreadedSyncAdapter {
 
     /** Log Tag */
-    @NonNull
-    private static final String LOG_TAG = RepositorySyncAdapter.class.getSimpleName();
+    @NonNull static final String LOG_TAG = RepositorySyncAdapter.class.getSimpleName();
 
     private final SharedPreferences prefs;
 

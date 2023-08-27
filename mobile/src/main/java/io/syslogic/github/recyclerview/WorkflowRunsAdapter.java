@@ -41,9 +41,9 @@ import retrofit2.Response;
 public class WorkflowRunsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     /** Log Tag */
-    @NonNull @SuppressWarnings("unused") private static final String LOG_TAG = WorkflowRunsAdapter.class.getSimpleName();
-    private static WeakReference<Context> mContext;
-    private static Long repositoryId;
+    @NonNull static final String LOG_TAG = WorkflowRunsAdapter.class.getSimpleName();
+    static WeakReference<Context> mContext;
+    static Long repositoryId;
     List<WorkflowRun> mItems = new ArrayList<>();
 
     public WorkflowRunsAdapter(@NonNull Context context, @NonNull Long repoId) {

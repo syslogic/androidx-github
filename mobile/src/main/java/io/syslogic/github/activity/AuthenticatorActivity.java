@@ -40,7 +40,7 @@ public class AuthenticatorActivity extends BaseActivity {
 
     /** Log Tag */
     @SuppressWarnings("unused")
-    private static final String LOG_TAG = AuthenticatorActivity.class.getSimpleName();
+    static final String LOG_TAG = AuthenticatorActivity.class.getSimpleName();
 
     /** layout resId kept for reference */
     @SuppressWarnings("unused")

@@ -35,10 +35,10 @@ import retrofit2.Response;
 public class TokenHelper {
 
     /** {@link Log} Tag */
-    private static final String LOG_TAG = TokenHelper.class.getSimpleName();
+    @NonNull static final String LOG_TAG = TokenHelper.class.getSimpleName();
 
     /** Debug Output */
-    private static final boolean mDebug = BuildConfig.DEBUG;
+    static final boolean mDebug = BuildConfig.DEBUG;
 
     @Nullable
     public static String getAccessToken(@NonNull Context context) {

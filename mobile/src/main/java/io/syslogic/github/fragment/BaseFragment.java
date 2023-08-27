@@ -47,7 +47,7 @@ import retrofit2.Response;
 abstract public class BaseFragment extends Fragment implements ConnectivityListener {
 
     /** Log Tag */
-    private final String LOG_TAG = BaseFragment.class.getSimpleName();
+    static final String LOG_TAG = BaseFragment.class.getSimpleName();
 
     /** Debug Output */
     static final boolean mDebug = BuildConfig.DEBUG;

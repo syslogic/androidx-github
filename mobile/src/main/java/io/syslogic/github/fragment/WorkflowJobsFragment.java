@@ -31,7 +31,7 @@ import retrofit2.Response;
 public class WorkflowJobsFragment extends BaseFragment {
 
     /** Log Tag */
-    @SuppressWarnings("unused") private static final String LOG_TAG = WorkflowJobsFragment.class.getSimpleName();
+    @SuppressWarnings("unused") static final String LOG_TAG = WorkflowJobsFragment.class.getSimpleName();
 
     /** Layout resource ID kept for reference. */
     @SuppressWarnings("unused") private static final int resId = R.layout.fragment_workflow_jobs;

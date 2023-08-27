@@ -22,7 +22,7 @@ public class NavHostActivity extends BaseActivity {
 
     /** Log Tag */
     @SuppressWarnings("unused")
-    private static final String LOG_TAG = NavHostActivity.class.getSimpleName();
+    static final String LOG_TAG = NavHostActivity.class.getSimpleName();
 
     /** layout resId kept for reference */
     @SuppressWarnings("unused")
