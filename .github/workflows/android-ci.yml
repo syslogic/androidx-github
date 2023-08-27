@@ -1,7 +1,7 @@
 name: Android CI
 
 env:
-  JDK_FILE: ~/Downloads/amazon-corretto-17-x64-linux-jdk.tar.gz
+  JDK_FILE: ~/amazon-corretto-17-x64-linux-jdk.tar.gz
 
 on:
   push:
@@ -26,10 +26,6 @@ jobs:
 
       - name: 🚚 Get latest code
         uses: actions/checkout@v3
-
-      - name: List Home Dir
-        id: list-home-dir
-        run: cd ~ && ls -la
 
       - name: Get latest Corretto URL
         id: get-latest-corretto-url
