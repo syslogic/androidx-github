@@ -4,16 +4,19 @@ on:
   push:
     branches: [ master ]
     paths-ignore:
-      - 'README.md'
+      - '**/README.md'
       - 'screenshots/**'
+      - '.gitignore'
       - '.idea/**'
-
+      - '.run/**'
   pull_request:
     branches: [ master ]
     paths-ignore:
-      - 'README.md'
+      - '**/README.md'
       - 'screenshots/**'
+      - '.gitignore'
       - '.idea/**'
+      - '.run/**'
 
 jobs:
   build:
@@ -32,10 +35,10 @@ jobs:
           java-version: '17'
           architecture: x64
 
-      - name: Build module :library with Gradle
-        run: ./gradlew :library:lint :library:assemble
+      - name: Build module :library
+        run: ./gradlew :library:lint :library:assembleRelease
 
-      - name: Build module :mobile with Gradle
+      - name: Build module :mobile
         run: ./gradlew :mobile:lint :mobile:bundleDebug
 
       # https://github.com/actions/upload-artifact
