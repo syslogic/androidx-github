@@ -33,10 +33,19 @@ jobs:
           architecture: x64
 
       - name: Build with Gradle
-        run: ./gradlew :mobile:bundleDebug
+        run: ./gradlew :library:lint :mobile:lint :mobile:bundleDebug
+
+      # https://github.com/actions/upload-artifact
+      - name: 📦 Retain Artifacts (Release AAR)
+        id: retain-library-aar
+        uses: actions/upload-artifact@v3
+        with:
+          name: androidx-github
+          path: ./library/build/outputs/aar/*.aar
+          retention-days: 14
 
       - name: 📦 Retain Artifacts (Debug AAB)
-        id: retain-debug-aab
+        id: retain-app-debug-aab
         uses: actions/upload-artifact@v3
         with:
           name: androidx-github
@@ -48,5 +57,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: androidx-github
-          path: ./mobile/build/reports/*
+          path: |
+            ./library/build/reports/*
+            ./mobile/build/reports/*
           retention-days: 14

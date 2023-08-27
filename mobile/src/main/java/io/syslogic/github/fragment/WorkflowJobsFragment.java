@@ -43,10 +43,10 @@ public class WorkflowJobsFragment extends BaseFragment {
     Long repositoryId = -1L;
 
     /** The repository's owner. */
-    private String repositoryOwner;
+    String repositoryOwner;
 
     /** The repository's name. */
-    private String repositoryName;
+    String repositoryName;
 
     /** The workflow run's ID. */
     private Long runId = -1L;

@@ -56,9 +56,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     ArrayList<Repository> mItems = new ArrayList<>();
 
-    private static WeakReference<Context> mContext;
-
-
+    static WeakReference<Context> mContext;
 
     /** This may add the account in debug mode and therefore must be called first. */
     private String accessToken = null;
