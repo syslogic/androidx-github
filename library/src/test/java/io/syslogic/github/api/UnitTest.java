@@ -1,4 +1,4 @@
-package io.syslogic.github;
+package io.syslogic.github.api;
 
 import junit.framework.TestCase;
 
