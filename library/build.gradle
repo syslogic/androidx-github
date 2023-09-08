@@ -3,6 +3,10 @@ plugins {
     id 'maven-publish'
 }
 
+base {
+    archivesName = 'androidx_github_' + rootProject.ext.get('versionName')
+}
+
 android {
     namespace 'io.syslogic.github.api'
     buildToolsVersion = '34.0.0'
@@ -10,7 +14,6 @@ android {
     defaultConfig {
         minSdk 22
         targetSdk 34
-        setProperty("archivesBaseName", "androidx_github_$version_name")
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFile "${project.rootDir}/proguard/consumer.pro"
         javaCompileOptions {
@@ -61,11 +64,11 @@ android {
 
 dependencies {
 
+    // Material Design Components
+    implementation "com.google.android.material:material:$material_design_version"
+
     // Annotations
     implementation "androidx.annotation:annotation:$annotation_version"
-
-    // Material Design Components
-    implementation "com.google.android.material:material:$material_version"
 
     // App Compat
     implementation "androidx.appcompat:appcompat:$appcompat_version"
@@ -85,8 +88,8 @@ dependencies {
         exclude group: "com.google.code.gson", module: "gson"
     }
 
-    testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    testImplementation "junit:junit:$junit_version"
+    androidTestImplementation "androidx.test.ext:junit:$test_junit_version"
 }
 
 tasks.register('javadoc', Javadoc) {
@@ -157,7 +160,7 @@ artifacts {
 }
 
 group = 'io.syslogic'
-version = rootProject.ext.get('version_name')
+version = rootProject.ext.get('versionName')
 
 afterEvaluate {
     publishing {
@@ -165,7 +168,7 @@ afterEvaluate {
             release(MavenPublication) {
                 groupId = group
                 artifactId = 'androidx-github'
-                version = rootProject.ext.get('version_name')
+                version = rootProject.ext.get('versionName')
                 from components.getByName('release')
                 pom {
                     name = 'GitHub API Client'

@@ -4,6 +4,10 @@ plugins {
     id "androidx.navigation.safeargs"
 }
 
+base {
+    archivesName = 'github_client_' + rootProject.ext.get('versionName')
+}
+
 android {
     namespace 'io.syslogic.github'
     buildToolsVersion = '34.0.0'
@@ -13,9 +17,8 @@ android {
         targetSdk 34
         applicationId 'io.syslogic.github'
         manifestPlaceholders = [ accessToken: "" ]
-        versionName rootProject.ext.get('version_name')
-        versionCode rootProject.ext.get('version_code')
-        setProperty("archivesBaseName", "github_client_$version_name")
+        versionName rootProject.ext.get('versionName')
+        versionCode rootProject.ext.get('versionCode')
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         testBuildType "debug"
         multiDexEnabled true
@@ -105,11 +108,11 @@ dependencies {
 
     api project(path: ':library')
 
+    // Material Design Components
+    implementation "com.google.android.material:material:$material_design_version"
+
     // Annotations
     implementation "androidx.annotation:annotation:$annotation_version"
-
-    // Material Design Components
-    implementation "com.google.android.material:material:$material_version"
 
     // Flexbox Layout
     implementation "com.google.android.flexbox:flexbox:$flexbox_version"
