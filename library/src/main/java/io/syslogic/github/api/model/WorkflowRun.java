@@ -23,88 +23,109 @@ import io.syslogic.github.api.Constants;
 @Entity(tableName = Constants.TABLE_WORKFLOW_RUNS)
 public class WorkflowRun extends BaseModel implements IContentProvider {
 
+    /** ID */
     @PrimaryKey()
     @ColumnInfo(name = "id")
     @SerializedName("id")
     private long id;
 
+    /** WorkflowId */
     // foreign key
     @ColumnInfo(name = "workflow_id")
     @SerializedName("workflow_id")
     private long workflowId;
 
+    /** RunNumber */
     @ColumnInfo(name = "run_number")
     @SerializedName("run_number")
     private long runNumber;
 
+    /** CheckSuiteId */
     @ColumnInfo(name = "check_suite_id")
     @SerializedName("check_suite_id")
     private long checkSuiteId;
 
+    /** CheckSuiteNodeId */
     @ColumnInfo(name = "check_suite_node_id")
     @SerializedName("check_suite_node_id")
     private String checkSuiteNodeId;
 
+    /** NodeId */
     @ColumnInfo(name = "node_id")
     @SerializedName("node_id")
     private String nodeId;
 
+    /** Event */
     @ColumnInfo(name = "event")
     @SerializedName("event")
     private String event;
 
+    /** Status */
     @ColumnInfo(name = "status")
     @SerializedName("status")
     private String status;
 
+    /** Conclusion */
     @ColumnInfo(name = "conclusion")
     @SerializedName("conclusion")
     private String conclusion;
 
+    /** Name */
     @ColumnInfo(name = "name")
     @SerializedName("name")
     private String name;
 
+    /** HeadBranch */
     @ColumnInfo(name = "head_branch")
     @SerializedName("head_branch")
     private String headBranch;
 
+    /** HeadSha */
     @ColumnInfo(name = "head_sha")
     @SerializedName("head_sha")
     private String headSha;
 
+    /** DisplayTitle */
     @ColumnInfo(name = "display_title")
     @SerializedName("display_title")
     private String displayTitle;
 
+    /** Url */
     @ColumnInfo(name = "url")
     @SerializedName("url")
     private String url;
 
+    /** HtmlUrl */
     @ColumnInfo(name = "html_url")
     @SerializedName("html_url")
     private String htmlUrl;
 
+    /** CreatedAt */
     @ColumnInfo(name = "created_at")
     @SerializedName("created_at")
     private Date createdAt;
 
+    /** UpdatedAt */
     @ColumnInfo(name = "updated_at")
     @SerializedName("updated_at")
     private Date updatedAt;
 
+    /** Actor */
     @Ignore
     @SerializedName("actor")
     private User actor;
 
+    /** TriggeringActor */
     @Ignore
     @SerializedName("triggering_actor")
     private User triggeringActor;
 
+    /** RunStartedAt */
     @ColumnInfo(name = "run_started_at")
     @SerializedName("run_started_at")
     private Date runStartedAt;
 
+    /** RunAttempt */
     @ColumnInfo(name = "run_attempt")
     @SerializedName("run_attempt")
     private long runAttempt;
