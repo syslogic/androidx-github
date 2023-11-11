@@ -12,7 +12,6 @@ import android.webkit.WebViewClient;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
-import androidx.databinding.ViewDataBinding;
 
 import io.syslogic.github.Constants;
 import io.syslogic.github.R;
@@ -55,25 +54,21 @@ public class ProfileFragment extends BaseFragment implements TokenCallback {
     @Override
     @SuppressLint("SetJavaScriptEnabled")
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        this.setDataBinding(FragmentProfileBinding.inflate(inflater, container, false));
-        if (this.getContext() != null) {
-
-            if (! isNetworkAvailable(this.getContext())) {
-                this.onNetworkLost();
-            } else {
-
-                this.mDataBinding.webview.getSettings().setJavaScriptEnabled(true);
-                this.mDataBinding.webview.setWebViewClient(new WebViewClient() {
-                    @Override
-                    public void onPageCommitVisible (WebView view, String url) {
-                        if (! contentLoaded) {contentLoaded = true;}
-                    }
-                });
-
-                String token = this.getAccessToken();
-                if (getCurrentUser() == null && token != null) {
-                    this.setUser(token, this);
+        this.setDataBinding(inflater, container);
+        if (! isNetworkAvailable(this.requireContext())) {
+            this.onNetworkLost();
+        } else {
+            this.mDataBinding.webview.getSettings().setJavaScriptEnabled(true);
+            this.mDataBinding.webview.setWebViewClient(new WebViewClient() {
+                @Override
+                public void onPageCommitVisible (WebView view, String url) {
+                    if (! contentLoaded) {contentLoaded = true;}
                 }
+            });
+
+            String token = this.getAccessToken();
+            if (getCurrentUser() == null && token != null) {
+                this.setUser(token, this);
             }
         }
         return this.mDataBinding.getRoot();
@@ -86,16 +81,6 @@ public class ProfileFragment extends BaseFragment implements TokenCallback {
 
     private void setItemId(@NonNull Long value) {
         this.itemId = value;
-    }
-
-    @NonNull
-    public FragmentProfileBinding getDataBinding() {
-        return this.mDataBinding;
-    }
-
-    @Override
-    protected void setDataBinding(@NonNull ViewDataBinding binding) {
-        this.mDataBinding = (FragmentProfileBinding) binding;
     }
 
     @Override
@@ -119,5 +104,16 @@ public class ProfileFragment extends BaseFragment implements TokenCallback {
         if (this.mDataBinding != null && !this.contentLoaded) {
             this.mDataBinding.setProfile(item);
         }
+    }
+
+    @Override
+    protected void setDataBinding(@NonNull LayoutInflater inflater, @Nullable ViewGroup container) {
+        this.mDataBinding = FragmentProfileBinding.inflate(inflater, container, false);
+    }
+
+    @NonNull
+    @Override
+    public FragmentProfileBinding getDataBinding() {
+        return this.mDataBinding;
     }
 }

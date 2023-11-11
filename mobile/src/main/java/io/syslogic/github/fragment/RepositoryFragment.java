@@ -21,11 +21,6 @@ import android.webkit.WebViewClient;
 import android.widget.AdapterView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.widget.AppCompatSpinner;
-import androidx.databinding.ViewDataBinding;
-
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
@@ -40,6 +35,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatSpinner;
 import io.syslogic.github.Constants;
 import io.syslogic.github.R;
 import io.syslogic.github.api.GithubClient;
@@ -103,88 +101,85 @@ public class RepositoryFragment extends BaseFragment implements TokenCallback {
     @Override
     @SuppressLint("SetJavaScriptEnabled")
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        this.setDataBinding(FragmentRepositoryBinding.inflate(inflater, container, false));
+        this.setDataBinding(inflater, container);
+        if (! isNetworkAvailable(this.requireContext())) {
+            this.onNetworkLost();
+        } else {
 
-        if (this.getContext() != null) {
-            if (! isNetworkAvailable(this.getContext())) {
-                this.onNetworkLost();
-            } else {
-
-                this.mDataBinding.webview.getSettings().setJavaScriptEnabled(true);
-                this.mDataBinding.webview.setWebViewClient(new WebViewClient() {
-                    @Override
-                    public void onPageCommitVisible (WebView view, String url) {
-                        contentLoaded = true;
-                        if (getDataBinding().viewflipperContent.getDisplayedChild() == 0) {
-                            getDataBinding().viewflipperContent.showNext();
-                        }
+            this.mDataBinding.webview.getSettings().setJavaScriptEnabled(true);
+            this.mDataBinding.webview.setWebViewClient(new WebViewClient() {
+                @Override
+                public void onPageCommitVisible (WebView view, String url) {
+                    contentLoaded = true;
+                    if (getDataBinding().viewflipperContent.getDisplayedChild() == 0) {
+                        getDataBinding().viewflipperContent.showNext();
                     }
-                });
-                this.getRepository(this.repositoryId);
+                }
+            });
+            this.getRepository(this.repositoryId);
 
-                this.mDataBinding.toolbarDownload.spinnerBranch.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                    int count = 0;
-                    @Override
-                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        if (count > 0) {
-                            WebView webview = getDataBinding().webview;
-                            AppCompatSpinner spinner = getDataBinding().toolbarDownload.spinnerBranch;
-                            String branch = spinner.getSelectedItem().toString();
-                            String url = webview.getUrl();
+            this.mDataBinding.toolbarDownload.spinnerBranch.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                int count = 0;
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    if (count > 0) {
+                        WebView webview = getDataBinding().webview;
+                        AppCompatSpinner spinner = getDataBinding().toolbarDownload.spinnerBranch;
+                        String branch = spinner.getSelectedItem().toString();
+                        String url = webview.getUrl();
 
-                            if (url != null) {
-                                if (url.equals("https://github.com/" + getDataBinding().getRepository().getFullName())) {
-                                    url += "/tree/" + branch;
-                                } else {
-                                    Uri uri = Uri.parse(url);
-                                    String token = uri.getLastPathSegment();
-                                    if (token != null) {
-                                        url = url.replace(token, branch);
-                                    }
+                        if (url != null) {
+                            if (url.equals("https://github.com/" + getDataBinding().getRepository().getFullName())) {
+                                url += "/tree/" + branch;
+                            } else {
+                                Uri uri = Uri.parse(url);
+                                String token = uri.getLastPathSegment();
+                                if (token != null) {
+                                    url = url.replace(token, branch);
                                 }
-                                url = url.replace("/tree/master", "");
-                                if (mDebug) {Log.d(LOG_TAG, url);}
-                                webview.loadUrl(url);
                             }
+                            url = url.replace("/tree/master", "");
+                            if (mDebug) {Log.d(LOG_TAG, url);}
+                            webview.loadUrl(url);
                         }
-                        count++;
                     }
-                    @Override
-                    public void onNothingSelected(AdapterView<?> parent) {}
-                });
+                    count++;
+                }
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {}
+            });
 
-                /* The download button; TODO: consider tarball? */
-                this.mDataBinding.toolbarDownload.buttonDownload.setOnClickListener(view -> {
+            /* The download button; TODO: consider tarball? */
+            this.mDataBinding.toolbarDownload.buttonDownload.setOnClickListener(view -> {
+                String branch = getDataBinding().toolbarDownload.spinnerBranch.getSelectedItem().toString();
+                downloadBranchAsZip(branch);
+            });
+
+            /* The git clone button (experimental). */
+            this.mDataBinding.toolbarDownload.buttonClone.setOnClickListener(view -> {
+                assert this.prefs != null;
+                String directory = this.prefs.getString(Constants.PREFERENCE_KEY_WORKSPACE_DIRECTORY, Environment.getExternalStorageDirectory() + "/Workspace");
+                String name = getDataBinding().getRepository().getName();
+                File destination = new File(directory + "/" + name);
+
+                // directory should be empty.
+                if (destination.exists()) {
+                    if (! destination.delete()) {
+                        Log.e(LOG_TAG, "destination directory not deleted");
+                        return;
+                    }
+                }
+                if (! destination.exists()) {
+                    if (! destination.mkdir()) {
+                        Log.e(LOG_TAG, "destination directory not created");
+                        return;
+                    }
+                }
+                if (destination.exists() && destination.isDirectory()) {
                     String branch = getDataBinding().toolbarDownload.spinnerBranch.getSelectedItem().toString();
-                    downloadBranchAsZip(branch);
-                });
-
-                /* The git clone button (experimental). */
-                this.mDataBinding.toolbarDownload.buttonClone.setOnClickListener(view -> {
-                    assert this.prefs != null;
-                    String directory = this.prefs.getString(Constants.PREFERENCE_KEY_WORKSPACE_DIRECTORY, Environment.getExternalStorageDirectory() + "/Workspace");
-                    String name = getDataBinding().getRepository().getName();
-                    File destination = new File(directory + "/" + name);
-
-                    // directory should be empty.
-                    if (destination.exists()) {
-                        if (! destination.delete()) {
-                            Log.e(LOG_TAG, "destination directory not deleted");
-                            return;
-                        }
-                    }
-                    if (! destination.exists()) {
-                        if (! destination.mkdir()) {
-                            Log.e(LOG_TAG, "destination directory not created");
-                            return;
-                        }
-                    }
-                    if (destination.exists() && destination.isDirectory()) {
-                        String branch = getDataBinding().toolbarDownload.spinnerBranch.getSelectedItem().toString();
-                        gitClone(destination, branch);
-                    }
-                });
-            }
+                    gitClone(destination, branch);
+                }
+            });
         }
         return this.mDataBinding.getRoot();
     }
@@ -245,16 +240,6 @@ public class RepositoryFragment extends BaseFragment implements TokenCallback {
     private String getRepoUrl() {
         return getDataBinding().getRepository().getUrl()
                 .replace("api.github.com/repos", "github.com") + ".git";
-    }
-
-    @NonNull
-    public FragmentRepositoryBinding getDataBinding() {
-        return this.mDataBinding;
-    }
-
-    @Override
-    protected void setDataBinding(@NonNull ViewDataBinding binding) {
-        this.mDataBinding = (FragmentRepositoryBinding) binding;
     }
 
     @Override
@@ -523,4 +508,15 @@ public class RepositoryFragment extends BaseFragment implements TokenCallback {
 
     @Override
     public void onLogin(@NonNull User item) {}
+
+    @Override
+    protected void setDataBinding(@NonNull LayoutInflater inflater, @Nullable ViewGroup container) {
+        this.mDataBinding = FragmentRepositoryBinding.inflate(inflater, container, false);
+    }
+
+    @NonNull
+    @Override
+    public FragmentRepositoryBinding getDataBinding() {
+        return this.mDataBinding;
+    }
 }

@@ -7,26 +7,25 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 
+import java.util.List;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatSpinner;
-import androidx.databinding.ViewDataBinding;
-
-import java.util.List;
 
 import io.syslogic.github.Constants;
 import io.syslogic.github.R;
 import io.syslogic.github.activity.NavHostActivity;
 import io.syslogic.github.adapter.QueryStringAdapter;
 import io.syslogic.github.api.model.QueryString;
-import io.syslogic.github.model.SpinnerItem;
 import io.syslogic.github.api.model.User;
 import io.syslogic.github.api.room.Abstraction;
 import io.syslogic.github.api.room.QueryStringsDao;
 import io.syslogic.github.databinding.FragmentRepositorySearchBinding;
-import io.syslogic.github.model.PagerState;
-import io.syslogic.github.network.TokenCallback;
 import io.syslogic.github.menu.RepositorySearchMenuProvider;
+import io.syslogic.github.model.PagerState;
+import io.syslogic.github.model.SpinnerItem;
+import io.syslogic.github.network.TokenCallback;
 import io.syslogic.github.recyclerview.RepositorySearchAdapter;
 import io.syslogic.github.recyclerview.RepositorySearchLinearView;
 import io.syslogic.github.recyclerview.ScrollListener;
@@ -59,7 +58,7 @@ public class RepositorySearchFragment extends BaseFragment implements TokenCallb
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         NavHostActivity activity = ((NavHostActivity) this.requireActivity());
-        this.setDataBinding(FragmentRepositorySearchBinding.inflate(inflater, container, false));
+        this.setDataBinding(inflater, container);
         this.getDataBinding().setPagerState(new PagerState());
 
         /* It removes & adds {@link BaseMenuProvider} */
@@ -67,7 +66,9 @@ public class RepositorySearchFragment extends BaseFragment implements TokenCallb
 
         /* the SpinnerItem has the same ID as the QueryString. */
         activity.setSupportActionBar(this.getDataBinding().toolbarRepositorySearch.toolbarRepositorySearch);
-        this.mDataBinding.toolbarRepositorySearch.home.setOnClickListener(view -> activity.onBackPressed());
+        this.mDataBinding.toolbarRepositorySearch.home.setOnClickListener(view -> {
+            activity.getOnBackPressedDispatcher().onBackPressed();
+        });
 
         AppCompatSpinner spinner = this.getDataBinding().toolbarRepositorySearch.spinnerQueryString;
         spinner.setAdapter(new QueryStringAdapter(requireContext()));
@@ -134,18 +135,6 @@ public class RepositorySearchFragment extends BaseFragment implements TokenCallb
         return this.getDataBinding().getRoot();
     }
 
-    @NonNull
-    public FragmentRepositorySearchBinding getDataBinding() {
-        return this.mDataBinding;
-    }
-
-    @Override
-    protected void setDataBinding(@NonNull ViewDataBinding binding) {
-        if (binding instanceof FragmentRepositorySearchBinding) {
-            this.mDataBinding = (FragmentRepositorySearchBinding) binding;
-        }
-    }
-
     @Override
     public void onNetworkAvailable() {
 
@@ -202,5 +191,16 @@ public class RepositorySearchFragment extends BaseFragment implements TokenCallb
     @Override
     public void onLogin(@NonNull User item) {
         this.mDataBinding.setUser(item);
+    }
+
+    @Override
+    protected void setDataBinding(@NonNull LayoutInflater inflater, @Nullable ViewGroup container) {
+        this.mDataBinding = FragmentRepositorySearchBinding.inflate(inflater, container, false);
+    }
+
+    @NonNull
+    @Override
+    public FragmentRepositorySearchBinding getDataBinding() {
+        return this.mDataBinding;
     }
 }

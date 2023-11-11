@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.databinding.ViewDataBinding;
 
 import io.syslogic.github.Constants;
 import io.syslogic.github.R;
@@ -86,13 +85,15 @@ public class WorkflowJobsFragment extends BaseFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         NavHostActivity activity = ((NavHostActivity) this.requireActivity());
-        this.setDataBinding(FragmentWorkflowJobsBinding.inflate(inflater, container, false));
+        this.setDataBinding(inflater, container);
 
         /* It removes & adds {@link BaseMenuProvider} */
         activity.setMenuProvider(new WorkflowsMenuProvider(activity));
 
         activity.setSupportActionBar(this.getDataBinding().toolbarWorkflowJobs.toolbarWorkflowJobs);
-        this.mDataBinding.toolbarWorkflowJobs.home.setOnClickListener(view -> activity.onBackPressed());
+        this.mDataBinding.toolbarWorkflowJobs.home.setOnClickListener(view -> {
+            activity.getOnBackPressedDispatcher().onBackPressed();
+        });
 
         // Recyclerview.Adapter
         WorkflowStepsAdapter adapter = new WorkflowStepsAdapter(requireContext());
@@ -167,16 +168,6 @@ public class WorkflowJobsFragment extends BaseFragment {
         this.runId = value;
     }
 
-    @NonNull
-    public FragmentWorkflowJobsBinding getDataBinding() {
-        return this.mDataBinding;
-    }
-
-    @Override
-    protected void setDataBinding(@NonNull ViewDataBinding binding) {
-        this.mDataBinding = (FragmentWorkflowJobsBinding) binding;
-    }
-
     @Override
     public void onNetworkAvailable() {
         super.onNetworkAvailable();
@@ -191,5 +182,16 @@ public class WorkflowJobsFragment extends BaseFragment {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         // if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {}
+    }
+
+    @Override
+    protected void setDataBinding(@NonNull LayoutInflater inflater, @Nullable ViewGroup container) {
+        this.mDataBinding = FragmentWorkflowJobsBinding.inflate(inflater, container, false);
+    }
+
+    @NonNull
+    @Override
+    public FragmentWorkflowJobsBinding getDataBinding() {
+        return this.mDataBinding;
     }
 }

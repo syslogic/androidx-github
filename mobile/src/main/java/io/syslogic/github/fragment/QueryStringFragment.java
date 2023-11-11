@@ -12,7 +12,6 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.databinding.BindingMethod;
 import androidx.databinding.BindingMethods;
-import androidx.databinding.ViewDataBinding;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
@@ -65,8 +64,7 @@ public class QueryStringFragment extends BaseFragment {
     @NonNull
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
-        this.setDataBinding(FragmentQueryStringBinding.inflate(inflater, container, false));
+        this.setDataBinding(inflater, container);
 
         BaseActivity activity = ((BaseActivity) this.requireActivity());
         activity.setSupportActionBar(this.getDataBinding().toolbarQueryString.toolbarQueryString);
@@ -116,13 +114,14 @@ public class QueryStringFragment extends BaseFragment {
         this.itemId = value;
     }
 
-    @NonNull
-    public FragmentQueryStringBinding getDataBinding() {
-        return this.mDataBinding;
+    @Override
+    protected void setDataBinding(@NonNull LayoutInflater inflater, @Nullable ViewGroup container) {
+        this.mDataBinding = FragmentQueryStringBinding.inflate(inflater, container, false);
     }
 
+    @NonNull
     @Override
-    protected void setDataBinding(@NonNull ViewDataBinding binding) {
-        this.mDataBinding = (FragmentQueryStringBinding) binding;
+    public FragmentQueryStringBinding getDataBinding() {
+        return this.mDataBinding;
     }
 }

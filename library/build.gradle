@@ -68,18 +68,18 @@ dependencies {
     implementation "com.google.android.material:material:$material_design_version"
 
     // Annotations
-    implementation "androidx.annotation:annotation:$annotation_version"
+    implementation "androidx.annotation:annotation:$androidx_annotation_version"
 
     // App Compat
-    implementation "androidx.appcompat:appcompat:$appcompat_version"
+    implementation "androidx.appcompat:appcompat:$androidx_appcompat_version"
 
     // Data-Binding Runtime
-    implementation "androidx.databinding:databinding-runtime:$agp_version"
+    implementation "androidx.databinding:databinding-runtime:$android_gradle_plugin_version"
 
     // Room Runtime
-    annotationProcessor "androidx.room:room-compiler:$room_version"
-    testImplementation "androidx.room:room-testing:$room_version"
-    implementation "androidx.room:room-runtime:$room_version"
+    annotationProcessor "androidx.room:room-compiler:$androidx_room_version"
+    testImplementation "androidx.room:room-testing:$androidx_room_version"
+    implementation "androidx.room:room-runtime:$androidx_room_version"
 
     // Retrofit2
     implementation "com.google.code.gson:gson:$gson_version"
@@ -89,7 +89,7 @@ dependencies {
     }
 
     testImplementation "junit:junit:$junit_version"
-    androidTestImplementation "androidx.test.ext:junit:$test_junit_version"
+    androidTestImplementation "androidx.test.ext:junit:$androidx_test_junit_version"
 }
 
 tasks.register('javadoc', Javadoc) {

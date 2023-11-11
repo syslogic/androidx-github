@@ -2,6 +2,8 @@ package io.syslogic.github.activity;
 
 import android.os.Bundle;
 
+import androidx.activity.OnBackPressedCallback;
+import androidx.activity.OnBackPressedDispatcher;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.VisibleForTesting;
@@ -50,6 +52,7 @@ public class NavHostActivity extends BaseActivity {
 
         this.setDataBinding(FragmentNavHostBinding
                 .inflate(getLayoutInflater(), findViewById(android.R.id.content), true));
+        this.addBackPressedCallback();
         this.setNavController();
     }
 
@@ -61,6 +64,22 @@ public class NavHostActivity extends BaseActivity {
         }
     }
 
+    /**
+     * Register an {@link OnBackPressedCallback]} with the {@link OnBackPressedDispatcher}.
+     * The callback either pops the FragmentManager's back-stack - or it navigates upwards.
+     */
+    private void addBackPressedCallback() {
+        getOnBackPressedDispatcher().addCallback(NavHostActivity.this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
+                    getSupportFragmentManager().popBackStack();
+                } else {
+                    getNavController().navigateUp();
+                }
+            }
+        });
+    }
     public NavController getNavController() {
         return this.navController;
     }

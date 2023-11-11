@@ -10,7 +10,15 @@ import android.net.NetworkCapabilities;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.ViewGroup;
 import android.widget.Toast;
+
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
+import java.io.IOException;
+import java.util.Objects;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,12 +26,6 @@ import androidx.annotation.RequiresApi;
 import androidx.databinding.ViewDataBinding;
 import androidx.fragment.app.Fragment;
 import androidx.preference.PreferenceManager;
-
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-
-import java.io.IOException;
-import java.util.Objects;
 
 import io.syslogic.github.BuildConfig;
 import io.syslogic.github.Constants;
@@ -159,10 +161,10 @@ abstract public class BaseFragment extends Fragment implements ConnectivityListe
         }
     }
 
-    @NonNull
-    abstract public ViewDataBinding getDataBinding();
+    protected abstract void setDataBinding(@NonNull LayoutInflater inflater, @Nullable ViewGroup container);
 
-    abstract protected void setDataBinding(@NonNull ViewDataBinding binding);
+    @NonNull
+    public abstract ViewDataBinding getDataBinding();
 
     @Nullable
     protected String getAccessToken() {

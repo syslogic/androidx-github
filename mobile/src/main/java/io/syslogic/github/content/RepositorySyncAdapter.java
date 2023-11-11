@@ -9,14 +9,14 @@ import android.content.SyncResult;
 import android.os.Bundle;
 import android.util.Log;
 
-import androidx.annotation.NonNull;
-import androidx.preference.PreferenceManager;
-
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import java.io.IOException;
 import java.util.ArrayList;
+
+import androidx.annotation.NonNull;
+import androidx.preference.PreferenceManager;
 
 import io.syslogic.github.BuildConfig;
 import io.syslogic.github.Constants;

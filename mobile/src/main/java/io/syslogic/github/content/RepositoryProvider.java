@@ -7,10 +7,10 @@ import android.content.UriMatcher;
 import android.database.Cursor;
 import android.net.Uri;
 
+import java.util.Objects;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
-import java.util.Objects;
 
 import io.syslogic.github.Constants;
 import io.syslogic.github.api.model.Repository;

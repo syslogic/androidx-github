@@ -4,14 +4,13 @@ import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 
-import androidx.annotation.NonNull;
-
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import io.syslogic.github.api.model.QueryString;
-import io.syslogic.github.model.SpinnerItem;
 import io.syslogic.github.api.room.Abstraction;
 import io.syslogic.github.api.room.QueryStringsDao;
+import io.syslogic.github.model.SpinnerItem;
 
 /**
  * Query-String {@link BaseArrayAdapter}

@@ -15,6 +15,9 @@ import android.provider.DocumentsContract;
 import android.provider.Settings;
 import android.util.Log;
 
+import java.io.File;
+import java.util.Objects;
+
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
@@ -24,9 +27,6 @@ import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
 import androidx.preference.PreferenceScreen;
-
-import java.io.File;
-import java.util.Objects;
 
 import io.syslogic.github.BuildConfig;
 import io.syslogic.github.Constants;

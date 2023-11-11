@@ -112,30 +112,30 @@ dependencies {
     implementation "com.google.android.material:material:$material_design_version"
 
     // Annotations
-    implementation "androidx.annotation:annotation:$annotation_version"
+    implementation "androidx.annotation:annotation:$androidx_annotation_version"
 
     // Flexbox Layout
     implementation "com.google.android.flexbox:flexbox:$flexbox_version"
 
     // https://developer.android.com/jetpack/androidx/
-    implementation "androidx.appcompat:appcompat:$appcompat_version"
-    implementation "androidx.core:core-splashscreen:$splash_version"
-    implementation "androidx.recyclerview:recyclerview:$recyclerview_version"
-    implementation "androidx.preference:preference:$preference_version"
-    implementation "androidx.cardview:cardview:$cardview_version"
+    implementation "androidx.appcompat:appcompat:$androidx_appcompat_version"
+    implementation "androidx.core:core-splashscreen:$androidx_splash_version"
+    implementation "androidx.recyclerview:recyclerview:$androidx_recyclerview_version"
+    implementation "androidx.preference:preference:$androidx_preference_version"
+    implementation "androidx.cardview:cardview:$androidx_cardview_version"
 
     // Navigation
-    androidTestImplementation "androidx.navigation:navigation-testing:$nav_version"
-    implementation "androidx.navigation:navigation-fragment:$nav_version"
+    androidTestImplementation "androidx.navigation:navigation-testing:$androidx_navigation_version"
+    implementation "androidx.navigation:navigation-fragment:$androidx_navigation_version"
 
     // Fragment
-    androidTestImplementation "androidx.fragment:fragment-testing:$fragment_version"
-    implementation "androidx.fragment:fragment:$fragment_version"
+    androidTestImplementation "androidx.fragment:fragment-testing:$androidx_fragment_version"
+    implementation "androidx.fragment:fragment:$androidx_fragment_version"
 
     // Room Runtime
-    annotationProcessor "androidx.room:room-compiler:$room_version"
-    testImplementation "androidx.room:room-testing:$room_version"
-    implementation "androidx.room:room-runtime:$room_version"
+    annotationProcessor "androidx.room:room-compiler:$androidx_room_version"
+    testImplementation "androidx.room:room-testing:$androidx_room_version"
+    implementation "androidx.room:room-runtime:$androidx_room_version"
 
     // Retrofit2
     implementation "com.google.code.gson:gson:$gson_version"
@@ -156,30 +156,30 @@ dependencies {
 
     // Required for connected tests.
     // https://mvnrepository.com/artifact/androidx.test/monitor
-    debugImplementation "androidx.test:monitor:$test_monitor_version"
+    debugImplementation "androidx.test:monitor:$androidx_test_monitor_version"
 
     // https://mvnrepository.com/artifact/androidx.test.ext
-    androidTestImplementation "androidx.test.ext:junit:$test_junit_version"
+    androidTestImplementation "androidx.test.ext:junit:$androidx_test_junit_version"
 
     // https://mvnrepository.com/artifact/androidx.test
     // https://developer.android.com/jetpack/androidx/releases/test
-    androidTestImplementation "androidx.test:core:$test_core_version"
-    androidTestImplementation "androidx.test:runner:$test_runner_version"
-    androidTestImplementation "androidx.test:rules:$test_rules_version"
+    androidTestImplementation "androidx.test:core:$androidx_test_core_version"
+    androidTestImplementation "androidx.test:runner:$androidx_test_runner_version"
+    androidTestImplementation "androidx.test:rules:$androidx_test_rules_version"
 
     // https://mvnrepository.com/artifact/androidx.test.uiautomator/uiautomator
-    androidTestImplementation "androidx.test.uiautomator:uiautomator:$uiautomator_version"
+    androidTestImplementation "androidx.test.uiautomator:uiautomator:$androidx_test_uiautomator_version"
 
     // Espresso
-    androidTestImplementation "androidx.test.espresso:espresso-core:$espresso_version"
-    // androidTestImplementation "androidx.test.espresso:espresso-contrib:$espresso_version"
-    // androidTestImplementation "androidx.test.espresso:espresso-intents:$espresso_version"
-    // androidTestImplementation "androidx.test.espresso:espresso-accessibility:$espresso_version"
-    androidTestImplementation "androidx.test.espresso:espresso-web:$espresso_version"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$androidx_test_espresso_version"
+    // androidTestImplementation "androidx.test.espresso:espresso-contrib:$androidx_test_espresso_version"
+    // androidTestImplementation "androidx.test.espresso:espresso-intents:$androidx_test_espresso_version"
+    // androidTestImplementation "androidx.test.espresso:espresso-accessibility:$androidx_test_espresso_version"
+    androidTestImplementation "androidx.test.espresso:espresso-web:$androidx_test_espresso_version"
     // androidTestImplementation "androidx.test.espresso.idling:idling-concurrent:$espresso_version"
 
     // The following dependency can be either "implementation" or "androidTestImplementation",
     // depending on whether you want it to appear on your APK's compile classpath or the test APK classpath.
-    // androidTestImplementation "androidx.test.espresso:espresso-idling-resource:$espresso_version"
+    // androidTestImplementation "androidx.test.espresso:espresso-idling-resource:$androidx_test_espresso_version"
 
 }

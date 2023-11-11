@@ -9,19 +9,18 @@ import android.widget.AdapterView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatSpinner;
-import androidx.databinding.ViewDataBinding;
 
 import io.syslogic.github.R;
 import io.syslogic.github.activity.NavHostActivity;
 import io.syslogic.github.adapter.RepositoryTypeAdapter;
 import io.syslogic.github.adapter.SortFieldListingAdapter;
 import io.syslogic.github.adapter.SortOrderAdapter;
-import io.syslogic.github.model.SpinnerItem;
 import io.syslogic.github.api.model.User;
 import io.syslogic.github.databinding.FragmentRepositoriesBinding;
-import io.syslogic.github.model.PagerState;
-import io.syslogic.github.network.TokenCallback;
 import io.syslogic.github.menu.RepositoriesMenuProvider;
+import io.syslogic.github.model.PagerState;
+import io.syslogic.github.model.SpinnerItem;
+import io.syslogic.github.network.TokenCallback;
 import io.syslogic.github.recyclerview.RepositoriesAdapter;
 import io.syslogic.github.recyclerview.RepositoriesLinearView;
 import io.syslogic.github.recyclerview.ScrollListener;
@@ -48,16 +47,17 @@ public class RepositoriesFragment extends BaseFragment implements TokenCallback 
     @NonNull
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
-        NavHostActivity activity = ((NavHostActivity) this.requireActivity());
-        this.setDataBinding(FragmentRepositoriesBinding.inflate(inflater, container, false));
+        this.setDataBinding(inflater, container);
         this.getDataBinding().setPagerState(new PagerState());
 
         /* It removes & adds {@link BaseMenuProvider} */
+        NavHostActivity activity = ((NavHostActivity) this.requireActivity());
         activity.setMenuProvider(new RepositoriesMenuProvider(activity));
 
         activity.setSupportActionBar(this.getDataBinding().toolbarRepositories.toolbarRepositories);
-        this.mDataBinding.toolbarRepositories.home.setOnClickListener(view -> activity.onBackPressed());
+        this.mDataBinding.toolbarRepositories.home.setOnClickListener(view -> {
+            activity.getOnBackPressedDispatcher().onBackPressed();
+        });
 
         /* {@link AppCompatSpinner} spinner_repository_type */
         AppCompatSpinner spinnerRepositoryType = this.getDataBinding().toolbarRepositories.spinnerRepositoryType;
@@ -158,16 +158,6 @@ public class RepositoriesFragment extends BaseFragment implements TokenCallback 
         return this.getDataBinding().getRoot();
     }
 
-    @NonNull
-    public FragmentRepositoriesBinding getDataBinding() {
-        return this.mDataBinding;
-    }
-
-    @Override
-    protected void setDataBinding(@NonNull ViewDataBinding binding) {
-        this.mDataBinding = (FragmentRepositoriesBinding) binding;
-    }
-
     @Override
     public void onNetworkAvailable() {
         super.onNetworkAvailable();
@@ -206,5 +196,16 @@ public class RepositoriesFragment extends BaseFragment implements TokenCallback 
     @Override
     public void onLogin(@NonNull User item) {
         if (this.mDataBinding != null) {this.mDataBinding.setUser(item);}
+    }
+
+    @Override
+    protected void setDataBinding(@NonNull LayoutInflater inflater, @Nullable ViewGroup container) {
+        this.mDataBinding = FragmentRepositoriesBinding.inflate(inflater, container, false);
+    }
+
+    @NonNull
+    @Override
+    public FragmentRepositoriesBinding getDataBinding() {
+        return this.mDataBinding;
     }
 }

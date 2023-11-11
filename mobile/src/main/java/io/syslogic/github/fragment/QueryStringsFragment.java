@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
-import androidx.databinding.ViewDataBinding;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
@@ -41,7 +40,7 @@ public class QueryStringsFragment extends BaseFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         BaseActivity activity = ((BaseActivity) this.requireActivity());
-        this.setDataBinding(FragmentQueryStringsBinding.inflate(inflater, container, false));
+        this.setDataBinding(inflater, container);
 
         /* Setting up the toolbar, in order to show the topics editor. */
         activity.setSupportActionBar(this.getDataBinding().toolbarQueryStrings.toolbarQueryStrings);
@@ -67,13 +66,14 @@ public class QueryStringsFragment extends BaseFragment {
         return this.getDataBinding().getRoot();
     }
 
-    @NonNull
-    public FragmentQueryStringsBinding getDataBinding() {
-        return this.mDataBinding;
+    @Override
+    protected void setDataBinding(@NonNull LayoutInflater inflater, @Nullable ViewGroup container) {
+        this.mDataBinding = FragmentQueryStringsBinding.inflate(inflater, container, false);
     }
 
+    @NonNull
     @Override
-    protected void setDataBinding(@NonNull ViewDataBinding binding) {
-        this.mDataBinding = (FragmentQueryStringsBinding) binding;
+    public FragmentQueryStringsBinding getDataBinding() {
+        return this.mDataBinding;
     }
 }

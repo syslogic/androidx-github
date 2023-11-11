@@ -9,14 +9,13 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.databinding.ViewDataBinding;
 
 import io.syslogic.github.R;
 import io.syslogic.github.activity.NavHostActivity;
 import io.syslogic.github.api.model.User;
 import io.syslogic.github.databinding.FragmentHomeScreenBinding;
-import io.syslogic.github.network.TokenCallback;
 import io.syslogic.github.menu.HomeScreenMenuProvider;
+import io.syslogic.github.network.TokenCallback;
 
 /**
  * Home Screen {@link BaseFragment}
@@ -45,7 +44,7 @@ public class HomeScreenFragment extends BaseFragment implements TokenCallback {
         NavHostActivity activity = ((NavHostActivity) this.requireActivity());
         activity.setMenuProvider(new HomeScreenMenuProvider(activity));
 
-        this.setDataBinding(FragmentHomeScreenBinding.inflate(inflater, container, false));
+        this.setDataBinding(inflater, container);
         activity.setSupportActionBar(this.getDataBinding().toolbarHomeScreen.toolbarHomeScreen);
 
         if (! isNetworkAvailable(activity)) {
@@ -76,16 +75,6 @@ public class HomeScreenFragment extends BaseFragment implements TokenCallback {
         return this.mDataBinding.getRoot();
     }
 
-    @NonNull
-    public FragmentHomeScreenBinding getDataBinding() {
-        return this.mDataBinding;
-    }
-
-    @Override
-    protected void setDataBinding(@NonNull ViewDataBinding binding) {
-        this.mDataBinding = (FragmentHomeScreenBinding) binding;
-    }
-
     @Override
     public void onNetworkAvailable() {
         super.onNetworkAvailable();
@@ -99,5 +88,16 @@ public class HomeScreenFragment extends BaseFragment implements TokenCallback {
     @Override
     public void onLogin(@NonNull User item) {
         this.mDataBinding.setUser(item);
+    }
+
+    @Override
+    protected void setDataBinding(@NonNull LayoutInflater inflater, @Nullable ViewGroup container) {
+        this.mDataBinding = FragmentHomeScreenBinding.inflate(inflater, container, false);
+    }
+
+    @NonNull
+    @Override
+    public FragmentHomeScreenBinding getDataBinding() {
+        return this.mDataBinding;
     }
 }

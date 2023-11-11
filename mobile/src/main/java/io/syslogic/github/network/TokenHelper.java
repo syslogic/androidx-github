@@ -8,21 +8,18 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import java.io.IOException;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import io.syslogic.github.BuildConfig;
 import io.syslogic.github.Constants;
 import io.syslogic.github.api.GithubClient;
 import io.syslogic.github.api.model.User;
-
 import okhttp3.ResponseBody;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

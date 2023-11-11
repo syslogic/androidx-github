@@ -8,10 +8,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import java.lang.ref.WeakReference;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
-import java.lang.ref.WeakReference;
 
 import io.syslogic.github.activity.AuthenticatorActivity;
 

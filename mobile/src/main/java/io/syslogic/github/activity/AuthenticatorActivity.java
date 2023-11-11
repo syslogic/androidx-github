@@ -8,15 +8,15 @@ import android.text.Editable;
 import android.util.Log;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.VisibleForTesting;
-import androidx.databinding.ViewDataBinding;
-
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import java.io.IOException;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.VisibleForTesting;
+import androidx.databinding.ViewDataBinding;
 
 import io.syslogic.github.BuildConfig;
 import io.syslogic.github.R;
