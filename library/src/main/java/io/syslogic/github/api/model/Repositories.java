@@ -14,9 +14,11 @@ import java.util.ArrayList;
  */
 public class Repositories extends BaseModel {
 
+    /** Items */
     @SerializedName("items")
     private ArrayList<Repository> mItems;
 
+    /** Item Count */
     @SerializedName("total_count")
     private Long totalCount;
 

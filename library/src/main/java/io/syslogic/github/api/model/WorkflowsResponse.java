@@ -14,11 +14,13 @@ import java.util.ArrayList;
  */
 public class WorkflowsResponse {
 
-    @SerializedName("total_count")
-    private Long totalCount = 0L;
-
+    /** Items */
     @SerializedName("workflows")
     private ArrayList<Workflow> workflows;
+
+    /** Item Count */
+    @SerializedName("total_count")
+    private Long totalCount = 0L;
 
     /**
      * Setter for totalCount.
