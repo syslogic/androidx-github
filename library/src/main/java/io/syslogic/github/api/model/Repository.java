@@ -27,74 +27,91 @@ import io.syslogic.github.api.utils.StringArrayConverter;
 @SuppressWarnings(RoomWarnings.PRIMARY_KEY_FROM_EMBEDDED_IS_DROPPED)
 public class Repository extends BaseModel implements IContentProvider {
 
+    /** ID */
     @PrimaryKey()
     @ColumnInfo(name = "id")
     @SerializedName("id")
     private Long id;
 
+    /** NodeId */
     @ColumnInfo(name = "node_id")
     @SerializedName("node_id")
     private String nodeId;
 
+    /** Name */
     @ColumnInfo(name = "name")
     @SerializedName("name")
     private String name;
 
+    /** Full Name */
     @ColumnInfo(name = "full_name")
     @SerializedName("full_name")
     private String fullName;
 
+    /** File-Name */
     @Ignore
     private String fileName;
 
+    /** Url */
     @ColumnInfo(name = "url")
     @SerializedName("url")
     private String url;
 
+    /** HtmlUrl */
     @ColumnInfo(name = "html_url")
     @SerializedName("html_url")
     private String htmlUrl;
 
+    /** Owner */
     @Ignore
     @SerializedName("owner")
     private Owner owner;
 
+    /** OwnerId */
     @ColumnInfo(name = "owner_id")
     private Long ownerId = 0L;
 
+    /** License */
     @Ignore
     @SerializedName("license")
     private License license;
 
+    /** LicenseId */
     @SerializedName("license_id")
     @ColumnInfo(name = "license_id")
     private Long licenseId = 0L;
 
+    /** Forks */
     @SerializedName("forks_count")
     @ColumnInfo(name = "forks")
     private Long forkCount = 0L;
 
+    /** Stargazers */
     @SerializedName("stargazers_count")
     @ColumnInfo(name = "stargazers")
     private Long stargazerCount = 0L;
 
+    /** Watchers */
     @SerializedName("watchers_count")
     @ColumnInfo(name = "watchers")
     private Long watcherCount = 0L;
 
+    /** Subscribers */
     @SerializedName("subscribers_count")
     @ColumnInfo(name = "subscribers")
     private Long subscriberCount = 0L;
 
+    /** Network */
     @SerializedName("network_count")
     @ColumnInfo(name = "network")
     private Long networkCount = 0L;
 
+    /** Topics */
     @SerializedName("topics")
     @TypeConverters(StringArrayConverter.class)
     private String[] topics;
 
-    /** Being populated asynchronously. */
+    /** Workflows are being populated asynchronously. */
     @Ignore
     private ArrayList<Workflow> workflows = new ArrayList<>();
 

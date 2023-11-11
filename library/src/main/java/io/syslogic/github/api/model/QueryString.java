@@ -25,25 +25,32 @@ import io.syslogic.github.api.Constants;
 @Entity(tableName = Constants.TABLE_QUERY_STRINGS)
 public class QueryString extends BaseModel implements IContentProvider {
 
+    /** ID */
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
     private long id;
 
+    /** Title */
     @ColumnInfo(name = "title")
     private String title = null;
 
+    /** Search */
     @ColumnInfo(name = "search")
     private String search = null;
 
+    /** Condition */
     @ColumnInfo(name = "condition")
     private String condition = "pushed";
 
+    /** Operator */
     @ColumnInfo(name = "operator")
     private String operator = ">";
 
+    /** Parameter */
     @ColumnInfo(name = "parameter")
     private int parameter = 7;
 
+    /** Is raw? */
     @ColumnInfo(name = "is_raw")
     private boolean isRaw = false;
 
