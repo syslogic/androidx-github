@@ -21,33 +21,57 @@ import io.syslogic.github.api.model.Workflow;
 @Dao
 public interface WorkflowsDao {
 
+    /** @return a list of {@link Workflow} records. */
     @Query("SELECT * FROM " + Constants.TABLE_WORKFLOWS)
     List<Workflow> getItems();
 
-    /* For ContentProvider */
-    @Query("SELECT * FROM " + Constants.TABLE_WORKFLOWS)
-    Cursor selectAll();
-
-    /* For ContentProvider */
-    @Query("SELECT * FROM " + Constants.TABLE_WORKFLOWS + " WHERE id LIKE :itemId LIMIT 1")
-    Cursor getCursor(Long itemId);
-
+    /** @return one {@link Workflow} record. */
     @Query("SELECT * FROM " + Constants.TABLE_WORKFLOWS + " WHERE id LIKE :itemId LIMIT 1")
     Workflow getItem(Long itemId);
 
+    /**
+     * For ContentProvider
+     * @return a cursor.
+     */
+    @Query("SELECT * FROM " + Constants.TABLE_WORKFLOWS)
+    Cursor selectAll();
+
+    /**
+     * For ContentProvider
+     * @param itemId the id of the record.
+     * @return a cursor.
+     */
+    @Query("SELECT * FROM " + Constants.TABLE_WORKFLOWS + " WHERE id LIKE :itemId LIMIT 1")
+    Cursor getCursor(Long itemId);
+
+    /**
+     * @param item the {@link Workflow} to insert.
+     * @return the id of the item inserted.
+     */
     @Insert()
     Long insert(Workflow item);
 
+    /**
+     * @param item the {@link Workflow} to update.
+     */
     @Update()
     int update(Workflow item);
 
+    /**
+     * @param item the {@link Workflow} to delete.
+     */
     @Delete()
     void delete(Workflow item);
 
+    /**
+     * Delete one {@link Workflow} record by ID.
+     * @return the number of affected records.
+     */
     @SuppressWarnings("unused")
     @Query("DELETE FROM " + Constants.TABLE_WORKFLOWS + " WHERE id = :itemId")
     int deleteById(Long itemId);
 
+    /** Delete all {@link Workflow} records. */
     @Query("DELETE FROM " + Constants.TABLE_WORKFLOWS)
     void clear();
 }

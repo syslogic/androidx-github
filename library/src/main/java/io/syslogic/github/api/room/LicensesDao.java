@@ -21,26 +21,49 @@ import io.syslogic.github.api.model.License;
 @Dao
 public interface LicensesDao {
 
+    /** @return a list of {@link License} records. */
     @Query("SELECT * FROM " + Constants.TABLE_LICENSES)
     List<License> getItems();
 
-    /* For ContentProvider */
+    /** @return one {@link License} record. */
+    @Query("SELECT * FROM " + Constants.TABLE_LICENSES + " WHERE id LIKE :itemId LIMIT 1")
+    License getItem(Long itemId);
+
+    /**
+     * For ContentProvider
+     * @return a cursor.
+     */
     @Query("SELECT * FROM " + Constants.TABLE_LICENSES)
     Cursor selectAll();
 
+    /**
+     * @param item the {@link License} to insert.
+     * @return the id of the item inserted.
+     */
     @Insert()
     Long insert(License item);
 
+    /**
+     * @param item the {@link License} to update.
+     */
     @Update()
     void update(License item);
 
+    /**
+     * @param item the {@link License} to delete.
+     */
     @Delete()
     void delete(License item);
 
+    /**
+     * Delete one {@link License} record by ID.
+     * @return the number of affected records.
+     */
     @SuppressWarnings("unused")
     @Query("DELETE FROM " + Constants.TABLE_LICENSES + " WHERE id = :itemId")
-    void deleteById(Long itemId);
+    int deleteById(Long itemId);
 
+    /** Delete all {@link License} records. */
     @Query("DELETE FROM " + Constants.TABLE_LICENSES)
     void clear();
 }
