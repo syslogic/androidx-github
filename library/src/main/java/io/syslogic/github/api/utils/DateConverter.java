@@ -12,12 +12,20 @@ import java.util.Date;
  */
 public class DateConverter {
 
+    /**
+     * @param value a long date.
+     * @return an instance of {@link Date}.
+     */
     @NonNull
     @TypeConverter
     public Date fromLong(@NonNull Long value) {
         return new Date(value);
     }
 
+    /**
+     * @param value an instance of {@link Date}.
+     * @return a long date.
+     */
     @NonNull
     @TypeConverter
     public Long toLong(@NonNull Date value) {

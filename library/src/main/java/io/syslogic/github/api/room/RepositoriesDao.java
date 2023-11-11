@@ -2,7 +2,6 @@ package io.syslogic.github.api.room;
 
 import android.database.Cursor;
 
-import androidx.annotation.NonNull;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -22,36 +21,31 @@ import io.syslogic.github.api.model.Repository;
 @Dao
 public interface RepositoriesDao {
 
-    @NonNull
     @Query("SELECT * FROM " + Constants.TABLE_REPOSITORIES)
     List<Repository> getItems();
 
     /* For ContentProvider */
-    @NonNull
     @Query("SELECT * FROM " + Constants.TABLE_REPOSITORIES)
     Cursor selectAll();
 
     /* For ContentProvider */
-    @NonNull
     @Query("SELECT * FROM " + Constants.TABLE_REPOSITORIES + " WHERE id LIKE :itemId LIMIT 1")
-    Cursor getCursor(@NonNull Long itemId);
+    Cursor getCursor(Long itemId);
 
-    @NonNull
     @Query("SELECT * FROM " + Constants.TABLE_REPOSITORIES + " WHERE id LIKE :itemId LIMIT 1")
-    Repository getItem(@NonNull Long itemId);
+    Repository getItem(Long itemId);
 
-    @NonNull
     @Insert()
-    Long insert(@NonNull Repository item);
+    Long insert(Repository item);
 
     @Update()
-    int update(@NonNull Repository item);
+    int update(Repository item);
 
     @Delete()
-    void delete(@NonNull Repository item);
+    void delete(Repository item);
 
     @Query("DELETE FROM " + Constants.TABLE_REPOSITORIES + " WHERE id = :itemId")
-    int deleteById(@NonNull Long itemId);
+    int deleteById(Long itemId);
 
     @Query("DELETE FROM " + Constants.TABLE_REPOSITORIES)
     void clear();

@@ -2,7 +2,6 @@ package io.syslogic.github.api.room;
 
 import android.database.Cursor;
 
-import androidx.annotation.NonNull;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -22,28 +21,25 @@ import io.syslogic.github.api.model.License;
 @Dao
 public interface LicensesDao {
 
-    @NonNull
     @Query("SELECT * FROM " + Constants.TABLE_LICENSES)
     List<License> getItems();
 
     /* For ContentProvider */
-    @NonNull
     @Query("SELECT * FROM " + Constants.TABLE_LICENSES)
     Cursor selectAll();
 
-    @NonNull
     @Insert()
-    Long insert(@NonNull License item);
+    Long insert(License item);
 
     @Update()
-    void update(@NonNull License item);
+    void update(License item);
 
     @Delete()
-    void delete(@NonNull License item);
+    void delete(License item);
 
     @SuppressWarnings("unused")
     @Query("DELETE FROM " + Constants.TABLE_LICENSES + " WHERE id = :itemId")
-    void deleteById(@NonNull Long itemId);
+    void deleteById(Long itemId);
 
     @Query("DELETE FROM " + Constants.TABLE_LICENSES)
     void clear();

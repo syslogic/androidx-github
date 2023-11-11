@@ -2,7 +2,6 @@ package io.syslogic.github.api.room;
 
 import android.database.Cursor;
 
-import androidx.annotation.NonNull;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -22,28 +21,25 @@ import io.syslogic.github.api.model.Owner;
 @Dao
 public interface OwnersDao {
 
-    @NonNull
     @Query("SELECT * FROM " + Constants.TABLE_OWNERS)
     List<Owner> getItems();
 
     /* For ContentProvider */
-    @NonNull
     @Query("SELECT * FROM " + Constants.TABLE_OWNERS)
     Cursor selectAll();
 
-    @NonNull
     @Insert()
-    Long insert(@NonNull Owner item);
+    Long insert(Owner item);
 
     @Update()
-    void update(@NonNull Owner item);
+    void update(Owner item);
 
     @Delete()
-    void delete(@NonNull Owner item);
+    void delete(Owner item);
 
     @SuppressWarnings("unused")
     @Query("DELETE FROM " + Constants.TABLE_OWNERS + " WHERE id = :itemId")
-    void deleteById(@NonNull Long itemId);
+    void deleteById(Long itemId);
 
     @Query("DELETE FROM " + Constants.TABLE_OWNERS)
     void clear();
