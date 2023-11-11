@@ -50,15 +50,27 @@ public class QueryString extends BaseModel implements IContentProvider {
     /** Constructor */
     public QueryString() {}
 
-    /** Constructor, used by the QueryStringAdapter */
+    /**
+     * Constructor, used by the QueryStringAdapter.
+     * @param id the id of the query-string.
+     * @param title the title of the query-string.
+     * @param search the query-string itself.
+     */
     @Ignore
-    public QueryString(@NonNull Long id, @NonNull String title, @NonNull String queryString) {
+    public QueryString(@NonNull Long id, @NonNull String title, @NonNull String search) {
         this.setId(id);
         this.setTitle(title);
-        this.setSearch(queryString);
+        this.setSearch(search);
     }
 
-    /** Constructor */
+    /**
+     * Constructor
+     * @param id the id of the query-string.
+     * @param title the title of the query-string.
+     * @param condition the query-string condition.
+     * @param operator the query-string operator.
+     * @param parameter the query-string parameter.
+     */
     @Ignore
     public QueryString(@NonNull Long id, @NonNull String title, @NonNull String condition, @NonNull String operator, int parameter) {
         this.setId(id);
@@ -68,75 +80,131 @@ public class QueryString extends BaseModel implements IContentProvider {
         this.setParameter(parameter);
     }
 
+    /**
+     * Getter for id.
+     * @return the id of the query-string.
+     */
     @Bindable
     public long getId() {
         return this.id;
     }
 
+    /**
+     * Getter for title.
+     * @return the title of the query-string.
+     */
     @Bindable
     @Nullable
     public String getTitle() {
         return this.title;
     }
 
+    /**
+     * Getter for search.
+     * @return the search of the query-string.
+     */
     @Bindable
     @Nullable
     public String getSearch() {
         return this.search;
     }
 
+    /**
+     * Getter for condition.
+     * @return the condition of the query-string.
+     */
     @NonNull
     @Bindable
     public String getCondition() {
         return this.condition;
     }
 
+    /**
+     * Getter for operator.
+     * @return the operator of the query-string.
+     */
     @NonNull
     @Bindable
     public String getOperator() {
         return this.operator;
     }
 
+    /**
+     * Getter for parameter.
+     * @return the parameter of the query-string.
+     */
     @Bindable
     public int getParameter() {
         return this.parameter;
     }
 
+    /**
+     * Getter for isRaw.
+     * @return is raw query-string.
+     */
     @Bindable
     public boolean getIsRaw() {
         return this.isRaw;
     }
 
+    /**
+     * Setter for id.
+     * @param value the id of the query-string.
+     */
     @Bindable
     public void setId(long value) {
         this.id = value;
     }
 
+    /**
+     * Setter for title.
+     * @param value the title of the query-string.
+     */
     @Bindable
     public void setTitle(@Nullable String value) {
         this.title = value;
     }
 
+    /**
+     * Setter for search.
+     * @param value the search of the query-string.
+     */
     @Bindable
     public void setSearch(@Nullable String value) {
         this.search = value;
     }
 
+    /**
+     * Setter for condition.
+     * @param value the condition of the query-string.
+     */
     @Bindable
     public void setCondition(@Nullable String value) {
         this.condition = value;
     }
 
+    /**
+     * Setter for operator.
+     * @param value the operator of the query-string.
+     */
     @Bindable
     public void setOperator(@Nullable String value) {
         this.operator = value;
     }
 
+    /**
+     * Setter for parameter.
+     * @param value the parameter of the query-string.
+     */
     @Bindable
     public void setParameter(int value) {
         this.parameter = value;
     }
 
+    /**
+     * Setter for isRaw.
+     * @param value is raw.
+     */
     @Bindable
     public void setIsRaw(boolean value) {
         this.isRaw = value;

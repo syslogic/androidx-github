@@ -252,6 +252,14 @@ public interface GithubService {
             @NonNull @Path(value = "repo") String repo
     );
 
+    /**
+     * GitHub Actions: Workflow Run.
+     * @param token the personal access token.
+     * @param owner the owner of the repository.
+     * @param repo the name of the repository.
+     * @param runId the ID of the workflow run.
+     * @return Retrofit2 call.
+     */
     @NonNull
     @GET("/repos/{owner}/{repo}/actions/runs/{runId}")
     Call<WorkflowRun> getWorkflowRun(
@@ -261,6 +269,14 @@ public interface GithubService {
             @NonNull @Path(value = "runId") Long runId
     );
 
+    /**
+     * GitHub Actions: Workflow Run Jobs.
+     * @param token the personal access token.
+     * @param owner the owner of the repository.
+     * @param repo the name of the repository.
+     * @param runId the ID of the workflow run.
+     * @return Retrofit2 call.
+     */
     @NonNull
     @GET("/repos/{owner}/{repo}/actions/runs/{runId}/jobs")
     Call<WorkflowJobsResponse> getWorkflowJobs(

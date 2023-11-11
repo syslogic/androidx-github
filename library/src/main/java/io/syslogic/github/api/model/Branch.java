@@ -17,23 +17,35 @@ public class Branch {
     @SerializedName("commit")
     private Commit commit;
 
-    /** Setter for name. */
+    /**
+     * Setter for name.
+     * @param value the name of the branch.
+     */
     public void setName(@NonNull String value) {
         this.name = value;
     }
 
-    /** Setter for commit. */
+    /**
+     * Setter for commit.
+     * @param item the commit to set.
+     */
     public void setCommit(@NonNull Commit item) {
         this.commit = item;
     }
 
-    /** Getter for commit. */
+    /**
+     * Getter for commit.
+     * @return instance of {@link Commit}.
+     */
     @NonNull
     public Commit getCommit() {
         return this.commit;
     }
 
-    /** Getter for name. */
+    /**
+     * Getter for name.
+     * @return the name of the branch.
+     */
     @NonNull
     public String getName() {
         return this.name;

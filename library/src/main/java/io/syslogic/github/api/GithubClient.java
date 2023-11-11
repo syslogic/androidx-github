@@ -239,12 +239,12 @@ public class GithubClient {
         return getService().getWorkflowJobs("token " + token, owner, repo, runId);
     }
 
-    /** It logs the URL of the call. */
-    public static void logUrl(@NonNull String tag, @NonNull Call<?> api) {
-        if (BuildConfig.DEBUG) {Log.w(tag, api.request().url() + "");}
-    }
-
-    /** Note: "bad credentials" means that the provided access-token is invalid. */
+    /**
+     * Utility: It parses the error-body of the call.
+     * Note: "bad credentials" means that the provided access-token is invalid.
+     * @param tag The desired log-tag.
+     * @param response Retrofit2 API response.
+     */
     public static void logError(@NonNull String tag, @NonNull Response<?> response) {
         if (BuildConfig.DEBUG && response.errorBody() != null) {
             try {
@@ -256,5 +256,14 @@ public class GithubClient {
                 Log.e(tag, "" + e.getMessage());
             }
         }
+    }
+
+    /**
+     * Utility: It logs the URL of the call.
+     * @param tag The desired log-tag.
+     * @param api Retrofit2 API request.
+     */
+    public static void logUrl(@NonNull String tag, @NonNull Call<?> api) {
+        if (BuildConfig.DEBUG) {Log.w(tag, api.request().url() + "");}
     }
 }

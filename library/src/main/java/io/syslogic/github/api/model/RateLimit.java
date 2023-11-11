@@ -18,27 +18,51 @@ public class RateLimit {
     @SerializedName("reset")
     private long reset;
 
+    /**
+     * Getter for limit.
+     * @return the limit.
+     */
     public int getLimit() {
         return this.limit;
     }
 
-    public void setLimit(int limit) {
-        this.limit = limit;
-    }
-
+    /**
+     * Getter for remaining.
+     * @return the remaining.
+     */
     public int getRemaining() {
         return this.remaining;
     }
 
-    public void setRemaining(int remaining) {
-        this.remaining = remaining;
-    }
-
+    /**
+     * Getter for reset.
+     * @return the reset.
+     */
     public long getReset() {
         return this.reset;
     }
 
-    public void setReset(long reset) {
-        this.reset = reset;
+    /**
+     * Setter for limit.
+     * @param value the limit.
+     */
+    public void setLimit(int value) {
+        this.limit = value;
+    }
+
+    /**
+     * Setter for remaining.
+     * @param value the remaining.
+     */
+    public void setRemaining(int value) {
+        this.remaining = value;
+    }
+
+    /**
+     * Setter for reset.
+     * @param value the reset.
+     */
+    public void setReset(long value) {
+        this.reset = value;
     }
 }
