@@ -11,8 +11,8 @@
     <string name="button_org_repositories">Org Repositories</string>
     <string name="button_repository_search">Repository Search</string>
 
-    <string name="title_account_authenticator">"Account Authenticator</string>
-    <string name="summary_account_authenticator">TODO</string>
+    <string name="title_account_authenticator">"GitHub API Client</string>
+    <string name="summary_account_authenticator">Personal Access Token</string>
 
     <string name="title_application_settings">"Application Settings</string>
     <string name="summary_intent_account_settings">"Open the account settings</string>

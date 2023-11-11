@@ -23,7 +23,6 @@ public class TokenService extends Service {
                 this.mAuthenticator = new AccountAuthenticator(this);
             }
         }
-
     }
 
     @NonNull

@@ -89,7 +89,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat
         /* Preference: Account Manager */
         Preference pref = this.findPreference(Constants.PREFERENCE_KEY_ACCOUNT_SETTINGS);
         if (pref != null) {
-            String accessToken = TokenHelper.getAccessToken(requireContext());
+            String accessToken = TokenHelper.getAccessToken(requireActivity());
             //if (accessToken != null) {pref.setSummary(R.string.summary_personal_access_token_alt);}
             pref.setOnPreferenceClickListener(preference -> {
 

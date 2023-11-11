@@ -2,10 +2,13 @@ package io.syslogic.github.network;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 
 import com.google.gson.JsonObject;
@@ -17,9 +20,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import io.syslogic.github.BuildConfig;
 import io.syslogic.github.Constants;
+import io.syslogic.github.activity.AuthenticatorActivity;
+import io.syslogic.github.activity.NavHostActivity;
 import io.syslogic.github.api.GithubClient;
 import io.syslogic.github.api.model.User;
-import okhttp3.ResponseBody;
+import io.syslogic.github.fragment.HomeScreenFragment;
+import io.syslogic.github.fragment.HomeScreenFragmentDirections;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -38,18 +45,32 @@ public class TokenHelper {
     static final boolean mDebug = BuildConfig.DEBUG;
 
     @Nullable
-    public static String getAccessToken(@NonNull Context context) {
-        AccountManager accountManager = AccountManager.get(context);
+    public static String getAccessToken(@NonNull Activity activity) {
+        AccountManager accountManager = AccountManager.get(activity);
         Account account = getAccount(accountManager, 0);
         if (account != null) {
             /* Default: Load the access token from AccountManager. */
             return accountManager.getUserData(account, "token");
         } else if (mDebug) {
             /* Debug: Try to load and validate the access token. */
-            return loadTokenFromPackageMeta(context, accountManager);
+            return loadTokenFromPackageMeta(activity, accountManager);
         } else {
             Log.e(LOG_TAG, "Account not found: " + Constants.ACCOUNT_TYPE);
             return null;
+        }
+    }
+
+    public static void setAccessToken(Activity activity, @Nullable String token) {
+        AccountManager accountManager = AccountManager.get(activity);
+        Account account = getAccount(accountManager, 0);
+        if (account != null && token == null) {
+            accountManager.removeAccount(account, activity, accountManagerFuture -> {
+                Log.d(LOG_TAG, "Account removed: " + Constants.ACCOUNT_TYPE);
+            }, new Handler());
+        } else if (account == null && token == null) {
+            /* This maybe happen when the token loaded from package-meta has expired. */
+            Intent intent = new Intent(activity, AuthenticatorActivity.class);
+            activity.startActivity(intent);
         }
     }
 
@@ -67,20 +88,20 @@ public class TokenHelper {
         }
     }
 
-    private static String loadTokenFromPackageMeta(@NonNull Context context, AccountManager accountManager) {
+    private static String loadTokenFromPackageMeta(@NonNull Activity activity, AccountManager accountManager) {
         String token = null;
         try {
 
             ApplicationInfo app;
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
                 PackageManager.ApplicationInfoFlags flags = PackageManager.ApplicationInfoFlags.of(PackageManager.GET_META_DATA);
-                app = context.getPackageManager().getApplicationInfo(context.getPackageName(), flags);
+                app = activity.getPackageManager().getApplicationInfo(activity.getPackageName(), flags);
             } else {
-                app = context.getPackageManager().getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA);
+                app = activity.getPackageManager().getApplicationInfo(activity.getPackageName(), PackageManager.GET_META_DATA);
             }
 
-            if (app.metaData.keySet().contains("com.github.ACCESS_TOKEN")) {
-
+            if (mDebug && app.metaData.keySet().contains("com.github.ACCESS_TOKEN")) {
+                Log.d(LOG_TAG, "loading access token from meat-data: " + Constants.ACCOUNT_TYPE);
                 token = app.metaData.getString("com.github.ACCESS_TOKEN");
                 if (token != null && !token.equals("null")) {
 
@@ -96,21 +117,39 @@ public class TokenHelper {
                                 if (response.body() != null) {
                                     User item = response.body();
                                     Account account = addAccount(accountManager, item.getLogin(), finalToken);
-                                    if (mDebug) {
-                                        if (account != null) {Log.d(LOG_TAG, "account added");}
-                                         else {Log.d(LOG_TAG, "account not added");}
-                                    }
+                                    if (account != null) {Log.d(LOG_TAG, "account added");}
+                                    else {Log.d(LOG_TAG, "account not added");}
                                 }
-                            } else {
-                                /* "bad credentials" means that the provided access-token is invalid. */
-                                if (response.errorBody() != null) {
-                                    logError(response.errorBody());
+                            } else if (response.errorBody() != null) {
+                                try {
+                                    String errors = response.errorBody().string();
+                                    JsonObject jsonObject = JsonParser.parseString(errors).getAsJsonObject();
+                                    String message = jsonObject.get("message").toString();
+
+                                    /* "Bad credentials" means that the provided access-token is invalid. */
+                                    if (BuildConfig.DEBUG) {Log.e(LOG_TAG, "login error: " + message);}
+                                    if (message.equals("\"Bad credentials\"")) {
+
+                                        // Remove the token, it is invalid anyway.
+                                        TokenHelper.setAccessToken(activity, null);
+
+                                        if (activity instanceof NavHostActivity activity2) {
+                                            if (activity2.getCurrentFragment() instanceof HomeScreenFragment) {
+                                                activity2.getNavController().navigate(
+                                                    HomeScreenFragmentDirections
+                                                            .actionHomeScreenFragmentToPreferencesFragment()
+                                                );
+                                            }
+                                        }
+                                    }
+                                } catch (IOException e) {
+                                    if (BuildConfig.DEBUG) {Log.e(LOG_TAG, "" + e.getMessage());}
                                 }
                             }
                         }
                         @Override
                         public void onFailure(@NonNull Call<User> call, @NonNull Throwable t) {
-                            if (mDebug) {Log.e(LOG_TAG, "" + t.getMessage());}
+                            Log.e(LOG_TAG, "" + t.getMessage());
                         }
                     });
                 }
@@ -118,7 +157,6 @@ public class TokenHelper {
         } catch (NullPointerException | PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
-
         return token;
     }
 
@@ -142,15 +180,5 @@ public class TokenHelper {
             return account;
         }
         return null;
-    }
-
-    static void logError(@NonNull ResponseBody responseBody) {
-        try {
-            String errors = responseBody.string();
-            JsonObject jsonObject = JsonParser.parseString(errors).getAsJsonObject();
-            if (BuildConfig.DEBUG) {Log.e(LOG_TAG, jsonObject.get("message").toString());}
-        } catch (IOException e) {
-            if (BuildConfig.DEBUG) {Log.e(LOG_TAG, "" + e.getMessage());}
-        }
     }
 }

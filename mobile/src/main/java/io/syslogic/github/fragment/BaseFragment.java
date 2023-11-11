@@ -168,7 +168,7 @@ abstract public class BaseFragment extends Fragment implements ConnectivityListe
 
     @Nullable
     protected String getAccessToken() {
-        return TokenHelper.getAccessToken(requireContext());
+        return TokenHelper.getAccessToken(requireActivity());
     }
 
     @Nullable

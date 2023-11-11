@@ -1,6 +1,7 @@
 package io.syslogic.github.content;
 
 import android.accounts.Account;
+import android.app.Activity;
 import android.content.AbstractThreadedSyncAdapter;
 import android.content.ContentProviderClient;
 import android.content.Context;
@@ -61,7 +62,7 @@ public class RepositorySyncAdapter extends AbstractThreadedSyncAdapter {
         super(context, autoInitialize, allowParallelSyncs);
         this.prefs = PreferenceManager.getDefaultSharedPreferences(context);
         this.dao = Abstraction.getInstance(context).repositoriesDao();
-        this.accessToken = TokenHelper.getAccessToken(context);
+        this.accessToken = TokenHelper.getAccessToken((Activity) context);
         this.username = TokenHelper.getUsername(context);
     }
 
