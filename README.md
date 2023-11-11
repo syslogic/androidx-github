@@ -29,7 +29,7 @@ The JitPack repository URL would be: `maven { url 'https://jitpack.io' }`
 
     dependencies {
         // implementation "io.syslogic:androidx-github:master-SNAPSHOT"
-        implementation "io.syslogic:androidx-github:1.0.1"
+        implementation "io.syslogic:androidx-github:1.1.5"
     }
 
 [![Release](https://jitpack.io/v/syslogic/androidx-github.svg)](https://jitpack.io/#io.syslogic/androidx-github)
