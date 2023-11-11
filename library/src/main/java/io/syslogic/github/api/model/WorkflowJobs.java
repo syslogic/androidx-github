@@ -20,21 +20,35 @@ public class WorkflowJobs {
     @SerializedName("jobs")
     private ArrayList<WorkflowJob> jobs;
 
-    /** Setters... */
+    /**
+     * Setter for totalCount.
+     * @param value total count of jobs in the workflow
+     */
     public void setTotalCount(@NonNull Long value) {
         this.totalCount = value;
     }
 
+    /**
+     * Setter for jobs.
+     * @param value the jobs of the workflow.
+     */
     public void setJobs(@NonNull ArrayList<WorkflowJob> value) {
         this.jobs = value;
     }
 
-    /** Getters... */
+    /**
+     * Getter for jobs.
+     * @return the jobs of the workflow.
+     */
     @NonNull
     public ArrayList<WorkflowJob> getJobs() {
         return this.jobs;
     }
 
+    /**
+     * Getter for totalCount.
+     * @return total count of jobs in the workflow.
+     */
     @NonNull
     public Long getTotalCount() {
         return this.totalCount;

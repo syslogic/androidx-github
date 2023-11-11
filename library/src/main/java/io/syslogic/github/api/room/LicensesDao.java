@@ -25,7 +25,10 @@ public interface LicensesDao {
     @Query("SELECT * FROM " + Constants.TABLE_LICENSES)
     List<License> getItems();
 
-    /** @return one {@link License} record. */
+    /**
+     * @param itemId the id of the {@link License}.
+     * @return one {@link License} record.
+     */
     @Query("SELECT * FROM " + Constants.TABLE_LICENSES + " WHERE id LIKE :itemId LIMIT 1")
     License getItem(Long itemId);
 
@@ -57,6 +60,7 @@ public interface LicensesDao {
 
     /**
      * Delete one {@link License} record by ID.
+     * @param itemId the id of the {@link License}.
      * @return the number of affected records.
      */
     @SuppressWarnings("unused")

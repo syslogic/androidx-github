@@ -211,7 +211,10 @@ public class QueryString extends BaseModel implements IContentProvider {
     }
 
 
-    /** It generates a dated query-string. */
+    /**
+     * It generates a dated query-string.
+     * @return the generated query-string.
+     */
     @NonNull
     public String toQueryString() {
         Calendar calendar = Calendar.getInstance();
@@ -220,6 +223,10 @@ public class QueryString extends BaseModel implements IContentProvider {
         return this.getSearch() + this.getDateFilter();
     }
 
+    /**
+     * It generates the date-filter string.
+     * @return the generated date-filter string.
+     */
     @NonNull
     public String getDateFilter() {
         if (this.getIsRaw() || this.getParameter() == 0) {return "";}

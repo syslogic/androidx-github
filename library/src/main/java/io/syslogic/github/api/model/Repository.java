@@ -101,7 +101,12 @@ public class Repository extends BaseModel implements IContentProvider {
     /** Constructor */
     public Repository() {}
 
-    /** Constructor */
+    /**
+     * Constructor
+     * @param id the id of the repository.
+     * @param name the title of the repository.
+     * @param url the URL of the repository.
+     */
     @Ignore
     public Repository(@NonNull Long id, @NonNull String name, @NonNull String url) {
         this.setId(id);

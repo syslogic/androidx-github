@@ -32,7 +32,6 @@ public class WorkflowStep {
     @SerializedName("completed_at")
     private Date completedAt;
 
-    /** Setters... */
     public void setNumber(@NonNull Integer value) {
         this.number = value;
     }
@@ -57,7 +56,6 @@ public class WorkflowStep {
         this.completedAt = item;
     }
 
-    /** Getters... */
     @NonNull
     public Integer getNumber() {
         return this.number;

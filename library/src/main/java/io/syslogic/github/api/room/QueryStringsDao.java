@@ -25,7 +25,10 @@ public interface QueryStringsDao {
     @Query("SELECT * FROM " + Constants.TABLE_QUERY_STRINGS)
     List<QueryString> getItems();
 
-    /** @return one {@link QueryString} record. */
+    /**
+     * @param itemId the id of the {@link QueryString}.
+     * @return one {@link QueryString} record.
+     */
     @Query("SELECT * FROM " + Constants.TABLE_QUERY_STRINGS + " WHERE id = :itemId")
     QueryString getItem(Long itemId);
 
@@ -45,6 +48,7 @@ public interface QueryStringsDao {
 
     /**
      * @param item the {@link QueryString} to update.
+     * @return the number of affected records.
      */
     @Update()
     int update(QueryString item);
@@ -57,6 +61,7 @@ public interface QueryStringsDao {
 
     /**
      * Delete one {@link QueryString} record by ID.
+     * @param itemId the id of the {@link QueryString}.
      * @return the number of affected records.
      */
     @SuppressWarnings("unused")

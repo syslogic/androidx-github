@@ -22,6 +22,12 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         testBuildType "debug"
         multiDexEnabled true
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [ "room.schemaLocation": "$rootDir/schema".toString() ]
+            }
+        }
     }
 
     compileOptions {

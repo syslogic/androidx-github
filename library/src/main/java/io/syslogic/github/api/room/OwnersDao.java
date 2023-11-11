@@ -11,6 +11,7 @@ import androidx.room.Update;
 import java.util.List;
 
 import io.syslogic.github.api.Constants;
+import io.syslogic.github.api.model.License;
 import io.syslogic.github.api.model.Owner;
 
 /**
@@ -25,7 +26,10 @@ public interface OwnersDao {
     @Query("SELECT * FROM " + Constants.TABLE_OWNERS)
     List<Owner> getItems();
 
-    /** @return one {@link Owner} record. */
+    /**
+     * @param itemId the id of the {@link Owner}.
+     * @return one {@link Owner} record.
+     */
     @Query("SELECT * FROM " + Constants.TABLE_OWNERS + " WHERE id LIKE :itemId LIMIT 1")
     Owner getItem(Long itemId);
 
@@ -57,11 +61,12 @@ public interface OwnersDao {
 
     /**
      * Delete one {@link Owner} record by ID.
+     * @param itemId the id of the {@link Owner}.
      * @return the number of affected records.
      */
     @SuppressWarnings("unused")
     @Query("DELETE FROM " + Constants.TABLE_OWNERS + " WHERE id = :itemId")
-    void deleteById(Long itemId);
+    int deleteById(Long itemId);
 
     /** Delete all {@link Owner} records. */
     @Query("DELETE FROM " + Constants.TABLE_OWNERS)

@@ -20,20 +20,36 @@ public class WorkflowsResponse {
     @SerializedName("workflows")
     private ArrayList<Workflow> workflows;
 
+    /**
+     * Setter for totalCount.
+     * @param value the total count of workflows.
+     */
     @SuppressWarnings("unused")
     public void setTotalCount(@NonNull Long value) {
         this.totalCount = value;
     }
 
-    public void setWorkflows(@NonNull ArrayList<Workflow> value) {
-        this.workflows = value;
+    /**
+     * Setter for workflows.
+     * @param items the workflows.
+     */
+    public void setWorkflows(@NonNull ArrayList<Workflow> items) {
+        this.workflows = items;
     }
 
+    /**
+     * Getter for totalCount.
+     * @return the total count of workflows.
+     */
     @NonNull
     public Long getTotalCount() {
         return this.totalCount;
     }
 
+    /**
+     * Getter for workflows.
+     * @return the workflows.
+     */
     @Nullable
     public ArrayList<Workflow> getWorkflows() {
         return this.workflows;

@@ -25,7 +25,10 @@ public interface RepositoriesDao {
     @Query("SELECT * FROM " + Constants.TABLE_REPOSITORIES)
     List<Repository> getItems();
 
-    /** @return one {@link Repository} record. */
+    /**
+     * @param itemId the id of the {@link Repository}.
+     * @return one {@link Repository} record.
+     */
     @Query("SELECT * FROM " + Constants.TABLE_REPOSITORIES + " WHERE id LIKE :itemId LIMIT 1")
     Repository getItem(Long itemId);
 
@@ -53,6 +56,7 @@ public interface RepositoriesDao {
 
     /**
      * @param item the {@link Repository} to update.
+     * @return the number of affected records.
      */
     @Update()
     int update(Repository item);
@@ -65,6 +69,7 @@ public interface RepositoriesDao {
 
     /**
      * Delete one {@link Repository} record by ID.
+     * @param itemId the id of the {@link Repository}.
      * @return the number of affected records.
      */
     @Query("DELETE FROM " + Constants.TABLE_REPOSITORIES + " WHERE id = :itemId")

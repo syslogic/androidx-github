@@ -25,7 +25,10 @@ public interface WorkflowsDao {
     @Query("SELECT * FROM " + Constants.TABLE_WORKFLOWS)
     List<Workflow> getItems();
 
-    /** @return one {@link Workflow} record. */
+    /**
+     * @param itemId the id of the {@link Workflow}.
+     * @return one {@link Workflow} record.
+     */
     @Query("SELECT * FROM " + Constants.TABLE_WORKFLOWS + " WHERE id LIKE :itemId LIMIT 1")
     Workflow getItem(Long itemId);
 
@@ -53,18 +56,21 @@ public interface WorkflowsDao {
 
     /**
      * @param item the {@link Workflow} to update.
+     * @return the number of affected records.
      */
     @Update()
     int update(Workflow item);
 
     /**
      * @param item the {@link Workflow} to delete.
+     * @return the number of affected records.
      */
     @Delete()
-    void delete(Workflow item);
+    int delete(Workflow item);
 
     /**
      * Delete one {@link Workflow} record by ID.
+     * @param itemId the id of the {@link Workflow}.
      * @return the number of affected records.
      */
     @SuppressWarnings("unused")
