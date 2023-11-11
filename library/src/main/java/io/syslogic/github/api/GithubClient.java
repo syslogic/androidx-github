@@ -46,7 +46,7 @@ public class GithubClient {
         if (retrofit == null) {
 
             Gson gson = new GsonBuilder()
-                .setDateFormat(Constants.GITHUB_DATE_FORMAT)
+                .setDateFormat(Constants.GITHUB_API_DATE_FORMAT)
                 .create();
 
             OkHttpClient ok = new OkHttpClient.Builder()

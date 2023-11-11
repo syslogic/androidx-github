@@ -12,12 +12,20 @@ import com.google.gson.Gson;
  */
 public class StringArrayConverter {
 
+    /**
+     * @param value a JSON string.
+     * @return an instance of {@link String[]}.
+     */
     @NonNull
     @TypeConverter
     public String[] fromJson(@NonNull String value) {
         return new Gson().fromJson(value, String[].class);
     }
 
+    /**
+     * @param value a string-array.
+     * @return a JSON string.
+     */
     @NonNull
     @TypeConverter
     public String toJson(@NonNull String[] value) {
