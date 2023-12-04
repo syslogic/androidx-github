@@ -42,7 +42,7 @@ android {
     }
 
     testOptions {
-        resultsDir = "${project.buildDir}/results"
+        resultsDir = project.fileTree("build/results")
     }
 
     buildFeatures {
@@ -91,11 +91,11 @@ android {
             proguardFile "${project.rootDir}/proguard/window.pro"
             proguardFile "${project.rootDir}/proguard/mobile.pro"
             proguardFile "${project.rootDir}/proguard/jgit.pro"
-            testCoverageEnabled false
-            minifyEnabled true
-            shrinkResources true
-            pseudoLocalesEnabled false
             renderscriptDebuggable false
+            pseudoLocalesEnabled false
+            testCoverageEnabled false
+            shrinkResources true
+            minifyEnabled true
             jniDebuggable false
             debuggable false
         }
