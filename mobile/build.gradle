@@ -42,7 +42,7 @@ android {
     }
 
     testOptions {
-        resultsDir = project.fileTree("build/results")
+        // resultsDir = project.fileTree("build/results")
     }
 
     buildFeatures {
