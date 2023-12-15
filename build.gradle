@@ -103,16 +103,6 @@ allprojects {
 
 // rootProject > clean
 tasks.register('clean', Delete) {
-
-    // delete build directories
     delete rootProject.fileTree('build')
     delete project.fileTree('build')
-
-    // when task clean has finished
-    doLast {
-        // recreate APK output directories
-        mkdir(project.file("build/outputs/apk"))
-        mkdir(project.file("build/outputs/apk/debug"))
-        mkdir(project.file("build/outputs/apk/release"))
-    }
 }
