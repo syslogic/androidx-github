@@ -96,12 +96,12 @@ tasks.register('javadoc', Javadoc) {
 
     title = "GitHub API Client ${android.defaultConfig.versionName}"
     source = android.sourceSets.main.java.srcDirs
-    destinationDir = file("${project.buildDir}/outputs/javadoc/")
+    destinationDir = project.file("build/outputs/javadoc")
     configurations.implementation.setCanBeResolved(true)
 
     classpath = files(new File("${android.sdkDirectory}/platforms/${android.compileSdkVersion}/android.jar"))
     android.getBootClasspath().forEach{ classpath += fileTree(it) }
-    classpath += fileTree(dir: "$buildDir/tmp/aarsToJars/")
+    classpath += fileTree(dir: project.file("build/tmp/aarsToJars/").absolutePath)
     classpath += configurations.implementation
     exclude "**/BuildConfig.java", "**/R.java", "**/*.kt"
     failOnError false
@@ -123,24 +123,24 @@ tasks.register('javadoc', Javadoc) {
                     copy {
                         from zipTree(aar)
                         include "**/classes.jar"
-                        into "$buildDir/tmp/aarsToJars/${aar.name.replace('.aar', '')}/"
+                        into project.file("build/tmp/aarsToJars/${aar.name.replace('.aar', '')}/")
                     }
         }
 
         // provide JAR, which contains the generated data-binding classes
-        def aar_main = new File("$buildDir/intermediates/aar_main_jar")
+        def aar_main = project.file("build/intermediates/aar_main_jar")
         if (aar_main.exists()) {
             copy {
                 from aar_main
                 include "**/classes.jar"
-                into "$buildDir/tmp/aarsToJars/aar_main_jar/"
+                into project.file("build/tmp/aarsToJars/aar_main_jar/")
             }
         }
     }
 }
 
 javadoc.onlyIf {
-    new File("$buildDir/intermediates/aar_main_jar").exists()
+    project.file("build/intermediates/aar_main_jar").exists()
 }
 
 tasks.register('javadocJar', Jar) {
