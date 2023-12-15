@@ -44,7 +44,7 @@ jobs:
       # https://github.com/actions/upload-artifact
       - name: 📦 Retain Artifacts (Release AAR)
         id: retain-library-aar
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: androidx-github
           path: ./library/build/outputs/aar/*.aar
@@ -52,7 +52,7 @@ jobs:
 
       - name: 📦 Retain Artifacts (Debug AAB)
         id: retain-app-debug-aab
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: androidx-github
           path: ./mobile/build/outputs/bundle/debug/*.aab
@@ -60,7 +60,7 @@ jobs:
 
       - name: 📦 Retain Artifacts (Lint Results)
         id: retain-lint-results
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: androidx-github
           path: |
