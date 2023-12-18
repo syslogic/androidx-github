@@ -24,10 +24,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
+      # https://github.com/actions/checkout
       - name: 🚚 Get latest code
         uses: actions/checkout@v4
 
-      #  https://github.com/actions/setup-java
+      # https://github.com/actions/setup-java
       - name: ☕ Set up AWS Corretto JDK 17
         uses: actions/setup-java@v4
         with:
@@ -35,9 +36,11 @@ jobs:
           java-version: '17'
           architecture: x64
 
+      # Run Gradle tasks
       - name: Build module :library
         run: ./gradlew :library:lint :library:assembleRelease
 
+      # Run Gradle tasks
       - name: Build module :mobile
         run: ./gradlew :mobile:lint :mobile:bundleDebug
 
@@ -46,18 +49,22 @@ jobs:
         id: retain-library-aar
         uses: actions/upload-artifact@v4
         with:
-          name: androidx-github
+          name: androidx-github-lib
           path: ./library/build/outputs/aar/*.aar
           retention-days: 14
 
-      - name: 📦 Retain Artifacts (Debug AAB)
+      # https://github.com/actions/upload-artifact
+      - name: 📦 Retain Artifacts (AAB)
         id: retain-app-debug-aab
         uses: actions/upload-artifact@v4
         with:
-          name: androidx-github-lib
-          path: ./mobile/build/outputs/bundle/debug/*.aab
+          name: androidx-github
+          path: |
+            ./mobile/build/outputs/bundle/release/*.aab
+            ./mobile/build/outputs/bundle/debug/*.aab
           retention-days: 14
 
+      # https://github.com/actions/upload-artifact
       - name: 📦 Retain Artifacts (Lint Results)
         id: retain-lint-results
         uses: actions/upload-artifact@v4
