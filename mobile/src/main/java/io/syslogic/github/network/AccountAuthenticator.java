@@ -95,8 +95,8 @@ public class AccountAuthenticator extends AbstractAccountAuthenticator {
      * @param response to send the result back to the AccountManager, will never be null
      * @param account the account whose credentials are to be checked, will never be null
      * @param options a Bundle of authenticator-specific options, may be null
-     * @return a Bundle result or null if the result is to be returned via the response. The result
-     * will contain either:
+     * @return a Bundle result or null if the result is to be returned via the response.
+     * The result will contain either:
      * <ul>
      * <li> {@link AccountManager#KEY_INTENT}, or
      * <li> {@link AccountManager#KEY_BOOLEAN_RESULT}, true if the check succeeded, false otherwise

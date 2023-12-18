@@ -75,7 +75,7 @@ public class TokenHelper {
         }
     }
 
-    /** The username is now being stored along with the token */
+    /** The username is being stored along with the token. */
     @Nullable
     public static String getUsername(@NonNull Context context) {
         AccountManager accountManager = AccountManager.get(context);
