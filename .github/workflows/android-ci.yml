@@ -46,7 +46,7 @@ jobs:
         id: retain-library-aar
         uses: actions/upload-artifact@v4
         with:
-          name: androidx-github-aar
+          name: androidx-github
           path: ./library/build/outputs/aar/*.aar
           retention-days: 14
 
@@ -54,7 +54,7 @@ jobs:
         id: retain-app-debug-aab
         uses: actions/upload-artifact@v4
         with:
-          name: androidx-github-aab
+          name: androidx-github-lib
           path: ./mobile/build/outputs/bundle/debug/*.aab
           retention-days: 14
 
@@ -62,7 +62,7 @@ jobs:
         id: retain-lint-results
         uses: actions/upload-artifact@v4
         with:
-          name: androidx-github-lint
+          name: lint
           path: |
             ./library/build/reports/*
             ./mobile/build/reports/*
