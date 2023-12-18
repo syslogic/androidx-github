@@ -50,6 +50,9 @@ if (System.env.JITPACK) {
     project.ext.set('version_name', System.env.VERSION)
 }
 
+/** Build Configurations */
+project.ext.set('archiveBuildTypes', ['debug', 'release'])
+
 /** Keystore Settings, loaded from keystore.properties */
 if (rootProject.file('keystore.properties').exists()) {
     def keystore = new Properties()
@@ -60,20 +63,6 @@ if (rootProject.file('keystore.properties').exists()) {
     project.ext.set('releaseKeystorePass', keystore['releaseKeystorePass'])
     project.ext.set('releaseKeyAlias',     keystore['releaseKeyAlias'])
     project.ext.set('releaseKeyPass',      keystore['releaseKeyPass'])
-}
-
-/** Build Configurations */
-project.ext.set('archiveBuildTypes', ['debug', 'release'])
-
-/** Load API access-token from file `token.properties` */
-if(rootProject.file('token.properties').exists()) {
-    def apikeys = new Properties()
-    apikeys.load(new FileInputStream(rootProject.file('token.properties')))
-    project.ext.set('accessToken', apikeys['accessToken'])
-} else {
-    println "*** File `token.properties` is missing; the GitHub API may be rate-limited."
-    println "*** The personal access token needs to be defined with an EditTextPreference."
-    project.ext.set('accessToken', "")
 }
 
 /** Modules */
