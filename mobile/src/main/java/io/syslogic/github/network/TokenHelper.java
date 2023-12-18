@@ -9,6 +9,7 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 
 import com.google.gson.JsonObject;
@@ -66,7 +67,7 @@ public class TokenHelper {
         if (account != null && token == null) {
             accountManager.removeAccount(account, activity, accountManagerFuture -> {
                 Log.d(LOG_TAG, "Account removed: " + Constants.ACCOUNT_TYPE);
-            }, new Handler());
+            }, new Handler(Looper.getMainLooper()));
         } else if (account == null && token == null) {
             /* This maybe happen when the token loaded from package-meta has expired. */
             Intent intent = new Intent(activity, AuthenticatorActivity.class);
@@ -143,13 +144,13 @@ public class TokenHelper {
                                         }
                                     }
                                 } catch (IOException e) {
-                                    if (BuildConfig.DEBUG) {Log.e(LOG_TAG, "" + e.getMessage());}
+                                    if (BuildConfig.DEBUG) {Log.e(LOG_TAG, "IOException: " + e.getMessage());}
                                 }
                             }
                         }
                         @Override
                         public void onFailure(@NonNull Call<User> call, @NonNull Throwable t) {
-                            Log.e(LOG_TAG, "" + t.getMessage());
+                            Log.e(LOG_TAG, "onFailure: " + t.getMessage());
                         }
                     });
                 }
@@ -172,7 +173,7 @@ public class TokenHelper {
     @Nullable
     public static Account addAccount(AccountManager accountManager, String username, String token) {
         if (getAccount(accountManager, 0) == null) {
-            Account account = new Account("" + username + "@github.com", Constants.ACCOUNT_TYPE);
+            Account account = new Account(username + "@github.com", Constants.ACCOUNT_TYPE);
             Bundle extraData = new Bundle();
             extraData.putString("username", username);
             extraData.putString("token", token);

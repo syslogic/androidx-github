@@ -72,7 +72,7 @@ if(rootProject.file('token.properties').exists()) {
     project.ext.set('accessToken', apikeys['accessToken'])
 } else {
     println "*** File `token.properties` is missing; the GitHub API may be rate-limited."
-    println "*** The personal access token needs to be defined with EditTextPreference."
+    println "*** The personal access token needs to be defined with an EditTextPreference."
     project.ext.set('accessToken', "")
 }
 
