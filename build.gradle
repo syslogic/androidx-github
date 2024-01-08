@@ -1,7 +1,7 @@
 // root build.gradle
 buildscript {
     ext {
-        android_gradle_plugin_version = '8.2.0'
+        android_gradle_plugin_version = '8.2.1'
         material_design_version = '1.11.0'
         kotlin_version = '1.9.21'
         retrofit_version = '2.9.0'
