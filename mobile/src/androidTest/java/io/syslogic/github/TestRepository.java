@@ -1,6 +1,5 @@
 package io.syslogic.github;
 
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,6 +11,7 @@ import androidx.test.uiautomator.UiObject2;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
  * Repository Test Case
@@ -34,7 +34,7 @@ public class TestRepository extends TestSuite {
     public void ButtonDownload() {
 
         UiObject2 view = this.mDevice.findObject(By.res(this.packageName, "button_download"));
-        Assert.assertThat(view.isClickable(), is(equalTo(true)));
+        assertThat(view.isClickable(), is(equalTo(true)));
         view.click();
 
         sleep(1000);

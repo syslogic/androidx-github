@@ -15,6 +15,7 @@ import org.junit.runners.Suite.SuiteClasses;
 
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.uiautomator.By;
 import androidx.test.uiautomator.Direction;
@@ -29,6 +30,7 @@ import androidx.test.uiautomator.Until;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsNull.notNullValue;
 
 /**
@@ -39,7 +41,6 @@ import static org.hamcrest.core.IsNull.notNullValue;
 @RunWith(org.junit.runners.Suite.class)
 @SuiteClasses({
     TestRepositories.class,
-    TestRepository.class,
     TestProfile.class
 })
 public class TestSuite {
@@ -74,18 +75,18 @@ public class TestSuite {
     }
 
     /** launches the blueprint application */
-    void startTestActivity(Context context, String className){
+    void startTestActivity(@NonNull Context context, @NonNull String className){
 
         /* initialize UiDevice */
         this.mDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
-        Assert.assertThat(this.mDevice, notNullValue());
+        assertThat(this.mDevice, notNullValue());
 
         /* start from the home screen */
         this.mDevice.pressHome();
 
         /* obtain the launcher package */
         String launcherPackage = getLauncherPackageName();
-        Assert.assertThat(launcherPackage, notNullValue());
+        assertThat(launcherPackage, notNullValue());
 
         /* wait for launcher */
         this.mDevice.wait(Until.hasObject(By.pkg(launcherPackage).depth(0)), LAUNCH_TIMEOUT);
@@ -94,7 +95,7 @@ public class TestSuite {
         this.packageName = context.getPackageName().replace(".test", "");
         Intent intent = context.getPackageManager().getLaunchIntentForPackage(this.packageName);
 
-        if(intent != null) {
+        if (intent != null) {
 
             intent.setComponent(new ComponentName(this.packageName, this.packageName.replace("debug", "activity." + className)));
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -115,24 +116,24 @@ public class TestSuite {
         return this.mDevice.findObject(By.res(this.packageName, resourceId));
     }
 
-    /** it clicks spinner items by index */
+    /** It clicks spinner items by index */
     public void clickSpinnerItem(String spinnerName, int itemIndex) {
 
         UiObject2 spinner = this.mDevice.findObject(By.res(this.packageName, spinnerName));
-        Assert.assertThat(spinner.isClickable(), is(equalTo(true)));
+        assertThat(spinner.isClickable(), is(equalTo(true)));
         spinner.click();
         sleep(2000);
 
         List<UiObject2> items = this.mDevice.findObjects(By.res("android:id/text1"));
-        Assert.assertThat(items.size() > itemIndex, is(equalTo(true)));
+        assertThat(items.size() > itemIndex, is(equalTo(true)));
 
         UiObject2 item = items.get(itemIndex);
-        Assert.assertThat(item.isClickable(), is(equalTo(true)));
+        assertThat(item.isClickable(), is(equalTo(true)));
         item.click(500);
         sleep(2000);
     }
 
-    /** it clicks the "Allow" button on a permission request dialog */
+    /** It clicks the "Allow" button on a permission request dialog */
     void grantPermission()  {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             UiObject textAllow = this.mDevice.findObject(new UiSelector().text("Allow"));
@@ -147,7 +148,7 @@ public class TestSuite {
     }
 
     void flingUp(UiObject2 view, int speed, int pause) {
-        Assert.assertThat(view, not(equalTo(null)));
+        assertThat(view, not(equalTo(null)));
         try {
             view.fling(Direction.DOWN, speed);
         } catch (StaleObjectException e) {
