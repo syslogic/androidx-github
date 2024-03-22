@@ -1,5 +1,6 @@
 plugins {
-    id 'com.android.library'
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.androidx.room)
     id 'maven-publish'
 }
 
@@ -16,19 +17,18 @@ android {
         targetSdk 34
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFile "${project.rootDir}/proguard/consumer.pro"
-        javaCompileOptions {
-            annotationProcessorOptions {
-                arguments = [ "room.schemaLocation": "$rootDir/schema".toString() ]
-            }
-        }
     }
 
-    sourceSets.main.java.srcDirs = [ "src/main/java" ]
+    room {
+        schemaDirectory("${rootDir}/schema")
+    }
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
     }
+
+    sourceSets.main.java.srcDirs = [ "src/main/java" ]
 
     buildFeatures {
         buildConfig true
@@ -65,31 +65,31 @@ android {
 dependencies {
 
     // Material Design Components
-    implementation "com.google.android.material:material:$material_design_version"
+    implementation libs.material.design
 
     // Annotations
-    implementation "androidx.annotation:annotation:$androidx_annotation_version"
+    implementation libs.androidx.annotation
 
     // App Compat
-    implementation "androidx.appcompat:appcompat:$androidx_appcompat_version"
+    implementation libs.androidx.appcompat
 
     // Data-Binding Runtime
-    implementation "androidx.databinding:databinding-runtime:$android_gradle_plugin_version"
+    implementation libs.androidx.databinding
 
     // Room Runtime
-    annotationProcessor "androidx.room:room-compiler:$androidx_room_version"
-    testImplementation "androidx.room:room-testing:$androidx_room_version"
-    implementation "androidx.room:room-runtime:$androidx_room_version"
+    annotationProcessor libs.androidx.room.compiler
+    testImplementation libs.androidx.room.testing
+    implementation libs.androidx.room.runtime
 
     // Retrofit2
-    implementation "com.google.code.gson:gson:$gson_version"
-    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
-    implementation ("com.squareup.retrofit2:converter-gson:$retrofit_version") {
+    implementation libs.gson
+    implementation libs.retrofit
+    implementation (libs.retrofit.gson.converter) {
         exclude group: "com.google.code.gson", module: "gson"
     }
 
-    testImplementation "junit:junit:$junit_version"
-    androidTestImplementation "androidx.test.ext:junit:$androidx_test_junit_version"
+    testImplementation libs.junit
+    androidTestImplementation libs.androidx.test.junit
 }
 
 tasks.register('javadoc', Javadoc) {

@@ -1,7 +1,8 @@
 // :mobile build.gradle
 plugins {
-    id "com.android.application"
-    id "androidx.navigation.safeargs"
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.androidx.navigation.safeargs)
+    alias(libs.plugins.androidx.room)
 }
 
 /** Load API access-token from file `token.properties` */
@@ -27,18 +28,17 @@ android {
         minSdk 22
         targetSdk 34
         applicationId 'io.syslogic.github'
+        //noinspection GroovyConstructorNamedArguments
         manifestPlaceholders = [ accessToken: "" ]
         versionName rootProject.ext.get('versionName')
         versionCode rootProject.ext.get('versionCode')
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         testBuildType "debug"
         multiDexEnabled true
+    }
 
-        javaCompileOptions {
-            annotationProcessorOptions {
-                arguments = [ "room.schemaLocation": "$rootDir/schema".toString() ]
-            }
-        }
+    room {
+        schemaDirectory("${rootDir}/schema")
     }
 
     compileOptions {
@@ -47,8 +47,8 @@ android {
     }
 
     sourceSets {
-        main {
-            androidTest.assets.srcDirs += files("$projectDir/schemas".toString())
+        androidTest {
+            assets.srcDirs += files("$projectDir/schemas".toString())
         }
     }
 
@@ -80,6 +80,7 @@ android {
         debug {
             applicationIdSuffix ".debug"
             signingConfig signingConfigs.debug
+            //noinspection GroovyConstructorNamedArguments
             manifestPlaceholders = [ accessToken: "${accessToken}" ]
             renderscriptDebuggable true
             pseudoLocalesEnabled false
@@ -91,6 +92,7 @@ android {
         }
         release {
             signingConfig signingConfigs.release
+            //noinspection GroovyConstructorNamedArguments
             manifestPlaceholders = [ accessToken: "" ]
             proguardFile "${project.rootDir}/proguard/android.pro"
             proguardFile "${project.rootDir}/proguard/androidx.pro"
@@ -122,73 +124,73 @@ dependencies {
     api project(path: ':library')
 
     // Material Design Components
-    implementation "com.google.android.material:material:$material_design_version"
+    implementation libs.material.design
 
     // Annotations
-    implementation "androidx.annotation:annotation:$androidx_annotation_version"
+    implementation libs.androidx.annotation
 
     // Flexbox Layout
-    implementation "com.google.android.flexbox:flexbox:$flexbox_version"
+    implementation libs.flexbox
 
     // https://developer.android.com/jetpack/androidx/
-    implementation "androidx.appcompat:appcompat:$androidx_appcompat_version"
-    implementation "androidx.core:core-splashscreen:$androidx_splash_version"
-    implementation "androidx.recyclerview:recyclerview:$androidx_recyclerview_version"
-    implementation "androidx.preference:preference:$androidx_preference_version"
-    implementation "androidx.cardview:cardview:$androidx_cardview_version"
+    implementation libs.androidx.appcompat
+    implementation libs.androidx.splashscreen
+    implementation libs.androidx.recyclerview
+    implementation libs.androidx.preference
+    implementation libs.androidx.cardview
 
     // Navigation
-    androidTestImplementation "androidx.navigation:navigation-testing:$androidx_navigation_version"
-    implementation "androidx.navigation:navigation-fragment:$androidx_navigation_version"
+    androidTestImplementation libs.androidx.navigation.testing
+    implementation libs.androidx.navigation.fragment
 
     // Fragment
-    androidTestImplementation "androidx.fragment:fragment-testing:$androidx_fragment_version"
-    implementation "androidx.fragment:fragment:$androidx_fragment_version"
+    androidTestImplementation libs.androidx.fragment.testing
+    implementation libs.androidx.fragment
 
     // Room Runtime
-    annotationProcessor "androidx.room:room-compiler:$androidx_room_version"
-    testImplementation "androidx.room:room-testing:$androidx_room_version"
-    implementation "androidx.room:room-runtime:$androidx_room_version"
+    annotationProcessor libs.androidx.room.compiler
+    testImplementation libs.androidx.room.testing
+    implementation libs.androidx.room.runtime
 
     // Retrofit2
-    implementation "com.google.code.gson:gson:$gson_version"
-    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
-    implementation ("com.squareup.retrofit2:converter-gson:$retrofit_version") {
+    implementation libs.gson
+    implementation libs.retrofit
+    implementation (libs.retrofit.gson.converter) {
         exclude group: "com.google.code.gson", module: "gson"
     }
 
     // https://mvnrepository.com/artifact/org.eclipse.jgit/org.eclipse.jgit
-    implementation "org.eclipse.jgit:org.eclipse.jgit:$jgit_version"
+    implementation libs.jgit
 
     // https://mvnrepository.com/artifact/org.slf4j/slf4j-simple
     // api "org.slf4j:slf4j-nop:$slf4j_version"
-    api "org.slf4j:slf4j-simple:$slf4j_version"
+    api libs.slf4j
 
     // jUnit
-    testImplementation "junit:junit:$junit_version"
+    testImplementation libs.junit
 
     // Required for connected tests.
     // https://mvnrepository.com/artifact/androidx.test/monitor
-    debugImplementation "androidx.test:monitor:$androidx_test_monitor_version"
+    debugImplementation libs.androidx.test.monitor
 
     // https://mvnrepository.com/artifact/androidx.test.ext
-    androidTestImplementation "androidx.test.ext:junit:$androidx_test_junit_version"
+    androidTestImplementation libs.androidx.test.junit
 
     // https://mvnrepository.com/artifact/androidx.test
     // https://developer.android.com/jetpack/androidx/releases/test
-    androidTestImplementation "androidx.test:core:$androidx_test_core_version"
-    androidTestImplementation "androidx.test:runner:$androidx_test_runner_version"
-    androidTestImplementation "androidx.test:rules:$androidx_test_rules_version"
+    androidTestImplementation libs.androidx.test.core
+    androidTestImplementation libs.androidx.test.runner
+    androidTestImplementation libs.androidx.test.rules
 
     // https://mvnrepository.com/artifact/androidx.test.uiautomator/uiautomator
-    androidTestImplementation "androidx.test.uiautomator:uiautomator:$androidx_test_uiautomator_version"
+    androidTestImplementation libs.androidx.test.uiautomator
 
     // Espresso
-    androidTestImplementation "androidx.test.espresso:espresso-core:$androidx_test_espresso_version"
+    androidTestImplementation libs.androidx.espresso.core
+    androidTestImplementation libs.androidx.espresso.web
     // androidTestImplementation "androidx.test.espresso:espresso-contrib:$androidx_test_espresso_version"
     // androidTestImplementation "androidx.test.espresso:espresso-intents:$androidx_test_espresso_version"
     // androidTestImplementation "androidx.test.espresso:espresso-accessibility:$androidx_test_espresso_version"
-    androidTestImplementation "androidx.test.espresso:espresso-web:$androidx_test_espresso_version"
     // androidTestImplementation "androidx.test.espresso.idling:idling-concurrent:$espresso_version"
 
     // The following dependency can be either "implementation" or "androidTestImplementation",
