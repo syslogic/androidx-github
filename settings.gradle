@@ -13,11 +13,6 @@ dependencyResolutionManagement {
         mavenCentral()
         google()
     }
-    versionCatalogs {
-        libs {
-            from(files("libs.versions.toml"))
-        }
-    }
 }
 
 rootProject.name = "GitHub Client"
