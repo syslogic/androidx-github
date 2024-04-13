@@ -1,11 +1,12 @@
 [versions]
-android_gradle_plugin     = '8.3.1'
+android_gradle_plugin     = '8.3.2'
 material_design           = '1.11.0'
 kotlin                    = '1.9.22'
 retrofit                  = '2.9.0'
 gson                      = '2.10.1'
 junit                     = '4.13.2'
 flexbox                   = '3.0.0'
+# Note: DirCacheCheckout.java uses InputStream.transferTo() since jgit 6.3; no such method on Android.
 jgit                      = '6.2.0.202206071550-r'
 slf4j                     = '2.0.9'
 androidx_appcompat        = '1.6.1'
@@ -38,7 +39,6 @@ junit                             = { module = "junit:junit", version.ref = "jun
 flexbox                           = { module = "com.google.android.flexbox:flexbox", version.ref = "flexbox" }
 retrofit                          = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 retrofit_gson_converter           = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
-# DirCacheCheckout.java uses InputStream.transferTo() since 6.3; no such method on Android.
 jgit                              = { module = "org.eclipse.jgit:org.eclipse.jgit", version.ref = "jgit" }
 slf4j                             = { module = "org.slf4j:slf4j-simple", version.ref = "slf4j" }
 androidx_databinding              = { module = "androidx.databinding:databinding-runtime", version.ref = "android_gradle_plugin" }
