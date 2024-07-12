@@ -19,14 +19,15 @@ import java.io.IOException;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
 import io.syslogic.github.BuildConfig;
 import io.syslogic.github.Constants;
+import io.syslogic.github.R;
 import io.syslogic.github.activity.AuthenticatorActivity;
 import io.syslogic.github.activity.NavHostActivity;
 import io.syslogic.github.api.GithubClient;
 import io.syslogic.github.api.model.User;
 import io.syslogic.github.fragment.HomeScreenFragment;
-import io.syslogic.github.fragment.HomeScreenFragmentDirections;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -89,6 +90,7 @@ public class TokenHelper {
         }
     }
 
+    @Nullable
     private static String loadTokenFromPackageMeta(@NonNull Activity activity, AccountManager accountManager) {
         String token = null;
         try {
@@ -137,8 +139,7 @@ public class TokenHelper {
                                         if (activity instanceof NavHostActivity activity2) {
                                             if (activity2.getCurrentFragment() instanceof HomeScreenFragment) {
                                                 activity2.getNavController().navigate(
-                                                    HomeScreenFragmentDirections
-                                                            .actionHomeScreenFragmentToPreferencesFragment()
+                                                    R.id.action_homeScreenFragment_to_preferencesFragment
                                                 );
                                             }
                                         }
@@ -156,7 +157,8 @@ public class TokenHelper {
                 }
             }
         } catch (NullPointerException | PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
+            Log.e(LOG_TAG,  e.getClass().getSimpleName() + ": " + e.getMessage());
+            return null;
         }
         return token;
     }

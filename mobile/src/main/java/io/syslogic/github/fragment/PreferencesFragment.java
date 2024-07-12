@@ -112,7 +112,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat
                     requireActivity().startActivityFromFragment(this, intent, 100);
                     return true;
                 } catch (ActivityNotFoundException e) {
-                    if (mDebug) {Log.e(LOG_TAG, "" + e.getMessage());}
+                    if (mDebug) {Log.e(LOG_TAG, "ActivityNotFoundException: " + e.getMessage());}
                     return false;
                 }
             });
@@ -182,7 +182,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat
         try {
             requestFileChooserResult.launch(intent);
         } catch (ActivityNotFoundException e) {
-            Log.e(LOG_TAG, "" + e.getMessage());
+            Log.e(LOG_TAG, "ActivityNotFoundException: " + e.getMessage());
         }
     }
 

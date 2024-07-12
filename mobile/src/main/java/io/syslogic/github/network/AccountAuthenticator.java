@@ -99,7 +99,7 @@ public class AccountAuthenticator extends AbstractAccountAuthenticator {
      * The result will contain either:
      * <ul>
      * <li> {@link AccountManager#KEY_INTENT}, or
-     * <li> {@link AccountManager#KEY_BOOLEAN_RESULT}, true if the check succeeded, false otherwise
+     * <li> {@link AccountManager#KEY_BOOLEAN_RESULT}, <code>true</code> if the check succeeded, <code>false</code> otherwise
      * <li> {@link AccountManager#KEY_ERROR_CODE} and {@link AccountManager#KEY_ERROR_MESSAGE} to
      * indicate an error
      * </ul>
