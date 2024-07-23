@@ -104,7 +104,7 @@ public class TokenHelper {
             }
 
             if (mDebug && app.metaData.keySet().contains("com.github.ACCESS_TOKEN")) {
-                Log.d(LOG_TAG, "loading access token from meat-data: " + Constants.ACCOUNT_TYPE);
+                Log.d(LOG_TAG, "loading access token from meta-data: " + Constants.ACCOUNT_TYPE);
                 token = app.metaData.getString("com.github.ACCESS_TOKEN");
                 if (token != null && !token.equals("null")) {
 
