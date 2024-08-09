@@ -8,8 +8,10 @@ plugins {
 /** Load API access-token from file `token.properties` */
 if (rootProject.file('token.properties').exists()) {
     def apikeys = new Properties()
-    apikeys.load(new FileInputStream(rootProject.file('token.properties')))
+    def fis = new FileInputStream(rootProject.file('token.properties'))
+    apikeys.load(fis)
     project.ext.set('accessToken', apikeys['accessToken'])
+    fis.close()
 } else {
     println "*** File `token.properties` is missing; the GitHub API may be rate-limited."
     println "*** The personal access token needs to be defined with an EditTextPreference."
