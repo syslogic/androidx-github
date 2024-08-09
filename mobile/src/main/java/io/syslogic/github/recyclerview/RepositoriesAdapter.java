@@ -30,7 +30,7 @@ import io.syslogic.github.activity.BaseActivity;
 import io.syslogic.github.api.GithubClient;
 import io.syslogic.github.api.model.Repository;
 import io.syslogic.github.api.model.Workflow;
-import io.syslogic.github.api.model.WorkflowsResponse;
+import io.syslogic.github.api.model.Workflows;
 import io.syslogic.github.databinding.CardviewRepositoryBinding;
 import io.syslogic.github.databinding.FragmentRepositoriesBinding;
 import io.syslogic.github.model.PagerState;
@@ -154,15 +154,15 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         final int[] index = {0};
         for (Repository item : this.getItems()) {
 
-            Call<WorkflowsResponse> api = GithubClient.getWorkflows(accessToken, username, item.getName());
+            Call<Workflows> api = GithubClient.getWorkflows(accessToken, username, item.getName());
             GithubClient.logUrl(LOG_TAG, api);
 
             api.enqueue(new Callback<>() {
                 @Override
-                public void onResponse(@NonNull Call<WorkflowsResponse> call, @NonNull Response<WorkflowsResponse> response) {
+                public void onResponse(@NonNull Call<Workflows> call, @NonNull Response<Workflows> response) {
                     if (response.code() == 200) { // OK
                         if (response.body() != null) {
-                            WorkflowsResponse items = response.body();
+                            Workflows items = response.body();
                             if (BuildConfig.DEBUG) {
                                 if (items.getWorkflows() != null && items.getWorkflows().size() > 0) {
 
@@ -182,7 +182,7 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 }
 
                 @Override
-                public void onFailure(@NonNull Call<WorkflowsResponse> call, @NonNull Throwable t) {
+                public void onFailure(@NonNull Call<Workflows> call, @NonNull Throwable t) {
                     if (BuildConfig.DEBUG) {Log.e(LOG_TAG, "onFailure: " + t.getMessage());}
                 }
             });

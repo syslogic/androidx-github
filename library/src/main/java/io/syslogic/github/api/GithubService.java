@@ -11,10 +11,10 @@ import io.syslogic.github.api.model.Repository;
 import io.syslogic.github.api.model.RepositorySearch;
 import io.syslogic.github.api.model.User;
 
-import io.syslogic.github.api.model.WorkflowJobsResponse;
+import io.syslogic.github.api.model.WorkflowJobs;
 import io.syslogic.github.api.model.WorkflowRun;
-import io.syslogic.github.api.model.WorkflowRunsResponse;
-import io.syslogic.github.api.model.WorkflowsResponse;
+import io.syslogic.github.api.model.WorkflowRuns;
+import io.syslogic.github.api.model.Workflows;
 
 import okhttp3.ResponseBody;
 
@@ -231,7 +231,7 @@ public interface GithubService {
      */
     @NonNull
     @GET("/repos/{owner}/{repo}/actions/workflows")
-    Call<WorkflowsResponse> getWorkflows(
+    Call<Workflows> getWorkflows(
             @NonNull @Header("Authorization") String token,
             @NonNull @Path(value = "owner") String owner,
             @NonNull @Path(value = "repo") String repo
@@ -246,7 +246,7 @@ public interface GithubService {
      */
     @NonNull
     @GET("/repos/{owner}/{repo}/actions/runs")
-    Call<WorkflowRunsResponse> getWorkflowRuns(
+    Call<WorkflowRuns> getWorkflowRuns(
             @NonNull @Header("Authorization") String token,
             @NonNull @Path(value = "owner") String owner,
             @NonNull @Path(value = "repo") String repo
@@ -271,15 +271,16 @@ public interface GithubService {
 
     /**
      * GitHub Actions: Workflow Run Jobs.
+     *
      * @param token the personal access token.
      * @param owner the owner of the repository.
-     * @param repo the name of the repository.
+     * @param repo  the name of the repository.
      * @param runId the ID of the workflow run.
      * @return Retrofit2 call.
      */
     @NonNull
     @GET("/repos/{owner}/{repo}/actions/runs/{runId}/jobs")
-    Call<WorkflowJobsResponse> getWorkflowJobs(
+    Call<WorkflowJobs> getWorkflowJobs(
             @NonNull @Header("Authorization") String token,
             @NonNull @Path(value = "owner") String owner,
             @NonNull @Path(value = "repo") String repo,

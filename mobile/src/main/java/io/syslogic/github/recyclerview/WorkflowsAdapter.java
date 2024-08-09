@@ -25,7 +25,7 @@ import io.syslogic.github.R;
 import io.syslogic.github.activity.BaseActivity;
 import io.syslogic.github.api.GithubClient;
 import io.syslogic.github.api.model.Workflow;
-import io.syslogic.github.api.model.WorkflowsResponse;
+import io.syslogic.github.api.model.Workflows;
 import io.syslogic.github.api.room.Abstraction;
 import io.syslogic.github.databinding.CardviewWorkflowBinding;
 
@@ -98,15 +98,15 @@ public class WorkflowsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     public void getWorkflows(String accessToken, String username, String repositoryName) {
 
-        Call<WorkflowsResponse> api = GithubClient.getWorkflows(accessToken, username, repositoryName);
+        Call<Workflows> api = GithubClient.getWorkflows(accessToken, username, repositoryName);
         GithubClient.logUrl(LOG_TAG, api);
 
         api.enqueue(new Callback<>() {
             @Override
-            public void onResponse(@NonNull Call<WorkflowsResponse> call, @NonNull Response<WorkflowsResponse> response) {
+            public void onResponse(@NonNull Call<Workflows> call, @NonNull Response<Workflows> response) {
                 if (response.code() == 200) { // OK
                     if (response.body() != null) {
-                        WorkflowsResponse items = response.body();
+                        Workflows items = response.body();
                         if (items.getWorkflows() != null && items.getWorkflows().size() > 0) {
                             mItems = items.getWorkflows();
                             for (Workflow item : mItems) {item.setRepositoryId(repositoryId);}
@@ -119,7 +119,7 @@ public class WorkflowsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             }
 
             @Override
-            public void onFailure(@NonNull Call<WorkflowsResponse> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<Workflows> call, @NonNull Throwable t) {
                 if (BuildConfig.DEBUG) {Log.e(LOG_TAG, "onFailure: " + t.getMessage());}
             }
         });

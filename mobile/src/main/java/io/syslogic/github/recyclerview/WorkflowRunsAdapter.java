@@ -25,7 +25,7 @@ import io.syslogic.github.R;
 import io.syslogic.github.activity.BaseActivity;
 import io.syslogic.github.api.GithubClient;
 import io.syslogic.github.api.model.WorkflowRun;
-import io.syslogic.github.api.model.WorkflowRunsResponse;
+import io.syslogic.github.api.model.WorkflowRuns;
 import io.syslogic.github.api.room.Abstraction;
 import io.syslogic.github.databinding.CardviewWorkflowRunBinding;
 
@@ -95,15 +95,15 @@ public class WorkflowRunsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     public void getWorkflowRuns(String accessToken, String username, String repositoryName) {
 
-        Call<WorkflowRunsResponse> api = GithubClient.getWorkflowRuns(accessToken, username, repositoryName);
+        Call<WorkflowRuns> api = GithubClient.getWorkflowRuns(accessToken, username, repositoryName);
         GithubClient.logUrl(LOG_TAG, api);
 
         api.enqueue(new Callback<>() {
             @Override
-            public void onResponse(@NonNull Call<WorkflowRunsResponse> call, @NonNull Response<WorkflowRunsResponse> response) {
+            public void onResponse(@NonNull Call<WorkflowRuns> call, @NonNull Response<WorkflowRuns> response) {
                 if (response.code() == 200) { // OK
                     if (response.body() != null) {
-                        WorkflowRunsResponse items = response.body();
+                        WorkflowRuns items = response.body();
                         if (items.getWorkflowRuns() != null && items.getWorkflowRuns().size() > 0) {
                             mItems = items.getWorkflowRuns();
                             notifyItemRangeChanged(0, mItems.size());
@@ -115,7 +115,7 @@ public class WorkflowRunsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             }
 
             @Override
-            public void onFailure(@NonNull Call<WorkflowRunsResponse> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<WorkflowRuns> call, @NonNull Throwable t) {
                 if (BuildConfig.DEBUG) {Log.e(LOG_TAG, "onFailure: " + t.getMessage());}
             }
         });

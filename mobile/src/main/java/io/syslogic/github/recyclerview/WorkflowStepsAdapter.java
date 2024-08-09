@@ -17,7 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import io.syslogic.github.BuildConfig;
 import io.syslogic.github.R;
 import io.syslogic.github.api.GithubClient;
-import io.syslogic.github.api.model.WorkflowJobsResponse;
+import io.syslogic.github.api.model.WorkflowJobs;
 import io.syslogic.github.api.model.WorkflowStep;
 import io.syslogic.github.api.room.Abstraction;
 import io.syslogic.github.databinding.CardviewWorkflowStepBinding;
@@ -86,16 +86,16 @@ public class WorkflowStepsAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     public void getWorkflowSteps(String accessToken, String username, String repositoryName, Long runId) {
 
-        Call<WorkflowJobsResponse> api = GithubClient.getWorkflowJobs(accessToken, username, repositoryName, runId);
+        Call<WorkflowJobs> api = GithubClient.getWorkflowJobs(accessToken, username, repositoryName, runId);
         GithubClient.logUrl(LOG_TAG, api);
 
         api.enqueue(new Callback<>() {
             @Override
-            public void onResponse(@NonNull Call<WorkflowJobsResponse> call, @NonNull Response<WorkflowJobsResponse> response) {
+            public void onResponse(@NonNull Call<WorkflowJobs> call, @NonNull Response<WorkflowJobs> response) {
                 if (response.code() == 200) { // OK
                     if (response.body() != null) {
-                        WorkflowJobsResponse items = response.body();
-                        if (items.getJobs() != null && items.getJobs().get(0).getSteps().size() > 0) {
+                        WorkflowJobs items = response.body();
+                        if (! items.getJobs().get(0).getSteps().isEmpty()) {
                             setItems(items.getJobs().get(0).getSteps());
                             notifyItemRangeChanged(0, mItems.size());
                         }
@@ -106,7 +106,7 @@ public class WorkflowStepsAdapter extends RecyclerView.Adapter<RecyclerView.View
             }
 
             @Override
-            public void onFailure(@NonNull Call<WorkflowJobsResponse> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<WorkflowJobs> call, @NonNull Throwable t) {
                 if (BuildConfig.DEBUG) {Log.e(LOG_TAG, "onFailure: " + t.getMessage());}
             }
         });

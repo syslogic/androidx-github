@@ -8,20 +8,21 @@ import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 
 /**
- * Model: Workflow Jobs Response
+ * Model: Workflow Runs Response
  *
  * @author Martin Zeitler
  */
-public class WorkflowJobsResponse {
+public class WorkflowRuns {
+
+    @SerializedName("workflow_runs")
+    private ArrayList<WorkflowRun> workflowRuns;
+
     @SerializedName("total_count")
     private Long totalCount = 0L;
 
-    @SerializedName("jobs")
-    private ArrayList<WorkflowJob> jobs;
-
     /**
      * Setter for totalCount.
-     * @param value the total count of workflow jobs.
+     * @param value the total count of workflow runs.
      */
     @SuppressWarnings("unused")
     public void setTotalCount(@NonNull Long value) {
@@ -29,17 +30,16 @@ public class WorkflowJobsResponse {
     }
 
     /**
-     * Setter for workflow jobs.
-     * @param items the workflow jobs.
+     * Setter for workflow runs.
+     * @param items the workflows.
      */
-    @SuppressWarnings("unused")
-    public void setJobs(@NonNull ArrayList<WorkflowJob> items) {
-        this.jobs = items;
+    public void setWorkflowRuns(@NonNull ArrayList<WorkflowRun> items) {
+        this.workflowRuns = items;
     }
 
     /**
      * Getter for totalCount.
-     * @return the total count of workflow jobs.
+     * @return the total count of workflows.
      */
     @NonNull
     public Long getTotalCount() {
@@ -47,11 +47,11 @@ public class WorkflowJobsResponse {
     }
 
     /**
-     * Getter for workflow jobs.
-     * @return the workflow jobs.
+     * Getter for workflow runs.
+     * @return the workflow runs.
      */
     @Nullable
-    public ArrayList<WorkflowJob> getJobs() {
-        return this.jobs;
+    public ArrayList<WorkflowRun> getWorkflowRuns() {
+        return this.workflowRuns;
     }
 }

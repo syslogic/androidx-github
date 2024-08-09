@@ -18,10 +18,10 @@ import io.syslogic.github.api.model.RateLimits;
 import io.syslogic.github.api.model.Repository;
 import io.syslogic.github.api.model.RepositorySearch;
 import io.syslogic.github.api.model.User;
-import io.syslogic.github.api.model.WorkflowJobsResponse;
+import io.syslogic.github.api.model.WorkflowJobs;
 import io.syslogic.github.api.model.WorkflowRun;
-import io.syslogic.github.api.model.WorkflowRunsResponse;
-import io.syslogic.github.api.model.WorkflowsResponse;
+import io.syslogic.github.api.model.WorkflowRuns;
+import io.syslogic.github.api.model.Workflows;
 
 import okhttp3.OkHttpClient;
 import okhttp3.ResponseBody;
@@ -197,7 +197,7 @@ public class GithubClient {
      * @param repo the name of the repository.
      * @return Retrofit2 call.
      */
-    @NonNull public static Call<WorkflowsResponse> getWorkflows(@Nullable String token, @NonNull String owner, @NonNull String repo) {
+    @NonNull public static Call<Workflows> getWorkflows(@Nullable String token, @NonNull String owner, @NonNull String repo) {
         return getService().getWorkflows("token " + token, owner, repo);
     }
 
@@ -209,7 +209,7 @@ public class GithubClient {
      * @param repo the name of the repository.
      * @return Retrofit2 call.
      */
-    @NonNull public static Call<WorkflowRunsResponse> getWorkflowRuns(@Nullable String token, @NonNull String owner, @NonNull String repo) {
+    @NonNull public static Call<WorkflowRuns> getWorkflowRuns(@Nullable String token, @NonNull String owner, @NonNull String repo) {
         return getService().getWorkflowRuns("token " + token, owner, repo);
     }
 
@@ -235,7 +235,7 @@ public class GithubClient {
      * @param runId the ID of the run to list jobs for.
      * @return Retrofit2 call.
      */
-    @NonNull public static Call<WorkflowJobsResponse> getWorkflowJobs(@Nullable String token, @NonNull String owner, @NonNull String repo, @NonNull Long runId) {
+    @NonNull public static Call<WorkflowJobs> getWorkflowJobs(@Nullable String token, @NonNull String owner, @NonNull String repo, @NonNull Long runId) {
         return getService().getWorkflowJobs("token " + token, owner, repo, runId);
     }
 
