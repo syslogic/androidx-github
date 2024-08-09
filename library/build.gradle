@@ -10,15 +10,18 @@ base {
 
 android {
     namespace 'io.syslogic.github.api'
-    buildToolsVersion = '34.0.0'
-    compileSdk 34
+    buildToolsVersion = '35.0.0'
+    compileSdk 35
     defaultConfig {
         minSdk 22
-        targetSdk 34
+        targetSdk 35
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFile "${project.rootDir}/proguard/consumer.pro"
     }
 
+    sourceSets.main.java.srcDirs = [ "src/main/java" ]
+
+    // Room Plugin
     room {
         schemaDirectory("${rootDir}/schema")
     }
@@ -27,8 +30,6 @@ android {
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
     }
-
-    sourceSets.main.java.srcDirs = [ "src/main/java" ]
 
     buildFeatures {
         buildConfig true
@@ -136,6 +137,10 @@ tasks.register('javadoc', Javadoc) {
                 into project.file("build/tmp/aarsToJars/aar_main_jar/")
             }
         }
+    }
+    doLast {
+        // delete temporary directory.
+        delete project.fileTree('build/tmp7aarsToJars')
     }
 }
 

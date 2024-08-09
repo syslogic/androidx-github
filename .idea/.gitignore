@@ -12,3 +12,5 @@
 /dynamic.xml
 /appInsightsSettings.xml
 /migrations.xml
+/deploymentTargetSelector.xml
+/other.xml
