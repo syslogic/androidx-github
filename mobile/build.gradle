@@ -19,21 +19,22 @@ if (rootProject.file('token.properties').exists()) {
 }
 
 base {
-    archivesName = 'github_client_' + rootProject.ext.get('versionName')
+    String versionName = libs.versions.app.version.name.get()
+    archivesName = "github_client_$versionName"
 }
 
 android {
     namespace 'io.syslogic.github'
-    buildToolsVersion = '35.0.0'
-    compileSdk 35
+    buildToolsVersion = libs.versions.android.build.tools.get()
+    compileSdk Integer.parseInt(libs.versions.android.compile.sdk.get())
     defaultConfig {
-        minSdk 22
-        targetSdk 35
+        minSdk Integer.parseInt(libs.versions.android.min.sdk.get())
+        targetSdk Integer.parseInt(libs.versions.android.target.sdk.get())
+        versionCode Integer.parseInt(libs.versions.app.version.code.get())
+        versionName libs.versions.app.version.name.get()
         applicationId 'io.syslogic.github'
         //noinspection GroovyConstructorNamedArguments
         manifestPlaceholders = [ accessToken: "" ]
-        versionName rootProject.ext.get('versionName')
-        versionCode rootProject.ext.get('versionCode')
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         testBuildType "debug"
         multiDexEnabled true

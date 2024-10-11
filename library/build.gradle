@@ -5,16 +5,17 @@ plugins {
 }
 
 base {
-    archivesName = 'androidx_github_' + rootProject.ext.get('versionName')
+    String versionName = libs.versions.app.version.name.get()
+    archivesName = "androidx_github_$versionName"
 }
 
 android {
     namespace 'io.syslogic.github.api'
-    buildToolsVersion = '35.0.0'
-    compileSdk 35
+    buildToolsVersion = libs.versions.android.build.tools.get()
+    compileSdk Integer.parseInt(libs.versions.android.compile.sdk.get())
     defaultConfig {
-        minSdk 22
-        targetSdk 35
+        minSdk Integer.parseInt(libs.versions.android.min.sdk.get())
+        targetSdk Integer.parseInt(libs.versions.android.target.sdk.get())
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFile "${project.rootDir}/proguard/consumer.pro"
     }
@@ -165,7 +166,7 @@ artifacts {
 }
 
 group = 'io.syslogic'
-version = rootProject.ext.get('versionName')
+version = libs.versions.app.version.name.get()
 
 afterEvaluate {
     publishing {
@@ -173,7 +174,7 @@ afterEvaluate {
             release(MavenPublication) {
                 groupId = group
                 artifactId = 'androidx-github'
-                version = rootProject.ext.get('versionName')
+                version = libs.versions.app.version.name.get()
                 from components.getByName('release')
                 pom {
                     name = 'GitHub API Client'

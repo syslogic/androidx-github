@@ -25,6 +25,9 @@ public final class Constants {
     /** Deprecated SDK Constant */
     @NonNull public static final String CONNECTIVITY_ACTION = "android.net.conn.CONNECTIVITY_CHANGE";
 
+    /** The default query-string default query-string is being used, when table `query_strings` is empty. */
+    @NonNull public static final String DEFAULT_QUERY_STRING = "topic:android";
+
     /** Table Names */
     @NonNull public static final String TABLE_QUERY_STRINGS = "query_strings";
 

@@ -5,12 +5,6 @@ plugins {
     alias(libs.plugins.androidx.navigation.safeargs) apply false
 }
 
-/** Version Settings, loaded from file `version.properties` */
-def version = new Properties()
-version.load(new FileInputStream(rootProject.file('version.properties')))
-project.ext.set('versionCode', new Integer(version['versionCode']))
-project.ext.set('versionName', version['versionName'])
-
 /* JitPack: use tag as versionName. */
 if (System.env.JITPACK) {
     project.ext.set('version_name', System.env.VERSION)
@@ -22,13 +16,15 @@ project.ext.set('archiveBuildTypes', ['debug', 'release'])
 /** Keystore Settings, loaded from keystore.properties */
 if (rootProject.file('keystore.properties').exists()) {
     def keystore = new Properties()
-    keystore.load(new FileInputStream(rootProject.file('keystore.properties')))
+    def ins = new FileInputStream(rootProject.file('keystore.properties'))
+    keystore.load(ins)
     project.ext.set('debugKeystorePass',   keystore['debugKeystorePass'])
     project.ext.set('debugKeyAlias',       keystore['debugKeyAlias'])
     project.ext.set('debugKeyPass',        keystore['debugKeyPass'])
     project.ext.set('releaseKeystorePass', keystore['releaseKeystorePass'])
     project.ext.set('releaseKeyAlias',     keystore['releaseKeyAlias'])
     project.ext.set('releaseKeyPass',      keystore['releaseKeyPass'])
+    ins.close()
 }
 
 /** Modules */
@@ -40,7 +36,9 @@ allprojects {
             def requested = details.requested
             if (requested.group == 'org.jetbrains.kotlin') {
                 List<String> list = ['kotlin-stdlib', 'kotlin-stdlib-jdk7', 'kotlin-stdlib-jdk8', 'kotlin-stdlib-common']
-                if (list.contains(requested.name)) { details.useVersion libs.versions.kotlin.get() }
+                if (list.contains(requested.name)) {
+                    details.useVersion libs.versions.kotlin.get()
+                }
             }
         }
     }

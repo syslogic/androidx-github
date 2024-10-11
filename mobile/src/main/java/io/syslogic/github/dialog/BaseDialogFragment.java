@@ -9,13 +9,11 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
 import androidx.databinding.ViewDataBinding;
 import androidx.fragment.app.DialogFragment;
 import androidx.preference.PreferenceManager;
 
 import io.syslogic.github.BuildConfig;
-import io.syslogic.github.R;
 
 /**
  * Base {@link DialogFragment}
@@ -61,8 +59,10 @@ abstract public class BaseDialogFragment extends DialogFragment {
         this.dialog = new Dialog(this.requireContext());
         this.dialog.setCanceledOnTouchOutside(this.cancelOnTouchOutSide);
         if (this.dialog.getWindow() != null) {
-            this.dialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            this.dialog.getWindow().setNavigationBarColor(ContextCompat.getColor(requireContext(), R.color.colorPrimaryDark));
+            this.dialog.getWindow().setLayout(
+                    ViewGroup.LayoutParams.WRAP_CONTENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT
+            );
         }
         return this.dialog;
     }

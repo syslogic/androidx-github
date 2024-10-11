@@ -50,7 +50,7 @@
                 android:layout_width="48dp"
                 android:layout_height="match_parent"
                 android:background="@null"
-                android:src="@drawable/baseline_folder_copy_24"/>
+                android:src="@drawable/ic_baseline_folder_copy_24"/>
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 

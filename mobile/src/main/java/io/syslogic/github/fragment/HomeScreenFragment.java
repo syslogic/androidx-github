@@ -56,17 +56,17 @@ public class HomeScreenFragment extends BaseFragment implements TokenCallback {
             }
         }
 
-        /* Navigating to RepositoriesFragment */
+        /* Navigate to RepositoriesFragment */
         this.mDataBinding.buttonUserRepositories
                 .setOnClickListener(view -> activity.getNavController()
-                        .navigate(R.id.action_homeScreenFragment_to_repositoriesGraph));
+                .navigate(R.id.action_homeScreenFragment_to_repositoriesGraph));
 
-        /* Navigating to RepositorySearchFragment */
+        /* Navigate to RepositorySearchFragment */
         this.mDataBinding.buttonRepositorySearch
                 .setOnClickListener(view -> activity.getNavController()
                 .navigate(R.id.action_homeScreenFragment_to_repositorySearchFragment));
 
-        /* Navigating to GitHub Sponsors */
+        /* Navigate to GitHub Sponsors */
         this.mDataBinding.textGitHubSponsors
                 .setOnClickListener(view -> activity.startActivity(
                         new Intent(Intent.ACTION_VIEW, Uri.parse(activity.getString(R.string.url_git_hub_sponsors)))

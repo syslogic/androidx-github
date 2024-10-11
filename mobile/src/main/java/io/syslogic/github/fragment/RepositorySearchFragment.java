@@ -107,22 +107,31 @@ public class RepositorySearchFragment extends BaseFragment implements TokenCallb
                 Abstraction.executorService.execute(() -> {
                     try {
                         assert dao != null;
+                        String queryString = null;
                         List<QueryString> items = dao.getItems();
-                        if (items.size() > 0) {
-                            String queryString = items.get(0).toQueryString();
-                            requireActivity().runOnUiThread(() -> {
-                                RepositorySearchAdapter adapter = new RepositorySearchAdapter(requireContext(), queryString, showRepositoryTopics, 1);
-                                getDataBinding().recyclerviewRepositorySearch.setAdapter(adapter);
-                                PagerState pagerState = getDataBinding().getPagerState();
-                                if (pagerState != null) {
-                                    pagerState.setQueryString(queryString);
-                                    getDataBinding().setPagerState(pagerState);
-                                }
-                            });
+                        if (! items.isEmpty()) {
+                            queryString = items.get(0).toQueryString();
+
                         } else {
-                            if (mDebug) {Log.e(LOG_TAG, "table `query_strings` has no records.");}
                             this.getDataBinding().toolbarRepositorySearch.spinnerQueryString.setVisibility(View.INVISIBLE);
+                            queryString = Constants.DEFAULT_QUERY_STRING;
+                            if (mDebug) {
+                                Log.w(LOG_TAG, "Table `query_strings` currently has no records.");
+                                Log.w(LOG_TAG, "Using thr default value: \"" + Constants.DEFAULT_QUERY_STRING + "\".");
+                            }
                         }
+
+                        String finalQueryString = queryString;
+                        requireActivity().runOnUiThread(() -> {
+                            RepositorySearchAdapter adapter = new RepositorySearchAdapter(requireContext(), finalQueryString, showRepositoryTopics, 1);
+                            getDataBinding().recyclerviewRepositorySearch.setAdapter(adapter);
+                            PagerState pagerState = getDataBinding().getPagerState();
+                            if (pagerState != null) {
+                                pagerState.setQueryString(finalQueryString);
+                                getDataBinding().setPagerState(pagerState);
+                            }
+                        });
+
                     } catch (IllegalStateException e) {
                         if (mDebug) {Log.e(LOG_TAG, "" + e.getMessage());}
                     }

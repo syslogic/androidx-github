@@ -47,32 +47,34 @@ public class TokenHelper {
     static final boolean mDebug = BuildConfig.DEBUG;
 
     @Nullable
-    public static String getAccessToken(@NonNull Activity activity) {
-        AccountManager accountManager = AccountManager.get(activity);
+    public static String getAccessToken(@NonNull Context context) {
+        AccountManager accountManager = AccountManager.get(context);
         Account account = getAccount(accountManager, 0);
         if (account != null) {
             /* Default: Load the access token from AccountManager. */
             return accountManager.getUserData(account, "token");
         } else if (mDebug) {
             /* Debug: Try to load and validate the access token. */
-            return loadTokenFromPackageMeta(activity, accountManager);
+            return loadTokenFromPackageMeta(context, accountManager);
         } else {
             Log.e(LOG_TAG, "Account not found: " + Constants.ACCOUNT_TYPE);
             return null;
         }
     }
 
-    public static void setAccessToken(Activity activity, @Nullable String token) {
-        AccountManager accountManager = AccountManager.get(activity);
+    public static void setAccessToken(Context context, @Nullable String token) {
+        AccountManager accountManager = AccountManager.get(context);
         Account account = getAccount(accountManager, 0);
         if (account != null && token == null) {
-            accountManager.removeAccount(account, activity, accountManagerFuture -> {
-                Log.d(LOG_TAG, "Account removed: " + Constants.ACCOUNT_TYPE);
-            }, new Handler(Looper.getMainLooper()));
+            if (context instanceof Activity activity) {
+                accountManager.removeAccount(account, activity, accountManagerFuture -> {
+                    Log.d(LOG_TAG, "Account removed: " + Constants.ACCOUNT_TYPE);
+                }, new Handler(Looper.getMainLooper()));
+            }
         } else if (account == null && token == null) {
             /* This maybe happen when the token loaded from package-meta has expired. */
-            Intent intent = new Intent(activity, AuthenticatorActivity.class);
-            activity.startActivity(intent);
+            Intent intent = new Intent(context, AuthenticatorActivity.class);
+            context.startActivity(intent);
         }
     }
 
@@ -91,16 +93,16 @@ public class TokenHelper {
     }
 
     @Nullable
-    private static String loadTokenFromPackageMeta(@NonNull Activity activity, AccountManager accountManager) {
+    private static String loadTokenFromPackageMeta(@NonNull Context context, AccountManager accountManager) {
         String token = null;
         try {
 
             ApplicationInfo app;
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
                 PackageManager.ApplicationInfoFlags flags = PackageManager.ApplicationInfoFlags.of(PackageManager.GET_META_DATA);
-                app = activity.getPackageManager().getApplicationInfo(activity.getPackageName(), flags);
+                app = context.getPackageManager().getApplicationInfo(context.getPackageName(), flags);
             } else {
-                app = activity.getPackageManager().getApplicationInfo(activity.getPackageName(), PackageManager.GET_META_DATA);
+                app = context.getPackageManager().getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA);
             }
 
             if (mDebug && app.metaData.keySet().contains("com.github.ACCESS_TOKEN")) {
@@ -134,9 +136,9 @@ public class TokenHelper {
                                     if (message.equals("\"Bad credentials\"")) {
 
                                         // Remove the token, it is invalid anyway.
-                                        TokenHelper.setAccessToken(activity, null);
+                                        TokenHelper.setAccessToken(context, null);
 
-                                        if (activity instanceof NavHostActivity activity2) {
+                                        if (context instanceof NavHostActivity activity2) {
                                             if (activity2.getCurrentFragment() instanceof HomeScreenFragment) {
                                                 activity2.getNavController().navigate(
                                                     R.id.action_homeScreenFragment_to_preferencesFragment
