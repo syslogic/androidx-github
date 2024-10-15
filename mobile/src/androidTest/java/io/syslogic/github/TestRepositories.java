@@ -14,11 +14,11 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
- * Repositories Test Case
+ * Repositories Test-Case
  *
  * @author Martin Zeitler
  */
-@RunWith(AndroidJUnit4.class)
+// @RunWith(AndroidJUnit4.class)
 public class TestRepositories extends TestSuite {
 
     private final String className = TestRepositories.class.getSimpleName().concat("Activity").replace("Test", "");

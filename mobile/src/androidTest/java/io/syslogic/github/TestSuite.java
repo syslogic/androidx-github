@@ -16,6 +16,7 @@ import org.junit.runners.Suite.SuiteClasses;
 import java.util.List;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.uiautomator.By;
 import androidx.test.uiautomator.Direction;
@@ -34,7 +35,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsNull.notNullValue;
 
 /**
- * Application Test Suite
+ * Test-Suite
  *
  * @author Martin Zeitler
  */
@@ -52,10 +53,11 @@ public class TestSuite {
     UiDevice mDevice;
 
     /**
-     * uses package manager to find the package name of the device launcher.
+     * Uses package manager to find the package name of the device launcher.
      * usually this package is "com.android.launcher" but can be different at times.
      * this is a generic solution which works on all platforms.`
     **/
+    @Nullable
     private String getLauncherPackageName() {
 
         /* create a launcher Intent */
@@ -147,6 +149,7 @@ public class TestSuite {
         }
     }
 
+    /** @noinspection SameParameterValue */
     void flingUp(UiObject2 view, int speed, int pause) {
         assertThat(view, not(equalTo(null)));
         try {
@@ -161,7 +164,7 @@ public class TestSuite {
         try {
             Thread.sleep(ms);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            Log.e("", e.getMessage(), e);
         }
     }
 }
