@@ -10,13 +10,13 @@ base {
 }
 
 android {
-    namespace 'io.syslogic.github.api'
+    namespace = "io.syslogic.github.api"
     buildToolsVersion = libs.versions.android.build.tools.get()
-    compileSdk Integer.parseInt(libs.versions.android.compile.sdk.get())
+    compileSdk = Integer.parseInt(libs.versions.android.compile.sdk.get())
     defaultConfig {
-        minSdk Integer.parseInt(libs.versions.android.min.sdk.get())
-        targetSdk Integer.parseInt(libs.versions.android.target.sdk.get())
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        minSdk = Integer.parseInt(libs.versions.android.min.sdk.get())
+        targetSdk = Integer.parseInt(libs.versions.android.target.sdk.get())
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFile "${project.rootDir}/proguard/consumer.pro"
     }
 
@@ -33,18 +33,18 @@ android {
     }
 
     buildFeatures {
-        buildConfig true
-        dataBinding true
+        buildConfig = true
+        dataBinding = true
     }
 
     buildTypes {
         debug {
             // it breaks the data-binding, eg. when running ./gradlew :library:publishToMavenLocal
-            testCoverageEnabled false
-            minifyEnabled false
+            testCoverageEnabled = false
+            minifyEnabled = false
         }
         release {
-            minifyEnabled false
+            minifyEnabled = false
         }
     }
 
@@ -56,11 +56,11 @@ android {
     }
 
     lint {
-        lintConfig project.file('lint.xml')
-        checkAllWarnings true
-        warningsAsErrors true
-        abortOnError false
-        showAll false
+        lintConfig = project.file('lint.xml')
+        checkAllWarnings = true
+        warningsAsErrors = true
+        abortOnError = false
+        showAll = false
     }
 }
 
@@ -106,7 +106,7 @@ tasks.register('javadoc', Javadoc) {
     classpath += fileTree(dir: project.file("build/tmp/aarsToJars/").absolutePath)
     classpath += configurations.implementation
     exclude "**/BuildConfig.java", "**/R.java", "**/*.kt"
-    failOnError false
+    failOnError = false
 
     // options.verbose()
     // javadoc: warning - The code being documented uses modules but the packages

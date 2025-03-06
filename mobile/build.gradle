@@ -24,20 +24,20 @@ base {
 }
 
 android {
-    namespace 'io.syslogic.github'
+    namespace = "io.syslogic.github"
     buildToolsVersion = libs.versions.android.build.tools.get()
-    compileSdk Integer.parseInt(libs.versions.android.compile.sdk.get())
+    compileSdk = Integer.parseInt(libs.versions.android.compile.sdk.get())
     defaultConfig {
-        minSdk Integer.parseInt(libs.versions.android.min.sdk.get())
-        targetSdk Integer.parseInt(libs.versions.android.target.sdk.get())
-        versionCode Integer.parseInt(libs.versions.app.version.code.get())
-        versionName libs.versions.app.version.name.get()
-        applicationId 'io.syslogic.github'
+        minSdk = Integer.parseInt(libs.versions.android.min.sdk.get())
+        targetSdk = Integer.parseInt(libs.versions.android.target.sdk.get())
+        versionCode = Integer.parseInt(libs.versions.app.version.code.get())
+        versionName = libs.versions.app.version.name.get()
+        applicationId = "io.syslogic.github"
         //noinspection GroovyConstructorNamedArguments
         manifestPlaceholders = [ accessToken: "" ]
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        testBuildType "debug"
-        multiDexEnabled true
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testBuildType = "debug"
+        multiDexEnabled = true
     }
 
     room {
@@ -56,8 +56,8 @@ android {
     }
 
     buildFeatures {
-        buildConfig true
-        dataBinding true
+        buildConfig = true
+        dataBinding = true
     }
 
     signingConfigs {
@@ -81,20 +81,19 @@ android {
 
     buildTypes {
         debug {
-            applicationIdSuffix ".debug"
-            signingConfig signingConfigs.debug
+            applicationIdSuffix = ".debug"
+            signingConfig = signingConfigs.debug
             //noinspection GroovyConstructorNamedArguments
             manifestPlaceholders = [ accessToken: "${accessToken}" ]
-            renderscriptDebuggable true
-            pseudoLocalesEnabled false
-            testCoverageEnabled true
-            shrinkResources false
-            minifyEnabled false
-            jniDebuggable true
-            debuggable true
+            pseudoLocalesEnabled = false
+            testCoverageEnabled = true
+            shrinkResources = false
+            minifyEnabled = false
+            jniDebuggable = true
+            debuggable = true
         }
         release {
-            signingConfig signingConfigs.release
+            signingConfig = signingConfigs.release
             //noinspection GroovyConstructorNamedArguments
             manifestPlaceholders = [ accessToken: "" ]
             proguardFile "${project.rootDir}/proguard/android.pro"
@@ -103,22 +102,21 @@ android {
             proguardFile "${project.rootDir}/proguard/window.pro"
             proguardFile "${project.rootDir}/proguard/mobile.pro"
             proguardFile "${project.rootDir}/proguard/jgit.pro"
-            renderscriptDebuggable false
-            pseudoLocalesEnabled false
-            testCoverageEnabled false
-            shrinkResources true
-            minifyEnabled true
-            jniDebuggable false
-            debuggable false
+            pseudoLocalesEnabled = false
+            testCoverageEnabled = false
+            shrinkResources = true
+            minifyEnabled = true
+            jniDebuggable = false
+            debuggable = false
         }
     }
 
     lint {
-        lintConfig project.file('lint.xml')
-        checkAllWarnings true
-        warningsAsErrors true
-        abortOnError false
-        showAll false
+        lintConfig = project.file('lint.xml')
+        checkAllWarnings = true
+        warningsAsErrors = true
+        abortOnError = false
+        showAll = false
     }
 }
 
