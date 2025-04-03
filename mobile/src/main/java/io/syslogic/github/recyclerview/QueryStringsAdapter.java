@@ -23,6 +23,7 @@ import io.syslogic.github.R;
 import io.syslogic.github.activity.BaseActivity;
 import io.syslogic.github.api.model.QueryString;
 import io.syslogic.github.api.room.Abstraction;
+import io.syslogic.github.api.room.QueryStringsDao;
 import io.syslogic.github.databinding.CardviewQueryStringBinding;
 
 /**
@@ -40,19 +41,15 @@ public class QueryStringsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     /** Debug Output */
     static final boolean mDebug = BuildConfig.DEBUG;
 
-    private WeakReference<Context> mContext;
-    private RecyclerView mRecyclerView;
+    private final WeakReference<Context> mContext;
     private List<QueryString> mItems;
 
     public QueryStringsAdapter(@NonNull Context context) {
         this.mContext = new WeakReference<>(context);
-        Abstraction.executorService.execute(() -> mItems = Abstraction.getInstance(getContext()).queryStringsDao().getItems());
-    }
-
-    @Override
-    public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
-        super.onAttachedToRecyclerView(recyclerView);
-        this.mRecyclerView = recyclerView;
+        Abstraction.executorService.execute(() -> {
+            QueryStringsDao dao = Abstraction.getInstance(getContext()).queryStringsDao();
+            if (dao != null) {mItems = dao.getItems();}
+        });
     }
 
     @NonNull
@@ -98,7 +95,6 @@ public class QueryStringsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private final CardviewQueryStringBinding mDataBinding;
-        private QueryStringsLinearView mRecyclerView;
         private CardView cardView;
         private long itemId;
 
@@ -118,9 +114,9 @@ public class QueryStringsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
         @Override
         public void onClick(@NonNull View viewHolder) {
-            this.mRecyclerView = (QueryStringsLinearView) viewHolder.getParent();
+            QueryStringsLinearView mRecyclerView = (QueryStringsLinearView) viewHolder.getParent();
             QueryString item = (QueryString) viewHolder.getTag();
-            BaseActivity activity = (BaseActivity) this.mRecyclerView.getContext();
+            BaseActivity activity = (BaseActivity) mRecyclerView.getContext();
             ViewDataBinding databinding = activity.getFragmentDataBinding();
             if (databinding != null) {
                 Bundle args = new Bundle();
@@ -134,6 +130,7 @@ public class QueryStringsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         public void setId(long value) {
             this.itemId = value;
         }
+
         void setCardView(CardView view) {
             this.cardView = view;
         }
@@ -142,6 +139,7 @@ public class QueryStringsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         public long getId() {
             return this.itemId;
         }
+
         CardviewQueryStringBinding getDataBinding() {
             return this.mDataBinding;
         }

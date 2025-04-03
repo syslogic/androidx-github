@@ -6,12 +6,11 @@ pluginManagement {
     }
 }
 
+@Suppress("UnstableApiUsage")
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
-        maven {
-            url = "https://repo.eclipse.org/content/groups/releases/"
-        }
+        maven { url = uri("https://repo.eclipse.org/content/groups/releases/") }
         mavenCentral()
         google()
     }
@@ -19,9 +18,9 @@ dependencyResolutionManagement {
 
 rootProject.name = "GitHub Client"
 
-include ":library"
+include(":library")
 
-/* JitPack: exclude module. */
-if (! System.env.JITPACK) {
-    include ":mobile"
+/* JitPack: exclude module `:mobile` */
+if (System.getenv("JITPACK") == null) {
+    include(":mobile")
 }
