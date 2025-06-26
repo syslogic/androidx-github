@@ -14,9 +14,10 @@ if (System.env.JITPACK) {
 project.ext.set('archiveBuildTypes', ['debug', 'release'])
 
 /** Keystore Settings, loaded from keystore.properties */
-if (rootProject.file('keystore.properties').exists()) {
+def keystoreConfig = rootProject.file('keystore.properties')
+if (keystoreConfig.exists()) {
     def keystore = new Properties()
-    def ins = new FileInputStream(rootProject.file('keystore.properties'))
+    def ins = new FileInputStream(keystoreConfig)
     keystore.load(ins)
     project.ext.set('debugKeystorePass',   keystore['debugKeystorePass'])
     project.ext.set('debugKeyAlias',       keystore['debugKeyAlias'])
