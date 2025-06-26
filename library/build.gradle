@@ -1,10 +1,10 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.androidx.room)
-    id 'maven-publish'
+    id "maven-publish"
 }
 
-group = 'io.syslogic'
+group = "io.syslogic"
 version = libs.versions.app.version.name.get()
 
 base {
@@ -20,7 +20,7 @@ android {
         minSdk = Integer.parseInt(libs.versions.android.min.sdk.get())
         targetSdk = Integer.parseInt(libs.versions.android.target.sdk.get())
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFile "${project.rootDir}/proguard/consumer.pro"
+        consumerProguardFile("${project.rootDir}/proguard/consumer.pro")
     }
 
     sourceSets.main.java.srcDirs = [ "src/main/java" ]
@@ -52,14 +52,14 @@ android {
     }
 
     publishing {
-        singleVariant('release') {
+        singleVariant("release") {
             withSourcesJar()
             withJavadocJar()
         }
     }
 
     lint {
-        lintConfig = project.file('lint.xml')
+        lintConfig = project.file("lint.xml")
         checkAllWarnings = true
         warningsAsErrors = true
         abortOnError = false
@@ -84,7 +84,7 @@ dependencies {
     // Room Runtime
     annotationProcessor(libs.androidx.room.compiler)
     testImplementation(libs.androidx.room.testing)
-    implementation(libs.androidx.room.runtime)
+    api(libs.androidx.room.runtime)
 
     // Retrofit2
     implementation(libs.gson)
