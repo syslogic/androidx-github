@@ -83,8 +83,10 @@ dependencies {
 
     // Room Runtime
     annotationProcessor(libs.androidx.room.compiler)
+    testAnnotationProcessor(libs.androidx.room.compiler)
     testImplementation(libs.androidx.room.testing)
     api(libs.androidx.room.runtime)
+    api(libs.androidx.room.paging)
 
     // Retrofit2
     implementation(libs.gson)
@@ -96,6 +98,8 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.junit)
 }
+
+
 
 tasks.register('javadoc', Javadoc) {
 

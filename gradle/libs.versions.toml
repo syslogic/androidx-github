@@ -7,7 +7,7 @@ android_target_sdk           = '36'
 android_min_sdk              = '22'
 
 # Gradle Plugins
-android_gradle_plugin        = '8.11.0'
+android_gradle_plugin        = '8.11.1'
 kotlin                       = '2.2.0'
 material_design              = '1.12.0'
 retrofit                     = '3.0.0'
@@ -19,7 +19,7 @@ jgit                         = '6.2.0.202206071550-r'
 slf4j                        = '2.0.17'
 androidx_appcompat           = '1.7.1'
 androidx_annotation          = '1.9.1'
-androidx_navigation          = '2.9.1'
+androidx_navigation          = '2.9.2'
 androidx_fragment            = '1.8.8'
 androidx_recyclerview        = '1.4.0'
 androidx_cardview            = '1.0.0'
@@ -63,6 +63,7 @@ androidx_navigation_fragment = { module = "androidx.navigation:navigation-fragme
 androidx_room_testing        = { module = "androidx.room:room-testing", version.ref = "androidx_room" }
 androidx_room_compiler       = { module = "androidx.room:room-compiler", version.ref = "androidx_room" }
 androidx_room_runtime        = { module = "androidx.room:room-runtime", version.ref = "androidx_room" }
+androidx_room_paging         = { module = "androidx.room:room-paging", version.ref = "androidx_room" }
 androidx_splashscreen        = { module = "androidx.core:core-splashscreen", version.ref = "androidx_splashscreen" }
 
 androidx_test_monitor        = { module = "androidx.test:monitor", version.ref = "androidx_test_monitor" }
