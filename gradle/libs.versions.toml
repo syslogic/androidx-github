@@ -63,6 +63,7 @@ androidx_navigation_fragment = { module = "androidx.navigation:navigation-fragme
 androidx_room_testing        = { module = "androidx.room:room-testing", version.ref = "androidx_room" }
 androidx_room_compiler       = { module = "androidx.room:room-compiler", version.ref = "androidx_room" }
 androidx_room_runtime        = { module = "androidx.room:room-runtime", version.ref = "androidx_room" }
+androidx_room_paging         = { module = "androidx.room:room-paging", version.ref = "androidx_room" }
 androidx_splashscreen        = { module = "androidx.core:core-splashscreen", version.ref = "androidx_splashscreen" }
 
 androidx_test_monitor        = { module = "androidx.test:monitor", version.ref = "androidx_test_monitor" }

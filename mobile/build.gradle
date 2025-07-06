@@ -5,6 +5,10 @@ plugins {
     alias(libs.plugins.androidx.room)
 }
 
+pluginManager.withPlugin('ivy-publish') {
+    // Do configuration
+}
+
 /** Load API access-token from file `token.properties` */
 if (rootProject.file("token.properties").exists()) {
     def fis = new FileInputStream(rootProject.file("token.properties"))
@@ -150,14 +154,17 @@ dependencies {
 
     // Room Runtime
     annotationProcessor(libs.androidx.room.compiler)
+    androidTestAnnotationProcessor(libs.androidx.room.compiler)
+
     testImplementation(libs.androidx.room.testing)
     implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.paging)
 
     // Retrofit2
     implementation(libs.gson)
     implementation(libs.retrofit)
     implementation(libs.retrofit.gson.converter) {
-        exclude group: "com.google.code.gson", module: "gson"
+        exclude(group: "com.google.code.gson", module: "gson")
     }
 
     // https://mvnrepository.com/artifact/org.eclipse.jgit/org.eclipse.jgit
