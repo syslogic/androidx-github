@@ -1,15 +1,15 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.androidx.room)
-    id "maven-publish"
+    alias(libs.plugins.maven.publish)
+    // id("io.syslogic.gpr.maintenance")
 }
 
 group = "io.syslogic"
 version = libs.versions.app.version.name.get()
 
 base {
-    String versionName = libs.versions.app.version.name.get()
-    archivesName = "androidx_github_$versionName"
+    archivesName = "androidx-github-api"
 }
 
 android {
@@ -51,13 +51,6 @@ android {
         }
     }
 
-    publishing {
-        singleVariant("release") {
-            withSourcesJar()
-            withJavadocJar()
-        }
-    }
-
     lint {
         lintConfig = project.file("lint.xml")
         checkAllWarnings = true
@@ -75,23 +68,22 @@ dependencies {
     // Annotations
     implementation(libs.androidx.annotation)
 
-    // App Compat
+    // AppCompat
     implementation(libs.androidx.appcompat)
 
     // Data-Binding Runtime
     implementation(libs.androidx.databinding)
 
-    // Room Runtime
+    // Room
     annotationProcessor(libs.androidx.room.compiler)
-    testAnnotationProcessor(libs.androidx.room.compiler)
+    androidTestAnnotationProcessor(libs.androidx.room.compiler)
     testImplementation(libs.androidx.room.testing)
     api(libs.androidx.room.runtime)
     api(libs.androidx.room.paging)
 
     // Retrofit2
     implementation(libs.gson)
-    implementation(libs.retrofit)
-    implementation(libs.retrofit.gson.converter) {
+    implementation(libs.bundles.retrofit) {
         exclude(group: "com.google.code.gson", module: "gson")
     }
 
@@ -99,20 +91,24 @@ dependencies {
     androidTestImplementation(libs.androidx.test.junit)
 }
 
+// Gradle 9.0 deprecation fix
+Configuration implCls = configurations.create("implCls", {
+    extendsFrom(configurations.implementation)
+    canBeResolved = true
+})
 
-
-tasks.register('javadoc', Javadoc) {
+tasks.register("javadoc", Javadoc) {
 
     title = "GitHub API Client ${android.defaultConfig.versionName}"
     source = android.sourceSets.main.java.srcDirs
     destinationDir = project.file("build/outputs/javadoc")
-    configurations.implementation.setCanBeResolved(true)
 
     classpath = files(new File("${android.sdkDirectory}/platforms/${android.compileSdkVersion}/android.jar"))
     android.getBootClasspath().forEach{ classpath += fileTree(it) }
     classpath += fileTree(dir: project.file("build/tmp/aarsToJars/").absolutePath)
-    classpath += configurations.implementation
+    classpath += implCls
     exclude("**/BuildConfig.java", "**/R.java", "**/*.kt")
+    exclude("androidx.sqlite.db.SupportSQLiteDatabase")
     failOnError = false
 
     // options.verbose()
@@ -130,13 +126,13 @@ tasks.register('javadoc', Javadoc) {
     doFirst {
 
         // extract AAR files
-        configurations.implementation
-                .filter { it.name.endsWith('.aar') }
+        configurations.implCls
+                .filter { it.name.endsWith(".aar") }
                 .each { aar ->
                     copy {
                         from zipTree(aar)
                         include "**/classes.jar"
-                        into project.file("build/tmp/aarsToJars/${aar.name.replace('.aar', '')}/")
+                        into project.file("build/tmp/aarsToJars/${aar.name.replace(".aar", "")}/")
                     }
         }
 
@@ -174,23 +170,47 @@ artifacts {
 
 afterEvaluate {
     publishing {
-        publications {
-            release(MavenPublication) {
-                groupId = group
-                artifactId = 'androidx-github'
-                version = libs.versions.app.version.name.get()
-                from components.getByName('release')
-                pom {
-                    name = 'GitHub API Client'
-                    description = 'A simple client library for Android'
-                    url = "https://github.com/syslogic/${artifactId}"
-                    scm {
-                        connection = "scm:git:git://github.com/syslogic/${artifactId}.git"
-                        developerConnection = "scm:git:ssh://github.com/syslogic/${artifactId}.git"
-                        url = "https://github.com/syslogic/${artifactId}/"
+
+        repositories {
+             maven {
+                name = "GitHubPackages"
+                url = uri("https://maven.pkg.github.com/${project.ext.get("github_handle")}/${project.ext.get("artifact_id")}")
+                if (System.getenv("GITHUB_ACTOR") != null && System.getenv("GITHUB_ACTOR") != null) {
+                    credentials {
+                        username = System.getenv("GITHUB_ACTOR")
+                        password = System.getenv("GITHUB_TOKEN")
                     }
                 }
             }
         }
+
+        publications {
+            Default(MavenPublication) {
+                from(components.getByName("release"))
+                groupId = "${project.ext.get("group_id")}"
+                artifactId = "${project.ext.get("artifact_id")}"
+                version = libs.versions.app.version.name.get()
+                pom {
+                    name = "${project.ext.get("plugin_name")}"
+                    description = "${project.ext.get("plugin_desc")}"
+                    url = "https://github.com/${project.ext.get("github_handle")}/${project.ext.get("artifact_id")}"
+                    scm {
+                        connection = "scm:git:git://github.com/${project.ext.get("github_handle")}/${project.ext.get("artifact_id")}.git"
+                        developerConnection = "scm:git:ssh://github.com/${project.ext.get("github_handle")}/${project.ext.get("artifact_id")}.git"
+                        url = "https://github.com/${project.ext.get("github_handle")}/${project.ext.get("artifact_id")}/"
+                    }
+                }
+            }
+        }
+    }
+}
+
+/** GitHub Package Registry */
+if (pluginManager.hasPlugin("io.syslogic.gpr.maintenance")) {
+    gpr {
+        groupId = project.ext.get("group_id")        // group
+        packageName = project.ext.get("artifact_id") // repo
+        listPackagesAfterPublish = true
+        deleteLastVersion = true
     }
 }

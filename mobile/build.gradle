@@ -1,12 +1,7 @@
 // :mobile build.gradle
 plugins {
     alias(libs.plugins.android.application)
-    alias(libs.plugins.androidx.navigation.safeargs)
     alias(libs.plugins.androidx.room)
-}
-
-pluginManager.withPlugin('ivy-publish') {
-    // Do configuration
 }
 
 /** Load API access-token from file `token.properties` */
