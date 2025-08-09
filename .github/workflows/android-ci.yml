@@ -53,7 +53,7 @@ jobs:
         run: |
           mkdir build
           chmod +x ./gradlew
-          ./gradlew --max-workers=2 :library:lint :library:publishMavenPublicationToGitHubPackagesRepository
+          ./gradlew --max-workers=2 --continue :library:lint :library:publishMavenPublicationToGitHubPackagesRepository
           ls -la ./library/build/outputs/aar | grep aar
 
       # https://github.com/actions/upload-artifact

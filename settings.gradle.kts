@@ -16,7 +16,7 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "GitHub Client"
+rootProject.name = "androidx-github"
 
 include(":library")
 

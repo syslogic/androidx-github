@@ -18,8 +18,7 @@ if (rootProject.file("token.properties").exists()) {
 }
 
 base {
-    String versionName = libs.versions.app.version.name.get()
-    archivesName = "github_client_$versionName"
+    archivesName = "androidx-github-client"
 }
 
 android {

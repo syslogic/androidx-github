@@ -1,17 +1,13 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.androidx.room)
-    alias(libs.plugins.jetbrains.dokka)
     alias(libs.plugins.maven.publish)
     alias(libs.plugins.gpr.maintenance)
 }
 
 group = "io.syslogic"
 version = libs.versions.app.version.name.get()
-
-base {
-    archivesName = "androidx-github-api"
-}
+base.archivesName = "androidx-github-${version}"
 
 android {
     namespace = "io.syslogic.github.api"
@@ -61,7 +57,7 @@ android {
     }
 
     publishing {
-        singleVariant("library") {
+        singleVariant("androidx-github") {
             withSourcesJar()
             withJavadocJar()
         }
@@ -174,7 +170,7 @@ afterEvaluate {
     publishing {
         publications {
             register(MavenPublication) {
-                from components["release"]
+                from(components["release"])
                 groupId = "${group_id}"
                 artifactId = "${artifact_id}"
                 version = libs.versions.app.version.name.get()
