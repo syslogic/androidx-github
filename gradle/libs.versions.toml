@@ -1,6 +1,6 @@
 [versions]
-app_version_code             = '4'
-app_version_name             = '1.0.5'
+app_version_code             = '22'
+app_version_name             = '1.2.2'
 android_build_tools          = '36.0.0'
 android_compile_sdk          = '36'
 android_target_sdk           = '36'
@@ -9,8 +9,6 @@ android_min_sdk              = '22'
 # Gradle Plugins
 kotlin                       = '2.2.0'
 maven_publish                = '0.34.0'
-jetbrains_dokka              = '1.9.20'
-gpr_maintenance              = '1.0.0'
 android_gradle_plugin        = '8.12.0'
 material_design              = '1.12.0'
 retrofit                     = '3.0.0'
@@ -43,10 +41,6 @@ android_application          = { id = "com.android.application", version.ref = "
 android_library              = { id = "com.android.library", version.ref = "android_gradle_plugin" }
 androidx_room                = { id = "androidx.room", version.ref = "androidx_room" }
 maven_publish                = { id = "com.vanniktech.maven.publish", version.ref = "maven_publish" }
-jetbrains_dokka              = { id = "org.jetbrains.dokka", version.ref = "jetbrains_dokka" }
-
-# git clone https://github.com/syslogic/gpr-maintenance-gradle-plugin.git ./buildSrc
-gpr_maintenance              = { id = "io.syslogic.gpr.maintenance" }
 
 [libraries]
 material_design              = { module = "com.google.android.material:material", version.ref = "material_design" }
