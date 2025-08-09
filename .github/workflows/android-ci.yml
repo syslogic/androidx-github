@@ -14,7 +14,7 @@ on:
 
 jobs:
   build:
-    name: 🎉 Gradle Build
+    name: 🎉 Build Android Library
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -33,46 +33,36 @@ jobs:
           distribution: corretto
           java-version: '17'
 
+      # https://github.com/gradle/actions/blob/main/docs/setup-gradle.md
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
         with:
-          gradle-version: '9.0.0'
-          build-scan-terms-of-use-url: "https://gradle.com/terms-of-service"
-          build-scan-terms-of-use-agree: "yes"
-          build-scan-publish: false
+          cache-encryption-key: ${{ SECRETS.GRADLE_ENCRYPTION_KEY }}
+          cache-cleanup: always
+
+      # Check out the GPR Maintenance plugin source code.
+      # This will replicate the local directory structure.
+      - name: Check out GPR Maintenance plugin
+        run: git clone https://github.com/syslogic/gpr-maintenance-gradle-plugin.git ./buildSrc
 
       # Run Gradle tasks
-      - name: GPR Publication of module :library
+      - name: Publish :library
         env:
           GITHUB_ACTOR: ${{ GITHUB.REPOSITORY_OWNER }}
           GITHUB_TOKEN: ${{ SECRETS.GITHUB_TOKEN }}
         run: |
-          gradle --no-daemon :library:lint :library:assembleRelease :library:publishDefaultPublicationToGitHubPackagesRepository
+          mkdir build
+          chmod +x ./gradlew
+          ./gradlew --max-workers=2 :library:lint :library:publishMavenPublicationToGitHubPackagesRepository
           ls -la ./library/build/outputs/aar | grep aar
-
-      # Run Gradle tasks
-      - name: Build module :mobile
-        if: false
-        run: gradle :mobile:lint :mobile:bundleDebug
 
       # https://github.com/actions/upload-artifact
       - name: 📦 Retain Artifacts (Release AAR)
         id: retain-library-aar
         uses: actions/upload-artifact@v4
         with:
-          name: androidx-github-lib
+          name: androidx-github-api
           path: ./library/build/outputs/aar/*.aar
-          retention-days: 14
-
-      # https://github.com/actions/upload-artifact
-      - name: 📦 Retain Artifacts (AAB)
-        id: retain-app-debug-aab
-        uses: actions/upload-artifact@v4
-        with:
-          name: androidx-github
-          path: |
-            ./mobile/build/outputs/bundle/release/*.aab
-            ./mobile/build/outputs/bundle/debug/*.aab
           retention-days: 14
 
       # https://github.com/actions/upload-artifact
@@ -81,7 +71,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: androidx-github-lint
-          path: |
-            ./library/build/reports/*
-            ./mobile/build/reports/*
+          path: ./library/build/reports/*
           retention-days: 14

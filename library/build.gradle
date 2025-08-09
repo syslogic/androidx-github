@@ -1,8 +1,9 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.androidx.room)
+    alias(libs.plugins.jetbrains.dokka)
     alias(libs.plugins.maven.publish)
-    // id("io.syslogic.gpr.maintenance")
+    alias(libs.plugins.gpr.maintenance)
 }
 
 group = "io.syslogic"
@@ -58,6 +59,13 @@ android {
         abortOnError = false
         showAll = false
     }
+
+    publishing {
+        singleVariant("library") {
+            withSourcesJar()
+            withJavadocJar()
+        }
+    }
 }
 
 dependencies {
@@ -108,7 +116,6 @@ tasks.register("javadoc", Javadoc) {
     classpath += fileTree(dir: project.file("build/tmp/aarsToJars/").absolutePath)
     classpath += implCls
     exclude("**/BuildConfig.java", "**/R.java", "**/*.kt")
-    exclude("androidx.sqlite.db.SupportSQLiteDatabase")
     failOnError = false
 
     // options.verbose()
@@ -116,8 +123,8 @@ tasks.register("javadoc", Javadoc) {
     // defined in https://developer.android.com/reference/ are in the unnamed module.
     options.links "https://docs.oracle.com/en/java/javase/17/docs/api/"
     options.linksOffline "https://developer.android.com/reference", "${android.sdkDirectory}/docs/reference"
-    options.linkSource true
-    options.author true
+    options.linkSource = true
+    options.author = true
 
     onlyIf {
         project.file("build/intermediates/aar_main_jar").exists()
@@ -130,19 +137,19 @@ tasks.register("javadoc", Javadoc) {
                 .filter { it.name.endsWith(".aar") }
                 .each { aar ->
                     copy {
-                        from zipTree(aar)
-                        include "**/classes.jar"
-                        into project.file("build/tmp/aarsToJars/${aar.name.replace(".aar", "")}/")
+                        from(zipTree(aar))
+                        include("**/classes.jar")
+                        into(project.file("build/tmp/aarsToJars/${aar.name.replace(".aar", "")}/"))
                     }
         }
 
         // provide JAR, which contains the generated data-binding classes
-        def aar_main = project.file("build/intermediates/aar_main_jar")
-        if (aar_main.exists()) {
+        def aarMain = project.file("build/intermediates/aar_main_jar")
+        if (aarMain.exists()) {
             copy {
-                from aar_main
-                include "**/classes.jar"
-                into project.file("build/tmp/aarsToJars/aar_main_jar/")
+                from(aarMain)
+                include("**/classes.jar")
+                into(project.file("build/tmp/aarsToJars/aar_main_jar/"))
             }
         }
     }
@@ -163,41 +170,38 @@ tasks.register('sourcesJar', Jar) {
     archiveClassifier.set('sources')
 }
 
-artifacts {
-    archives(javadocJar)
-    archives(sourcesJar)
-}
-
 afterEvaluate {
     publishing {
-
+        publications {
+            register(MavenPublication) {
+                from components["release"]
+                groupId = "${group_id}"
+                artifactId = "${artifact_id}"
+                version = libs.versions.app.version.name.get()
+                artifacts {
+                    archives(javadocJar)
+                    archives(sourcesJar)
+                }
+                pom {
+                    name = "${plugin_name}"
+                    description = "${plugin_desc}"
+                    url = "https://github.com/${github_handle}/${artifact_id}"
+                    scm {
+                        connection = "scm:git:git://github.com/${github_handle}/${artifact_id}.git"
+                        developerConnection = "scm:git:ssh://github.com/${github_handle}/${artifact_id}.git"
+                        url = "https://github.com/${github_handle}/${artifact_id}/"
+                    }
+                }
+            }
+        }
         repositories {
-             maven {
+            maven {
                 name = "GitHubPackages"
                 url = uri("https://maven.pkg.github.com/${project.ext.get("github_handle")}/${project.ext.get("artifact_id")}")
                 if (System.getenv("GITHUB_ACTOR") != null && System.getenv("GITHUB_ACTOR") != null) {
                     credentials {
                         username = System.getenv("GITHUB_ACTOR")
                         password = System.getenv("GITHUB_TOKEN")
-                    }
-                }
-            }
-        }
-
-        publications {
-            Default(MavenPublication) {
-                from(components.getByName("release"))
-                groupId = "${project.ext.get("group_id")}"
-                artifactId = "${project.ext.get("artifact_id")}"
-                version = libs.versions.app.version.name.get()
-                pom {
-                    name = "${project.ext.get("plugin_name")}"
-                    description = "${project.ext.get("plugin_desc")}"
-                    url = "https://github.com/${project.ext.get("github_handle")}/${project.ext.get("artifact_id")}"
-                    scm {
-                        connection = "scm:git:git://github.com/${project.ext.get("github_handle")}/${project.ext.get("artifact_id")}.git"
-                        developerConnection = "scm:git:ssh://github.com/${project.ext.get("github_handle")}/${project.ext.get("artifact_id")}.git"
-                        url = "https://github.com/${project.ext.get("github_handle")}/${project.ext.get("artifact_id")}/"
                     }
                 }
             }
@@ -210,7 +214,7 @@ if (pluginManager.hasPlugin("io.syslogic.gpr.maintenance")) {
     gpr {
         groupId = project.ext.get("group_id")        // group
         packageName = project.ext.get("artifact_id") // repo
-        listPackagesAfterPublish = true
+        listPackagesAfterPublish = false
         deleteLastVersion = true
     }
 }
