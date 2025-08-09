@@ -5,17 +5,14 @@ import java.io.FileInputStream
 plugins {
     alias(libs.plugins.android.application) apply false
     alias(libs.plugins.android.library) apply false
-    alias(libs.plugins.jetbrains.dokka) apply false
     alias(libs.plugins.maven.publish) apply false
+    // id("io.syslogic.gpr.maintenance") apply(false)
 }
 
-/* JitPack: use tag as versionName. */
-if (System.getenv("JITPACK") != null) {
+if (System.getenv("JITPACK") != null || System.getenv("GITHUB_ACTIONS") != null) {
     project.ext.set("version_name", System.getenv("VERSION"))
+    println("> version set to " + System.getenv("VERSION"))
 }
-
-/** Build Configurations */
-project.ext.set("archiveBuildTypes", arrayOf("debug", "release"))
 
 /** Modules */
 allprojects {
@@ -60,11 +57,11 @@ allprojects {
         }
     }
 
-    project.ext.set("group_id", "io.syslogic")        // group
-    project.ext.set("github_handle", "syslogic")      // owner
-    project.ext.set("artifact_id", "androidx-github") // repository
-    project.ext.set("plugin_name", "GitHub API Android Library")
-    project.ext.set("plugin_desc", "Retrofit2 Client & Databindings")
+    project.ext.set("plugin_name",   "GitHub API Android Library")
+    project.ext.set("plugin_desc",   "Retrofit2 Client & Databindings")
+    project.ext.set("group_id",      "io.syslogic")     // group
+    project.ext.set("github_handle", "syslogic")        // owner
+    project.ext.set("artifact_id",   "androidx-github") // repo
 }
 
 // rootProject > clean
