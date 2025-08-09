@@ -1,17 +1,16 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.androidx.room)
-    alias(libs.plugins.jetbrains.dokka)
     alias(libs.plugins.maven.publish)
-    alias(libs.plugins.gpr.maintenance)
+}
+
+if (! pluginManager.hasPlugin("io.syslogic.gpr.maintenance")) {
+    apply plugin: "io.syslogic.gpr.maintenance"
 }
 
 group = "io.syslogic"
 version = libs.versions.app.version.name.get()
-
-base {
-    archivesName = "androidx-github-api"
-}
+base.archivesName = "androidx-github-$version"
 
 android {
     namespace = "io.syslogic.github.api"
@@ -53,7 +52,6 @@ android {
     }
 
     lint {
-        lintConfig = project.file("lint.xml")
         checkAllWarnings = true
         warningsAsErrors = true
         abortOnError = false
@@ -107,7 +105,7 @@ Configuration implCls = configurations.create("implCls", {
 
 tasks.register("javadoc", Javadoc) {
 
-    title = "GitHub API Client ${android.defaultConfig.versionName}"
+    title = "GitHub API ${android.defaultConfig.versionName}"
     source = android.sourceSets.main.java.srcDirs
     destinationDir = project.file("build/outputs/javadoc")
 
@@ -160,28 +158,30 @@ tasks.register("javadoc", Javadoc) {
 }
 
 tasks.register("javadocJar", Jar) {
-    dependsOn(javadoc)
     archiveClassifier.set("javadoc")
     from(javadoc.destinationDir)
+    dependsOn(javadoc)
 }
 
-tasks.register('sourcesJar', Jar) {
+tasks.register("sourcesJar", Jar) {
     from(android.sourceSets.main.java.srcDirs)
-    archiveClassifier.set('sources')
+    archiveClassifier.set("sources")
+}
+
+artifacts {
+    archives(javadocJar)
+    archives(sourcesJar)
 }
 
 afterEvaluate {
+
     publishing {
         publications {
-            register(MavenPublication) {
-                from components["release"]
+            library(MavenPublication) {
+                from(components["release"])
                 groupId = "${group_id}"
                 artifactId = "${artifact_id}"
-                version = libs.versions.app.version.name.get()
-                artifacts {
-                    archives(javadocJar)
-                    archives(sourcesJar)
-                }
+                version = "${libs.versions.app.version.name.get()}"
                 pom {
                     name = "${plugin_name}"
                     description = "${plugin_desc}"
@@ -215,6 +215,7 @@ if (pluginManager.hasPlugin("io.syslogic.gpr.maintenance")) {
         groupId = project.ext.get("group_id")        // group
         packageName = project.ext.get("artifact_id") // repo
         listPackagesAfterPublish = false
+        deleteOnConflict = true
         deleteLastVersion = true
     }
 }

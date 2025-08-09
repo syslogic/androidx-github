@@ -2,7 +2,7 @@ name: Android CI
 
 on:
   push:
-    branches: [ master ]
+    # branches: [ master ]
     paths-ignore:
       - '**/README.md'
       - 'screenshots/**'
@@ -34,7 +34,7 @@ jobs:
           java-version: '17'
 
       # https://github.com/gradle/actions/blob/main/docs/setup-gradle.md
-      - name: Setup Gradle
+      - name: 🐘 Setup Gradle
         uses: gradle/actions/setup-gradle@v4
         with:
           cache-encryption-key: ${{ SECRETS.GRADLE_ENCRYPTION_KEY }}
@@ -45,23 +45,23 @@ jobs:
       - name: Check out GPR Maintenance plugin
         run: git clone https://github.com/syslogic/gpr-maintenance-gradle-plugin.git ./buildSrc
 
-      # Run Gradle tasks
-      - name: Publish :library
+      - name: 🐘 chmod +x
+        run: chmod +x ./buildSrc/gradlew ./gradlew
+
+      - name: 🐘 Publish AAR to GPR
         env:
           GITHUB_ACTOR: ${{ GITHUB.REPOSITORY_OWNER }}
           GITHUB_TOKEN: ${{ SECRETS.GITHUB_TOKEN }}
         run: |
-          mkdir build
-          chmod +x ./gradlew
-          ./gradlew --max-workers=2 :library:lint :library:publishMavenPublicationToGitHubPackagesRepository
+          ./gradlew --max-workers=2 :androidx-github:lint :androidx-github:publishLibraryPublicationToGitHubPackagesRepository
           ls -la ./library/build/outputs/aar | grep aar
 
       # https://github.com/actions/upload-artifact
-      - name: 📦 Retain Artifacts (Release AAR)
+      - name: 📦 Retain Artifacts (AAR)
         id: retain-library-aar
         uses: actions/upload-artifact@v4
         with:
-          name: androidx-github-api
+          name: androidx-github
           path: ./library/build/outputs/aar/*.aar
           retention-days: 14
 
@@ -73,3 +73,21 @@ jobs:
           name: androidx-github-lint
           path: ./library/build/reports/*
           retention-days: 14
+
+#      - name: 🐘 Publish JAR to GPR
+#        env:
+#          GITHUB_ACTOR: ${{ GITHUB.REPOSITORY_OWNER }}
+#          GITHUB_TOKEN: ${{ SECRETS.GITHUB_TOKEN }}
+#        run: |
+#          # PUT -> HTTP 403
+#          # ./gradlew --max-workers=2 :buildSrc:publishPluginPublicationToGitHubPackagesRepository
+#          ./gradlew --max-workers=2 :buildSrc:build
+#          ls -la ./buildSrc/build/libs | grep jar
+
+#      - name: 📦 Retain Artifacts (JAR)
+#        id: retain-library-jar
+#        uses: actions/upload-artifact@v4
+#        with:
+#          name: gpr-maintenance-gradle-plugin
+#          path: ./buildSrc/build/libs/*.jar
+#          retention-days: 14
