@@ -3,6 +3,16 @@ pluginManagement {
         gradlePluginPortal()
         mavenCentral()
         google()
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/syslogic/gpr-maintanance-gradle-plaugin")
+            if (System.getenv("GITHUB_ACTOR") != null && System.getenv("GITHUB_ACTOR") != null) {
+                credentials {
+                    username = System.getenv("GITHUB_ACTOR")
+                    password = System.getenv("GITHUB_TOKEN")
+                }
+            }
+        }
     }
 }
 
@@ -16,11 +26,12 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "GitHub Client"
+rootProject.name = "androidx-github-client"
 
 include(":library")
+project(":library").name = "androidx-github"
 
-/* JitPack: exclude module `:mobile` */
-if (System.getenv("JITPACK") == null) {
+/* GitHub & JitPack: don't include module `:mobile` */
+if (System.getenv("JITPACK") == null && System.getenv("GITHUB_ACTIONS") == null) {
     include(":mobile")
 }

@@ -34,7 +34,7 @@ jobs:
           java-version: '17'
 
       # https://github.com/gradle/actions/blob/main/docs/setup-gradle.md
-      - name: Setup Gradle
+      - name: 🐘 Setup Gradle
         uses: gradle/actions/setup-gradle@v4
         with:
           cache-encryption-key: ${{ SECRETS.GRADLE_ENCRYPTION_KEY }}
@@ -45,15 +45,13 @@ jobs:
       - name: Check out GPR Maintenance plugin
         run: git clone https://github.com/syslogic/gpr-maintenance-gradle-plugin.git ./buildSrc
 
-      # Run Gradle tasks
-      - name: Publish :library
+      - name: 🐘 Publish AAR to GPR
         env:
           GITHUB_ACTOR: ${{ GITHUB.REPOSITORY_OWNER }}
           GITHUB_TOKEN: ${{ SECRETS.GITHUB_TOKEN }}
         run: |
-          mkdir build
           chmod +x ./gradlew
-          ./gradlew --max-workers=2 :library:lint :library:publishMavenPublicationToGitHubPackagesRepository
+          ./gradlew --max-workers=2 :androidx-github:lint :androidx-github:publishMavenPublicationToGitHubPackagesRepository
           ls -la ./library/build/outputs/aar | grep aar
 
       # https://github.com/actions/upload-artifact
@@ -61,7 +59,7 @@ jobs:
         id: retain-library-aar
         uses: actions/upload-artifact@v4
         with:
-          name: androidx-github-api
+          name: androidx-github
           path: ./library/build/outputs/aar/*.aar
           retention-days: 14
 
