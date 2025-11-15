@@ -188,8 +188,10 @@ dependencies {
     androidTestImplementation(libs.androidx.test.uiautomator)
 
     // Espresso
-    androidTestImplementation(libs.androidx.test.espresso.core)
-    androidTestImplementation(libs.androidx.test.espresso.web)
+    androidTestImplementation(libs.bundles.espresso)
+    // androidTestImplementation(libs.androidx.test.espresso.core)
+    // androidTestImplementation(libs.androidx.test.espresso.web)
+
     // androidTestImplementation("androidx.test.espresso:espresso-contrib:$androidx_test_espresso_version")
     // androidTestImplementation("androidx.test.espresso:espresso-intents:$androidx_test_espresso_version")
     // androidTestImplementation("androidx.test.espresso:espresso-accessibility:$androidx_test_espresso_version")
