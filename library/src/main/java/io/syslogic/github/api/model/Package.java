@@ -52,7 +52,6 @@ public class Package extends BaseModel {
     @SerializedName("owner")
     private Owner owner;
 
-
     /** @return the package ID. */
     public long getId() {
         return this.id;
@@ -64,31 +63,37 @@ public class Package extends BaseModel {
     }
 
     /** @return the package-name. */
+    @NonNull
     public String getName() {
         return this.name;
     }
 
     /** @return the package-type. */
+    @NonNull
     public String getPackageType() {
         return this.packageType;
     }
 
     /** @return the package visibility. */
+    @NonNull
     public String getVisibility() {
         return this.visibility;
     }
 
     /** @return the package url. */
+    @NonNull
     public String getUrl() {
         return this.url;
     }
 
     /** @return the package {@link Repository}. */
+    @NonNull
     public Repository getRepository() {
         return this.repository;
     }
 
     /** @return the package {@link Owner}. */
+    @NonNull
     public Owner getOwner() {
         return this.owner;
     }

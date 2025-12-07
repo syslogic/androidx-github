@@ -18,6 +18,7 @@ public class MetaData extends BaseModel {
      * Get the package-type.
      * @return the package-type.
      */
+    @NonNull
     public String getPackageType() {
         return this.packageType;
     }

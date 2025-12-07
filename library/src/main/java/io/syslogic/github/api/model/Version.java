@@ -13,7 +13,7 @@ import java.util.Date;
 public class Version extends BaseModel {
 
     @SerializedName("id")
-    private long id;
+    private Long id;
 
     @SerializedName("name")
     private String name;
@@ -39,38 +39,47 @@ public class Version extends BaseModel {
     @SerializedName("metadata")
     private MetaData metadata;
 
-    public long getId() {
+    @NonNull
+    public Long getId() {
         return this.id;
     }
 
+    @NonNull
     public String getName() {
         return this.name;
     }
 
+    @NonNull
     public String getLicense() {
         return this.license;
     }
 
+    @NonNull
     public String getUrl() {
         return this.url;
     }
 
+    @NonNull
     public String getHtmlUrl() {
         return this.htmlUrl;
     }
 
+    @NonNull
     public String getPackageHtmlUrl() {
         return this.packageHtmlUrl;
     }
 
+    @NonNull
     public Date getCreatedAt() {
         return this.createdAt;
     }
 
+    @NonNull
     public Date getUpdatedAt() {
         return this.updatedAt;
     }
 
+    @NonNull
     public MetaData getMetadata() {
         return this.metadata;
     }

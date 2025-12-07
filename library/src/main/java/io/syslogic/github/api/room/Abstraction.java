@@ -56,18 +56,21 @@ public abstract class Abstraction extends RoomDatabase {
      * Abstract {@link androidx.room.Dao} for {@link Workflow}.
      * @return in instance of {@link WorkflowsDao}.
      */
+    @SuppressWarnings("unused")
     @Nullable public abstract WorkflowsDao workflowsDao();
 
     /**
      * Abstract {@link androidx.room.Dao} for {@link License}.
      * @return in instance of {@link LicensesDao}.
      */
+    @SuppressWarnings("unused")
     @Nullable public abstract LicensesDao licensesDao();
 
     /**
      * Abstract {@link androidx.room.Dao} for {@link Owner}.
      * @return in instance of {@link OwnersDao}.
      */
+    @SuppressWarnings("unused")
     @Nullable public abstract OwnersDao ownersDao();
 
     /**

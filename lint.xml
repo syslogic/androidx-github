@@ -7,12 +7,15 @@
 
     <issue id="MissingRegistered">
         <ignore regexp="androidx.*.widget.*" />
-        <ignore regexp="com.google.android.material.appbar.AppBarLayout" />
+        <ignore regexp="com.google.android.material.appbar.AppBarLayout"/>
     </issue>
 
     <!-- Not required for Java projects -->
     <issue id="KotlinPropertyAccess" severity="ignore"/>
-    <issue id="UnknownNullness" severity="ignore"/>
+
+    <issue id="UnknownNullness">
+        <ignore regexp="io.syslogic.github.api.room.*"/>
+    </issue>
 
     <issue id="InvalidPackage">
         <ignore regexp="kotlinx.coroutines.debug.AgentPremain"/>

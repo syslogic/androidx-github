@@ -4,18 +4,19 @@ plugins {
     alias(libs.plugins.maven.publish)
 }
 
-group = "io.syslogic"
-version = libs.versions.app.version.name.get()
-base.archivesName = "androidx-github"
-
 if (! pluginManager.hasPlugin("io.syslogic.gpr.maintenance")) {
     // apply plugin: "io.syslogic.gpr.maintenance"
 }
+
+group = "io.syslogic"
+version = libs.versions.app.version.name.get()
+base.archivesName = "androidx-github"
 
 android {
     namespace = "io.syslogic.github.api"
     buildToolsVersion = libs.versions.android.build.tools.get()
     compileSdk = Integer.parseInt(libs.versions.android.compile.sdk.get())
+
     defaultConfig {
         minSdk = Integer.parseInt(libs.versions.android.min.sdk.get())
         targetSdk = Integer.parseInt(libs.versions.android.target.sdk.get())
@@ -52,6 +53,7 @@ android {
     }
 
     lint {
+        lintConfig = rootProject.file("lint.xml")
         checkAllWarnings = true
         warningsAsErrors = true
         abortOnError = false
@@ -98,7 +100,7 @@ dependencies {
 }
 
 // Gradle 9.0 deprecation fix
-Configuration implCls = configurations.create("implCls", {
+def implCls = configurations.create("implCls", {
     extendsFrom(configurations.implementation)
     canBeResolved = true
 })
@@ -164,8 +166,8 @@ tasks.register("javadocJar", Jar) {
 }
 
 tasks.register("sourcesJar", Jar) {
-    from(android.sourceSets.main.java.srcDirs)
     archiveClassifier.set("sources")
+    from(android.sourceSets.main.java.srcDirs)
 }
 
 artifacts {

@@ -110,11 +110,12 @@ android {
     }
 
     lint {
-        lintConfig = project.file("lint.xml")
+        lintConfig = rootProject.file("lint.xml")
         checkAllWarnings = true
         warningsAsErrors = true
         abortOnError = false
         showAll = false
+        // disable += "UnknownNullness"
     }
 }
 
