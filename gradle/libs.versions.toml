@@ -1,4 +1,19 @@
 [versions]
+#noinspection UnusedVersionCatalogEntry
+group_id                = "io.syslogic"
+#noinspection UnusedVersionCatalogEntry
+artifact_name           = "GitHub API Android Library"
+#noinspection UnusedVersionCatalogEntry
+artifact_desc           = "Retrofit2 Client & Databindings"
+#noinspection UnusedVersionCatalogEntry
+artifact_id             = "androidx-github"
+#noinspection UnusedVersionCatalogEntry
+github_email            = "syslogic@users.noreply.github.com"
+#noinspection UnusedVersionCatalogEntry
+github_dev              = "Martin Zeitler"
+#noinspection UnusedVersionCatalogEntry
+github_handle           = "syslogic"
+
 app_version_code             = "23"
 app_version_name             = "1.2.3"
 android_build_tools          = "36.0.0"
@@ -9,7 +24,7 @@ android_min_sdk              = "23"
 # Gradle Plugins
 #noinspection UnusedVersionCatalogEntry
 kotlin                       = "2.3.10"
-android_gradle_plugin        = "9.0.0"
+android_gradle_plugin        = "9.0.1"
 material_design              = "1.13.0"
 retrofit                     = "3.0.0"
 gson                         = "2.13.2"
@@ -60,13 +75,13 @@ androidx_fragment_testing    = { module = "androidx.fragment:fragment-testing", 
 androidx_recyclerview        = { module = "androidx.recyclerview:recyclerview", version.ref = "androidx_recyclerview" }
 androidx_cardview            = { module = "androidx.cardview:cardview", version.ref = "androidx_cardview" }
 androidx_preference          = { module = "androidx.preference:preference", version.ref = "androidx_preference" }
-androidx_navigation_testing  = { module = "androidx.navigation:navigation-testing", version.ref = "androidx_navigation" }
 androidx_navigation_fragment = { module = "androidx.navigation:navigation-fragment", version.ref = "androidx_navigation" }
-androidx_room_testing        = { module = "androidx.room:room-testing", version.ref = "androidx_room" }
+androidx_navigation_testing  = { module = "androidx.navigation:navigation-testing", version.ref = "androidx_navigation" }
+androidx_splashscreen        = { module = "androidx.core:core-splashscreen", version.ref = "androidx_splashscreen" }
 androidx_room_compiler       = { module = "androidx.room:room-compiler", version.ref = "androidx_room" }
 androidx_room_runtime        = { module = "androidx.room:room-runtime", version.ref = "androidx_room" }
 androidx_room_paging         = { module = "androidx.room:room-paging", version.ref = "androidx_room" }
-androidx_splashscreen        = { module = "androidx.core:core-splashscreen", version.ref = "androidx_splashscreen" }
+androidx_room_testing        = { module = "androidx.room:room-testing", version.ref = "androidx_room" }
 
 androidx_test_monitor        = { module = "androidx.test:monitor", version.ref = "androidx_test_monitor" }
 androidx_test_junit          = { module = "androidx.test.ext:junit", version.ref = "androidx_test_junit" }
@@ -78,5 +93,6 @@ androidx_test_espresso_core  = { module = "androidx.test.espresso:espresso-core"
 androidx_test_espresso_web   = { module = "androidx.test.espresso:espresso-web", version.ref = "androidx_test_espresso" }
 
 [bundles]
-retrofit                     = ["retrofit", "retrofit_gson_converter"]
-espresso                     = ["androidx_test_espresso_core", "androidx_test_espresso_web"]
+retrofit                     = [ "retrofit", "retrofit_gson_converter" ]
+espresso                     = [ "androidx_test_espresso_core", "androidx_test_espresso_web" ]
+androidx_testing             = [ "androidx_fragment_testing", "androidx_navigation_testing", "androidx_room_testing" ]

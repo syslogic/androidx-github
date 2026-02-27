@@ -34,11 +34,11 @@ allprojects {
         val keystore = Properties()
         val fis = FileInputStream(keystoreConfig)
         keystore.load(fis)
-        project.ext.set("debugStoreFile",      System.getProperty("user.home") + "/.android/debug.keystore")
+        project.ext.set("debugStoreFile",      file(System.getProperty("user.home") + "/.android/debug.keystore"))
         project.ext.set("debugKeystorePass",   keystore["debugKeystorePass"])
         project.ext.set("debugKeyAlias",       keystore["debugKeyAlias"])
         project.ext.set("debugKeyPass",        keystore["debugKeyPass"])
-        project.ext.set("releaseStoreFile",    System.getProperty("user.home") + "/.android/release.keystore")
+        project.ext.set("releaseStoreFile",    file(System.getProperty("user.home") + "/.android/release.keystore"))
         project.ext.set("releaseKeystorePass", keystore["releaseKeystorePass"])
         project.ext.set("releaseKeyAlias",     keystore["releaseKeyAlias"])
         project.ext.set("releaseKeyPass",      keystore["releaseKeyPass"])
@@ -67,12 +67,6 @@ allprojects {
             )
         }
     }
-
-    project.ext.set("plugin_name",   "GitHub API Android Library")
-    project.ext.set("plugin_desc",   "Retrofit2 Client & Databindings")
-    project.ext.set("group_id",      "io.syslogic")     // group
-    project.ext.set("github_handle", "syslogic")        // owner
-    project.ext.set("artifact_id",   "androidx-github") // repo
 }
 
 // rootProject > clean
