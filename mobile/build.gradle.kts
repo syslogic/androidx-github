@@ -91,7 +91,7 @@ configure<ApplicationExtension> {
         debug {
             applicationIdSuffix = ".debug"
             val accessToken = project.ext.get("accessToken")
-            manifestPlaceholders["accessToken"] = "${accessToken}"
+            manifestPlaceholders["accessToken"] = "$accessToken"
             signingConfig = signingConfigs.getByName("debug")
             enableAndroidTestCoverage = true
             enableUnitTestCoverage = false

@@ -24,7 +24,7 @@ android_min_sdk              = "23"
 # Gradle Plugins
 #noinspection UnusedVersionCatalogEntry
 kotlin                       = "2.3.10"
-android_gradle_plugin        = "9.0.1"
+android_gradle_plugin        = "9.1.0"
 material_design              = "1.13.0"
 retrofit                     = "3.0.0"
 gson                         = "2.13.2"

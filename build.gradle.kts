@@ -5,7 +5,7 @@ import java.io.FileInputStream
 buildscript {
     repositories {
         mavenCentral()
-        maven {url = uri("https://jitpack.io") }
+        maven { url = uri("https://jitpack.io") }
     }
     dependencies {
         // Conditional remote dependency, when `buildSrc` is absent.
@@ -71,6 +71,5 @@ allprojects {
 
 // rootProject > clean
 tasks.withType<Delete>().configureEach {
-    delete(rootProject.fileTree("build"))
-    delete(project.fileTree("build"))
+    delete(rootProject.fileTree("build"), project.fileTree("build"))
 }

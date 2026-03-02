@@ -120,19 +120,33 @@ val implCls: Configuration by configurations.creating {
     isCanBeResolved = true
 }
 
+
+// val bootClasspath: Provider<List<RegularFile>> = project.android.sdkComponents.bootClasspath
+// val sdkDirectory: Provider<Directory> = project.android.sdkComponents.sdkDirectory
+
 val javadocs by tasks.registering(Javadoc::class) {
+
+    val sdkDirectory = System.getenv("ANDROID_HOME")
     title = "GitHub API ${libs.versions.app.version.name.get()}"
-    // classpath = files(File("${android.sdkDirectory}/platforms/${android.compileSdkVersion}/android.jar"))
-    // android.getBootClasspath().forEach{ classpath += fileTree(it) }
-    // classpath += fileTree(dir: project.file("build/tmp/aarsToJars/").absolutePath)
-    // classpath += implCls
-    // exclude("**/BuildConfig.java", "**/R.java", "**/*.kt")
-    destinationDir = rootProject.file("build/javadoc")
-    // source = sourceSets.main.get().allJava
-    // options.links = "https://docs.oracle.com/en/java/javase/17/docs/api/"
-    // options.linkSource = true
-    // options.author = true
+    group = "documentation"
+
+    classpath = files(File("${sdkDirectory}/platforms/${android.compileSdk}/android.jar"))
+    android.bootClasspath.forEach { classpath += fileTree(it) }
+    classpath += implCls as FileCollection
+    classpath += fileTree(project.file("build/tmp/aarsToJars/").absolutePath)
+    source = android.sourceSets.getByName("main").java.getSourceFiles()
+    destinationDir = project.file("build/outputs/javadoc")
+    exclude("**/BuildConfig.java", "**/R.java", "**/*.kt")
     isFailOnError = false
+
+    options {
+        this as StandardJavadocDocletOptions
+        verbose()
+        links("https://docs.oracle.com/en/java/javase/17/docs/api")
+        links("https://developer.android.com/reference")
+        linkSource(true)
+        author(true)
+    }
 
     onlyIf {
         project.file("build/intermediates/aar_main_jar").exists()
@@ -141,7 +155,7 @@ val javadocs by tasks.registering(Javadoc::class) {
     doFirst {
 
         // extract AAR files
-        configurations["implCls"].files
+        implCls.files
             .filter { it.name.endsWith(".aar") }
             .forEach { aar: File ->
                 copy {
@@ -169,7 +183,7 @@ val javadocs by tasks.registering(Javadoc::class) {
 }
 
 val javadocJar by tasks.registering(Jar::class) {
-    from(rootProject.file("build/javadoc"))
+    from(project.file("build/outputs/javadoc"))
     archiveClassifier.set("javadoc")
     dependsOn(javadocs)
 }
