@@ -120,31 +120,39 @@ val implCls: Configuration by configurations.creating {
     isCanBeResolved = true
 }
 
-
-// val bootClasspath: Provider<List<RegularFile>> = project.android.sdkComponents.bootClasspath
-// val sdkDirectory: Provider<Directory> = project.android.sdkComponents.sdkDirectory
-
 val javadocs by tasks.registering(Javadoc::class) {
 
-    val sdkDirectory = System.getenv("ANDROID_HOME")
     title = "GitHub API ${libs.versions.app.version.name.get()}"
     group = "documentation"
-
-    classpath = files(File("${sdkDirectory}/platforms/${android.compileSdk}/android.jar"))
-    android.bootClasspath.forEach { classpath += fileTree(it) }
-    classpath += implCls as FileCollection
-    classpath += fileTree(project.file("build/tmp/aarsToJars/").absolutePath)
-    source = android.sourceSets.getByName("main").java.getSourceFiles()
+    setExcludes(listOf("**/BuildConfig.java", "**/R.java", "**/*.kt"))
     destinationDir = project.file("build/outputs/javadoc")
-    exclude("**/BuildConfig.java", "**/R.java", "**/*.kt")
     isFailOnError = false
+
+    val sdkComponents = androidComponents::sdkComponents.get()
+    val bootClasspath: List<RegularFile> = sdkComponents.bootClasspath.get()
+    val sdkDirectory: Directory? = sdkComponents.sdkDirectory.get()
+
+    println("sdkDirectory: $sdkDirectory")
+    bootClasspath.forEach { println("bootClasspath: ${it.asFile.name}") }
+
+    val compileSdk = project.extensions.getByType<LibraryExtension>().compileSdk
+    println("compileSdk: $compileSdk")
+
+    // source = android.sourceSets["main"].java.getSourceFiles()
+    source = fileTree(projectDir.absolutePath + "/src/main/java")
+    source.files.forEach { println("source file: ${it.name}") }
+
+    classpath = files(File("${sdkDirectory}/platforms/${compileSdk}/android.jar"))
+    classpath += implCls as FileCollection
+    bootClasspath.forEach { classpath += fileTree(it) }
+    classpath += fileTree(project.file("build/tmp/aarsToJars/").absolutePath)
 
     options {
         this as StandardJavadocDocletOptions
-        verbose()
+        outputLevel = JavadocOutputLevel.VERBOSE
         links("https://docs.oracle.com/en/java/javase/17/docs/api")
         links("https://developer.android.com/reference")
-        linkSource(true)
+        linkSource(false)
         author(true)
     }
 
@@ -189,7 +197,7 @@ val javadocJar by tasks.registering(Jar::class) {
 }
 
 val sourcesJar by tasks.registering(Jar::class) {
-    from(android.sourceSets.getByName("main").java)
+    from(projectDir.absolutePath + "/src/main/java")
     archiveClassifier.set("sources")
 }
 
