@@ -88,6 +88,11 @@ public class RepositorySyncAdapter extends AbstractThreadedSyncAdapter {
 
             while (hasRecords) {
 
+                /*
+                 * For some reason, the documentation doesn't list type `owner`.
+                 * Note: <code>?type=private</code> might be relevant for filtering.
+                 * Default: all. Can be one of: all, public, private, forks, sources, member.
+                 */
                 Call<ArrayList<Repository>> api = GithubClient.getUserRepositories(accessToken, username, "owner", "full_name", "desc", pageSize, pageNumber);
                 if (BuildConfig.DEBUG && this.prefs.getBoolean(Constants.PREFERENCE_KEY_DEBUG_LOGGING, false)) {
                     Log.d(LOG_TAG, api.request().url() + "");

@@ -91,6 +91,8 @@ public interface GithubService {
 
     /**
      * User repositories.
+     * For some reason, the documentation doesn't list type `owner`.
+     * Note: <code>?type=private</code> might be relevant for filtering.
      * @param token the personal access token.
      * @param username the corresponding username.
      * @param type Default: all. Can be one of: all, public, private, forks, sources, member.

@@ -68,6 +68,12 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private String username = null;
 
     private long totalItemCount = 0;
+
+    /**
+     * For some reason, the documentation doesn't list type `owner`.
+     * Note: <code>?type=private</code> might be relevant for filtering.
+     * Default: all. Can be one of: all, public, private, forks, sources, member.
+     */
     private String repositoryType = "owner";
     private String sortField = "full_name";
     private String sortOrder = "asc";
